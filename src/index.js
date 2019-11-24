@@ -1,12 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import TaskContainer from './task.js';
 
 class Task extends React.Component {
 
     render() {
+
+        let taskViewing;
+
+        if(this.props.isViewing)
+        {
+ 
+        }
+        
+
         return (
-            <h1>{this.props.name}</h1>
+            <div className="Task">
+                <h1>{this.props.name}</h1>
+                <h1>{this.props.duration}</h1>
+                <button onClick={this.props.taskOnClick}>view task</button>
+                {taskViewing}
+            </div>
         );
     }
 }
@@ -14,16 +29,19 @@ class Task extends React.Component {
 class TaskController extends React.Component {
     constructor(props) {
         super(props);
-        //store the tasks 
+        //store the tasks
+        let defaultTasks = [new TaskContainer("task1", 1234), new TaskContainer("task1", 1234)];
         this.state = {
             time: 0,
-            tasks: ["task1", "task2"],
+            tasks: defaultTasks,
             addTask: false,
         };
 
-        this.addTask = this.addTask.bind(this);    
+        this.addTask = this.addTask.bind(this);
         this.handleNewTaskNameChange = this.handleNewTaskNameChange.bind(this);
+        this.handleNewTaskDurationChange = this.handleNewTaskDurationChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.taskOnClick = this.taskOnClick.bind(this);
     }
 
     tick() {
@@ -34,15 +52,9 @@ class TaskController extends React.Component {
     }
 
     addTask() {
-        if (this.addTask) {
-            //save our new task
-        }
-
         this.setState(state => ({
             addTask: !state.addTask,
         }));
-
-        console.log(this.state.addTask);
     }
 
     componentDidMount() {
@@ -56,16 +68,32 @@ class TaskController extends React.Component {
     handleNewTaskNameChange(e) {
         this.setState({ newTaskName: e.target.value });
     }
-
+    handleNewTaskDurationChange(e) {
+        this.setState({ newTaskDuration: e.target.value });
+    }
     handleSubmit(e) {
         e.preventDefault();
-        if (!this.state.newTaskName.length) {
+        if (!this.state.newTaskName.length || !this.state.newTaskDuration) {
             return;
         }
 
+        let newTask = new TaskContainer(
+            this.state.newTaskName,
+            this.state.newTaskDuration
+        );
+
         this.setState(state => ({
-            tasks: state.tasks.concat(state.newTaskName),
+            tasks: state.tasks.concat(newTask),
+            addTask: false,
         }));
+
+        //clear the inputs
+        //save newTask
+    }
+
+    taskOnClick(){
+        //set task viewing to true
+        alert("click");
     }
 
     render() {
@@ -76,8 +104,16 @@ class TaskController extends React.Component {
             addTask = (
                 <form onSubmit={this.handleSubmit}>
                     <h1>New Task</h1>
-                    <label htmlFor="task-name-input">
+                    <label htmlFor="task-duration-input">
                         Task Name:
+                    </label>
+                    <input
+                        id="task-duration-input"
+                        onChange={this.handleNewTaskDurationChange}
+                        value={this.state.newTaskDuration}
+                    />
+                    <label htmlFor="task-name-input">
+                        Task duration:
                     </label>
                     <input
                         id="task-name-input"
@@ -94,9 +130,11 @@ class TaskController extends React.Component {
         return (
             <div className="taskController">
                 <h1>Time {this.state.time}</h1>
-                {this.state.tasks.map(task => (
-                    <Task name={task} />
-                ))}
+                {this.state.tasks.map(task => ( <Task
+                    name={task.name}
+                    duration={task.duration}
+                    taskOnClick={this.taskOnClick}
+                />))}
                 <button onClick={this.addTask}>Add task</button>
                 {addTask}
             </div>
