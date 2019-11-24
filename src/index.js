@@ -2,111 +2,111 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function Square(props) {
-    return (
-        <button className="square" onClick={props.onClick}>
-            {props.value}
-        </button>
-    );
+class Task extends React.Component {
+
+    render() {
+        return (
+            <h1>{this.props.name}</h1>
+        );
+    }
 }
 
-class Board extends React.Component {
+class TaskController extends React.Component {
     constructor(props) {
         super(props);
+        //store the tasks 
         this.state = {
-            squares: Array(9).fill(null),
-            xIsNext: true,
+            time: 0,
+            tasks: ["task1", "task2"],
+            addTask: false,
         };
+
+        this.addTask = this.addTask.bind(this);    
+        this.handleNewTaskNameChange = this.handleNewTaskNameChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    renderSquare(i) {
-        return <Square
-            value={this.state.squares[i]}
-            onClick={() => this.handleClick(i)} />;
+    tick() {
+        //update all the tasks which are started
+        this.setState(state => ({
+            time: state.time + 1,
+        }));
     }
 
-    handleClick(i) {
-        const squares = this.state.squares.slice();
-        if (calculateWinner(squares) || squares[i]) {
+    addTask() {
+        if (this.addTask) {
+            //save our new task
+        }
+
+        this.setState(state => ({
+            addTask: !state.addTask,
+        }));
+
+        console.log(this.state.addTask);
+    }
+
+    componentDidMount() {
+        this.interval = setInterval(() => this.tick(), 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
+    handleNewTaskNameChange(e) {
+        this.setState({ newTaskName: e.target.value });
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        if (!this.state.newTaskName.length) {
             return;
         }
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
-        this.setState({
-            squares: squares,
-            xIsNext: !this.state.xIsNext,
-        });
+
+        this.setState(state => ({
+            tasks: state.tasks.concat(state.newTaskName),
+        }));
     }
 
     render() {
-        const winner = calculateWinner(this.state.squares);
-        let status;
-        if (winner) {
-            status = 'Winner: ' + winner;
-        } else {
-            status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+        let addTask;
+
+        if (this.state.addTask) {
+            //display the inputs
+            addTask = (
+                <form onSubmit={this.handleSubmit}>
+                    <h1>New Task</h1>
+                    <label htmlFor="task-name-input">
+                        Task Name:
+                    </label>
+                    <input
+                        id="task-name-input"
+                        onChange={this.handleNewTaskNameChange}
+                        value={this.state.newTaskName}
+                    />
+                    <button>
+                        Add New Task
+                    </button>
+                </form>
+            );
         }
 
         return (
-            <div>
-                <div className="status">{status}</div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
+            <div className="taskController">
+                <h1>Time {this.state.time}</h1>
+                {this.state.tasks.map(task => (
+                    <Task name={task} />
+                ))}
+                <button onClick={this.addTask}>Add task</button>
+                {addTask}
             </div>
         );
     }
 }
 
-class Game extends React.Component {
-    render() {
-        return (
-            <div className="game">
-                <div className="game-board">
-                    <Board />
-                </div>
-                <div className="game-info">
-                    <div>{/* status */}</div>
-                    <ol>{/* TODO */}</ol>
-                </div>
-            </div>
-        );
-    }
-}
-
-function calculateWinner(squares) {
-    const lines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-        const [a, b, c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
-        }
-    }
-    return null;
-}
 // ========================================
 
 ReactDOM.render(
-    <Game />,
+    <TaskController />,
     document.getElementById('root')
 );  
