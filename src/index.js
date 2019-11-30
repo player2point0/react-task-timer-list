@@ -3,12 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import TaskContainer from './task.js';
 
+//renders the task based on the passed properties
+//could change to a function
 class Task extends React.Component {
 
     render() {
 
         let taskViewing;
 
+        //display additional details when the task is selected
         if(this.props.isViewing)
         {
             taskViewing = <h1> {this.props.id}</h1>;
@@ -42,20 +45,22 @@ class TaskController extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.taskOnClick = this.taskOnClick.bind(this);
     }
-
+    
+    //update all the tasks which are started
     tick() {
-        //update all the tasks which are started
         this.setState(state => ({
             time: state.time + 1,
         }));
     }
 
+    //display the add task inputs
     addTask() {
         this.setState(state => ({
             addTask: !state.addTask,
         }));
     }
 
+    //interval for the tick method
     componentDidMount() {
         this.interval = setInterval(() => this.tick(), 1000);
     }
@@ -64,6 +69,7 @@ class TaskController extends React.Component {
         clearInterval(this.interval);
     }
 
+    //methods for the new task input
     handleNewTaskNameChange(e) {
         this.setState({ newTaskName: e.target.value });
     }
@@ -90,9 +96,9 @@ class TaskController extends React.Component {
         //save newTask
     }
 
+    //display the selected task
     taskOnClick(id){
-        //set task viewing to true
-        alert("click");
+
         const updatedTasks = this.state.tasks.slice();
         for(let i = 0;i<updatedTasks.length;i++)
         {
