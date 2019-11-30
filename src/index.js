@@ -11,15 +11,14 @@ class Task extends React.Component {
 
         if(this.props.isViewing)
         {
- 
+            taskViewing = <h1> {this.props.id}</h1>;
         }
         
-
         return (
             <div className="Task">
                 <h1>{this.props.name}</h1>
                 <h1>{this.props.duration}</h1>
-                <button onClick={this.props.taskOnClick}>view task</button>
+                <button onClick={() => {this.props.taskOnClick()}}>view task</button>
                 {taskViewing}
             </div>
         );
@@ -91,9 +90,22 @@ class TaskController extends React.Component {
         //save newTask
     }
 
-    taskOnClick(){
+    taskOnClick(id){
         //set task viewing to true
         alert("click");
+        const updatedTasks = this.state.tasks.slice();
+        for(let i = 0;i<updatedTasks.length;i++)
+        {
+            if(updatedTasks[i].id === id)
+            {
+                updatedTasks[i].isViewing = !updatedTasks[i].isViewing;
+                break;
+            }
+        }
+
+        this.setState({
+            tasks: updatedTasks
+        });
     }
 
     render() {
@@ -131,9 +143,11 @@ class TaskController extends React.Component {
             <div className="taskController">
                 <h1>Time {this.state.time}</h1>
                 {this.state.tasks.map(task => ( <Task
+                    id={task.id}
                     name={task.name}
                     duration={task.duration}
-                    taskOnClick={this.taskOnClick}
+                    isViewing={task.isViewing}
+                    taskOnClick={() => {this.taskOnClick(task.id)}}
                 />))}
                 <button onClick={this.addTask}>Add task</button>
                 {addTask}
