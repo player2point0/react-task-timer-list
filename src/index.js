@@ -12,16 +12,22 @@ class Task extends React.Component {
         let taskViewing;
 
         //display additional details when the task is selected
-        if(this.props.isViewing)
-        {
-            taskViewing = <h1> {this.props.id}</h1>;
+        if (this.props.isViewing) {
+            taskViewing = (
+                <div>
+                    <h1> {this.props.id}</h1>
+                    <button onClick={() => {this.props.startTask(this.props.id)}}>start</button>
+                    <button onClick={() => {this.props.addTime(this.props.id)}}>add time</button>
+                </div>
+            );
         }
-        
+
         return (
-            <div className="Task">
+            <div className="task">
                 <h1>{this.props.name}</h1>
+                <h1>{this.props.remainingTime}</h1>
                 <h1>{this.props.duration}</h1>
-                <button onClick={() => {this.props.taskOnClick(this.props.id)}}>view task</button>
+                <button onClick={() => { this.props.taskOnClick(this.props.id) }}>view task</button>
                 {taskViewing}
             </div>
         );
@@ -32,7 +38,7 @@ class TaskController extends React.Component {
     constructor(props) {
         super(props);
         //store the tasks
-        let defaultTasks = [new TaskContainer("task1", 1234), new TaskContainer("task2", 4321)];
+        let defaultTasks = [new TaskContainer("task1", 10)];
         this.state = {
             time: 0,
             tasks: defaultTasks,
@@ -44,11 +50,27 @@ class TaskController extends React.Component {
         this.handleNewTaskDurationChange = this.handleNewTaskDurationChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.taskOnClick = this.taskOnClick.bind(this);
+        this.startTask = this.startTask.bind(this);
+        this.addTime = this.addTime.bind(this);
     }
-    
+
     //update all the tasks which are started
     tick() {
+        const updatedTasks = this.state.tasks.slice();
+        for (let i = 0; i < updatedTasks.length; i++) {
+            if (updatedTasks[i].started) {
+                //todo check if time is zero
+                updatedTasks[i].remainingTime--;
+                if(updatedTasks[i].remainingTime <= 0)
+                {
+                    updatedTasks[i].remainingTime = 0;
+                    updatedTasks[i].started = false;
+                }
+            }
+        }
+
         this.setState(state => ({
+            tasks: updatedTasks,
             time: state.time + 1,
         }));
     }
@@ -97,13 +119,43 @@ class TaskController extends React.Component {
     }
 
     //display the selected task
-    taskOnClick(id){
+    taskOnClick(id) {
         const updatedTasks = this.state.tasks.slice();
-        for(let i = 0;i<updatedTasks.length;i++)
-        {
-            if(updatedTasks[i].id === id)
-            {
+        for (let i = 0; i < updatedTasks.length; i++) {
+            if (updatedTasks[i].id === id) {
                 updatedTasks[i].isViewing = !updatedTasks[i].isViewing;
+                break;
+            }
+        }
+
+        this.setState({
+            tasks: updatedTasks
+        });
+    }
+
+    startTask(id) {
+        const updatedTasks = this.state.tasks.slice();
+        for (let i = 0; i < updatedTasks.length; i++) {
+            if (updatedTasks[i].id === id) {
+                updatedTasks[i].started = true;
+                break;
+            }
+        }
+
+        this.setState({
+            tasks: updatedTasks
+        });
+    }
+
+    addTime(id){
+        const updatedTasks = this.state.tasks.slice();
+        for (let i = 0; i < updatedTasks.length; i++) {
+            if (updatedTasks[i].id === id) {
+                let additionalTime = Number(updatedTasks[i].totalDuration / 2);
+
+                console.log(additionalTime);
+
+                updatedTasks[i].remainingTime = Number(updatedTasks[i].remainingTime) + Number(additionalTime);
                 break;
             }
         }
@@ -147,15 +199,20 @@ class TaskController extends React.Component {
         return (
             <div className="taskController">
                 <h1>Time {this.state.time}</h1>
-                {this.state.tasks.map(task => ( <Task
-                    key={task.id}
-                    id={task.id}
-                    name={task.name}
-                    duration={task.duration}
-                    isViewing={task.isViewing}
-                    taskOnClick={this.taskOnClick}
-                />))}
-                <button onClick={this.addTask}>Add task</button>
+                <div className="tasksContainer">
+                    {this.state.tasks.map(task => (<Task
+                        key={task.id}
+                        id={task.id}
+                        name={task.name}
+                        duration={task.totalDuration}
+                        remainingTime={task.remainingTime}
+                        isViewing={task.isViewing}
+                        taskOnClick={this.taskOnClick}
+                        startTask={this.startTask}
+                        addTime={this.addTime}
+                    />))}
+                </div>
+                <button className="addTaskButton" onClick={this.addTask}>Add task</button>
                 {addTask}
             </div>
         );
