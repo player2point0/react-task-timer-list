@@ -21,7 +21,7 @@ class Task extends React.Component {
             <div className="Task">
                 <h1>{this.props.name}</h1>
                 <h1>{this.props.duration}</h1>
-                <button onClick={() => {this.props.taskOnClick()}}>view task</button>
+                <button onClick={() => {this.props.taskOnClick(this.props.id)}}>view task</button>
                 {taskViewing}
             </div>
         );
@@ -32,7 +32,7 @@ class TaskController extends React.Component {
     constructor(props) {
         super(props);
         //store the tasks
-        let defaultTasks = [new TaskContainer("task1", 1234), new TaskContainer("task1", 1234)];
+        let defaultTasks = [new TaskContainer("task1", 1234), new TaskContainer("task2", 4321)];
         this.state = {
             time: 0,
             tasks: defaultTasks,
@@ -98,7 +98,6 @@ class TaskController extends React.Component {
 
     //display the selected task
     taskOnClick(id){
-
         const updatedTasks = this.state.tasks.slice();
         for(let i = 0;i<updatedTasks.length;i++)
         {
@@ -149,11 +148,12 @@ class TaskController extends React.Component {
             <div className="taskController">
                 <h1>Time {this.state.time}</h1>
                 {this.state.tasks.map(task => ( <Task
+                    key={task.id}
                     id={task.id}
                     name={task.name}
                     duration={task.duration}
                     isViewing={task.isViewing}
-                    taskOnClick={() => {this.taskOnClick(task.id)}}
+                    taskOnClick={this.taskOnClick}
                 />))}
                 <button onClick={this.addTask}>Add task</button>
                 {addTask}
