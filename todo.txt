@@ -1,0 +1,9 @@
+-add ui
+-add finish alarm/alert
+-add move task up/down buttons and functionality
+-add a priority system
+-add bars for each hour
+-change task height based on duration
+-add day overview
+-add saving and loading of tasks
+-add different days
