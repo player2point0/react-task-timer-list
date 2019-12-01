@@ -7,3 +7,5 @@
 -add day overview
 -add saving and loading of tasks
 -add different days
+-refactor
+-port to react native
