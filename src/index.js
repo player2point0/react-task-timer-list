@@ -8,26 +8,24 @@ import TaskContainer from './task.js';
 class Task extends React.Component {
 
     render() {
-
         let taskViewing;
 
         //display additional details when the task is selected
         if (this.props.isViewing) {
             taskViewing = (
                 <div>
-                    <h1> {this.props.id}</h1>
-                    <button onClick={() => {this.props.startTask(this.props.id)}}>start</button>
-                    <button onClick={() => {this.props.addTime(this.props.id)}}>add time</button>
+                    <button className="taskStartButton" onClick={() => {this.props.startTask(this.props.id)}}>start</button>
+                    <button className="taskAddTimeButton" onClick={() => {this.props.addTime(this.props.id)}}>add time</button>
                 </div>
             );
         }
 
         return (
             <div className="task">
-                <h1>{this.props.name}</h1>
-                <h1>{this.props.remainingTime}</h1>
-                <h1>{this.props.duration}</h1>
-                <button onClick={() => { this.props.taskOnClick(this.props.id) }}>view task</button>
+                <button className="taskSelectButton" onClick={() => { this.props.taskOnClick(this.props.id) }}>
+                    <h1>{this.props.name}</h1>
+                    <h1>{this.props.remainingTime}</h1>
+                </button>
                 {taskViewing}
             </div>
         );
@@ -152,8 +150,6 @@ class TaskController extends React.Component {
         for (let i = 0; i < updatedTasks.length; i++) {
             if (updatedTasks[i].id === id) {
                 let additionalTime = Number(updatedTasks[i].totalDuration / 2);
-
-                console.log(additionalTime);
 
                 updatedTasks[i].remainingTime = Number(updatedTasks[i].remainingTime) + Number(additionalTime);
                 break;

@@ -1,6 +1,27 @@
 body {
     font: 14px "Century Gothic", Futura, sans-serif;
-    margin: 20px;
+    margin: 0px;
+    padding: 0px;
 }
 
+.tasksContainer{
+    border: 1px solid red;
+}
 
+.task{
+
+    border: 1px solid black;
+}
+
+.taskSelectButton{
+    background-color: gray;
+    width: 100vw;
+}
+
+.taskStartButton{
+    width: 50vw;
+}
+
+.taskAddTimeButton{
+    width: 50vw;
+}
