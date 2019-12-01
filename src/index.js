@@ -13,7 +13,7 @@ class Task extends React.Component {
         //display additional details when the task is selected
         if (this.props.isViewing) {
             taskViewing = (
-                <div>
+                <div className="taskViewing">
                     <button className="taskStartButton" onClick={() => {this.props.startTask(this.props.id)}}>start</button>
                     <button className="taskAddTimeButton" onClick={() => {this.props.addTime(this.props.id)}}>add time</button>
                 </div>
@@ -22,10 +22,10 @@ class Task extends React.Component {
 
         return (
             <div className="task">
-                <button className="taskSelectButton" onClick={() => { this.props.taskOnClick(this.props.id) }}>
+                <div className="taskSelectButton" onClick={() => { this.props.taskOnClick(this.props.id) }}>
                     <h1>{this.props.name}</h1>
                     <h1>{this.props.remainingTime}</h1>
-                </button>
+                </div>
                 {taskViewing}
             </div>
         );
@@ -36,7 +36,7 @@ class TaskController extends React.Component {
     constructor(props) {
         super(props);
         //store the tasks
-        let defaultTasks = [new TaskContainer("task1", 10)];
+        let defaultTasks = [new TaskContainer("task1", 10), new TaskContainer("task2", 123)];
         this.state = {
             time: 0,
             tasks: defaultTasks,
@@ -57,7 +57,6 @@ class TaskController extends React.Component {
         const updatedTasks = this.state.tasks.slice();
         for (let i = 0; i < updatedTasks.length; i++) {
             if (updatedTasks[i].started) {
-                //todo check if time is zero
                 updatedTasks[i].remainingTime--;
                 if(updatedTasks[i].remainingTime <= 0)
                 {

@@ -1,27 +1,35 @@
-body {
-    font: 14px "Century Gothic", Futura, sans-serif;
+*{
     margin: 0px;
     padding: 0px;
+
+}
+
+body {
+    font: 14px "Century Gothic", Futura, sans-serif;
 }
 
 .tasksContainer{
-    border: 1px solid red;
+
 }
 
 .task{
 
-    border: 1px solid black;
+}
+
+.taskViewing{
+    background-color:blue;
+    height: 50vh;
 }
 
 .taskSelectButton{
     background-color: gray;
-    width: 100vw;
+    width: 100%;
 }
 
 .taskStartButton{
-    width: 50vw;
+    width: 50%;
 }
 
 .taskAddTimeButton{
-    width: 50vw;
+    width: 50%;
 }
