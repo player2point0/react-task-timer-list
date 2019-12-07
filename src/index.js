@@ -71,6 +71,8 @@ class TaskController extends React.Component {
                 {
                     updatedTasks[i].remainingTime = 0;
                     updatedTasks[i].started = false;
+                    updatedTasks[i].isViewing = true;
+                    alert(updatedTasks[i].name+" finished");
                 }
             }
         }

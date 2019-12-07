@@ -1,4 +1,4 @@
--add finish alarm/alert
+-add a task pause 
 -convert the duration to hours and minutes when displaying
 -add move task up/down buttons and functionality
 -add a priority system
@@ -7,5 +7,6 @@
 -add day overview
 -add saving and loading of tasks
 -add different days
+-improve ui
 -refactor
 -port to react native
