@@ -106,9 +106,9 @@ class TaskController extends React.Component {
     }
     handleSubmit(e) {
         e.preventDefault();
-        if (!this.state.newTaskName.length || !this.state.newTaskDuration) {
-            return;
-        }
+        if (!this.state.newTaskName.length || !this.state.newTaskDuration) return;
+        if(isNaN(this.state.newTaskDuration)) return;
+        if(this.state.newTaskDuration < 0) return;
 
         let newTask = new TaskContainer(
             this.state.newTaskName,
@@ -177,21 +177,22 @@ class TaskController extends React.Component {
             addTask = (
                 <form onSubmit={this.handleSubmit}>
                     <h1>New Task</h1>
-                    <label htmlFor="task-duration-input">
-                        Task Name:
-                    </label>
-                    <input
-                        id="task-duration-input"
-                        onChange={this.handleNewTaskDurationChange}
-                        value={this.state.newTaskDuration}
-                    />
+                    
                     <label htmlFor="task-name-input">
-                        Task duration:
+                        Task name:
                     </label>
                     <input
                         id="task-name-input"
                         onChange={this.handleNewTaskNameChange}
                         value={this.state.newTaskName}
+                    />                    
+                    <label htmlFor="task-duration-input">
+                        Task duration:
+                    </label>
+                    <input
+                        id="task-duration-input"
+                        onChange={this.handleNewTaskDurationChange}
+                        value={this.state.newTaskDuration}
                     />
                     <button>
                         Add New Task
