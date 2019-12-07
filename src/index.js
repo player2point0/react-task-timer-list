@@ -9,13 +9,22 @@ class Task extends React.Component {
 
     render() {
         let taskViewing;
+        let coverHeight = 50 * ((this.props.duration - this.props.remainingTime) / this.props.duration);
+
+        console.log(coverHeight);
 
         //display additional details when the task is selected
         if (this.props.isViewing) {
             taskViewing = (
-                <div className="taskViewing">
-                    <button className="taskStartButton" onClick={() => {this.props.startTask(this.props.id)}}>start</button>
-                    <button className="taskAddTimeButton" onClick={() => {this.props.addTime(this.props.id)}}>add time</button>
+                <div>
+                    <div className="taskViewingBackground"></div>
+                    <div className="taskViewingCover"
+                        style={{height:coverHeight+"vh"}}>
+                    </div>
+                    <div className="taskViewing">
+                        <button className="taskStartButton" onClick={() => {this.props.startTask(this.props.id)}}>start</button>
+                        <button className="taskAddTimeButton" onClick={() => {this.props.addTime(this.props.id)}}>add time</button>
+                    </div>
                 </div>
             );
         }
@@ -23,8 +32,8 @@ class Task extends React.Component {
         return (
             <div className="task">
                 <div className="taskSelectButton" onClick={() => { this.props.taskOnClick(this.props.id) }}>
-                    <h1>{this.props.name}</h1>
-                    <h1>{this.props.remainingTime}</h1>
+                    <h1 className="taskName">{this.props.name}</h1>
+                    <h1 className="taskTime">{this.props.remainingTime}</h1>
                 </div>
                 {taskViewing}
             </div>
@@ -193,7 +202,6 @@ class TaskController extends React.Component {
 
         return (
             <div className="taskController">
-                <h1>Time {this.state.time}</h1>
                 <div className="tasksContainer">
                     {this.state.tasks.map(task => (<Task
                         key={task.id}
