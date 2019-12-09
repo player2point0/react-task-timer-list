@@ -10,8 +10,7 @@ class Task extends React.Component {
     render() {
         let taskViewing;
         let coverHeight = 50 * ((this.props.duration - this.props.remainingTime) / this.props.duration);
-
-        console.log(coverHeight);
+        let startButtonText = this.props.paused? "Pause" : "Start";
 
         //display additional details when the task is selected
         if (this.props.isViewing) {
@@ -22,7 +21,7 @@ class Task extends React.Component {
                         style={{height:coverHeight+"vh"}}>
                     </div>
                     <div className="taskViewing">
-                        <button className="taskStartButton" onClick={() => {this.props.startTask(this.props.id)}}>start</button>
+                        <button className="taskStartButton" onClick={() => {this.props.startTask(this.props.id)}}>{startButtonText}</button>
                         <button className="taskAddTimeButton" onClick={() => {this.props.addTime(this.props.id)}}>add time</button>
                     </div>
                 </div>
@@ -145,6 +144,12 @@ class TaskController extends React.Component {
         const updatedTasks = this.state.tasks.slice();
         for (let i = 0; i < updatedTasks.length; i++) {
             if (updatedTasks[i].id === id) {
+
+                if(updatedTasks[i].started)
+                {
+                    
+                }
+
                 updatedTasks[i].started = true;
                 break;
             }
@@ -212,6 +217,7 @@ class TaskController extends React.Component {
                         name={task.name}
                         duration={task.totalDuration}
                         remainingTime={task.remainingTime}
+                        paused={task.paused}
                         isViewing={task.isViewing}
                         taskOnClick={this.taskOnClick}
                         startTask={this.startTask}

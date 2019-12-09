@@ -5,6 +5,7 @@ class TaskContainer {
         this.totalDuration = duration;
         this.remainingTime = duration;
         this.started = false;
+        this.paused = false;
         this.isViewing = false;
     }
 
