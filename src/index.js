@@ -34,12 +34,19 @@ class Task extends React.Component {
             <div className="task">
                 <div className="taskSelectButton" onClick={() => { this.props.taskOnClick(this.props.id) }}>
                     <h1 className="taskName">{this.props.name}</h1>
-                    <h1 className="taskTime">{this.props.remainingTime}</h1>
+                    <h1 className="taskTime">{formatTime(this.props.remainingTime)}</h1>
                 </div>
                 {taskViewing}
             </div>
         );
     }
+}
+
+function formatTime(time){
+    let hours = Math.floor(time / 3600);
+    let mins = Math.floor((time - (hours * 3600)) / 60);
+    
+    return "hours: "+hours+" mins: "+mins;
 }
 
 class TaskController extends React.Component {
@@ -55,7 +62,8 @@ class TaskController extends React.Component {
 
         this.addTask = this.addTask.bind(this);
         this.handleNewTaskNameChange = this.handleNewTaskNameChange.bind(this);
-        this.handleNewTaskDurationChange = this.handleNewTaskDurationChange.bind(this);
+        this.handleNewTaskHoursChange = this.handleNewTaskHoursChange.bind(this);
+        this.handleNewTaskMinsChange = this.handleNewTaskMinsChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.taskOnClick = this.taskOnClick.bind(this);
         this.startTask = this.startTask.bind(this);
@@ -104,18 +112,23 @@ class TaskController extends React.Component {
     handleNewTaskNameChange(e) {
         this.setState({ newTaskName: e.target.value });
     }
-    handleNewTaskDurationChange(e) {
-        this.setState({ newTaskDuration: e.target.value });
+    handleNewTaskHoursChange(e) {
+        this.setState({ newTaskHours: e.target.value });
+    }
+    handleNewTaskMinsChange(e) {
+        this.setState({ newTaskMins: e.target.value });
     }
     handleSubmit(e) {
         e.preventDefault();
-        if (!this.state.newTaskName.length || !this.state.newTaskDuration) return;
-        if(isNaN(this.state.newTaskDuration)) return;
-        if(this.state.newTaskDuration < 0) return;
+        if (!this.state.newTaskName.length || !this.state.newTaskHours || !this.state.newTaskHours) return;
+        if(isNaN(this.state.newTaskHours) || isNaN(this.state.newTaskMins)) return;
+        if(this.state.newTaskHours < 0 || this.state.newTaskMins < 0) return;
+
+        let newTaskDuration = (this.state.newTaskHours * 3600) + (this.state.newTaskMins * 60);
 
         let newTask = new TaskContainer(
             this.state.newTaskName,
-            this.state.newTaskDuration
+            newTaskDuration
         );
 
         this.setState(state => ({
@@ -194,15 +207,26 @@ class TaskController extends React.Component {
                         id="task-name-input"
                         onChange={this.handleNewTaskNameChange}
                         value={this.state.newTaskName}
-                    />                    
-                    <label htmlFor="task-duration-input">
-                        Task duration:
+                    />
+
+                    <label htmlFor="task-hours-input">
+                        Task hours:
                     </label>
                     <input
-                        id="task-duration-input"
-                        onChange={this.handleNewTaskDurationChange}
-                        value={this.state.newTaskDuration}
+                        id="task-hours-input"
+                        onChange={this.handleNewTaskHoursChange}
+                        value={this.state.newTaskHours}
                     />
+
+                    <label htmlFor="task-mins-input">
+                        Task mins:
+                    </label>
+                    <input
+                        id="task-mins-input"
+                        onChange={this.handleNewTaskMinsChange}
+                        value={this.state.newTaskMins}
+                    />
+
                     <button>
                         Add New Task
                     </button>
