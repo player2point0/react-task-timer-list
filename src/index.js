@@ -10,7 +10,9 @@ class Task extends React.Component {
     render() {
         let taskViewing;
         let coverHeight = 50 * ((this.props.duration - this.props.remainingTime) / this.props.duration);
-        let startButtonText = this.props.paused? "Pause" : "Start";
+        
+        let startButtonText = this.props.paused? "un pause" : "pause";
+        if(!this.props.started) startButtonText = "start";
 
         //display additional details when the task is selected
         if (this.props.isViewing) {
@@ -64,7 +66,7 @@ class TaskController extends React.Component {
     tick() {
         const updatedTasks = this.state.tasks.slice();
         for (let i = 0; i < updatedTasks.length; i++) {
-            if (updatedTasks[i].started) {
+            if (updatedTasks[i].started && !updatedTasks[i].paused) {
                 updatedTasks[i].remainingTime--;
                 if(updatedTasks[i].remainingTime <= 0)
                 {
@@ -147,7 +149,7 @@ class TaskController extends React.Component {
 
                 if(updatedTasks[i].started)
                 {
-                    
+                    updatedTasks[i].paused = !updatedTasks[i].paused;
                 }
 
                 updatedTasks[i].started = true;
@@ -217,6 +219,7 @@ class TaskController extends React.Component {
                         name={task.name}
                         duration={task.totalDuration}
                         remainingTime={task.remainingTime}
+                        started={task.started}
                         paused={task.paused}
                         isViewing={task.isViewing}
                         taskOnClick={this.taskOnClick}
