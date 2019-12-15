@@ -32,6 +32,10 @@ class Task extends React.Component {
 
         return (
             <div className="task">
+                <div>
+                    <button className="taskUpButton" onClick={() => { this.props.taskUp(this.props.id) }}>Up</button>
+                    <button className="taskDownButton" onClick={() => { this.props.taskDown(this.props.id) }}>Down</button>
+                </div>
                 <div className="taskSelectButton" onClick={() => { this.props.taskOnClick(this.props.id) }}>
                     <h1 className="taskName">{this.props.name}</h1>
                     <h1 className="taskTime">{formatTime(this.props.remainingTime)}</h1>
@@ -66,6 +70,8 @@ class TaskController extends React.Component {
         this.handleNewTaskMinsChange = this.handleNewTaskMinsChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.taskOnClick = this.taskOnClick.bind(this);
+        this.taskUp = this.taskUp.bind(this);
+        this.taskDown = this.taskDown.bind(this);
         this.startTask = this.startTask.bind(this);
         this.addTime = this.addTime.bind(this);
     }
@@ -146,6 +152,50 @@ class TaskController extends React.Component {
         for (let i = 0; i < updatedTasks.length; i++) {
             if (updatedTasks[i].id === id) {
                 updatedTasks[i].isViewing = !updatedTasks[i].isViewing;
+                break;
+            }
+        }
+
+        this.setState({
+            tasks: updatedTasks
+        });
+    }
+
+    //move the selected task up in the UI and nearer to the front in the list
+    taskUp(id) {
+        const updatedTasks = this.state.tasks.slice();
+        for (let i = 0; i < updatedTasks.length; i++) {
+            if (updatedTasks[i].id === id) {
+                
+                if((i-1) < 0) return;//already in first place
+                
+                //swap
+                let tempTask = updatedTasks[i];
+                updatedTasks[i] = updatedTasks[i-1];
+                updatedTasks[i-1] = tempTask;
+                
+                break;
+            }
+        }
+
+        this.setState({
+            tasks: updatedTasks
+        });
+    }
+
+    //move the selected task down in the UI and nearer to the end in the list
+    taskDown(id) {
+        const updatedTasks = this.state.tasks.slice();
+        for (let i = 0; i < updatedTasks.length; i++) {
+            if (updatedTasks[i].id === id) {
+                
+                if((i+1) >= updatedTasks.length) return;//already in last place
+                
+                //swap
+                let tempTask = updatedTasks[i];
+                updatedTasks[i] = updatedTasks[i+1];
+                updatedTasks[i+1] = tempTask;
+                
                 break;
             }
         }
@@ -247,6 +297,8 @@ class TaskController extends React.Component {
                         paused={task.paused}
                         isViewing={task.isViewing}
                         taskOnClick={this.taskOnClick}
+                        taskUp={this.taskUp}
+                        taskDown={this.taskDown}
                         startTask={this.startTask}
                         addTime={this.addTime}
                     />))}
