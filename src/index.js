@@ -10,6 +10,7 @@ const HOUR_HEIGHT = 30;
 class Task extends React.Component {
 
     render() {
+        //could resize the task body to fit the task viewing div and not mess up the hours overlay
         let taskViewing;
         let coverHeight = 50 * ((this.props.duration - this.props.remainingTime) / this.props.duration);
         const HOUR_IN_SECONDS = 60 * 60;
@@ -76,14 +77,15 @@ class HoursOverlay extends React.Component {
         //draw the first bar smaller based on the remaining time in the hour
         let mins = currentTime.getUTCMinutes();
         let heightPer = 1 - (mins/60.0);
-        let hourBar = <h1 style={{height:heightPer*HOUR_HEIGHT+"vh"}}>{currentHour}</h1>;
+        if(mins<10) mins = "0"+mins;
+        let hourBar = <h1 style={{height:heightPer*HOUR_HEIGHT+"vh"}}>{currentHour+":"+mins}</h1>;
         hourBars.push(hourBar); 
 
         for(let i = 1;i<12;i++)
         {
             currentTime.setUTCHours(currentHour + i)
             let hour = currentTime.getUTCHours();
-            let hourBar = <h1 style={{height:HOUR_HEIGHT+"vh"}}>{hour}</h1>;
+            let hourBar = <h1 style={{height:HOUR_HEIGHT+"vh"}}>{hour+":00"}</h1>;
             hourBars.push(hourBar); 
         }
 
@@ -108,8 +110,8 @@ class TaskController extends React.Component {
         //store the tasks
         let defaultTasks = [
             new TaskContainer("task1", 7345),
-            new TaskContainer("task2", 123),
-            new TaskContainer("task3", 3600)
+            //new TaskContainer("task2", 123),
+            //new TaskContainer("task3", 3600)
         ];
         this.state = {
             time: 0,
@@ -301,8 +303,6 @@ class TaskController extends React.Component {
             //display the inputs
             addTask = (
                 <form onSubmit={this.handleSubmit}>
-                    <h1>New Task</h1>
-                    
                     <label htmlFor="task-name-input">
                         Task name:
                     </label>
