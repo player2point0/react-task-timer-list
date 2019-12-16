@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import TaskContainer from './task.js';
 
+const HOUR_HEIGHT = 30;
+
 //renders the task based on the passed properties
 //could change to a function
 class Task extends React.Component {
@@ -46,6 +48,48 @@ class Task extends React.Component {
     }
 }
 
+//renders the hours overlay
+class HoursOverlay extends React.Component {
+
+    render() {
+
+        //could adjust the height of the bars based on an viewed tasks
+        //check if any tasks are viewed and if so don't display the overlay
+        for(let i = 0;i<this.props.tasks.length;i++)
+        {
+            if(this.props.tasks[i].isViewing)
+            {
+                return(<div className="hourCover"></div>);
+            } 
+        }
+
+        //draw hour bars for the next 12 hours
+        let hourBars = [];
+        let currentTime = new Date();
+        let currentHour = currentTime.getUTCHours();
+        
+        //draw the first bar smaller based on the remaining time in the hour
+        let mins = currentTime.getUTCMinutes();
+        let heightPer = 1 - (mins/60.0);
+        let hourBar = <h1 style={{marginBottom:heightPer*HOUR_HEIGHT+"vh"}}>{currentHour}</h1>;
+        hourBars.push(hourBar); 
+
+        for(let i = 1;i<12;i++)
+        {
+            currentTime.setUTCHours(currentHour + i)
+            let hour = currentTime.getUTCHours();
+            let hourBar = <h1 style={{marginBottom:HOUR_HEIGHT+"vh"}}>{hour}</h1>;
+            hourBars.push(hourBar); 
+        }
+
+        return (
+            <div className="hourCover">
+                {hourBars}
+            </div>
+        );
+    }
+}
+
 function formatTime(time){
     let hours = Math.floor(time / 3600);
     let mins = Math.floor((time - (hours * 3600)) / 60);
@@ -57,7 +101,11 @@ class TaskController extends React.Component {
     constructor(props) {
         super(props);
         //store the tasks
-        let defaultTasks = [new TaskContainer("task1", 10), new TaskContainer("task2", 123)];
+        let defaultTasks = [
+            new TaskContainer("task1", 7345),
+            new TaskContainer("task2", 123),
+            new TaskContainer("task3", 3600)
+        ];
         this.state = {
             time: 0,
             tasks: defaultTasks,
@@ -286,6 +334,9 @@ class TaskController extends React.Component {
 
         return (
             <div className="taskController">
+                <HoursOverlay
+                    tasks={this.state.tasks}
+                />
                 <div className="tasksContainer">
                     {this.state.tasks.map(task => (<Task
                         key={task.id}
