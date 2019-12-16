@@ -20,6 +20,8 @@ class Task extends React.Component {
         let startButtonText = this.props.paused? "un pause" : "pause";
         if(!this.props.started) startButtonText = "start";
 
+        //todo change to use whole of task to display percentage
+
         //display additional details when the task is selected
         if (this.props.isViewing) {
             taskViewing = (
@@ -302,7 +304,7 @@ class TaskController extends React.Component {
         if (this.state.addTask) {
             //display the inputs
             addTask = (
-                <form onSubmit={this.handleSubmit}>
+                <form className="addTaskForm" onSubmit={this.handleSubmit}>
                     <label htmlFor="task-name-input">
                         Task name:
                     </label>
@@ -359,7 +361,9 @@ class TaskController extends React.Component {
                         addTime={this.addTime}
                     />))}
                 </div>
-                <button className="addTaskButton" onClick={this.addTask}>Add task</button>
+                <div className="addTaskButton" onClick={this.addTask}>
+                    <h1>Add task</h1>
+                </div>
                 {addTask}
             </div>
         );
