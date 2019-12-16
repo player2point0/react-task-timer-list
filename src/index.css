@@ -43,17 +43,16 @@ body {
 }
 
 .taskSelectButton{
-    background-color: gray;
+    background-color: #9FF55F;
     min-height: 10vh;
     height: inherit;
-    justify-content: space-evenly;
     display: grid;
-    grid-template-columns: auto;
+    grid-template-columns: 1fr 1fr;
     align-content: center;    
 }
 
 .taskUpDownButtons{
-    background-color: gray;
+    background-color: #9FF55F;
     height: auto;
     justify-content: space-evenly;
     display: grid;
@@ -67,16 +66,24 @@ body {
     display: grid;
     grid-template-columns: auto;
     align-content: center;
+    z-index: 10;
+    font-size: 5vh;
 }
 
 .taskName{
     user-select: none;
     text-align: center;
+    z-index: 10;
+    height: auto;
+    font-size: 7.5vh;
 }
 
 .taskTime{
     user-select: none;
     text-align: center;
+    z-index: 10;
+    height: 10vh;
+    font-size: 7.5vh;
 }
 
 .taskStartButton{
