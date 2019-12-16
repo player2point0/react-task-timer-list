@@ -12,7 +12,9 @@ class Task extends React.Component {
     render() {
         let taskViewing;
         let coverHeight = 50 * ((this.props.duration - this.props.remainingTime) / this.props.duration);
-        
+        const HOUR_IN_SECONDS = 60 * 60;
+        let taskHeightPer = (this.props.duration/HOUR_IN_SECONDS);
+
         let startButtonText = this.props.paused? "un pause" : "pause";
         if(!this.props.started) startButtonText = "start";
 
@@ -34,13 +36,15 @@ class Task extends React.Component {
 
         return (
             <div className="task">
-                <div>
-                    <button className="taskUpButton" onClick={() => { this.props.taskUp(this.props.id) }}>Up</button>
-                    <button className="taskDownButton" onClick={() => { this.props.taskDown(this.props.id) }}>Down</button>
-                </div>
-                <div className="taskSelectButton" onClick={() => { this.props.taskOnClick(this.props.id) }}>
-                    <h1 className="taskName">{this.props.name}</h1>
-                    <h1 className="taskTime">{formatTime(this.props.remainingTime)}</h1>
+                <div className="taskBody" style={{height:taskHeightPer*HOUR_HEIGHT+"vh"}}>
+                    <div className="taskUpDownButtons">
+                        <button className="taskUpButton" onClick={() => { this.props.taskUp(this.props.id) }}>Up</button>
+                        <button className="taskDownButton" onClick={() => { this.props.taskDown(this.props.id) }}>Down</button>
+                    </div>
+                    <div className="taskSelectButton" onClick={() => { this.props.taskOnClick(this.props.id) }}>
+                        <h1 className="taskName">{this.props.name}</h1>
+                        <h1 className="taskTime">{formatTime(this.props.remainingTime)}</h1>
+                    </div>
                 </div>
                 {taskViewing}
             </div>

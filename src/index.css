@@ -7,6 +7,17 @@ body {
     font: 14px "Century Gothic", Futura, sans-serif;
 }
 
+.task{
+    min-height: 10vh;
+}
+
+.taskBody{
+    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: 1fr 9fr;
+    align-content: center;
+}
+
 .taskViewing{
     height: 50vh;
     justify-content: space-evenly;
@@ -32,7 +43,13 @@ body {
 
 .taskSelectButton{
     background-color: gray;
-    width: 100%;
+    min-height: 10vh; 
+    height: inherit;
+    display:inline-block;
+}
+
+.taskUpDownButtons{
+    display:inline-block;
 }
 
 .taskName{
