@@ -1,4 +1,3 @@
--change task height based on duration
 -add a priority system
 -add day overview
 -add saving and loading of tasks

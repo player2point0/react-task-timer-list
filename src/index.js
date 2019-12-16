@@ -14,6 +14,7 @@ class Task extends React.Component {
         let coverHeight = 50 * ((this.props.duration - this.props.remainingTime) / this.props.duration);
         const HOUR_IN_SECONDS = 60 * 60;
         let taskHeightPer = (this.props.duration/HOUR_IN_SECONDS);
+        if(taskHeightPer < 0.5) taskHeightPer = 0.5;
 
         let startButtonText = this.props.paused? "un pause" : "pause";
         if(!this.props.started) startButtonText = "start";
@@ -75,14 +76,14 @@ class HoursOverlay extends React.Component {
         //draw the first bar smaller based on the remaining time in the hour
         let mins = currentTime.getUTCMinutes();
         let heightPer = 1 - (mins/60.0);
-        let hourBar = <h1 style={{marginBottom:heightPer*HOUR_HEIGHT+"vh"}}>{currentHour}</h1>;
+        let hourBar = <h1 style={{height:heightPer*HOUR_HEIGHT+"vh"}}>{currentHour}</h1>;
         hourBars.push(hourBar); 
 
         for(let i = 1;i<12;i++)
         {
             currentTime.setUTCHours(currentHour + i)
             let hour = currentTime.getUTCHours();
-            let hourBar = <h1 style={{marginBottom:HOUR_HEIGHT+"vh"}}>{hour}</h1>;
+            let hourBar = <h1 style={{height:HOUR_HEIGHT+"vh"}}>{hour}</h1>;
             hourBars.push(hourBar); 
         }
 
