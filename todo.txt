@@ -1,5 +1,6 @@
 -add saving and loading of tasks
--add different days
+-improve all sizings
+-improve task viewing and keep hours overlay
 -improve ui
 -refactor
 -port to react native
