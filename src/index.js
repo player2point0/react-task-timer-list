@@ -29,9 +29,7 @@ class Task extends React.Component {
             taskViewing = (
                 <div>
                     <div className="taskViewingBackground"></div>
-                    <div className="taskViewingCover"
-                        style={{height:coverHeight+"vh"}}>
-                    </div>
+                    
                     <div className="taskViewing">
                         <button className="taskStartButton" onClick={() => {this.props.startTask(this.props.id)}}>{startButtonText}</button>
                         <button className="taskAddTimeButton" onClick={() => {this.props.addTime(this.props.id)}}>add time</button>
@@ -46,6 +44,9 @@ class Task extends React.Component {
                 <div className="taskBody" 
                 style={{height:taskHeightPer*HOUR_HEIGHT+"vh"}}
                 onClick={(e) => { this.props.taskOnClick(this.props.id, e)}}>
+                    <div className="taskViewingCover"
+                        style={{height:coverHeight+"vh"}}>
+                    </div>
                     <div className="taskUpDownButtons">
                         <button className="taskUpButton" onClick={
                             function(e){
@@ -115,13 +116,13 @@ class HoursOverlay extends React.Component {
 }
 
 function formatTime(time){
-    let hours = Math.floor(time / 3600);
-    let mins = Math.floor((time - (hours * 3600)) / 60);
-    let seconds  = Math.floor((time - (hours * 3600) - (mins * 60)));
+    let hours = String(Math.floor(time / 3600));
+    let mins = String(Math.floor((time - (hours * 3600)) / 60));
+    let seconds  = String(Math.floor((time - (hours * 3600) - (mins * 60))));
     
-    if(hours < 10) hours = "0"+hours;
-    if(mins < 10) mins = "0"+mins;
-    if(seconds < 10) seconds = "0"+hours;
+    if(hours.length < 2) hours = "0"+hours;
+    if(mins.length < 2) mins = "0"+mins;
+    if(seconds.length < 2) seconds = "0"+seconds;
 
     return hours+" : "+mins+" : "+seconds;
 }
@@ -131,7 +132,7 @@ class TaskController extends React.Component {
         super(props);
         //store the tasks
         let defaultTasks = [
-            new TaskContainer("task1", 7345),
+            new TaskContainer("task1", 2345),
             //new TaskContainer("task2", 123),
             //new TaskContainer("task3", 3600)
         ];
