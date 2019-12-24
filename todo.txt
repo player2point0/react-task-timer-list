@@ -1,5 +1,4 @@
 -add saving and loading of tasks
--add task finished button when a task runs out of time
 -improve task viewing and keep hours overlay
 -refactor
 -port to react native

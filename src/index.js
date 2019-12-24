@@ -21,8 +21,7 @@ class Task extends React.Component {
 
         let startButtonText = this.props.paused? "un pause" : "pause";
         if(!this.props.started) startButtonText = "start";
-
-        //todo change to use whole of task to display percentage
+        if(this.props.started && this.props.remainingTime == 0) startButtonText = "finish";
 
         //display additional details when the task is selected
         if (this.props.isViewing) {
@@ -172,9 +171,7 @@ class TaskController extends React.Component {
                 if(updatedTasks[i].remainingTime <= 0)
                 {
                     updatedTasks[i].remainingTime = 0;
-                    updatedTasks[i].started = false;
                     updatedTasks[i].isViewing = true;
-                    alert(updatedTasks[i].name+" finished");
                 }
             }
         }
@@ -294,11 +291,17 @@ class TaskController extends React.Component {
 
     startTask(id) {
         const updatedTasks = this.state.tasks.slice();
-        for (let i = 0; i < updatedTasks.length; i++) {
+        for (let i = updatedTasks.length-1; i >= 0; i--) {
             if (updatedTasks[i].id === id) {
 
                 if(updatedTasks[i].started)
                 {
+                    if(updatedTasks[i].remainingTime == 0)
+                    {
+                        updatedTasks.splice(i, 1);
+                        break;
+                    }
+
                     updatedTasks[i].paused = !updatedTasks[i].paused;
                 }
 
