@@ -22,10 +22,10 @@ body {
 .task{
     border-bottom: 5px solid #FCECC9;
     box-sizing: border-box;
+    z-index: -3;
 }
 
 .taskBody{
-    background-color: rgba(159, 245, 95, 1);
     color: white;
     justify-content: space-evenly;
     display: grid;
@@ -44,10 +44,9 @@ body {
     align-content: center;
 }
 
-.taskViewingBackground{
+.taskBackground{
     background-color: #9FF55F;
     width: 100%;
-    height: 50vh;
     z-index: -2;
     position: absolute;
 }

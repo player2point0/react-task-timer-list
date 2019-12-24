@@ -1,6 +1,4 @@
 -add saving and loading of tasks
--improve task viewing
--add min size for tasks
 -add task finished button when a task runs out of time
 -improve task viewing and keep hours overlay
 -refactor

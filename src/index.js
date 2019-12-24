@@ -4,6 +4,7 @@ import './index.css';
 import TaskContainer from './task.js';
 
 const HOUR_HEIGHT = 30;
+const MIN_TASK_HEIGHT = 20;
 
 //renders the task based on the passed properties
 //could change to a function
@@ -14,10 +15,9 @@ class Task extends React.Component {
         
         //could resize the task body to fit the task viewing div and not mess up the hours overlay
         let taskViewing;
-        let coverHeight = 50 * ((this.props.duration - this.props.remainingTime) / this.props.duration);
         const HOUR_IN_SECONDS = 60 * 60;
-        let taskHeightPer = (this.props.duration/HOUR_IN_SECONDS);
-        if(taskHeightPer < 0.5) taskHeightPer = 0.5;
+        let taskHeightPer = (this.props.duration/HOUR_IN_SECONDS)<0.5? 0.5 : (this.props.duration/HOUR_IN_SECONDS);
+        let taskHeight = (taskHeightPer * HOUR_HEIGHT)<MIN_TASK_HEIGHT? MIN_TASK_HEIGHT : (taskHeightPer * HOUR_HEIGHT);
 
         let startButtonText = this.props.paused? "un pause" : "pause";
         if(!this.props.started) startButtonText = "start";
@@ -26,24 +26,33 @@ class Task extends React.Component {
 
         //display additional details when the task is selected
         if (this.props.isViewing) {
+            taskHeight += 50;//expands the task by 50vh to display the buttons, could add a max/min height
+
             taskViewing = (
-                <div>
-                    <div className="taskViewingBackground"></div>
-                    
-                    <div className="taskViewing">
-                        <button className="taskStartButton" onClick={() => {this.props.startTask(this.props.id)}}>{startButtonText}</button>
-                        <button className="taskAddTimeButton" onClick={() => {this.props.addTime(this.props.id)}}>add time</button>
-                    </div>
+                <div className="taskViewing">
+                    <button className="taskStartButton" onClick={
+                        function(e){
+                            e.stopPropagation();
+                            THIS_SCOPE.props.startTask(THIS_SCOPE.props.id);
+                        }}>{startButtonText}</button>
+                    <button className="taskAddTimeButton" onClick={
+                        function(e){
+                            e.stopPropagation();
+                            THIS_SCOPE.props.addTime(THIS_SCOPE.props.id);
+                        }}>add time</button>
                 </div>
             );
         }
-
         
+        let coverHeight = taskHeight * ((this.props.duration - this.props.remainingTime) / this.props.duration);      
+
         return (
-            <div className="task">
-                <div className="taskBody" 
-                style={{height:taskHeightPer*HOUR_HEIGHT+"vh"}}
-                onClick={(e) => { this.props.taskOnClick(this.props.id, e)}}>
+            <div className="task"  
+                onClick={(e) => { this.props.taskOnClick(this.props.id, e)}}
+                style={{height:taskHeight+"vh"}}>
+                <div className="taskBackground" 
+                    style={{height:taskHeight+"vh"}}></div>
+                <div className="taskBody">
                     <div className="taskViewingCover"
                         style={{height:coverHeight+"vh"}}>
                     </div>
@@ -132,7 +141,7 @@ class TaskController extends React.Component {
         super(props);
         //store the tasks
         let defaultTasks = [
-            new TaskContainer("task1", 2345),
+            new TaskContainer("task1", 60),
             //new TaskContainer("task2", 123),
             //new TaskContainer("task3", 3600)
         ];
