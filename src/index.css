@@ -7,13 +7,15 @@ color scheme
 #9FF55F - lime
 */
 
+@import url('https://fonts.googleapis.com/css?family=Inconsolata&display=swap');
+
 *{
     margin: 0px;
     padding: 0px;
+    font-family: 'Inconsolata', monospace;
 }
 
 body {
-    font: 14px "Century Gothic", Futura, sans-serif;
     background-color: #FCECC9;
 }
 
@@ -23,10 +25,15 @@ body {
 }
 
 .taskBody{
+    background-color: rgba(159, 245, 95, 1);
+    color: white;
     justify-content: space-evenly;
     display: grid;
     grid-template-columns: 1fr 9fr;
     align-content: center;
+}
+.taskBody:hover{
+    color: black;
 }
 
 .taskViewing{
@@ -53,7 +60,6 @@ body {
 }
 
 .taskSelectButton{
-    background-color: #9FF55F;
     min-height: 10vh;
     height: inherit;
     display: grid;
@@ -62,7 +68,6 @@ body {
 }
 
 .taskUpDownButtons{
-    background-color: #9FF55F;
     height: auto;
     justify-content: space-evenly;
     display: grid;
@@ -83,6 +88,10 @@ body {
     margin: 5px;
     padding: 5px;
     border: none;
+    border-radius: 2px;
+}
+.taskUpDownButtons button:hover{
+    color: black;
 }
 
 .taskName{
@@ -106,9 +115,12 @@ body {
     height: 20vw;
     border-radius: 100%;
     border: none;
+    font-size: 5vh;
+    background-color: #0FA3B1;
+    color: white;
 }
 .taskStartButton:hover{
-    background-color: grey;
+    color: black;
 }
 
 .taskAddTimeButton{
@@ -116,9 +128,12 @@ body {
     height: 20vw;
     border-radius: 100%;
     border: none;
+    font-size: 5vh;
+    background-color: #0FA3B1;
+    color: white;
 }
 .taskAddTimeButton:hover{
-    background-color: grey;
+    color: black;
 }
 
 .hourCover{
@@ -141,8 +156,14 @@ body {
     position: relative;
     z-index: 10;
 }
+.addTaskButton h1:hover{
+    color: black;
+}
+
 .addTaskForm{
     background-color: #FCECC9;
+    border: 1px solid black;
+    padding: 10px;
 }
 
 .addTaskForm label{

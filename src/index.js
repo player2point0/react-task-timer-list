@@ -10,6 +10,8 @@ const HOUR_HEIGHT = 30;
 class Task extends React.Component {
 
     render() {
+        let THIS_SCOPE = this;
+        
         //could resize the task body to fit the task viewing div and not mess up the hours overlay
         let taskViewing;
         let coverHeight = 50 * ((this.props.duration - this.props.remainingTime) / this.props.duration);
@@ -38,14 +40,27 @@ class Task extends React.Component {
             );
         }
 
+        
         return (
             <div className="task">
-                <div className="taskBody" style={{height:taskHeightPer*HOUR_HEIGHT+"vh"}}>
+                <div className="taskBody" 
+                style={{height:taskHeightPer*HOUR_HEIGHT+"vh"}}
+                onClick={(e) => { this.props.taskOnClick(this.props.id, e)}}>
                     <div className="taskUpDownButtons">
-                        <button className="taskUpButton" onClick={() => { this.props.taskUp(this.props.id) }}>Up</button>
-                        <button className="taskDownButton" onClick={() => { this.props.taskDown(this.props.id) }}>Down</button>
+                        <button className="taskUpButton" onClick={
+                            function(e){
+                                e.stopPropagation();
+                                THIS_SCOPE.props.taskUp(THIS_SCOPE.props.id);
+                            }}
+                        >Up</button>
+                        <button className="taskDownButton" onClick={
+                            function(e){
+                                e.stopPropagation();
+                                THIS_SCOPE.props.taskDown(THIS_SCOPE.props.id);
+                            }}
+                        >Down</button>
                     </div>
-                    <div className="taskSelectButton" onClick={() => { this.props.taskOnClick(this.props.id) }}>
+                    <div className="taskSelectButton">
                         <h1 className="taskName">{this.props.name}</h1>
                         <h1 className="taskTime">{formatTime(this.props.remainingTime)}</h1>
                     </div>
@@ -102,8 +117,13 @@ class HoursOverlay extends React.Component {
 function formatTime(time){
     let hours = Math.floor(time / 3600);
     let mins = Math.floor((time - (hours * 3600)) / 60);
+    let seconds  = Math.floor((time - (hours * 3600) - (mins * 60)));
     
-    return "hours: "+hours+" mins: "+mins;
+    if(hours < 10) hours = "0"+hours;
+    if(mins < 10) mins = "0"+mins;
+    if(seconds < 10) seconds = "0"+hours;
+
+    return hours+" : "+mins+" : "+seconds;
 }
 
 class TaskController extends React.Component {
