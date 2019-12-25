@@ -16,7 +16,7 @@ class Task extends React.Component {
         //could resize the task body to fit the task viewing div and not mess up the hours overlay
         let taskViewing;
         const HOUR_IN_SECONDS = 60 * 60;
-        let taskHeightPer = (this.props.duration/HOUR_IN_SECONDS)<0.5? 0.5 : (this.props.duration/HOUR_IN_SECONDS);
+        let taskHeightPer = (this.props.duration/HOUR_IN_SECONDS)<0.5 ? 0.5 : (this.props.duration/HOUR_IN_SECONDS);
         let taskHeight = (taskHeightPer * HOUR_HEIGHT)<MIN_TASK_HEIGHT? MIN_TASK_HEIGHT : (taskHeightPer * HOUR_HEIGHT);
 
         let startButtonText = this.props.paused? "un pause" : "pause";
@@ -61,13 +61,13 @@ class Task extends React.Component {
                                 e.stopPropagation();
                                 THIS_SCOPE.props.taskUp(THIS_SCOPE.props.id);
                             }}
-                        >Up</button>
+                        >up</button>
                         <button className="taskDownButton" onClick={
                             function(e){
                                 e.stopPropagation();
                                 THIS_SCOPE.props.taskDown(THIS_SCOPE.props.id);
                             }}
-                        >Down</button>
+                        >down</button>
                     </div>
                     <div className="taskSelectButton">
                         <h1 className="taskName">{this.props.name}</h1>
@@ -132,7 +132,7 @@ function formatTime(time){
     if(mins.length < 2) mins = "0"+mins;
     if(seconds.length < 2) seconds = "0"+seconds;
 
-    return hours+" : "+mins+" : "+seconds;
+    return hours+":"+mins+":"+seconds;
 }
 
 class TaskController extends React.Component {
@@ -141,8 +141,8 @@ class TaskController extends React.Component {
         //store the tasks
         let defaultTasks = [
             new TaskContainer("task1", 60),
-            //new TaskContainer("task2", 123),
-            //new TaskContainer("task3", 3600)
+            new TaskContainer("task2", 123),
+            new TaskContainer("task3", 3600)
         ];
         this.state = {
             time: 0,
@@ -339,7 +339,7 @@ class TaskController extends React.Component {
             addTask = (
                 <form className="addTaskForm" onSubmit={this.handleSubmit}>
                     <label htmlFor="task-name-input">
-                        Task name:
+                        task name:
                     </label>
                     <input
                         id="task-name-input"
@@ -348,7 +348,7 @@ class TaskController extends React.Component {
                     />
 
                     <label htmlFor="task-hours-input">
-                        Task hours:
+                        task hours:
                     </label>
                     <input
                         id="task-hours-input"
@@ -357,7 +357,7 @@ class TaskController extends React.Component {
                     />
 
                     <label htmlFor="task-mins-input">
-                        Task mins:
+                        task mins:
                     </label>
                     <input
                         id="task-mins-input"
@@ -366,7 +366,7 @@ class TaskController extends React.Component {
                     />
 
                     <button>
-                        Add New Task
+                        add new task
                     </button>
                 </form>
             );
@@ -395,7 +395,7 @@ class TaskController extends React.Component {
                     />))}
                 </div>
                 <div className="addTaskButton" onClick={this.addTask}>
-                    <h1>Add task</h1>
+                    <h1>add task</h1>
                 </div>
                 {addTask}
             </div>

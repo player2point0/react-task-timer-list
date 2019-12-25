@@ -7,33 +7,42 @@ color scheme
 #9FF55F - lime
 */
 
-@import url('https://fonts.googleapis.com/css?family=Inconsolata&display=swap');
-
+@import url('https://fonts.googleapis.com/css?family=Major+Mono+Display|Roboto+Mono|Share+Tech+Mono&display=swap');
 *{
     margin: 0px;
     padding: 0px;
-    font-family: 'Inconsolata', monospace;
+    font-family: 'Major Mono Display', monospace;
+    --text-color: rgb(255, 255, 255);
+    --text-hover-color: rgb(87, 86, 86);
+    --task-border-color: rgb(230,255,245);
+    --body-color: rgb(255, 246, 233);
+    --task-background-color: rgb(163, 245, 95);
+    --task-cover-color: rgb(240, 84, 23);
+    --button-color: #0FA3B1;
+    --add-task-color: rgb(233, 106, 2);
+    --hour-text-color: rgba(0, 0, 0, 1);
+    --hour-line-color: rgba(0, 0, 0, 0.5);
 }
 
 body {
-    background-color: #FCECC9;
+    background-color: var(--body-color);
 }
 
 .task{
-    border-bottom: 5px solid #FCECC9;
+    border-bottom: 5px solid var(--task-border-color);
     box-sizing: border-box;
     z-index: -3;
 }
 
 .taskBody{
-    color: white;
+    color: var(--text-color);
     justify-content: space-evenly;
     display: grid;
     grid-template-columns: 1fr 9fr;
     align-content: center;
 }
 .taskBody:hover{
-    color: black;
+    color: var(--text-hover-color);
 }
 
 .taskViewing{
@@ -45,14 +54,14 @@ body {
 }
 
 .taskBackground{
-    background-color: #9FF55F;
+    background-color: var(--task-background-color);
     width: 100%;
     z-index: -2;
     position: absolute;
 }
 
 .taskViewingCover{
-    background-color: #E71D36;
+    background-color: var(--task-cover-color);
     z-index: -1;
 	width: 100%;
 	position: absolute;
@@ -82,15 +91,15 @@ body {
     align-content: center;
     z-index: 10;
     font-size: 5vh;
-    background-color: #0FA3B1;
-    color: white;
+    background-color: var(--button-color);
+    color: var(--text-color);
     margin: 5px;
     padding: 5px;
     border: none;
     border-radius: 2px;
 }
 .taskUpDownButtons button:hover{
-    color: black;
+    color: var(--text-hover-color);
 }
 
 .taskName{
@@ -115,11 +124,11 @@ body {
     border-radius: 100%;
     border: none;
     font-size: 5vh;
-    background-color: #0FA3B1;
+    background-color: var(--button-color);
     color: white;
 }
 .taskStartButton:hover{
-    color: black;
+    color:  var(--text-hover-color);
 }
 
 .taskAddTimeButton{
@@ -128,7 +137,7 @@ body {
     border-radius: 100%;
     border: none;
     font-size: 5vh;
-    background-color: #0FA3B1;
+    background-color: var(--button-color);
     color: white;
 }
 .taskAddTimeButton:hover{
@@ -144,24 +153,23 @@ body {
 .addTaskButton{
     width: 100%;
     font-size: 10vh;
-    background-color: #0FA3B1;
+    background-color: var(--button-color);
     text-align: center;
 }
 
 .addTaskButton h1{
     font-size: 10vh;
-    color: white;
+    color: var(--text-color);
     user-select: none;
     position: relative;
     z-index: 10;
 }
 .addTaskButton h1:hover{
-    color: black;
+    color:  var(--text-hover-color);
 }
 
 .addTaskForm{
-    background-color: #FCECC9;
-    border: 1px solid black;
+    background-color:  var(--add-task-color);
     padding: 10px;
 }
 
@@ -172,9 +180,9 @@ body {
 .hourCover h1{
     min-height: 5vh;
     text-align: right;
-    color: rgba(0, 0, 0, 0.9);
+    color: var(--hour-text-color);
     width : 100%;
-    border-bottom: 1px dashed rgba(0, 0, 0, 0.5);
+    border-bottom: 1px dashed var(--hour-line-color);
     background-color: transparent;
     box-sizing: border-box;
 }
