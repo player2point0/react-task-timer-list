@@ -2,4 +2,3 @@
 -improve task viewing and keep hours overlay
 -refactor
 -port to react native
-go to the races

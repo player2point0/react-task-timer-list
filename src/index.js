@@ -21,7 +21,6 @@ class Task extends React.Component {
 
         let startButtonText = this.props.paused? "un pause" : "pause";
         if(!this.props.started) startButtonText = "start";
-        if(this.props.started && this.props.remainingTime == 0) startButtonText = "finish";
 
         //display additional details when the task is selected
         if (this.props.isViewing) {
@@ -29,12 +28,17 @@ class Task extends React.Component {
 
             taskViewing = (
                 <div className="taskViewing">
-                    <button className="taskStartButton" onClick={
+                    <button className="taskViewingButton" onClick={
                         function(e){
                             e.stopPropagation();
                             THIS_SCOPE.props.startTask(THIS_SCOPE.props.id);
                         }}>{startButtonText}</button>
-                    <button className="taskAddTimeButton" onClick={
+                    <button className="taskViewingButton" onClick={
+                        function(e){
+                            e.stopPropagation();
+                            THIS_SCOPE.props.finishTask(THIS_SCOPE.props.id);
+                        }}>finish</button>
+                    <button className="taskViewingButton" onClick={
                         function(e){
                             e.stopPropagation();
                             THIS_SCOPE.props.addTime(THIS_SCOPE.props.id);
@@ -141,8 +145,8 @@ class TaskController extends React.Component {
         //store the tasks
         let defaultTasks = [
             new TaskContainer("task1", 60),
-            new TaskContainer("task2", 123),
-            new TaskContainer("task3", 3600)
+            //new TaskContainer("task2", 123),
+            //new TaskContainer("task3", 3600)
         ];
         this.state = {
             time: 0,
@@ -159,6 +163,7 @@ class TaskController extends React.Component {
         this.taskUp = this.taskUp.bind(this);
         this.taskDown = this.taskDown.bind(this);
         this.startTask = this.startTask.bind(this);
+        this.finishTask = this.finishTask.bind(this);
         this.addTime = this.addTime.bind(this);
     }
 
@@ -315,6 +320,20 @@ class TaskController extends React.Component {
         });
     }
 
+    finishTask(id){
+        const updatedTasks = this.state.tasks.slice();
+        for (let i = updatedTasks.length-1; i >= 0; i--) {
+            if (updatedTasks[i].id === id) {
+                updatedTasks.splice(i, 1);
+                break;
+            }
+        }
+
+        this.setState({
+            tasks: updatedTasks
+        });
+    }
+
     addTime(id){
         const updatedTasks = this.state.tasks.slice();
         for (let i = 0; i < updatedTasks.length; i++) {
@@ -338,36 +357,41 @@ class TaskController extends React.Component {
             //display the inputs
             addTask = (
                 <form className="addTaskForm" onSubmit={this.handleSubmit}>
-                    <label htmlFor="task-name-input">
-                        task name:
-                    </label>
-                    <input
-                        id="task-name-input"
-                        onChange={this.handleNewTaskNameChange}
-                        value={this.state.newTaskName}
-                    />
-
-                    <label htmlFor="task-hours-input">
-                        task hours:
-                    </label>
-                    <input
-                        id="task-hours-input"
-                        onChange={this.handleNewTaskHoursChange}
-                        value={this.state.newTaskHours}
-                    />
-
-                    <label htmlFor="task-mins-input">
-                        task mins:
-                    </label>
-                    <input
-                        id="task-mins-input"
-                        onChange={this.handleNewTaskMinsChange}
-                        value={this.state.newTaskMins}
-                    />
-
-                    <button>
-                        add new task
-                    </button>
+                    <div className="taskInput">
+                        <label htmlFor="task-name-input">
+                            task name:
+                        </label>
+                        <input
+                            id="task-name-input"
+                            onChange={this.handleNewTaskNameChange}
+                            value={this.state.newTaskName}
+                        />
+                    </div>
+                    <div className="taskInput">
+                        <label htmlFor="task-hours-input">
+                            task hours:
+                        </label>
+                        <input
+                            id="task-hours-input"
+                            onChange={this.handleNewTaskHoursChange}
+                            value={this.state.newTaskHours}
+                        />
+                    </div>
+                    <div className="taskInput">
+                        <label htmlFor="task-mins-input">
+                            task mins:
+                        </label>
+                        <input
+                            id="task-mins-input"
+                            onChange={this.handleNewTaskMinsChange}
+                            value={this.state.newTaskMins}
+                        />
+                    </div>
+                    <div className="taskInput">    
+                        <button>
+                            add new task
+                        </button>
+                    </div>
                 </form>
             );
         }
@@ -391,6 +415,7 @@ class TaskController extends React.Component {
                         taskUp={this.taskUp}
                         taskDown={this.taskDown}
                         startTask={this.startTask}
+                        finishTask={this.finishTask}
                         addTime={this.addTime}
                     />))}
                 </div>

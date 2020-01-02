@@ -19,9 +19,9 @@ color scheme
     --task-background-color: rgb(163, 245, 95);
     --task-cover-color: rgb(240, 84, 23);
     --button-color: #0FA3B1;
-    --add-task-color: rgb(233, 106, 2);
+    --add-task-color: #0FA3B1;
     --hour-text-color: rgba(0, 0, 0, 1);
-    --hour-line-color: rgba(0, 0, 0, 0.5);
+    --hour-line-color: rgba(0, 0, 0, 1);
 }
 
 body {
@@ -49,7 +49,7 @@ body {
     height: 50vh;
     justify-content: space-evenly;
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto auto;
     align-content: center;
 }
 
@@ -118,7 +118,7 @@ body {
     font-size: 7.5vh;
 }
 
-.taskStartButton{
+.taskViewingButton{
     width: 20vw;
     height: 20vw;
     border-radius: 100%;
@@ -127,21 +127,8 @@ body {
     background-color: var(--button-color);
     color: white;
 }
-.taskStartButton:hover{
+.taskViewingButton:hover{
     color:  var(--text-hover-color);
-}
-
-.taskAddTimeButton{
-    width: 20vw;
-    height: 20vw;
-    border-radius: 100%;
-    border: none;
-    font-size: 5vh;
-    background-color: var(--button-color);
-    color: white;
-}
-.taskAddTimeButton:hover{
-    color: black;
 }
 
 .hourCover{
@@ -175,6 +162,10 @@ body {
 
 .addTaskForm label{
     font-size: 5vh;
+}
+
+.taskInput{
+    display: block;
 }
 
 .hourCover h1{
