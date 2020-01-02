@@ -47,19 +47,19 @@ body {
     color: var(--text-hover-color);
 }
 
+.taskBackground{
+    background-color: var(--task-background-color);
+    width: 100%;
+    z-index: -2;
+    position: absolute;
+}
+
 .taskViewing{
     height: 50vh;
     justify-content: space-evenly;
     display: grid;
     grid-template-columns: auto auto auto;
     align-content: center;
-}
-
-.taskBackground{
-    background-color: var(--task-background-color);
-    width: 100%;
-    z-index: -2;
-    position: absolute;
 }
 
 .taskViewingCover{
