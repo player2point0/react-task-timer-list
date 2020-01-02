@@ -214,8 +214,8 @@ class TaskController extends React.Component {
         this.setState({ newTaskMins: e.target.value });
     }
     handleSubmit(e) {
-        e.preventDefault();
-        if (!this.state.newTaskName.length || !this.state.newTaskHours || !this.state.newTaskHours) return;
+        //e.preventDefault();
+        if (!this.state.newTaskName || !this.state.newTaskHours || !this.state.newTaskHours) return;
         if(isNaN(this.state.newTaskHours) || isNaN(this.state.newTaskMins)) return;
         if(this.state.newTaskHours < 0 || this.state.newTaskMins < 0) return;
 
@@ -232,6 +232,11 @@ class TaskController extends React.Component {
         }));
 
         //clear the inputs
+        this.setState(state => ({
+            newTaskName: "",
+            newTaskHours: "",
+            newTaskMins: ""
+        }));
         //save newTask
     }
 
