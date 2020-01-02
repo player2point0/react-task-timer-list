@@ -32,9 +32,11 @@ body {
     border-bottom: 5px solid var(--task-border-color);
     box-sizing: border-box;
     z-index: -3;
+    display: grid;
 }
 
 .taskBody{
+    width: 90%;
     color: var(--text-color);
     justify-content: space-evenly;
     display: grid;

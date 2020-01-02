@@ -146,7 +146,7 @@ class TaskController extends React.Component {
         let defaultTasks = [
             new TaskContainer("task1", 60),
             //new TaskContainer("task2", 123),
-            //new TaskContainer("task3", 3600)
+            new TaskContainer("task3", 3600)
         ];
         this.state = {
             time: 0,

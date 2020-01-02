@@ -1,3 +1,4 @@
 -add saving and loading of tasks
+-add mobile support
 -refactor
 -port to react native
