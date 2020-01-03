@@ -5,6 +5,7 @@ import TaskContainer from './task.js';
 
 const HOUR_HEIGHT = 30;
 const MIN_TASK_HEIGHT = 20;
+const SAVE_INTERVAL = 60;
 
 //renders the task based on the passed properties
 //could change to a function
@@ -143,15 +144,13 @@ class TaskController extends React.Component {
     constructor(props) {
         super(props);
         //store the tasks
-        let defaultTasks = [
-            new TaskContainer("task1", 60),
-            new TaskContainer("task2", 123),
-            new TaskContainer("task3", 3600)
-        ];
+        let defaultTasks = this.loadTasks();
+        
         this.state = {
             time: 0,
             tasks: defaultTasks,
             addTask: false,
+            saveTasks: false
         };
 
         this.addTask = this.addTask.bind(this);
@@ -165,6 +164,10 @@ class TaskController extends React.Component {
         this.startTask = this.startTask.bind(this);
         this.finishTask = this.finishTask.bind(this);
         this.addTime = this.addTime.bind(this);
+        this.saveTasks = this.saveTasks.bind(this);
+        this.loadTasks = this.loadTasks.bind(this);
+
+        this.interval = setInterval(() => this.tick(), 1000);
     }
 
     //update all the tasks which are started
@@ -185,6 +188,27 @@ class TaskController extends React.Component {
             tasks: updatedTasks,
             time: state.time + 1,
         }));
+    
+        //save all tasks every n ticks
+        if(this.state.time % SAVE_INTERVAL === 0){
+            this.setState({saveTasks: true});  
+        }
+    }
+
+    //save all tasks
+    saveTasks(){
+        localStorage.setItem("tasks", JSON.stringify(this.state.tasks));
+    }
+
+    //load any saved tasks
+    loadTasks(){
+        let savedTasks = JSON.parse(localStorage.getItem("tasks"));
+        
+        if(savedTasks == null || savedTasks == undefined){
+            savedTasks = [];
+        }
+
+        return savedTasks;
     }
 
     //display the add task inputs
@@ -194,13 +218,13 @@ class TaskController extends React.Component {
         }));
     }
 
-    //interval for the tick method
-    componentDidMount() {
-        this.interval = setInterval(() => this.tick(), 1000);
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.interval);
+    //interval for the tick method, called when changes are made to the props
+    componentDidUpdate() {
+        if(this.state.saveTasks){
+            console.log("save tasks");
+            this.saveTasks();
+            this.setState({saveTasks: false});
+        }
     }
 
     //methods for the new task input
@@ -235,9 +259,9 @@ class TaskController extends React.Component {
         this.setState(state => ({
             newTaskName: "",
             newTaskHours: "",
-            newTaskMins: ""
+            newTaskMins: "",
+            saveTasks: true
         }));
-        //save newTask
     }
 
     //display the selected task
@@ -273,7 +297,8 @@ class TaskController extends React.Component {
         }
 
         this.setState({
-            tasks: updatedTasks
+            tasks: updatedTasks,
+            saveTasks: true
         });
     }
 
@@ -295,7 +320,8 @@ class TaskController extends React.Component {
         }
 
         this.setState({
-            tasks: updatedTasks
+            tasks: updatedTasks,
+            saveTasks: true
         });
     }
 
@@ -321,7 +347,8 @@ class TaskController extends React.Component {
         }
 
         this.setState({
-            tasks: updatedTasks
+            tasks: updatedTasks,
+            saveTasks: true
         });
     }
 
@@ -335,7 +362,8 @@ class TaskController extends React.Component {
         }
 
         this.setState({
-            tasks: updatedTasks
+            tasks: updatedTasks,
+            saveTasks: true
         });
     }
 
@@ -351,7 +379,8 @@ class TaskController extends React.Component {
         }
 
         this.setState({
-            tasks: updatedTasks
+            tasks: updatedTasks,
+            saveTasks: true
         });
     }
 
