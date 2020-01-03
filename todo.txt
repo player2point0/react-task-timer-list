@@ -1,3 +1,2 @@
 -add mobile support
--refactor
 -port to react native
