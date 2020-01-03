@@ -71,7 +71,7 @@ class TaskController extends React.Component {
     loadTasks(){
         let savedTasks = JSON.parse(localStorage.getItem("tasks"));
         
-        if(savedTasks == null || savedTasks == undefined){
+        if(savedTasks === null || savedTasks === undefined){
             savedTasks = [];
         }
 
@@ -199,7 +199,7 @@ class TaskController extends React.Component {
 
                 if(updatedTasks[i].started)
                 {
-                    if(updatedTasks[i].remainingTime == 0)
+                    if(updatedTasks[i].remainingTime === 0)
                     {
                         updatedTasks.splice(i, 1);
                         break;
