@@ -1,2 +1,4 @@
 -add mobile support
+-improve add task ui
+-improve hours overlay ui
 -port to react native
