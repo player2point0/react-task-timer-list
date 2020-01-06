@@ -7,5 +7,7 @@
 -add in app purchase for dark mode
 -add auto scroll to bottom when adding a new task
 -remove default autocomplete in add task
+-debug percentage done bug after adding additional time
+-task/day concise ovdrview
 -improve hours overlay ui
 -port to react native
