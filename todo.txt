@@ -1,4 +1,10 @@
 -add mobile support
 -improve add task ui
+-add dark mode
+-add stats for the day
+-add different days and swithing between them
+-add autocomplete for task names and suggested duration
+-add in app purchase for dark mode
+
 -improve hours overlay ui
 -port to react native
