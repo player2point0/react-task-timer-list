@@ -5,6 +5,7 @@
 -add different days and swithing between them
 -add autocomplete for task names and suggested duration
 -add in app purchase for dark mode
-
+-add auto scroll to bottom when adding a new task
+-remove default autocomplete in add task
 -improve hours overlay ui
 -port to react native
