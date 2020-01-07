@@ -257,7 +257,7 @@ class TaskController extends React.Component {
         if (this.state.addTask) {
             //display the inputs
             addTask = (
-                <form className="addTaskForm" onSubmit={this.handleSubmit}>
+                <form className="addTaskForm" onSubmit={this.handleSubmit} autocomplete="off">
                     <div className="taskInput">
                         <label htmlFor="task-name-input">
                             task name:
