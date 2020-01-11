@@ -12,12 +12,12 @@ class TaskController extends React.Component {
         super(props);
         //store the tasks
         let defaultTasks = this.loadTasks();
-        
+
         this.state = {
             time: 0,
             tasks: defaultTasks,
             addTask: false,
-            saveTasks: false
+            saveTasks: false,
         };
 
         this.addTask = this.addTask.bind(this);
@@ -43,8 +43,7 @@ class TaskController extends React.Component {
         for (let i = 0; i < updatedTasks.length; i++) {
             if (updatedTasks[i].started && !updatedTasks[i].paused) {
                 updatedTasks[i].remainingTime--;
-                if(updatedTasks[i].remainingTime <= 0)
-                {
+                if (updatedTasks[i].remainingTime <= 0) {
                     updatedTasks[i].remainingTime = 0;
                     updatedTasks[i].isViewing = true;
                 }
@@ -55,23 +54,23 @@ class TaskController extends React.Component {
             tasks: updatedTasks,
             time: state.time + 1,
         }));
-    
+
         //save all tasks every n ticks
-        if(this.state.time % SAVE_INTERVAL === 0){
-            this.setState({saveTasks: true});  
+        if (this.state.time % SAVE_INTERVAL === 0) {
+            this.setState({ saveTasks: true });
         }
     }
 
     //save all tasks
-    saveTasks(){
+    saveTasks() {
         localStorage.setItem("tasks", JSON.stringify(this.state.tasks));
     }
 
     //load any saved tasks
-    loadTasks(){
+    loadTasks() {
         let savedTasks = JSON.parse(localStorage.getItem("tasks"));
-        
-        if(savedTasks === null || savedTasks === undefined){
+
+        if (savedTasks === null || savedTasks === undefined) {
             savedTasks = [];
         }
 
@@ -87,10 +86,10 @@ class TaskController extends React.Component {
 
     //interval for the tick method, called when changes are made to the props
     componentDidUpdate() {
-        if(this.state.saveTasks){
+        if (this.state.saveTasks) {
             console.log("save tasks");
             this.saveTasks();
-            this.setState({saveTasks: false});
+            this.setState({ saveTasks: false });
         }
     }
 
@@ -107,8 +106,8 @@ class TaskController extends React.Component {
     handleSubmit(e) {
         //e.preventDefault();
         if (!this.state.newTaskName || !this.state.newTaskHours || !this.state.newTaskHours) return;
-        if(isNaN(this.state.newTaskHours) || isNaN(this.state.newTaskMins)) return;
-        if(this.state.newTaskHours < 0 || this.state.newTaskMins < 0) return;
+        if (isNaN(this.state.newTaskHours) || isNaN(this.state.newTaskMins)) return;
+        if (this.state.newTaskHours < 0 || this.state.newTaskMins < 0) return;
 
         let newTaskDuration = (this.state.newTaskHours * 3600) + (this.state.newTaskMins * 60);
 
@@ -125,8 +124,8 @@ class TaskController extends React.Component {
         //clear the inputs
         this.setState(state => ({
             newTaskName: "",
-            newTaskHours: "",
-            newTaskMins: "",
+            newTaskHours: "0",
+            newTaskMins: "0",
             saveTasks: true
         }));
     }
@@ -151,14 +150,14 @@ class TaskController extends React.Component {
         const updatedTasks = this.state.tasks.slice();
         for (let i = 0; i < updatedTasks.length; i++) {
             if (updatedTasks[i].id === id) {
-                
-                if((i-1) < 0) return;//already in first place
-                
+
+                if ((i - 1) < 0) return;//already in first place
+
                 //swap
                 let tempTask = updatedTasks[i];
-                updatedTasks[i] = updatedTasks[i-1];
-                updatedTasks[i-1] = tempTask;
-                
+                updatedTasks[i] = updatedTasks[i - 1];
+                updatedTasks[i - 1] = tempTask;
+
                 break;
             }
         }
@@ -174,14 +173,14 @@ class TaskController extends React.Component {
         const updatedTasks = this.state.tasks.slice();
         for (let i = 0; i < updatedTasks.length; i++) {
             if (updatedTasks[i].id === id) {
-                
-                if((i+1) >= updatedTasks.length) return;//already in last place
-                
+
+                if ((i + 1) >= updatedTasks.length) return;//already in last place
+
                 //swap
                 let tempTask = updatedTasks[i];
-                updatedTasks[i] = updatedTasks[i+1];
-                updatedTasks[i+1] = tempTask;
-                
+                updatedTasks[i] = updatedTasks[i + 1];
+                updatedTasks[i + 1] = tempTask;
+
                 break;
             }
         }
@@ -194,13 +193,11 @@ class TaskController extends React.Component {
 
     startTask(id) {
         const updatedTasks = this.state.tasks.slice();
-        for (let i = updatedTasks.length-1; i >= 0; i--) {
+        for (let i = updatedTasks.length - 1; i >= 0; i--) {
             if (updatedTasks[i].id === id) {
 
-                if(updatedTasks[i].started)
-                {
-                    if(updatedTasks[i].remainingTime === 0)
-                    {
+                if (updatedTasks[i].started) {
+                    if (updatedTasks[i].remainingTime === 0) {
                         updatedTasks.splice(i, 1);
                         break;
                     }
@@ -219,9 +216,9 @@ class TaskController extends React.Component {
         });
     }
 
-    finishTask(id){
+    finishTask(id) {
         const updatedTasks = this.state.tasks.slice();
-        for (let i = updatedTasks.length-1; i >= 0; i--) {
+        for (let i = updatedTasks.length - 1; i >= 0; i--) {
             if (updatedTasks[i].id === id) {
                 updatedTasks.splice(i, 1);
                 break;
@@ -234,7 +231,7 @@ class TaskController extends React.Component {
         });
     }
 
-    addTime(id){
+    addTime(id) {
         const updatedTasks = this.state.tasks.slice();
         for (let i = 0; i < updatedTasks.length; i++) {
             if (updatedTasks[i].id === id) {
@@ -258,40 +255,34 @@ class TaskController extends React.Component {
             //display the inputs
             addTask = (
                 <form className="addTaskForm" onSubmit={this.handleSubmit} autocomplete="off">
+                    <input
+                        id="task-name-input"
+                        type="text"
+                        onChange={this.handleNewTaskNameChange}
+                        value={this.state.newTaskName}
+                        placeholder="name"
+                    />
+                    <input
+                        id="task-hours-input"
+                        type="number"
+                        min="0"
+                        max="99"
+                        onChange={this.handleNewTaskHoursChange}
+                        value={this.state.newTaskHours}
+                        placeholder="hours"
+                    />
+                    <input
+                        id="task-mins-input"
+                        type="number"
+                        min="0"
+                        max="60"
+                        step="15"
+                        onChange={this.handleNewTaskMinsChange}
+                        value={this.state.newTaskMins}
+                        placeholder="minutes"
+                    />
                     <div className="taskInput">
-                        <label htmlFor="task-name-input">
-                            task name:
-                        </label>
-                        <input
-                            id="task-name-input"
-                            onChange={this.handleNewTaskNameChange}
-                            value={this.state.newTaskName}
-                        />
-                    </div>
-                    <div className="taskInput">
-                        <label htmlFor="task-hours-input">
-                            task hours:
-                        </label>
-                        <input
-                            id="task-hours-input"
-                            onChange={this.handleNewTaskHoursChange}
-                            value={this.state.newTaskHours}
-                        />
-                    </div>
-                    <div className="taskInput">
-                        <label htmlFor="task-mins-input">
-                            task mins:
-                        </label>
-                        <input
-                            id="task-mins-input"
-                            onChange={this.handleNewTaskMinsChange}
-                            value={this.state.newTaskMins}
-                        />
-                    </div>
-                    <div className="taskInput">    
-                        <button>
-                            add new task
-                        </button>
+                        <button>add</button>
                     </div>
                 </form>
             );

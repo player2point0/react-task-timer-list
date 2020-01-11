@@ -20,11 +20,12 @@ color scheme
     --task-cover-color: rgb(240, 84, 23);
     --button-color: #0FA3B1;
     --add-task-color: #0FA3B1;
-    --hour-text-color: rgba(0, 0, 0, 1);
-    --hour-line-color: rgba(0, 0, 0, 1);
+    --hour-text-color: rgba(87, 86, 86, 1);
+    --hour-line-color: rgba(87, 86, 86, 1);
     --large-text-size: 10vh;
     --medium-text-size: 7.5vh;
     --small-text-size: 5vh;
+    user-select: none;
 }
 
 body {
@@ -121,7 +122,6 @@ body {
 }
 
 .taskName{
-    user-select: none;
     text-align: center;
     z-index: 10;
     height: auto;
@@ -129,7 +129,6 @@ body {
 }
 
 .taskTime{
-    user-select: none;
     text-align: center;
     z-index: 10;
     height: auto;
@@ -158,12 +157,12 @@ body {
     font-size: var(--large-text-size);
     background-color: var(--button-color);
     text-align: center;
+    padding-bottom: 10px;
 }
 
 .addTaskButton h1{
     font-size: var(--large-text-size);
     color: var(--text-color);
-    user-select: none;
     position: relative;
     z-index: 10;
 }
@@ -176,15 +175,33 @@ body {
     padding: 10px;
 }
 
-.addTaskForm label{
+.addTaskForm input{
+    display:block;
+    margin: auto;
+    width: 25vw;
+    height: 2.5vw;
+    text-align:center;
+    margin-bottom: 1px;
     font-size: var(--small-text-size);
+    border: none;
+    border-radius: 2px;  
 }
 
-.taskInput{
-    display: block;
+.taskInput button{
+    margin: auto;
+    display:block;
+    width: 25vw;
+    height: 5vw;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 2px;
+    color: var(--text-color);
+    background-color: var(--task-background-color);
+    font-size: var(--medium-text-size);
 }
-
-
+.taskInput button:hover{
+    color: var(--text-hover-color);
+}
 
 @media only screen and (max-width: 600px) {
 
