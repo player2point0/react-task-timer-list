@@ -1,15 +1,24 @@
--add mobile support
--fix z index for task form
--add dark mode
--add stats for the day
--add different days and swithing between them
--add a calender view to
+----core----
 -add a pomodoro timer, with a 5 minute break feature
+-add website notifications
+-task/day concise overview
+-add stats for the day
+
+----mobile----
+-add mobile support
 -add in app purchase for dark mode
--add auto scroll to bottom when adding a new task
+
+----bugs----
 -debug percentage done bug after adding additional time
 -debug task removed when clicking a button and time 0
--task/day concise overview
--add website notifications
+-fix z index for task form
+
+----UI/UX----
 -improve hours overlay ui
+-add dark mode
+-add auto scroll to bottom when adding a new task
+
+----non-essential----
+-add different days and swithing between them
+-add a calender view to 
 -add ai autocomplete for task names and suggested duration
