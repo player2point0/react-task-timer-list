@@ -3,6 +3,7 @@
 -add website notifications
 -task/day concise overview
 -add stats for the day
+-add settings
 
 ----mobile----
 -add mobile support

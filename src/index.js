@@ -7,6 +7,56 @@ import HoursOverlay from './HoursOverlay.js';
 
 const SAVE_INTERVAL = 60;
 
+class SideBar extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showSideBar: false
+        };
+
+        this.showSideBar = this.showSideBar.bind(this);
+        this.hideSideBar = this.hideSideBar.bind(this);
+
+    }
+
+    showSideBar(){
+        this.setState(state => ({
+            showSideBar: true
+        }));
+        console.log("called");
+    }
+
+    hideSideBar(){
+        this.setState(state => ({
+            showSideBar: false
+        }));
+    }
+
+    render() {
+
+        if(!this.state.showSideBar)
+        {
+            return(
+                <h1 className="showSideBar" onClick={this.showSideBar}>sidebar</h1>
+            );
+        }
+        
+        return(
+            <div className="sideBarContainer">
+                <div className="sideBar">
+                    sidebar
+                    <h1>settings</h1>
+                    <h1>stats</h1>
+                </div>
+                <div className="closeSideBar" onClick={this.hideSideBar}>
+                    <h1>close</h1>
+                </div>
+            </div>
+        );
+    }
+}
+
 class TaskController extends React.Component {
     constructor(props) {
         super(props);
@@ -322,7 +372,13 @@ class TaskController extends React.Component {
 
 // ========================================
 
+//
+let doc = (<div>
+    <SideBar />
+    <TaskController />
+</div>);
+
 ReactDOM.render(
-    <TaskController />,
+    doc,
     document.getElementById('root')
 );  
