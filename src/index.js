@@ -4,58 +4,9 @@ import './index.css';
 import TaskContainer from './TaskContainer.js';
 import Task from './ReactTask';
 import HoursOverlay from './HoursOverlay.js';
+import SideBar from './SideBar.js'
 
 const SAVE_INTERVAL = 60;
-
-class SideBar extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            showSideBar: false
-        };
-
-        this.showSideBar = this.showSideBar.bind(this);
-        this.hideSideBar = this.hideSideBar.bind(this);
-
-    }
-
-    showSideBar(){
-        this.setState(state => ({
-            showSideBar: true
-        }));
-        console.log("called");
-    }
-
-    hideSideBar(){
-        this.setState(state => ({
-            showSideBar: false
-        }));
-    }
-
-    render() {
-
-        if(!this.state.showSideBar)
-        {
-            return(
-                <h1 className="showSideBar" onClick={this.showSideBar}>sidebar</h1>
-            );
-        }
-        
-        return(
-            <div className="sideBarContainer">
-                <div className="sideBar">
-                    sidebar
-                    <h1>settings</h1>
-                    <h1>stats</h1>
-                </div>
-                <div className="closeSideBar" onClick={this.hideSideBar}>
-                    <h1>close</h1>
-                </div>
-            </div>
-        );
-    }
-}
 
 class TaskController extends React.Component {
     constructor(props) {
@@ -154,7 +105,6 @@ class TaskController extends React.Component {
         this.setState({ newTaskMins: e.target.value });
     }
     handleSubmit(e) {
-        //e.preventDefault();
         if (!this.state.newTaskName || !this.state.newTaskHours || !this.state.newTaskHours) return;
         if (isNaN(this.state.newTaskHours) || isNaN(this.state.newTaskMins)) return;
         if (this.state.newTaskHours < 0 || this.state.newTaskMins < 0) return;
@@ -339,8 +289,11 @@ class TaskController extends React.Component {
         }
 
         return (
-            <div className="taskController">
+            <div className="app">
                 <HoursOverlay
+                    tasks={this.state.tasks}
+                />
+                <SideBar 
                     tasks={this.state.tasks}
                 />
                 <div className="tasksContainer">
@@ -372,13 +325,7 @@ class TaskController extends React.Component {
 
 // ========================================
 
-//
-let doc = (<div>
-    <SideBar />
-    <TaskController />
-</div>);
-
 ReactDOM.render(
-    doc,
+    <TaskController />,
     document.getElementById('root')
 );  

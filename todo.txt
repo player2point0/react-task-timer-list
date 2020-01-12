@@ -12,12 +12,12 @@
 ----bugs----
 -debug percentage done bug after adding additional time
 -debug task removed when clicking a button and time 0
--fix z index for task form
 
 ----UI/UX----
 -improve hours overlay ui
 -add dark mode
 -add auto scroll to bottom when adding a new task
+-fix z index for task form
 
 ----non-essential----
 -add different days and swithing between them
