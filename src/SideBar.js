@@ -57,8 +57,7 @@ export default class SideBar extends React.Component {
         //then start the work time or the break timer
         if(!this.state.pomodoro.startedWork){
             pomodoro.startedWork = true;
-            pomodoro.startedBreak = false;
-            pomodoro.workTimeRemaining = WORK_TIME;
+            pomodoro.workTimeRemaining = WORK_TIME-1;
         }
 
         //perform the ticks and other logic
@@ -73,12 +72,12 @@ export default class SideBar extends React.Component {
                     //call callback to show notification
 
                     pomodoro.startedBreak = true;
-                    pomodoro.breakTimeRemaining = BREAK_TIME;
+                    pomodoro.breakTimeRemaining = BREAK_TIME-1;
                 }
 
                 else if(this.state.pomodoro.breakTimeRemaining > 0){
                     
-                    pomodoro.workTimeRemaining = this.state.pomodoro.workTimeRemaining - 1;
+                    pomodoro.breakTimeRemaining = this.state.pomodoro.breakTimeRemaining - 1;
                 }
 
                 //break finished
@@ -87,8 +86,8 @@ export default class SideBar extends React.Component {
                     
                     pomodoro.startedWork = false;
                     pomodoro.startedBreak = false;
-                    //pomodoro.breakTimeRemaining = BREAK_TIME;
-                    //pomodoro.workTimeRemaining = WORK_TIME;
+                    pomodoro.breakTimeRemaining = BREAK_TIME;
+                    pomodoro.workTimeRemaining = WORK_TIME;
                 }
             }
         }

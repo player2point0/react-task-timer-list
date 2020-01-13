@@ -1,6 +1,5 @@
 ----core----
--add a pomodoro timer, with a 5 minute break feature
--add website notifications
+-add website notifications for pomodoro and tasks
 -add stats for the day
 -add settings
 -task/day concise overview
