@@ -14,6 +14,7 @@
 
 ----UI/UX----
 -improve hours overlay ui
+-improve side bar ui and ux
 -add dark mode
 -add auto scroll to bottom when adding a new task
 -fix z index for task form

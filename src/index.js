@@ -17,15 +17,16 @@ class TaskController extends React.Component {
         this.state = {
             time: 0,
             tasks: defaultTasks,
-            addTask: false,
+            showTaskForm: false,
             saveTasks: false,
         };
 
-        this.addTask = this.addTask.bind(this);
+        this.toggleTaskForm = this.toggleTaskForm.bind(this);
         this.handleNewTaskNameChange = this.handleNewTaskNameChange.bind(this);
         this.handleNewTaskHoursChange = this.handleNewTaskHoursChange.bind(this);
         this.handleNewTaskMinsChange = this.handleNewTaskMinsChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.addTask = this.addTask.bind(this);
         this.taskOnClick = this.taskOnClick.bind(this);
         this.taskUp = this.taskUp.bind(this);
         this.taskDown = this.taskDown.bind(this);
@@ -79,9 +80,9 @@ class TaskController extends React.Component {
     }
 
     //display the add task inputs
-    addTask() {
+    toggleTaskForm() {
         this.setState(state => ({
-            addTask: !state.addTask,
+            showTaskForm: !state.showTaskForm,
         }));
     }
 
@@ -105,6 +106,13 @@ class TaskController extends React.Component {
         this.setState({ newTaskMins: e.target.value });
     }
     handleSubmit(e) {
+        e.preventDefault();
+        this.addTask();
+    }
+
+    addTask(){
+        requestNotifications();
+
         if (!this.state.newTaskName || !this.state.newTaskHours || !this.state.newTaskHours) return;
         if (isNaN(this.state.newTaskHours) || isNaN(this.state.newTaskMins)) return;
         if (this.state.newTaskHours < 0 || this.state.newTaskMins < 0) return;
@@ -249,12 +257,12 @@ class TaskController extends React.Component {
     }
 
     render() {
-        let addTask;
+        let addTaskHtml;
 
-        if (this.state.addTask) {
+        if (this.state.showTaskForm) {
             //display the inputs
-            addTask = (
-                <form className="addTaskForm" onSubmit={this.handleSubmit} autocomplete="off">
+            addTaskHtml = (
+                <form className="addTaskForm" onSubmit={this.handleSubmit} autoComplete="off">
                     <input
                         id="task-name-input"
                         type="text"
@@ -314,10 +322,10 @@ class TaskController extends React.Component {
                         addTime={this.addTime}
                     />))}
                 </div>
-                <div className="addTaskButton" onClick={this.addTask}>
+                <div className="addTaskButton" onClick={this.toggleTaskForm}>
                     <h1>add task</h1>
                 </div>
-                {addTask}
+                {addTaskHtml}
             </div>
         );
     }
@@ -325,7 +333,20 @@ class TaskController extends React.Component {
 
 // ========================================
 
+async function requestNotifications(){
+    const status = await Notification.requestPermission();
+    console.log("notifications : "+status);
+}
+
+requestNotifications();
+/*
+var options = {
+    body: "test",
+}
+var n = new Notification("test",options);
+*/
+
 ReactDOM.render(
     <TaskController />,
     document.getElementById('root')
-);  
+);
