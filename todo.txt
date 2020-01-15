@@ -3,6 +3,7 @@
 -add stats for the day
 -add settings
 -task/day concise overview
+-test on mobile and move the update tasks to a service worker if needed
 
 ----mobile----
 -add mobile support
