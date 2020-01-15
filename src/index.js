@@ -47,7 +47,13 @@ class TaskController extends React.Component {
                 updatedTasks[i].remainingTime--;
                 if (updatedTasks[i].remainingTime <= 0) {
                     updatedTasks[i].remainingTime = 0;
-                    updatedTasks[i].isViewing = true;
+                    
+                    if(!updatedTasks[i].timeUp){
+                        sendNotification("task out of time", "");
+                        updatedTasks[i].isViewing = true;
+                        updatedTasks[i].timeUp = true;
+                        this.saveTasks();
+                    }
                 }
             }
         }
@@ -205,12 +211,11 @@ class TaskController extends React.Component {
             if (updatedTasks[i].id === id) {
 
                 if (updatedTasks[i].started) {
-                    if (updatedTasks[i].remainingTime === 0) {
-                        updatedTasks.splice(i, 1);
-                        break;
-                    }
+                    if (updatedTasks[i].remainingTime >= 0) {
 
-                    updatedTasks[i].paused = !updatedTasks[i].paused;
+                        if(updatedTasks[i].paused) updatedTasks[i].unPause();
+                        else updatedTasks[i].pause();
+                    }
                 }
 
                 updatedTasks[i].started = true;
@@ -237,15 +242,15 @@ class TaskController extends React.Component {
             tasks: updatedTasks,
             saveTasks: true
         });
+        //sendNotification()
     }
 
     addTime(id) {
         const updatedTasks = this.state.tasks.slice();
         for (let i = 0; i < updatedTasks.length; i++) {
             if (updatedTasks[i].id === id) {
-                let additionalTime = Number(updatedTasks[i].totalDuration / 2);
-
-                updatedTasks[i].remainingTime = Number(updatedTasks[i].remainingTime) + Number(additionalTime);
+                console.log(updatedTasks[i]);
+                updatedTasks[i].addTime();
                 break;
             }
         }
@@ -284,7 +289,7 @@ class TaskController extends React.Component {
                         type="number"
                         min="0"
                         max="60"
-                        step="15"
+                        step="1"
                         onChange={this.handleNewTaskMinsChange}
                         value={this.state.newTaskMins}
                         placeholder="minutes"
@@ -303,6 +308,7 @@ class TaskController extends React.Component {
                 />
                 <SideBar 
                     tasks={this.state.tasks}
+                    sendNotification={sendNotification}
                 />
                 <div className="tasksContainer">
                     {this.state.tasks.map(task => (<Task
@@ -339,12 +345,17 @@ async function requestNotifications(){
 }
 
 requestNotifications();
-/*
-var options = {
-    body: "test",
+
+function sendNotification(title, text){
+
+    const options = {
+        body: text,
+
+    }
+    const notification = new Notification(title, options);
+
+    setTimeout(notification.close.bind(notification), 4000);
 }
-var n = new Notification("test",options);
-*/
 
 ReactDOM.render(
     <TaskController />,
