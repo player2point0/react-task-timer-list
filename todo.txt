@@ -1,13 +1,10 @@
 ----core----
 -add website notifications for pomodoro and tasks
--add stats for the day
 -add settings
--task/day concise overview
 -test on mobile and move the update tasks to a service worker if needed
 
 ----mobile----
 -add mobile support
--add in app purchase for dark mode
 
 ----bugs----
 -debug percentage done bug after adding additional time
@@ -16,11 +13,14 @@
 ----UI/UX----
 -improve hours overlay ui
 -improve side bar ui and ux
--add dark mode
 -add auto scroll to bottom when adding a new task
 -fix z index for task form
 
 ----non-essential----
+-add dark mode
+-add in app purchase for dark mode
+-task/day concise overview
+-add stats for the day
 -add different days and swithing between them
 -add a calender view to 
 -add ai autocomplete for task names and suggested duration

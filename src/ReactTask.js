@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MIN_TASK_HEIGHT = 20;
+const MIN_TASK_HEIGHT = 25;
 const HOUR_HEIGHT = 30;
 
 //renders the task based on the passed properties

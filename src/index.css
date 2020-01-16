@@ -240,6 +240,13 @@ body {
     background-color: grey;
 }
 
+.hideSideBar{
+    background-color: white;
+}
+.hideSideBar:hover{
+    background-color: grey;
+}
+
 @media only screen and (max-width: 600px) {
 
     *{   
@@ -255,6 +262,7 @@ body {
     .taskSelectButton{
         grid-template-columns: auto;
         grid-row-gap: 10px;
+        min-height: 10vh;   
     }
     
     .taskUpDownButtons button{
@@ -273,4 +281,46 @@ body {
         width: 25vh;
         height: 25vh;
     }
+
+    .addTaskForm input{
+        width: 60vw;
+        height: 7.5vw;
+        font-size: var(--small-text-size);
+    }
+    
+    .taskInput button{
+        width: 60vw;
+        height: 10vw;
+        font-size: var(--medium-text-size);
+    }
+
+    .sideBar{
+        width: 70vw;
+    }
+    
+    .closeSideBar{
+        width: 30vw;
+    }
+    .closeSideBar h1{
+        font-size: var(--large-text-size);
+        color: red;
+        text-align:center;
+    }
+    
+    .showSideBar{
+        position: fixed;
+        z-index: 100;
+        background-color: white;
+    }
+    .showSideBar:hover{
+        background-color: grey;
+    }
+    
+    .hideSideBar{
+        background-color: white;
+    }
+    .hideSideBar:hover{
+        background-color: grey;
+    }
+
   }

@@ -14,7 +14,6 @@ export default class Pomodoro extends React.Component{
     render() {
         return (
             <div>
-                <h2>time</h2>
                 <h2>work time {this.formatTime(this.props.workTimeRemaining)}</h2>
                 <h2>break time {this.formatTime(this.props.breakTimeRemaining)}</h2>
             </div>

@@ -104,14 +104,21 @@ export default class SideBar extends React.Component {
         if(!this.state.showSideBar)
         {
             return(
-                <h1 className="showSideBar" onClick={this.showSideBar}>sidebar</h1>
+                <h1 className="showSideBar" onClick={this.showSideBar}>
+                    s<br></br>
+                    i<br></br>
+                    d<br></br>
+                    e<br></br>
+                    b<br></br>
+                    a<br></br>
+                    r</h1>
             );
         }
         
         return(
             <div className="sideBarContainer">
                 <div className="sideBar">
-                    <h1 onClick={this.hideSideBar}>sidebar</h1>
+                    <h1 className="hideSideBar" onClick={this.hideSideBar}>sidebar</h1>
                     <h1>settings</h1>
                     <h1>stats</h1>
                     <h1>pomodoro</h1>
@@ -121,7 +128,13 @@ export default class SideBar extends React.Component {
                     />
                 </div>
                 <div className="closeSideBar" onClick={this.hideSideBar}>
-                    <h1>close</h1>
+                    <h1>
+                        c<br></br>
+                        l<br></br>
+                        o<br></br>
+                        s<br></br>
+                        e<br></br>
+                    </h1>
                 </div>
             </div>
         );
