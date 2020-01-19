@@ -1,5 +1,4 @@
 ----core----
--add website notifications for pomodoro and tasks
 -add settings
 -test on mobile and move the update tasks to a service worker if needed
 

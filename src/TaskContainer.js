@@ -14,8 +14,6 @@ class TaskContainer {
           timeAdded: 0,
           timesPaused: 0,
         };
-
-        this.test = "testing";
     }
 
     addTime(){
