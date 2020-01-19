@@ -44,7 +44,7 @@ export default class SideBar extends React.Component {
         //check for an active task
         for(let i = 0; i < tempTasks.length; i++) {
             //check for a running task
-            if(tempTasks[i].started && !tempTasks[i].paused){
+            if(tempTasks[i].started && !tempTasks[i].paused && tempTasks[i].remainingTime > 0){
                 activeTask = true;
                 break;
             }
