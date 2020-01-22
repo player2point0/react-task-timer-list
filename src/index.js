@@ -5,6 +5,7 @@ import TaskContainer from './TaskContainer.js';
 import Task from './ReactTask';
 import HoursOverlay from './HoursOverlay.js';
 import SideBar from './SideBar.js'
+import * as serviceWorker from './serviceWorker.js';
 
 const SAVE_INTERVAL = 60;
 
@@ -345,6 +346,8 @@ async function requestNotifications(){
 }
 
 requestNotifications();
+
+serviceWorker.register();
 
 function sendNotification(title, text){
 
