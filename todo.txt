@@ -11,8 +11,8 @@
 
 ----UI/UX----
 -improve hours overlay ui
--change notifications request ui/ux
--improve side bar ui and ux ( https://developers.google.com/web/fundamentals/push-notifications/permission-ux )
+-change notifications request ui/ux ( https://developers.google.com/web/fundamentals/push-notifications/permission-ux )
+-improve side bar ui and ux 
 -add auto scroll to bottom when adding a new task
 -fix z index for task form
 
