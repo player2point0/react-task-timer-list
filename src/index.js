@@ -77,10 +77,18 @@ class TaskController extends React.Component {
 
     //load any saved tasks
     loadTasks() {
-        let savedTasks = JSON.parse(localStorage.getItem("tasks"));
+        let tempSavedTasks = JSON.parse(localStorage.getItem("tasks"));
+        let savedTasks = [];
+        let newTask;
 
-        if (savedTasks === null || savedTasks === undefined) {
-            savedTasks = [];
+        for(let i = 0;i<tempSavedTasks.length;i++){
+            newTask = new TaskContainer(
+                null,
+                null,
+                tempSavedTasks[i]
+            );
+
+            savedTasks.push(newTask);
         }
 
         return savedTasks;

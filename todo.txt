@@ -8,6 +8,7 @@
 ----bugs----
 -debug percentage done bug after adding additional time
 -debug task removed when clicking a button and time 0
+-relaunching and then unpausing a task doesn't work, check the save code
 
 ----UI/UX----
 -improve hours overlay ui

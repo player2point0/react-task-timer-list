@@ -1,5 +1,21 @@
 class TaskContainer {
-    constructor(name, duration){
+    constructor(name, duration, savedTask){
+        
+      if(savedTask){
+        this.id = savedTask.id;
+        this.name = savedTask.name;
+        //time in seconds
+        this.totalDuration = savedTask.totalDuration;
+        this.remainingTime = savedTask.remainingTime;
+        this.additionalTime = savedTask.additionalTime;
+        this.timeUp = savedTask.timeUp;
+        this.started = savedTask.started;
+        this.paused = savedTask.paused;
+        this.isViewing = savedTask.isViewing;
+        this.stats = savedTask.stats;
+      }  
+      
+      else{
         this.id = this.uuidv4();
         this.name = name;
         //time in seconds
@@ -14,6 +30,7 @@ class TaskContainer {
           timeAdded: 0,
           timesPaused: 0,
         };
+      }
     }
 
     addTime(){
