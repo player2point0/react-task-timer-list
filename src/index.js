@@ -53,6 +53,7 @@ class TaskController extends React.Component {
                         sendNotification("task out of time", "");
                         updatedTasks[i].isViewing = true;
                         updatedTasks[i].timeUp = true;
+                        sendNotification("Task time finished", updatedTasks[i].name);
                         this.saveTasks();
                     }
                 }

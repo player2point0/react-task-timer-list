@@ -70,7 +70,7 @@ export default class SideBar extends React.Component {
 
                 if(!this.state.pomodoro.startedBreak){
                     //call callback to show notification
-                    this.props.sendNotification("Break time", "");
+                    this.props.sendNotification("Break time started", "");
                     //pause tasks
                     pomodoro.startedBreak = true;
                     pomodoro.breakTimeRemaining = BREAK_TIME-1;
@@ -84,7 +84,7 @@ export default class SideBar extends React.Component {
                 //break finished
                 else{
                     //call other callback to show notification
-                    this.props.sendNotification("Break time", "");
+                    this.props.sendNotification("Break time finished", "");
                     //unpause tasks?
                     pomodoro.startedWork = false;
                     pomodoro.startedBreak = false;
