@@ -1,5 +1,4 @@
 ----core----
--add settings
 -test on mobile and move the update tasks to a service worker if needed
 -add day overview of task activity
 -add nested tasks
@@ -24,6 +23,7 @@
 
 ----non-essential----
 -add dark mode
+-add settings
 -add in app purchase for dark mode
 -task/day concise overview
 -add stats for the day

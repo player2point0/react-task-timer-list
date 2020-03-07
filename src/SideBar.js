@@ -185,8 +185,6 @@ export default class SideBar extends React.Component {
             <div className="sideBarContainer">
                 <div className="sideBar">
                     <h1 className="hideSideBar" onClick={this.toggleSideBar}>sidebar</h1>
-                    <h1 onClick={this.toggleSettings}>settings</h1>
-                    {settingsHTML}
                     <h1 onClick={this.toggleStats}>stats</h1>
                     {statsHTML}
                     <h1 onClick={this.togglePomodoro}>pomodoro</h1>
