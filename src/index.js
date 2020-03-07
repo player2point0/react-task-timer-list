@@ -6,6 +6,7 @@ import Task from './ReactTask';
 import HoursOverlay from './HoursOverlay.js';
 import SideBar from './SideBar.js'
 import * as serviceWorker from './serviceWorker.js';
+import {getDateStr} from './Ultility.js';
 
 const SAVE_INTERVAL = 60;
 
@@ -74,6 +75,18 @@ class TaskController extends React.Component {
     //save all tasks
     saveTasks() {
         localStorage.setItem("tasks", JSON.stringify(this.state.tasks));
+    }
+ 
+    //saves the task whenever finished
+    saveStatTask(task){
+        let dateStr = getDateStr();
+        
+        //get the saved stats for today if any
+        let savedStats = JSON.parse(localStorage.getItem(dateStr));
+        if(savedStats == null) savedStats = [];
+        savedStats.push(task);
+
+        localStorage.setItem(dateStr, JSON.stringify(savedStats));
     }
 
     //load any saved tasks
@@ -243,6 +256,7 @@ class TaskController extends React.Component {
         const updatedTasks = this.state.tasks.slice();
         for (let i = updatedTasks.length - 1; i >= 0; i--) {
             if (updatedTasks[i].id === id) {
+                this.saveStatTask(updatedTasks[i]);
                 updatedTasks.splice(i, 1);
                 break;
             }

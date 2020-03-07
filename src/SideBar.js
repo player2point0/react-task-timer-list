@@ -1,5 +1,6 @@
 import React from 'react';
 import Pomodoro from './Pomodoro.js';
+import {formatTime, getDateStr} from './Ultility.js'
 
 const WORK_TIME = 25 * 60;
 const BREAK_TIME = 5 * 60;
@@ -10,6 +11,9 @@ export default class SideBar extends React.Component {
 
         this.state = {
             showSideBar: false,
+            showStats: false,
+            showSettings: false,
+            showPomodoro: false,
             pomodoro: {
                 startedWork: false,
                 startedBreak: false,
@@ -18,22 +22,44 @@ export default class SideBar extends React.Component {
             },
         };
 
-        this.showSideBar = this.showSideBar.bind(this);
-        this.hideSideBar = this.hideSideBar.bind(this);
+        this.toggleSideBar = this.toggleSideBar.bind(this);
+        this.toggleStats = this.toggleStats.bind(this);
+        this.toggleSettings = this.toggleSettings.bind(this);
+        this.togglePomodoro = this.togglePomodoro.bind(this);
 
         this.interval = setInterval(() => this.pomodoroTick(), 1000);
     }
 
-    showSideBar(){
+    toggleSideBar(){
+        const currentState = this.state.showSideBar;
+
         this.setState(state => ({
-            showSideBar: true
+            showSideBar: !currentState
         }));
     }
 
-    hideSideBar(){
+    toggleStats(){
+        const currentState = this.state.showStats;
+
         this.setState(state => ({
-            showSideBar: false
+            showStats: !currentState
         }));
+    }
+
+    toggleSettings(){
+        const currentState = this.state.showSettings;
+
+        this.setState(state => ({
+            showSettings: !currentState
+        }));
+    }
+
+    togglePomodoro(){
+        const currentState = this.state.showPomodoro;
+
+        this.setState(state => ({
+            showPomodoro: !currentState
+        }));    
     }
 
     pomodoroTick() {
@@ -99,12 +125,32 @@ export default class SideBar extends React.Component {
         }));
     }
 
+    stats(){
+        let dateStr = getDateStr();
+
+        let savedStats = JSON.parse(localStorage.getItem(dateStr));
+        let totalTimeWorked = 0;
+        let totalAdditionalTime = 0;
+
+        for(let i = 0;i<savedStats.length;i++){
+            totalTimeWorked += savedStats[i].totalDuration;
+            totalAdditionalTime += savedStats[i].stats.timeAdded;
+        }
+        
+        return (
+            <div>
+                <h3>worked : {formatTime(totalTimeWorked)}</h3>
+                <h3>additional : {formatTime(totalAdditionalTime)}</h3>
+            </div>
+        );
+    }
+
     render() {
 
         if(!this.state.showSideBar)
         {
             return(
-                <h1 className="showSideBar" onClick={this.showSideBar}>
+                <h1 className="showSideBar" onClick={this.toggleSideBar}>
                     s<br></br>
                     i<br></br>
                     d<br></br>
@@ -114,20 +160,39 @@ export default class SideBar extends React.Component {
                     r</h1>
             );
         }
+
+        let statsHTML;
+        let settingsHTML;
+        let pomodoroHTML;
+
+        if(this.state.showStats){
+            statsHTML = this.stats();
+        }
+
+        if(this.state.showSettings){
+            settingsHTML = "settings html";
+        }
+
+        if(this.state.showPomodoro){
+            pomodoroHTML = <Pomodoro
+            workTimeRemaining={this.state.pomodoro.workTimeRemaining}
+            breakTimeRemaining={this.state.pomodoro.breakTimeRemaining}
+        />;
+        }
+
         
         return(
             <div className="sideBarContainer">
                 <div className="sideBar">
-                    <h1 className="hideSideBar" onClick={this.hideSideBar}>sidebar</h1>
-                    <h1>settings</h1>
-                    <h1>stats</h1>
-                    <h1>pomodoro</h1>
-                    <Pomodoro
-                        workTimeRemaining={this.state.pomodoro.workTimeRemaining}
-                        breakTimeRemaining={this.state.pomodoro.breakTimeRemaining}
-                    />
+                    <h1 className="hideSideBar" onClick={this.toggleSideBar}>sidebar</h1>
+                    <h1 onClick={this.toggleSettings}>settings</h1>
+                    {settingsHTML}
+                    <h1 onClick={this.toggleStats}>stats</h1>
+                    {statsHTML}
+                    <h1 onClick={this.togglePomodoro}>pomodoro</h1>
+                    {pomodoroHTML}
                 </div>
-                <div className="closeSideBar" onClick={this.hideSideBar}>
+                <div className="closeSideBar" onClick={this.toggleSideBar}>
                     <h1>
                         c<br></br>
                         l<br></br>

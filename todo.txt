@@ -1,9 +1,9 @@
 ----core----
 -add settings
 -test on mobile and move the update tasks to a service worker if needed
--add days stats
 -add day overview of task activity
 -add nested tasks
+-change saving and loading to use firebase
 
 ----mobile----
 -add mobile support

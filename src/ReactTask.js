@@ -1,4 +1,5 @@
 import React from 'react';
+import {formatTime} from './Ultility.js'
 
 const MIN_TASK_HEIGHT = 25;
 const HOUR_HEIGHT = 30;
@@ -6,17 +7,7 @@ const HOUR_HEIGHT = 30;
 //renders the task based on the passed properties
 class Task extends React.Component {
 
-    formatTime(time){
-        let hours = String(Math.floor(time / 3600));
-        let mins = String(Math.floor((time - (hours * 3600)) / 60));
-        let seconds  = String(Math.floor((time - (hours * 3600) - (mins * 60))));
-        
-        if(hours.length < 2) hours = "0"+hours;
-        if(mins.length < 2) mins = "0"+mins;
-        if(seconds.length < 2) seconds = "0"+seconds;
     
-        return hours+":"+mins+":"+seconds;
-    }
 
     render() {
         let THIS_SCOPE = this;
@@ -83,7 +74,7 @@ class Task extends React.Component {
                     </div>
                     <div className="taskSelectButton">
                         <h1 className="taskName">{this.props.name}</h1>
-                        <h1 className="taskTime">{this.formatTime(this.props.remainingTime)}</h1>
+                        <h1 className="taskTime">{formatTime(this.props.remainingTime)}</h1>
                     </div>
                 </div>
                 {taskViewing}

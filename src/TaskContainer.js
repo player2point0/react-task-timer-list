@@ -35,6 +35,7 @@ class TaskContainer {
 
     addTime(){
       let extraTime = Number(this.remainingTime) + this.additionalTime;
+      this.totalDuration += extraTime;
       this.remainingTime = extraTime;
       this.timeUp = false;
       
