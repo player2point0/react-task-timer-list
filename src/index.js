@@ -95,6 +95,8 @@ class TaskController extends React.Component {
         let savedTasks = [];
         let newTask;
 
+        if(tempSavedTasks == null) tempSavedTasks = [];
+
         for(let i = 0;i<tempSavedTasks.length;i++){
             newTask = new TaskContainer(
                 null,

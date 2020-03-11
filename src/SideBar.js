@@ -132,6 +132,8 @@ export default class SideBar extends React.Component {
         let totalTimeWorked = 0;
         let totalAdditionalTime = 0;
 
+        if(savedStats == null) savedStats = [];
+
         for(let i = 0;i<savedStats.length;i++){
             totalTimeWorked += savedStats[i].totalDuration;
             totalAdditionalTime += savedStats[i].stats.timeAdded;
