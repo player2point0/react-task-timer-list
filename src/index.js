@@ -3,18 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import TaskController from './TaskController.js';
 import * as serviceWorker from './serviceWorker.js';
+import TaskContainer from './TaskContainer';
+import { getDateStr } from './Ultility';
 
 const firebase = require("firebase");
 // Required for side-effects
 require("firebase/firestore");
-
-var firebaseui = require('firebaseui');
-
-
-
-
-// ========================================
-
+const firebaseui = require('firebaseui');
 
 serviceWorker.register();
 
@@ -37,12 +32,39 @@ const db = firebase.firestore();
 
 var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
-ui.start('#firebaseui-auth-container', {
-    signInOptions: [
-    firebase.auth.EmailAuthProvider.PROVIDER_ID
-    ],
-});
+if (ui.isPendingRedirect()) {
+    ui.start('#firebaseui-auth-container', {
+        signInOptions: [
+        firebase.auth.EmailAuthProvider.PROVIDER_ID
+        ],
+        requireDisplayName: false,
+    });
+}
 
+
+let tempTask = new TaskContainer("test", 4321, getDateStr(), null);
+
+setTimeout(function() { saveTask(tempTask); }, 1000);
+
+
+function saveTask(task){
+    console.log(firebase.auth().currentUser);
+    db.collection("tasks").doc(task.id).set({
+        additionalTime: task.additionalTime,
+        isViewing: task.isViewing,
+        name: task.name,
+        paused: task.paused,
+        remainingTime: task.remainingTime,
+        started: task.started,
+        stats:{
+            timeAdded: task.stats.timeAdded,
+            timesPaused: task.stats.timesPaused
+        },
+        timeUp: task.timeUp,
+        totalDuration: task.totalDuration,
+        userId: firebase.auth().currentUser.uid
+    });
+}
 
 
 ReactDOM.render(
