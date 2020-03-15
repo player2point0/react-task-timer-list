@@ -23,6 +23,7 @@
 -finishing a task should reset the pomodoro timers
 -fix task sizing bug, 30 min tasks displaying larger than 30 minutes. could be due to minimum task size
 -add move task to top
+-change how tasks are displayed. when not clicked on only show the time left. when clicked on show total time and time remaining
 
 ----non-essential----
 -add dark mode
