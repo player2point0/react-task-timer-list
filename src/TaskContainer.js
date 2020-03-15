@@ -1,9 +1,10 @@
 class TaskContainer {
-    constructor(name, duration, savedTask){
+    constructor(name, duration, date, savedTask){
         
       if(savedTask){
         this.id = savedTask.id;
         this.name = savedTask.name;
+        this.date = savedTask.date;
         //time in seconds
         this.totalDuration = savedTask.totalDuration;
         this.remainingTime = savedTask.remainingTime;
@@ -18,6 +19,7 @@ class TaskContainer {
       else{
         this.id = this.uuidv4();
         this.name = name;
+        this.date = date;
         //time in seconds
         this.totalDuration = duration;
         this.remainingTime = duration;

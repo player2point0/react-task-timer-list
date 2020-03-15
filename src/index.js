@@ -101,6 +101,7 @@ class TaskController extends React.Component {
             newTask = new TaskContainer(
                 null,
                 null,
+                null,
                 tempSavedTasks[i]
             );
 
@@ -149,10 +150,12 @@ class TaskController extends React.Component {
         if (this.state.newTaskHours < 0 || this.state.newTaskMins < 0) return;
 
         let newTaskDuration = (this.state.newTaskHours * 3600) + (this.state.newTaskMins * 60);
+        let currentDate = getDateStr();//todo change so works with multi days
 
         let newTask = new TaskContainer(
             this.state.newTaskName,
-            newTaskDuration
+            newTaskDuration,
+            currentDate
         );
 
         this.setState(state => ({
