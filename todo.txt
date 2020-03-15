@@ -3,6 +3,7 @@
 -add day overview of task activity
 -add nested tasks
 -change saving and loading to use firebase (https://reactstudio.com/)
+-add more stats to record
 
 ----mobile----
 -add mobile support
@@ -21,7 +22,8 @@
 -add move task to top / imrpove the moving task ux
 -finishing a task should reset the pomodoro timers
 -fix task sizing bug, 30 min tasks displaying larger than 30 minutes. could be due to minimum task size
-
+-add stashing of breaks, e.g. save up many short breaks for a longer one
+-add move task to top
 
 ----non-essential----
 -add dark mode
@@ -32,3 +34,6 @@
 -add different days and swithing between them
 -add a calender view to 
 -add ai autocomplete for task names and suggested duration
+-add task priorities
+-add ai to suggest the ordering of tasks - for optimal efficiency and to reduce burnout
+-experiment with using a monte carlo tree search to order the tasks

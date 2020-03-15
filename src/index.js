@@ -385,6 +385,8 @@ function sendNotification(title, text){
     setTimeout(notification.close.bind(notification), 4000);
 }
 
+//firebase 
+
 ReactDOM.render(
     <TaskController />,
     document.getElementById('root')
