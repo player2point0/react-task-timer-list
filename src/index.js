@@ -6,7 +6,7 @@ import Task from './ReactTask';
 import HoursOverlay from './HoursOverlay.js';
 import SideBar from './SideBar.js'
 import * as serviceWorker from './serviceWorker.js';
-import {getDateStr} from './Ultility.js';
+import {getDateStr, sendNotification} from './Ultility.js';
 
 const SAVE_INTERVAL = 60;
 
@@ -376,17 +376,6 @@ async function requestNotifications(){
 requestNotifications();
 
 serviceWorker.register();
-
-function sendNotification(title, text){
-
-    const options = {
-        body: text,
-
-    }
-    const notification = new Notification(title, options);
-
-    setTimeout(notification.close.bind(notification), 4000);
-}
 
 //firebase 
 

@@ -22,7 +22,6 @@
 -add move task to top / imrpove the moving task ux
 -finishing a task should reset the pomodoro timers
 -fix task sizing bug, 30 min tasks displaying larger than 30 minutes. could be due to minimum task size
--add stashing of breaks, e.g. save up many short breaks for a longer one
 -add move task to top
 
 ----non-essential----

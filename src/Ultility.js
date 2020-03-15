@@ -1,5 +1,19 @@
 
 
+export function sendNotification(title, text, onClickFunc){
+
+    const options = {
+        title: title,
+        body: text,
+
+    }
+    const notification = new Notification(title, options);
+
+    notification.onclick = onClickFunc;
+
+    setTimeout(notification.close.bind(notification), 4000);
+}
+
 export function formatTime(time){
     let hours = String(Math.floor(time / 3600));
     let mins = String(Math.floor((time - (hours * 3600)) / 60));

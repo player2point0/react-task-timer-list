@@ -95,8 +95,15 @@ export default class SideBar extends React.Component {
             else{
 
                 if(!this.state.pomodoro.startedBreak){
-                    //call callback to show notification
-                    this.props.sendNotification("Break time started", "");
+                    //call callback to show notification, with stashing of break time
+                    
+                    //todo test this
+                    this.props.sendNotification("Break time started", "click to stash break", ()=>{
+                        pomodoro.startedBreak = false;
+                        pomodoro.breakTimeRemaining += BREAK_TIME;
+                    });
+
+
                     //pause tasks
                     pomodoro.startedBreak = true;
                     pomodoro.breakTimeRemaining = BREAK_TIME-1;
