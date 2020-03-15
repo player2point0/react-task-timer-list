@@ -1,5 +1,10 @@
 
 
+export async function requestNotifications(){
+    const status = await Notification.requestPermission();
+    console.log("notifications : "+status);
+}
+
 export function sendNotification(title, text, onClickFunc){
 
     const options = {
