@@ -14,6 +14,12 @@ export default class TaskController extends React.Component {
         //store the tasks
         let defaultTasks = this.loadTasks();
 
+        let tempTask = new TaskContainer("test", 10000, getDateStr());
+        tempTask.started = true;
+        tempTask.paused = true;
+        tempTask.remainingTime = 2500;
+        defaultTasks.push(tempTask);
+
         this.state = {
             time: 0,
             tasks: defaultTasks,
@@ -342,7 +348,7 @@ export default class TaskController extends React.Component {
                         key={task.id}
                         id={task.id}
                         name={task.name}
-                        duration={task.totalDuration}
+                        totalDuration={task.totalDuration}
                         remainingTime={task.remainingTime}
                         started={task.started}
                         paused={task.paused}

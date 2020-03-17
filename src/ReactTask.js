@@ -3,11 +3,10 @@ import {formatTime} from './Ultility.js'
 
 const MIN_TASK_HEIGHT = 25;
 const HOUR_HEIGHT = 30;
+const TASK_VIEWING_HEIGHT = 50;
 
 //renders the task based on the passed properties
 class Task extends React.Component {
-
-    
 
     render() {
         let THIS_SCOPE = this;
@@ -15,15 +14,18 @@ class Task extends React.Component {
         //could resize the task body to fit the task viewing div and not mess up the hours overlay
         let taskViewing;
         const HOUR_IN_SECONDS = 60 * 60;
-        let taskHeightPer = (this.props.duration/HOUR_IN_SECONDS)<0.5 ? 0.5 : (this.props.duration/HOUR_IN_SECONDS);
+        let taskHeightPer = (this.props.remainingTime/HOUR_IN_SECONDS)<0.5 ? 0.5 : (this.props.remainingTime/HOUR_IN_SECONDS);
         let taskHeight = (taskHeightPer * HOUR_HEIGHT)<MIN_TASK_HEIGHT? MIN_TASK_HEIGHT : (taskHeightPer * HOUR_HEIGHT);
+        let coverHeight = 0;
 
         let startButtonText = this.props.paused? "un pause" : "pause";
         if(!this.props.started) startButtonText = "start";
 
         //display additional details when the task is selected
         if (this.props.isViewing) {
-            taskHeight += 50;//expands the task by 50vh to display the buttons, could add a max/min height
+            taskHeight += TASK_VIEWING_HEIGHT;//expands the task by 50vh to display the buttons, could add a max/min height
+
+            coverHeight = taskHeight * ((this.props.totalDuration - this.props.remainingTime) / this.props.totalDuration);
 
             taskViewing = (
                 <div className="taskViewing">
@@ -45,9 +47,7 @@ class Task extends React.Component {
                 </div>
             );
         }
-        
-        let coverHeight = taskHeight * ((this.props.duration - this.props.remainingTime) / this.props.duration);      
-
+                
         return (
             <div className="task"  
                 onClick={(e) => { this.props.taskOnClick(this.props.id, e)}}
