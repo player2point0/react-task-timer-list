@@ -14,10 +14,10 @@ export default class TaskController extends React.Component {
         //store the tasks
         let defaultTasks = this.loadTasks();
 
-        let tempTask = new TaskContainer("test", 10000, getDateStr());
+        let tempTask = new TaskContainer("test", 60*60, getDateStr());
         tempTask.started = true;
         tempTask.paused = true;
-        tempTask.remainingTime = 0;
+        tempTask.remainingTime = 30*60;
         defaultTasks.push(tempTask);
 
         this.state = {

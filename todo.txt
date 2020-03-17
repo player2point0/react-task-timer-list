@@ -18,7 +18,6 @@
 -fix z index for task form
 -add move task to top / imrpove the moving task ux
 -finishing a task should reset the pomodoro timers
--fix task sizing bug, 30 min tasks displaying larger than 30 minutes. could be due to minimum task size
 -add move task to top
 
 ----non-essential----

@@ -1,7 +1,7 @@
 import React from 'react';
 import {formatTime} from './Ultility.js'
 
-const MIN_TASK_HEIGHT = 25;
+const MIN_TASK_HEIGHT = 20;
 const HOUR_HEIGHT = 30;
 const TASK_VIEWING_HEIGHT = 50;
 
