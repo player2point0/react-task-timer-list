@@ -18,7 +18,8 @@ class Task extends React.Component {
         let taskHeight = (taskHeightPer * HOUR_HEIGHT)<MIN_TASK_HEIGHT? MIN_TASK_HEIGHT : (taskHeightPer * HOUR_HEIGHT);
         let coverHeight = 0;
 
-        let startButtonText = this.props.paused? "un pause" : "pause";
+        let startButtonText = this.props.paused || (this.props.remainingTime === 0)? "un pause" : "pause";
+
         if(!this.props.started) startButtonText = "start";
 
         //display additional details when the task is selected
