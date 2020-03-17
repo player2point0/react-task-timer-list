@@ -31,6 +31,16 @@ color scheme
 
 body {
     background-color: var(--body-color);
+    width: 100%;
+}
+
+
+.mainBody{
+    width: 100%;
+}
+
+.tasksContainer{
+    width: 100%;
 }
 
 .task{
@@ -38,10 +48,11 @@ body {
     box-sizing: border-box;
     z-index: -3;
     display: grid;
+    width: 100%;
 }
 
 .taskBody{
-    width: 90%;
+    width: 100%;
     color: var(--text-color);
     justify-content: space-evenly;
     display: grid;
@@ -101,6 +112,7 @@ body {
     display: grid;
     grid-template-columns: auto;
     align-content: center;
+    padding-left: 3vw;
 }
 
 .taskUpDownButtons button{

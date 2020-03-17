@@ -14,11 +14,13 @@ export default class TaskController extends React.Component {
         //store the tasks
         let defaultTasks = this.loadTasks();
 
+        /*
         let tempTask = new TaskContainer("test", 60*60, getDateStr());
         tempTask.started = true;
         tempTask.paused = true;
         tempTask.remainingTime = 30*60;
         defaultTasks.push(tempTask);
+        */
 
         this.state = {
             time: 0,
@@ -336,35 +338,37 @@ export default class TaskController extends React.Component {
 
         return (
             <div className="app">
-                <HoursOverlay
-                    tasks={this.state.tasks}
-                />
                 <SideBar 
                     tasks={this.state.tasks}
                     sendNotification={sendNotification}
                 />
-                <div className="tasksContainer">
-                    {this.state.tasks.map(task => (<Task
-                        key={task.id}
-                        id={task.id}
-                        name={task.name}
-                        totalDuration={task.totalDuration}
-                        remainingTime={task.remainingTime}
-                        started={task.started}
-                        paused={task.paused}
-                        isViewing={task.isViewing}
-                        taskOnClick={this.taskOnClick}
-                        taskUp={this.taskUp}
-                        taskDown={this.taskDown}
-                        startTask={this.startTask}
-                        finishTask={this.finishTask}
-                        addTime={this.addTime}
-                    />))}
+                <div className="mainBody">
+                    <HoursOverlay
+                        tasks={this.state.tasks}
+                    />
+                    <div className="tasksContainer">
+                        {this.state.tasks.map(task => (<Task
+                            key={task.id}
+                            id={task.id}
+                            name={task.name}
+                            totalDuration={task.totalDuration}
+                            remainingTime={task.remainingTime}
+                            started={task.started}
+                            paused={task.paused}
+                            isViewing={task.isViewing}
+                            taskOnClick={this.taskOnClick}
+                            taskUp={this.taskUp}
+                            taskDown={this.taskDown}
+                            startTask={this.startTask}
+                            finishTask={this.finishTask}
+                            addTime={this.addTime}
+                        />))}
+                    </div>
+                    <div className="addTaskButton" onClick={this.toggleTaskForm}>
+                        <h1>add task</h1>
+                    </div>
+                    {addTaskHtml}
                 </div>
-                <div className="addTaskButton" onClick={this.toggleTaskForm}>
-                    <h1>add task</h1>
-                </div>
-                {addTaskHtml}
             </div>
         );
     }
