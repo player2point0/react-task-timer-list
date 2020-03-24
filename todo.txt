@@ -1,9 +1,16 @@
 ----core----
 -test on mobile and move the update tasks to a service worker if needed
 -add day overview of task activity
--add nested tasks
--change saving and loading to use firebase (https://reactstudio.com/)
--add more stats to record
+-add more stats to record (add a more precise breakdown of time worked and when)
+-add a more robust server and offline strat, store stats and tasks for current day on device
+-optimise server calls, saving only changed tasks and auto saving interval
+-add a sync all tasks button (could also sync hourly)
+
+--prelaunch--
+-add security, e.g. a user should only be able to access their own tasks https://firebase.google.com/docs/firestore/security/rules-query
+-add a user feedback form ("what would you change?")
+-host it with a good domain name
+-test on different devices and web broswers
 
 ----mobile----
 -add mobile support
@@ -18,7 +25,6 @@
 -fix z index for task form
 -add move task to top / imrpove the moving task ux
 -finishing a task should reset the pomodoro timers
--add move task to top
 
 ----non-essential----
 -add dark mode
@@ -32,3 +38,4 @@
 -add task priorities
 -add ai to suggest the ordering of tasks - for optimal efficiency and to reduce burnout
 -experiment with using a monte carlo tree search to order the tasks
+-add nested tasks

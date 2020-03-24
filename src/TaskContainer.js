@@ -31,6 +31,8 @@ class TaskContainer {
         this.stats = {
           timeAdded: 0,
           timesPaused: 0,
+          dateStarted: "",
+          dateEnded: "",
         };
       }
     }

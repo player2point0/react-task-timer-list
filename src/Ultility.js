@@ -7,6 +7,8 @@ export async function requestNotifications(){
 
 export function sendNotification(title, text, onClickFunc){
 
+    const displayDuration = 6000;
+
     const options = {
         title: title,
         body: text,
@@ -16,7 +18,7 @@ export function sendNotification(title, text, onClickFunc){
 
     notification.onclick = onClickFunc;
 
-    setTimeout(notification.close.bind(notification), 4000);
+    setTimeout(notification.close.bind(notification), displayDuration);
 }
 
 export function formatTime(time){
