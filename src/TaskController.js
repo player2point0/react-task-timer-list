@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import TaskContainer from './TaskContainer.js';
 import Task from './ReactTask';
 import HoursOverlay from './HoursOverlay.js';
@@ -12,21 +11,11 @@ export default class TaskController extends React.Component {
     constructor(props) {
         super(props);
         //store the tasks
-        let defaultTasks = this.loadTasks();
-
-        /*
-        let tempTask = new TaskContainer("test", 60*60, getDateStr());
-        tempTask.started = true;
-        tempTask.paused = true;
-        tempTask.remainingTime = 30*60;
-        defaultTasks.push(tempTask);
-        */
-
         this.state = {
             time: 0,
-            tasks: defaultTasks,
             showTaskForm: false,
-            saveTasks: false,
+            setSaveAllTasks: false,
+            tasks: this.props.savedTasks
         };
 
         this.toggleTaskForm = this.toggleTaskForm.bind(this);
@@ -41,9 +30,8 @@ export default class TaskController extends React.Component {
         this.startTask = this.startTask.bind(this);
         this.finishTask = this.finishTask.bind(this);
         this.addTime = this.addTime.bind(this);
-        this.saveTasks = this.saveTasks.bind(this);
-        this.loadTasks = this.loadTasks.bind(this);
-
+        this.saveAllTasks = this.saveAllTasks.bind(this);
+        
         this.interval = setInterval(() => this.tick(), 1000);
     }
 
@@ -61,7 +49,7 @@ export default class TaskController extends React.Component {
                         updatedTasks[i].isViewing = true;
                         updatedTasks[i].timeUp = true;
                         sendNotification("Task time finished", updatedTasks[i].name);
-                        this.saveTasks();
+                        this.saveAllTasks();
                     }
                 }
             }
@@ -74,13 +62,17 @@ export default class TaskController extends React.Component {
 
         //save all tasks every n ticks
         if (this.state.time % SAVE_INTERVAL === 0) {
-            this.setState({ saveTasks: true });
+            this.setState({ setSaveAllTasks: true });
         }
     }
 
     //save all tasks
-    saveTasks() {
+    saveAllTasks() {
         localStorage.setItem("tasks", JSON.stringify(this.state.tasks));
+    
+        this.state.tasks.forEach((task)=>{
+            this.props.firebaseSaveTask(task);
+        });
     }
  
     //saves the task whenever finished
@@ -95,28 +87,6 @@ export default class TaskController extends React.Component {
         localStorage.setItem(dateStr, JSON.stringify(savedStats));
     }
 
-    //load any saved tasks
-    loadTasks() {
-        let tempSavedTasks = JSON.parse(localStorage.getItem("tasks"));
-        let savedTasks = [];
-        let newTask;
-
-        if(tempSavedTasks == null) tempSavedTasks = [];
-
-        for(let i = 0;i<tempSavedTasks.length;i++){
-            newTask = new TaskContainer(
-                null,
-                null,
-                null,
-                tempSavedTasks[i]
-            );
-
-            savedTasks.push(newTask);
-        }
-
-        return savedTasks;
-    }
-
     //display the add task inputs
     toggleTaskForm() {
         this.setState(state => ({
@@ -126,10 +96,10 @@ export default class TaskController extends React.Component {
 
     //interval for the tick method, called when changes are made to the props
     componentDidUpdate() {
-        if (this.state.saveTasks) {
+        if (this.state.setSaveAllTasks) {
             console.log("save tasks");
-            this.saveTasks();
-            this.setState({ saveTasks: false });
+            this.saveAllTasks();
+            this.setState({ setSaveAllTasks: false });
         }
     }
 
@@ -174,7 +144,7 @@ export default class TaskController extends React.Component {
             newTaskName: "",
             newTaskHours: "0",
             newTaskMins: "0",
-            saveTasks: true
+            setSaveAllTasks: true
         }));
     }
 
@@ -212,7 +182,7 @@ export default class TaskController extends React.Component {
 
         this.setState({
             tasks: updatedTasks,
-            saveTasks: true
+            setSaveAllTasks: true
         });
     }
 
@@ -235,7 +205,7 @@ export default class TaskController extends React.Component {
 
         this.setState({
             tasks: updatedTasks,
-            saveTasks: true
+            setSaveAllTasks: true
         });
     }
 
@@ -259,7 +229,7 @@ export default class TaskController extends React.Component {
 
         this.setState({
             tasks: updatedTasks,
-            saveTasks: true
+            setSaveAllTasks: true
         });
     }
 
@@ -275,7 +245,7 @@ export default class TaskController extends React.Component {
 
         this.setState({
             tasks: updatedTasks,
-            saveTasks: true
+            setSaveAllTasks: true
         });
         //sendNotification()
     }
@@ -292,7 +262,7 @@ export default class TaskController extends React.Component {
 
         this.setState({
             tasks: updatedTasks,
-            saveTasks: true
+            setSaveAllTasks: true
         });
     }
 
