@@ -5,6 +5,7 @@
 -add a more robust server and offline strat, store stats and tasks for current day on device
 -optimise server calls, saving only changed tasks and auto saving interval
 -add a sync all tasks button (could also sync hourly)
+-add an extended break of 30 mins for after 2 hours of work
 
 --prelaunch--
 -add security, e.g. a user should only be able to access their own tasks https://firebase.google.com/docs/firestore/security/rules-query
@@ -25,6 +26,7 @@
 -fix z index for task form
 -add move task to top / imrpove the moving task ux
 -finishing a task should reset the pomodoro timers
+-during a break display the sidebar, and then hide when finished
 
 ----non-essential----
 -add dark mode
