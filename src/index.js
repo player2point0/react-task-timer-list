@@ -74,8 +74,6 @@ function firebaseSaveTask(task) {
 		return;
 	}
 
-    console.log(task);
-
 	db.collection("tasks")
 		.doc(task.id)
 		.set({
@@ -99,12 +97,8 @@ function firebaseSaveTask(task) {
 			totalDuration: task.totalDuration,
 			userId: currentUser.uid,
 		})
-        .then(value => makeToast("saved"))
-        .catch(reason => makeToast("error saving"));
-}
-
-function makeToast(message){
-    alert(message);
+        .then(value => console.log("saved task successfully"))
+        .catch(reason => console.error("error saving task"+reason));
 }
 
 // login / signup / guest

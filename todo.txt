@@ -17,7 +17,6 @@
 
 ----bugs----
 -fix multiple notifications for break
--fix broken pause button
 -add unit tests
 
 ----UI/UX----
