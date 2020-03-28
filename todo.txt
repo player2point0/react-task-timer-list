@@ -1,7 +1,6 @@
 ----core----
 -test on mobile and move the update tasks to a service worker if needed
--add day overview of task activity
--add more stats to record (add a more precise breakdown of time worked and when)
+-add day overview of task activity and a weekly overview of productivity
 -add a more robust server and offline strat, store stats and tasks for current day on device
 -optimise server calls, saving only changed tasks and auto saving interval
 -add a sync all tasks button (could also sync hourly)
@@ -17,6 +16,9 @@
 -add mobile support
 
 ----bugs----
+-fix multiple notifications for break
+-fix broken pause button
+-add unit tests
 
 ----UI/UX----
 -improve hours overlay ui
@@ -36,8 +38,12 @@
 -add stats for the day
 -add different days and swithing between them
 -add a calender view to 
--add ai autocomplete for task names and suggested duration
 -add task priorities
+-add nested tasks
+
+--ai--
 -add ai to suggest the ordering of tasks - for optimal efficiency and to reduce burnout
 -experiment with using a monte carlo tree search to order the tasks
--add nested tasks
+-add ai autocomplete for task names and suggested duration
+-create different user personaliity bots to train ai e.g. an organised bot, a procrastinator, a long distance, a sprinter
+-create a more data driven application for ai, e.g. allow the ai to change break times, notification durations etc
