@@ -4,7 +4,7 @@ import Task from "./ReactTask";
 import HoursOverlay from "./HoursOverlay.js";
 import SideBar from "./SideBar.js";
 import {
-	getDateStr,
+	formatDayMonth,
 	sendNotification,
 	requestNotifications,
 } from "./Ultility.js";
@@ -81,7 +81,7 @@ export default class TaskController extends React.Component {
 
 	//saves the task whenever finished
 	saveStatTask(task) {
-		let dateStr = getDateStr();
+		let dateStr = formatDayMonth(task.date); // saves the task to the day it was started on
 
 		//get the saved stats for today if any
 		let savedStats = JSON.parse(localStorage.getItem(dateStr));
@@ -136,7 +136,7 @@ export default class TaskController extends React.Component {
 
 		let newTaskDuration =
 			this.state.newTaskHours * 3600 + this.state.newTaskMins * 60;
-		let currentDate = getDateStr(); //todo change so works with multi days
+		let currentDate = new Date(); //todo change so works with multi days
 
 		let newTask = new TaskContainer(
 			this.state.newTaskName,

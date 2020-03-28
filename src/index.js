@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import TaskController from "./TaskController.js";
 import * as serviceWorker from "./serviceWorker.js";
-import { getDateStr } from "./Ultility";
+import { formatDayMonth } from "./Ultility";
 import TaskContainer from "./TaskContainer.js";
 
 const firebase = require("firebase");
@@ -41,7 +41,7 @@ if (ui.isPendingRedirect()) {
 
 function firebaseGetAllTasks(callback) {
 	const currentUser = firebase.auth().currentUser;
-	const currentDate = getDateStr();
+	const currentDate = new Date();
 
 	if (!currentUser) {
 		console.error("not logged in");
@@ -67,13 +67,14 @@ function firebaseGetAllTasks(callback) {
 }
 
 function firebaseSaveTask(task) {
-	//todo check if we are logged in
 	const currentUser = firebase.auth().currentUser;
 
 	if (!currentUser) {
 		console.error("not logged in");
 		return;
 	}
+
+    console.log(task);
 
 	db.collection("tasks")
 		.doc(task.id)
@@ -89,11 +90,21 @@ function firebaseSaveTask(task) {
 			stats: {
 				timeAdded: task.stats.timeAdded,
 				timesPaused: task.stats.timesPaused,
+				dateStarted: task.stats.dateStarted,
+				dateEnded: task.stats.dateEnded,
+				pauseDates: task.stats.pauseDates,
+				unpauseDates: task.stats.unpauseDates,
 			},
 			timeUp: task.timeUp,
 			totalDuration: task.totalDuration,
 			userId: currentUser.uid,
-		});
+		})
+        .then(value => makeToast("saved"))
+        .catch(reason => makeToast("error saving"));
+}
+
+function makeToast(message){
+    alert(message);
 }
 
 // login / signup / guest

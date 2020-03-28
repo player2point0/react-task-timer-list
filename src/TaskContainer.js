@@ -1,4 +1,3 @@
-import { getDateAndTimeStr } from "./Ultility.js";
 import uid from "uid";
 
 class TaskContainer {
@@ -50,21 +49,21 @@ class TaskContainer {
 
 	pause() {
 		this.paused = true;
-		this.stats.pauseDates.push(getDateAndTimeStr);
+		this.stats.pauseDates.push(new Date());
 	}
 
 	unPause() {
 		this.paused = false;
-		this.stats.unpauseDates.push(getDateAndTimeStr);
+		this.stats.unpauseDates.push(new Date());
 	}
 
 	start() {
 		this.started = true;
-		this.stats.dateStarted = getDateAndTimeStr();
+		this.stats.dateStarted =new Date();
 	}
 
 	finish() {
-		this.stats.dateEnded = getDateAndTimeStr();
+		this.stats.dateEnded = new Date();
 	}
 }
 
