@@ -20,6 +20,7 @@
 -add unit tests
 
 ----UI/UX----
+-redesign with figma?
 -improve hours overlay ui
 -change notifications request ui/ux ( https://developers.google.com/web/fundamentals/push-notifications/permission-ux )
 -improve side bar ui and ux 

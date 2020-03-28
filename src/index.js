@@ -41,7 +41,6 @@ if (ui.isPendingRedirect()) {
 
 function firebaseGetAllTasks(callback) {
 	const currentUser = firebase.auth().currentUser;
-	const currentDate = new Date();
 
 	if (!currentUser) {
 		console.error("not logged in");
@@ -50,13 +49,19 @@ function firebaseGetAllTasks(callback) {
 
 	db.collection("tasks")
 		.where("userId", "==", currentUser.uid)
-		.where("date", "==", currentDate)
+		.where("finished", "==", false)
 		.get()
 		.then(function(querySnapshot) {
 			let savedTasks = [];
+			let tempTask;
 
 			querySnapshot.forEach(function(doc) {
-				savedTasks.push(doc.data());
+				tempTask = doc.data();
+
+				console.log((tempTask));
+				tempTask.dateCreated = doc.data().dateCreated.toDate();
+
+				savedTasks.push(tempTask);
 			});
 
 			callback(savedTasks);
@@ -74,27 +79,29 @@ function firebaseSaveTask(task) {
 		return;
 	}
 
+	console.log(task);
+
 	db.collection("tasks")
 		.doc(task.id)
 		.set({
 			id: task.id,
-			additionalTime: task.additionalTime,
-			isViewing: task.isViewing,
 			name: task.name,
-			date: task.date,
-			paused: task.paused,
+			dateCreated: task.dateCreated,
+			totalTime: task.totalTime,
 			remainingTime: task.remainingTime,
+			addTimeAmt: task.addTimeAmt,
+			timeUp: task.timeUp,
 			started: task.started,
+			finished: task.finished,
+			paused: task.paused,
+			isViewing: task.isViewing,
 			stats: {
 				timeAdded: task.stats.timeAdded,
-				timesPaused: task.stats.timesPaused,
 				dateStarted: task.stats.dateStarted,
-				dateEnded: task.stats.dateEnded,
+				dateFinished: task.stats.dateFinished,
 				pauseDates: task.stats.pauseDates,
 				unpauseDates: task.stats.unpauseDates,
 			},
-			timeUp: task.timeUp,
-			totalDuration: task.totalDuration,
 			userId: currentUser.uid,
 		})
         .then(value => console.log("saved task successfully"))

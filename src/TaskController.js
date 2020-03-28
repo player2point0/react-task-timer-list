@@ -19,6 +19,7 @@ export default class TaskController extends React.Component {
 			time: 0,
 			showTaskForm: false,
 			setSaveAllTasks: false,
+			removeTaskId: "",
 			tasks: this.props.savedTasks,
 		};
 
@@ -35,6 +36,7 @@ export default class TaskController extends React.Component {
 		this.finishTask = this.finishTask.bind(this);
 		this.addTime = this.addTime.bind(this);
 		this.saveAllTasks = this.saveAllTasks.bind(this);
+		this.removeTaskWithId = this.removeTaskWithId.bind(this);
 
 		this.interval = setInterval(() => this.tick(), 1000);
 	}
@@ -81,7 +83,7 @@ export default class TaskController extends React.Component {
 
 	//saves the task whenever finished
 	saveStatTask(task) {
-		let dateStr = formatDayMonth(task.date); // saves the task to the day it was started on
+		let dateStr = formatDayMonth(task.dateCreated); // saves the task to the day it was started on
 
 		//get the saved stats for today if any
 		let savedStats = JSON.parse(localStorage.getItem(dateStr));
@@ -100,6 +102,11 @@ export default class TaskController extends React.Component {
 
 	//interval for the tick method, called when changes are made to the props
 	componentDidUpdate() {
+		if(this.state.removeTaskId){
+			this.removeTaskWithId(this.state.removeTaskId);
+			this.setState({removeTaskId: ""});
+		}
+
 		if (this.state.setSaveAllTasks) {
 			console.log("save tasks");
 			this.saveAllTasks();
@@ -125,6 +132,7 @@ export default class TaskController extends React.Component {
 	addTask() {
 		requestNotifications();
 
+		//todo improve this
 		if (
 			!this.state.newTaskName ||
 			!this.state.newTaskHours ||
@@ -221,7 +229,7 @@ export default class TaskController extends React.Component {
 		const updatedTasks = this.state.tasks.slice();
 		for (let i = updatedTasks.length - 1; i >= 0; i--) {
 			if (updatedTasks[i].id === id) {
-				
+
 				if (updatedTasks[i].started) {
 					if (updatedTasks[i].remainingTime >= 0) {
 						if (updatedTasks[i].paused) updatedTasks[i].unPause();
@@ -230,7 +238,7 @@ export default class TaskController extends React.Component {
 				}
 
 				else{
-					updatedTasks[i].start();	
+					updatedTasks[i].start();
 				}
 
 				break;
@@ -248,6 +256,21 @@ export default class TaskController extends React.Component {
 		for (let i = updatedTasks.length - 1; i >= 0; i--) {
 			if (updatedTasks[i].id === id) {
 				updatedTasks[i].finish();
+
+				this.setState({
+					tasks: updatedTasks,
+					setSaveAllTasks: true,
+					removeTaskId: updatedTasks[i].id
+				});
+				return;
+			}
+		}
+	}
+
+	removeTaskWithId(id){
+		const updatedTasks = this.state.tasks.slice();
+		for (let i = updatedTasks.length - 1; i >= 0; i--) {
+			if (updatedTasks[i].id === id) {
 				this.saveStatTask(updatedTasks[i]);
 				updatedTasks.splice(i, 1);
 				break;

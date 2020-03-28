@@ -5,33 +5,34 @@ class TaskContainer {
 		if (savedTask) {
 			this.id = savedTask.id;
 			this.name = savedTask.name;
-			this.date = savedTask.date;
+			this.dateCreated = savedTask.dateCreated;
 			//time in seconds
-			this.totalDuration = savedTask.totalDuration;
+			this.totalTime = savedTask.totalTime;
 			this.remainingTime = savedTask.remainingTime;
-			this.additionalTime = savedTask.additionalTime;
+			this.addTimeAmt = savedTask.addTimeAmt;
 			this.timeUp = savedTask.timeUp;
 			this.started = savedTask.started;
+			this.finished = savedTask.finished;
 			this.paused = savedTask.paused;
 			this.isViewing = savedTask.isViewing;
 			this.stats = savedTask.stats;
 		} else {
 			this.id = uid(32);
 			this.name = name;
-			this.date = date;
+			this.dateCreated = date;
 			//time in seconds
-			this.totalDuration = duration;
+			this.totalTime = duration;
 			this.remainingTime = duration;
-			this.additionalTime = Number(duration / 2);
+			this.addTimeAmt = Number(duration / 2);
 			this.timeUp = false;
 			this.started = false;
+			this.finished = false;
 			this.paused = false;
 			this.isViewing = false;
 			this.stats = {
 				timeAdded: 0,
-				timesPaused: 0,
 				dateStarted: "",
-				dateEnded: "",
+				dateFinished: "",
 				pauseDates: [],
 				unpauseDates: [],
 			};
@@ -39,8 +40,8 @@ class TaskContainer {
 	}
 
 	addTime() {
-		let extraTime = Number(this.remainingTime) + this.additionalTime;
-		this.totalDuration += extraTime;
+		let extraTime = Number(this.remainingTime) + this.addTimeAmt;
+		this.totalTime += extraTime;
 		this.remainingTime = extraTime;
 		this.timeUp = false;
 
@@ -59,11 +60,12 @@ class TaskContainer {
 
 	start() {
 		this.started = true;
-		this.stats.dateStarted =new Date();
+		this.stats.dateStarted = new Date();
 	}
 
 	finish() {
-		this.stats.dateEnded = new Date();
+		this.stats.dateFinished = new Date();
+		this.finished = true;
 	}
 }
 
