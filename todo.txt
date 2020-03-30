@@ -16,8 +16,7 @@
 -add mobile support
 
 ----bugs----
--fix multiple notifications for break
--add unit tests
+-add unit tests (https://jestjs.io/docs/en/tutorial-react)
 
 ----UI/UX----
 -redesign with figma?
