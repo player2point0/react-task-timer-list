@@ -19,6 +19,7 @@ export default class SideBar extends React.Component {
                 startedBreak: false,
                 workTimeRemaining: WORK_TIME,
                 breakTimeRemaining: BREAK_TIME,
+                stashBreak: false,
             },
         };
 
@@ -26,6 +27,7 @@ export default class SideBar extends React.Component {
         this.toggleStats = this.toggleStats.bind(this);
         this.toggleSettings = this.toggleSettings.bind(this);
         this.togglePomodoro = this.togglePomodoro.bind(this);
+        this.stashBreakTime = this.stashBreakTime.bind(this);
 
         this.interval = setInterval(() => this.pomodoroTick(), 1000);
     }
@@ -62,11 +64,19 @@ export default class SideBar extends React.Component {
         }));
     }
 
+    stashBreakTime(){
+        const stashPomodoro = this.state.pomodoro;
+
+        stashPomodoro.stashBreak = true;
+
+        this.setState(state => ({
+            pomodoro: stashPomodoro,
+        }));
+    }
+
     pomodoroTick() {
         let activeTask = false;
         const tempTasks = this.props.tasks;
-        //constant so that nothing changes during
-        const pomodoro = this.state.pomodoro;
 		let updatedPomodoro = this.state.pomodoro;
 
         //check for an active task
@@ -87,17 +97,26 @@ export default class SideBar extends React.Component {
 
         //if not started and have an active task
         //then start the work time or the break timer
-        if (!pomodoro.startedWork) {
+        if (!this.state.pomodoro.startedWork) {
 			updatedPomodoro.startedWork = true;
 			updatedPomodoro.workTimeRemaining = WORK_TIME;
         }
 
+        else if(this.state.pomodoro.stashBreak){
+            updatedPomodoro.workTimeRemaining = WORK_TIME;
+            updatedPomodoro.breakTimeRemaining += BREAK_TIME;
+            updatedPomodoro.startedBreak = false;
+            updatedPomodoro.startedWork = true;
+
+            updatedPomodoro.stashBreak = false;
+        }
+
         //perform the ticks and other logic
         else {
-            if (pomodoro.workTimeRemaining > 0) {
+            if (this.state.pomodoro.workTimeRemaining > 0) {
 				updatedPomodoro.workTimeRemaining--;
             } else {
-                if (!pomodoro.startedBreak) {
+                if (!this.state.pomodoro.startedBreak) {
 
                     //pause tasks
 					updatedPomodoro.startedBreak = true;
@@ -108,20 +127,10 @@ export default class SideBar extends React.Component {
                     this.props.sendNotification(
                         "Break time started",
                         "click to stash break",
-                        () => {
-							updatedPomodoro.workTimeRemaining = WORK_TIME;
-							updatedPomodoro.breakTimeRemaining += BREAK_TIME;
-							updatedPomodoro.startedBreak = false;
-
-							scope.setState(state => ({
-								pomodoro: updatedPomodoro,
-							}));
-
-							alert(scope.state.pomodoro.startedBreak);
-                        }
+                        this.stashBreakTime
                     );
 
-                } else if (pomodoro.breakTimeRemaining > 0) {
+                } else if (this.state.pomodoro.breakTimeRemaining > 0) {
 					updatedPomodoro.breakTimeRemaining--;
                 }
 

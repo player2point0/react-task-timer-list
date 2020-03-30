@@ -14,7 +14,15 @@ export function sendNotification(title, text, onClickFunc) {
 
     notification.onclick = onClickFunc;
 
-    setTimeout(notification.close.bind(notification), displayDuration);
+    notification.addEventListener("click", onClickFunc);
+
+    setTimeout(closeNotification(notification, onClickFunc), displayDuration);
+}
+
+function closeNotification(notification, onClickFunc) {
+
+    notification.removeEventListener("click", onClickFunc);
+    notification.close.bind(notification);
 }
 
 export function formatTime(time) {
