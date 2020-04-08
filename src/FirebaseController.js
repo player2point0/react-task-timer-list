@@ -68,7 +68,9 @@ export default class FirebaseController extends React.Component {
         this.removeTaskWithId = this.removeTaskWithId.bind(this);
         this.setLoadedTasks = this.setLoadedTasks.bind(this);
         this.firebaseSaveTask = this.firebaseSaveTask.bind(this);
+        this.firebaseSaveDayStats = this.firebaseSaveDayStats.bind(this);
         this.firebaseGetAllTasks = this.firebaseGetAllTasks.bind(this);
+        this.firebaseGetDayStats = this.firebaseGetDayStats.bind(this);
         this.loadLocalTasks = this.loadLocalTasks.bind(this);
         this.parseSavedTasks = this.parseSavedTasks.bind(this);
 
@@ -78,9 +80,13 @@ export default class FirebaseController extends React.Component {
     //update all the tasks which are started
     tick() {
         const updatedTasks = this.state.tasks.slice();
+        const currentDayStats = this.state.dayStats;
+
         for (let i = 0; i < updatedTasks.length; i++) {
             if (updatedTasks[i].started && !updatedTasks[i].paused) {
                 updatedTasks[i].remainingTime--;
+                currentDayStats.totalWorked += 1;
+
                 if (updatedTasks[i].remainingTime <= 0) {
                     updatedTasks[i].remainingTime = 0;
 
@@ -98,9 +104,11 @@ export default class FirebaseController extends React.Component {
         this.setState(state => ({
             tasks: updatedTasks,
             time: state.time + 1,
+            dayStats: currentDayStats
         }));
 
         //save all tasks every n ticks
+        //todo refactor this to use set interval
         if (this.state.time % SAVE_INTERVAL === 0) {
             this.setState({ setSaveAllTasks: true });
         }
@@ -275,6 +283,8 @@ export default class FirebaseController extends React.Component {
         this.state.tasks.forEach(task => {
             this.firebaseSaveTask(task);
         });
+
+        this.firebaseSaveDayStats();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -319,10 +329,20 @@ export default class FirebaseController extends React.Component {
 
             //get saved day stats
             this.firebaseGetDayStats(function (dayStats) {
-                console.log(dayStats);
 
                 if(dayStats == null){
-                    //todo create a new day stats
+
+                    let newDayStats = {
+                        date: formatDayMonth(new Date()),
+                        totalAdditional: 0,
+                        totalBreak: 0,
+                        totalWorked: 0,
+                        userId: null,
+                    };
+
+                    scope.setState(state => ({
+                        dayStats: newDayStats
+                    }));
                 }
 
                 else{
@@ -376,6 +396,32 @@ export default class FirebaseController extends React.Component {
             })
             .then(value => console.log("saved task successfully"))
             .catch(reason => console.error("error saving task" + reason));
+    }
+
+    firebaseSaveDayStats() {
+        const currentUser = firebase.auth().currentUser;
+        let currentDayStats = this.state.dayStats;
+
+        if (!currentUser) {
+            console.error("not logged in");
+            return;
+        }
+
+        if(this.state.dayStats.userId === null){
+            currentDayStats.userId = currentUser.uid;
+
+            this.db.collection("dayStats")
+                .add(this.state.dayStats)
+                .then(value => console.log("saved task successfully"))
+                .catch(reason => console.error("error saving task" + reason));
+        }
+        else{
+            this.db.collection("dayStats")
+                .doc(this.state.dayStats.id)
+                .set(this.state.dayStats)
+                .then(value => console.log("saved task successfully"))
+                .catch(reason => console.error("error saving task" + reason));
+        }
     }
 
     firebaseGetAllTasks(callback) {
