@@ -101,7 +101,6 @@ export default class TaskController extends React.Component {
 			<div className="app">
 				<SideBar tasks={this.props.tasks} sendNotification={sendNotification} />
 				<div className="mainBody">
-					<h1> ---------->{this.props.tasks.length}</h1>
 					<HoursOverlay tasks={this.props.tasks} />
 					<div className="tasksContainer">
 						{this.props.tasks.map(task => (

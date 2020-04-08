@@ -1,8 +1,8 @@
 import React from "react";
 import Pomodoro from "./Pomodoro.js";
-import {formatTime, getDateStr} from "./Ultility.js";
+import {formatDayMonth, formatTime, getDateStr} from "./Ultility.js";
 
-const WORK_TIME = 0.25 * 60;
+const WORK_TIME = 25 * 60;
 const BREAK_TIME = 5 * 60;
 
 export default class SideBar extends React.Component {
@@ -78,6 +78,7 @@ export default class SideBar extends React.Component {
         let activeTask = false;
         const tempTasks = this.props.tasks;
 		let updatedPomodoro = this.state.pomodoro;
+		let currentState = this.state;
 
         //check for an active task
         for (let i = 0; i < tempTasks.length; i++) {
@@ -109,6 +110,9 @@ export default class SideBar extends React.Component {
             updatedPomodoro.startedWork = true;
 
             updatedPomodoro.stashBreak = false;
+
+            //hide the side bar
+            currentState.showSideBar = false;
         }
 
         //perform the ticks and other logic
@@ -116,10 +120,14 @@ export default class SideBar extends React.Component {
             if (this.state.pomodoro.workTimeRemaining > 0) {
 				updatedPomodoro.workTimeRemaining--;
             } else {
+                //start break
                 if (!this.state.pomodoro.startedBreak) {
 
                     //pause tasks
 					updatedPomodoro.startedBreak = true;
+                    //show the side bar
+					currentState.showPomodoro = true;
+                    currentState.showSideBar = true;
 
                     //call callback to show notification, with stashing of break time
                     let scope = this;
@@ -138,32 +146,33 @@ export default class SideBar extends React.Component {
                 else {
                     //call other callback to show notification
                     this.props.sendNotification("Break time finished", "");
-                    //unpause tasks?
+
 					updatedPomodoro.startedWork = false;
 					updatedPomodoro.startedBreak = false;
 					updatedPomodoro.breakTimeRemaining = BREAK_TIME;
 					updatedPomodoro.workTimeRemaining = WORK_TIME;
+
+                    //hide the side bar
+                    currentState.showSideBar = false;
                 }
             }
         }
 
         this.setState(state => ({
             pomodoro: updatedPomodoro,
+            showPomodoro: currentState.showPomodoro,
+            showSideBar: currentState.showSideBar,
         }));
     }
 
     stats() {
-        let dateStr = formatTime(new Date());
-
-        let savedStats = JSON.parse(localStorage.getItem(dateStr));
+        const currentTasks = this.props.tasks;
         let totalTimeWorked = 0;
         let totalAdditionalTime = 0;
 
-        if (savedStats == null) savedStats = [];
-
-        for (let i = 0; i < savedStats.length; i++) {
-            totalTimeWorked += savedStats[i].totalDuration;
-            totalAdditionalTime += savedStats[i].stats.timeAdded;
+        for (let i = 0; i < currentTasks.length; i++) {
+            totalTimeWorked += currentTasks[i].totalTime - currentTasks[i].remainingTime;
+            totalAdditionalTime += currentTasks[i].stats.timeAdded;
         }
 
         return (

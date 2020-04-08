@@ -10,7 +10,7 @@ import TaskContainer from "./TaskContainer.js";
 import {formatDayMonth, requestNotifications, sendNotification} from "./Ultility";
 import Task from "./ReactTask";
 
-const SAVE_INTERVAL = 60;
+const SAVE_INTERVAL = 5*60;
 
 //firebase
 const firebaseConfig = {
@@ -55,6 +55,7 @@ export default class FirebaseController extends React.Component {
             time: 0,
             removeTaskId: "",
             setSaveAllTasks: false,
+
         }
 
         this.saveAllTasks = this.saveAllTasks.bind(this);
@@ -240,11 +241,8 @@ export default class FirebaseController extends React.Component {
         const updatedTasks = this.state.tasks.slice();
         for (let i = updatedTasks.length - 1; i >= 0; i--) {
             if (updatedTasks[i].id === id) {
-                this.saveStatTask(updatedTasks[i]);
                 updatedTasks.splice(i, 1);
 
-
-                console.log("remove");
                 break;
             }
         }
@@ -270,22 +268,11 @@ export default class FirebaseController extends React.Component {
         });
     }
 
-    //saves the task whenever finished
-    saveStatTask(task) {
-        let dateStr = formatDayMonth(task.dateCreated); // saves the task to the day it was started on
-
-        //get the saved stats for today if any
-        let savedStats = JSON.parse(localStorage.getItem(dateStr));
-        if (savedStats == null) savedStats = [];
-        savedStats.push(task);
-
-        localStorage.setItem(dateStr, JSON.stringify(savedStats));
-    }
-
     //save all tasks
     saveAllTasks() {
         localStorage.setItem("tasks", JSON.stringify(this.state.tasks));
 
+        //todo change this to only saved tasks that have changed
         this.state.tasks.forEach(task => {
             this.firebaseSaveTask(task);
         });
@@ -340,6 +327,7 @@ export default class FirebaseController extends React.Component {
         }
     }
 
+    //todo optimise this to only change fields that have changed
     firebaseSaveTask(task) {
         const currentUser = firebase.auth().currentUser;
 

@@ -43,5 +43,4 @@ export function formatDayMonth(d){
 	let year = d.getFullYear();
 
 	return date + "/" + month + "/" + year;
-
 }
