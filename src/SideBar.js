@@ -166,19 +166,12 @@ export default class SideBar extends React.Component {
     }
 
     stats() {
-        const currentTasks = this.props.tasks;
-        let totalTimeWorked = 0;
-        let totalAdditionalTime = 0;
 
-        for (let i = 0; i < currentTasks.length; i++) {
-            totalTimeWorked += currentTasks[i].totalTime - currentTasks[i].remainingTime;
-            totalAdditionalTime += currentTasks[i].stats.timeAdded;
-        }
 
         return (
             <div>
-                <h3>worked : {formatTime(totalTimeWorked)}</h3>
-                <h3>additional : {formatTime(totalAdditionalTime)}</h3>
+                <h3>worked : {formatTime(this.props.dayStats.totalWorked)}</h3>
+                <h3>additional : {formatTime(this.props.dayStats.totalAdditional)}</h3>
             </div>
         );
     }

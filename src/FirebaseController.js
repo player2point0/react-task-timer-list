@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import "./index.css";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import * as firebase from "firebase/app";
@@ -8,7 +7,7 @@ import "firebase/firestore";
 import TaskController from "./TaskController.js";
 import TaskContainer from "./TaskContainer.js";
 import {formatDayMonth, requestNotifications, sendNotification} from "./Ultility";
-import Task from "./ReactTask";
+import SideBar from "./SideBar";
 
 const SAVE_INTERVAL = 5*60;
 
@@ -55,7 +54,7 @@ export default class FirebaseController extends React.Component {
             time: 0,
             removeTaskId: "",
             setSaveAllTasks: false,
-
+            dayStats: null, // load from local
         }
 
         this.saveAllTasks = this.saveAllTasks.bind(this);
@@ -311,12 +310,26 @@ export default class FirebaseController extends React.Component {
 
         if (user) {
             //get saved tasks
-            //display task controller
             this.firebaseGetAllTasks(function (savedTasks) {
                 scope.setState(state => ({
                     tasks: scope.parseSavedTasks(savedTasks),
                     showAuthHtml: false,
                 }));
+            });
+
+            //get saved day stats
+            this.firebaseGetDayStats(function (dayStats) {
+                console.log(dayStats);
+
+                if(dayStats == null){
+                    //todo create a new day stats
+                }
+
+                else{
+                    scope.setState(state => ({
+                        dayStats: dayStats
+                    }));
+                }
             });
         } else {
             //tasks from local storage
@@ -324,6 +337,8 @@ export default class FirebaseController extends React.Component {
                 tasks: this.loadLocalTasks(),
                 showAuthHtml: true,
             }));
+
+            //day stats from local storage
         }
     }
 
@@ -392,6 +407,35 @@ export default class FirebaseController extends React.Component {
             });
     }
 
+    firebaseGetDayStats(callback) {
+        const currentUser = firebase.auth().currentUser;
+        const currentDate = formatDayMonth(new Date());
+
+        if (!currentUser) {
+            console.error("not logged in");
+            return;
+        }
+
+        this.db.collection("dayStats")
+            .where("userId", "==", currentUser.uid)
+            .where("date", "==", currentDate)
+            .limit(1)
+            .get()
+            .then(function (querySnapshot) {
+                if(querySnapshot.empty){
+                    callback(null);
+                }
+                else{
+                    querySnapshot.forEach(function (doc) {
+                        callback(doc.data());
+                    });
+                }
+            })
+            .catch(function (error) {
+                console.log("Error getting documents: ", error);
+            });
+    }
+
     //load any saved tasks
     loadLocalTasks() {
         let localSavedTasks = JSON.parse(localStorage.getItem("tasks"));
@@ -421,6 +465,11 @@ export default class FirebaseController extends React.Component {
         return (
             <div>
                 {authHtml}
+                <SideBar
+                    tasks={this.state.tasks}
+                    dayStats={this.state.dayStats}
+                    sendNotification={sendNotification}
+                />
                 <TaskController
                     firebaseSaveTask={this.firebaseSaveTask}
                     firebaseGetAllTasks={this.firebaseGetAllTasks}

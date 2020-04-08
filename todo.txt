@@ -5,9 +5,9 @@
 -add task objectives like in a video game e.g. for clean room an objective could be change bed
 
 --stats
--add a day stat object in firestore
--add loading of current day stat if one exists
 -add saving
+-add creating new day stat if one doesn't exist
+-aad creating a new day stat when the day changes
 -add breakdown of different time worked e.g. break or work
 -add day overview of task activity and a weekly overview of productivity
 

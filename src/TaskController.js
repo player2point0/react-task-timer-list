@@ -1,14 +1,6 @@
 import React from "react";
-import TaskContainer from "./TaskContainer.js";
 import Task from "./ReactTask";
 import HoursOverlay from "./HoursOverlay.js";
-import SideBar from "./SideBar.js";
-import {
-	formatDayMonth,
-	sendNotification,
-	requestNotifications,
-} from "./Ultility.js";
-
 
 export default class TaskController extends React.Component {
 	constructor(props) {
@@ -99,7 +91,6 @@ export default class TaskController extends React.Component {
 
 		return (
 			<div className="app">
-				<SideBar tasks={this.props.tasks} sendNotification={sendNotification} />
 				<div className="mainBody">
 					<HoursOverlay tasks={this.props.tasks} />
 					<div className="tasksContainer">
