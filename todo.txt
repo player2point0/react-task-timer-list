@@ -3,11 +3,10 @@
 -add an extended break of 30 mins for after 2 hours of work
 -add the option to skip signing in and instead use local storage
 -add task objectives like in a video game e.g. for clean room an objective could be change bed
+-add tagging of tasks to enable fair comparison of metrics (e.g. you might compete a programming task quicker than a writing one)
 
 --stats
--add saving
--add creating new day stat if one doesn't exist
--aad creating a new day stat when the day changes
+-aad creating a new day stat when the day changes and if no tasks are active
 -add breakdown of different time worked e.g. break or work
 -add day overview of task activity and a weekly overview of productivity
 
@@ -16,7 +15,6 @@
 -optimise server calls, saving only changed tasks and auto saving interval (currently 4k reads a day per user)
 -possibly add a polling of tasks every 
 -add a sync all tasks button (could also sync hourly)
-
 
 --prelaunch--
 -add security, e.g. a user should only be able to access their own tasks (https://firebase.google.com/docs/firestore/security/rules-query) (https://firebase.google.com/docs/storage/security/index?authuser=0#authorization)
