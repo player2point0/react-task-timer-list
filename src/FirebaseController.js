@@ -112,21 +112,25 @@ export default class FirebaseController extends React.Component {
     addTask(currentState) {
         requestNotifications();
 
-        //todo improve this
-        if (
-            !currentState.newTaskName ||
-            !currentState.newTaskHours ||
-            !currentState.newTaskHours
-        )
-            return;
-        if (isNaN(currentState.newTaskHours) || isNaN(currentState.newTaskMins)) return;
-        if (currentState.newTaskHours < 0 || currentState.newTaskMins < 0) return;
+        let name = currentState.newTaskName;
+        let hours = currentState.newTaskHours;
+        let mins = currentState.newTaskMins;
 
-        let newTaskDuration = currentState.newTaskHours * 3600 + currentState.newTaskMins * 60;
-        let currentDate = new Date(); //todo change so works with multi days
+        //need a name and at least one time value
+        if(!name || (!hours && !mins)) return;
+
+        //if we have one and not the other then assume zero
+        if(!hours) hours = 0;
+        if(!mins) mins = 0;
+
+        //needs to be above zero
+        if (hours < 0 || mins < 0) return;
+
+        let newTaskDuration = hours * 3600 + mins * 60;
+        let currentDate = new Date(); //todo possibly change so works with multi days
 
         let newTask = new TaskContainer(
-            currentState.newTaskName,
+            name,
             newTaskDuration,
             currentDate
         );
@@ -279,7 +283,7 @@ export default class FirebaseController extends React.Component {
             this.firebaseSaveTask(task);
         });
 
-        this.firebaseSaveDayStats();
+        //this.firebaseSaveDayStats();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
