@@ -9,7 +9,7 @@ import TaskContainer from "./TaskContainer.js";
 import {formatDayMonth, requestNotifications, sendNotification} from "./Ultility";
 import SideBar from "./SideBar";
 
-const SAVE_INTERVAL = 5*60;
+const SAVE_INTERVAL = 60*1000; //in milli for set interval
 
 //firebase
 const firebaseConfig = {
@@ -107,12 +107,6 @@ export default class FirebaseController extends React.Component {
             time: state.time + 1,
             dayStats: currentDayStats
         }));
-
-        //save all tasks every n ticks
-        //todo refactor this to use set interval
-        if (this.state.time % SAVE_INTERVAL === 0) {
-            this.setState({ setSaveAllTasks: true });
-        }
     }
 
     addTask(currentState) {
@@ -305,13 +299,15 @@ export default class FirebaseController extends React.Component {
     //interval for the tick method, called when changes are made to the props
     componentDidMount() {
         this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(this.userAuthChanged);
-        this.interval = setInterval(() => this.tick(), 1000);
+        this.tickInterval = setInterval(() => this.tick(), 1000);
+        this.saveInterval = setInterval(() => this.setState({ setSaveAllTasks: true }), SAVE_INTERVAL);
     }
 
     // Make sure we un-register Firebase observers when the component unmounts.
     componentWillUnmount() {
         this.unregisterAuthObserver();
-        clearInterval(this.interval());
+        clearInterval(this.tickInterval);
+        clearInterval(this.saveInterval);
     }
 
     createNewDayStats(){
