@@ -11,8 +11,7 @@
 
 --server
 -add a more robust server and offline strat, store stats and tasks for current day on device (possibly create a day object to save tasks to)
--optimise server calls, saving only changed tasks and auto saving interval (currently 4k reads a day per user)
--possibly add a polling of tasks every 
+-possibly add a polling of tasks every
 -add a sync all tasks button (could also sync hourly)
 
 --prelaunch--
@@ -46,6 +45,7 @@
 -improve task height sizing when below the min task height (possibly hide text and continue to shrinl)
 -hide text overflow
 -starting or unpausing a task should pause any active tasks
+-add a reset pomodoro button
 
 ----non-essential----
 -add dark mode

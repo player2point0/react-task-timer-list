@@ -96,7 +96,8 @@ export default class FirebaseController extends React.Component {
                         updatedTasks[i].isViewing = true;
                         updatedTasks[i].timeUp = true;
                         sendNotification("Task time finished", updatedTasks[i].name);
-                        this.saveAllTasks();
+
+                        this.setState({setSaveAllTasks: true});
                     }
                 }
             }
@@ -146,7 +147,7 @@ export default class FirebaseController extends React.Component {
         const updatedTasks = this.state.tasks.slice();
         for (let i = 0; i < updatedTasks.length; i++) {
             if (updatedTasks[i].id === id) {
-                updatedTasks[i].isViewing = !updatedTasks[i].isViewing;
+                updatedTasks[i].view();
                 break;
             }
         }
@@ -174,7 +175,6 @@ export default class FirebaseController extends React.Component {
 
         this.setState({
             tasks: updatedTasks,
-            setSaveAllTasks: true,
         });
     }
 
@@ -196,7 +196,6 @@ export default class FirebaseController extends React.Component {
 
         this.setState({
             tasks: updatedTasks,
-            setSaveAllTasks: true,
         });
     }
 
@@ -275,17 +274,14 @@ export default class FirebaseController extends React.Component {
     }
 
     //save all tasks
-    saveAllTasks() {
-        localStorage.setItem("tasks", JSON.stringify(this.state.tasks));
+    saveAllTasks(tasksToSave) {
+        localStorage.setItem("tasks", JSON.stringify(tasksToSave));
         let date = formatDayMonth(new Date());
         localStorage.setItem(date, JSON.stringify(this.state.dayStats));
 
-        //todo change this to only saved tasks that have changed
-        // possibly move to on component did update and use prevState
-        // or add a last saved state and compare
-        this.state.tasks.forEach(task => {
-            this.firebaseSaveTask(task);
-        });
+        for(let i = 0;i<tasksToSave.length;i++){
+            this.firebaseSaveTask(tasksToSave[i]);
+        }
 
         this.firebaseSaveDayStats();
     }
@@ -298,8 +294,24 @@ export default class FirebaseController extends React.Component {
         }
 
         if (this.state.setSaveAllTasks) {
-            this.saveAllTasks();
-            this.setState({ setSaveAllTasks: false });
+
+            //grab the tasks that have changed
+            let taskToSave = [];
+            let currentTasks = this.state.tasks.slice();
+
+            for(let i = 0;i<currentTasks.length;i++){
+                if(currentTasks[i].needsSaved){
+                    taskToSave.push(currentTasks[i]);
+                    currentTasks[i].needsSaved = false;
+                }
+            }
+
+            this.saveAllTasks(taskToSave);
+
+            this.setState(state => ({
+                setSaveAllTasks: false,
+                task: currentTasks
+            }));
 
             //check if the day has changed
             let currentDate = formatDayMonth(new Date());
