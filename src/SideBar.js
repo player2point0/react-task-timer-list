@@ -166,8 +166,6 @@ export default class SideBar extends React.Component {
     }
 
     stats() {
-
-
         return (
             <div>
                 <h3>worked : {formatTime(this.props.dayStats.totalWorked)}</h3>
@@ -214,6 +212,7 @@ export default class SideBar extends React.Component {
                     </h1>
                     <h1 onClick={this.toggleStats}>stats</h1>
                     {statsHTML}
+                    <h1>week overview</h1>{/*todo add onlick*/}
                     <h1 onClick={this.togglePomodoro}>pomodoro</h1>
                     {pomodoroHTML}
                 </div>

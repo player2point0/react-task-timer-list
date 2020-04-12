@@ -49,12 +49,12 @@ export default class FirebaseController extends React.Component {
         super(props);
 
         this.state = {
-            tasks: [],//this.loadLocalTasks(),
-            showAuthHtml: firebase.auth().currentUser == null,
+            tasks: [],//todo load from local this.loadLocalTasks(),
+            showAuthHtml: (firebase.auth().currentUser === null),
             time: 0,
             removeTaskId: "",
             setSaveAllTasks: false,
-            dayStats: null, // load from local
+            dayStats: null, // todo load from local
         }
 
         this.saveAllTasks = this.saveAllTasks.bind(this);
@@ -66,7 +66,8 @@ export default class FirebaseController extends React.Component {
         this.finishTask = this.finishTask.bind(this);
         this.addTime = this.addTime.bind(this);
         this.removeTaskWithId = this.removeTaskWithId.bind(this);
-        this.setLoadedTasks = this.setLoadedTasks.bind(this);
+        this.createNewDayStats = this.createNewDayStats.bind(this);
+        this.userAuthChanged = this.userAuthChanged.bind(this);
         this.firebaseSaveTask = this.firebaseSaveTask.bind(this);
         this.firebaseSaveDayStats = this.firebaseSaveDayStats.bind(this);
         this.firebaseGetAllTasks = this.firebaseGetAllTasks.bind(this);
@@ -303,18 +304,32 @@ export default class FirebaseController extends React.Component {
     // Listen to the Firebase Auth state and set the local state.
     //interval for the tick method, called when changes are made to the props
     componentDidMount() {
-        this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(this.setLoadedTasks);
+        this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(this.userAuthChanged);
         this.interval = setInterval(() => this.tick(), 1000);
     }
 
     // Make sure we un-register Firebase observers when the component unmounts.
     componentWillUnmount() {
         this.unregisterAuthObserver();
-        this.interval();
+        clearInterval(this.interval());
+    }
+
+    createNewDayStats(){
+        let newDayStats = {
+            date: formatDayMonth(new Date()),
+            totalAdditional: 0,
+            totalBreak: 0,
+            totalWorked: 0,
+            userId: null,
+        };
+
+        this.setState(state => ({
+            dayStats: newDayStats
+        }));
     }
 
     // login / signup / guest
-    setLoadedTasks(user) {
+    userAuthChanged(user) {
         let newState = {};
         let scope = this;
 
@@ -329,20 +344,8 @@ export default class FirebaseController extends React.Component {
 
             //get saved day stats
             this.firebaseGetDayStats(function (dayStats) {
-
                 if(dayStats == null){
-
-                    let newDayStats = {
-                        date: formatDayMonth(new Date()),
-                        totalAdditional: 0,
-                        totalBreak: 0,
-                        totalWorked: 0,
-                        userId: null,
-                    };
-
-                    scope.setState(state => ({
-                        dayStats: newDayStats
-                    }));
+                    scope.createNewDayStats();
                 }
 
                 else{
