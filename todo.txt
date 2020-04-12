@@ -40,7 +40,7 @@
 -add auto scroll to bottom when adding a new task
 -improve add task ux
 -add move task to top / improve the moving task ux
--finishing a task should reset the pomodoro timers
+-finishing a task should reset the pomodoro timers?
 -improve task click ux
 -add a work finish time, so that users can aim to finish by 5 and see if they are on track
 -improve the sign in ui ( https://github.com/firebase/firebaseui-web-react )
