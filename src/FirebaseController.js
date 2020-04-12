@@ -277,13 +277,17 @@ export default class FirebaseController extends React.Component {
     //save all tasks
     saveAllTasks() {
         localStorage.setItem("tasks", JSON.stringify(this.state.tasks));
+        let date = formatDayMonth(new Date());
+        localStorage.setItem(date, JSON.stringify(this.state.dayStats));
 
         //todo change this to only saved tasks that have changed
+        // possibly move to on component did update and use prevState
+        // or add a last saved state and compare
         this.state.tasks.forEach(task => {
             this.firebaseSaveTask(task);
         });
 
-        //this.firebaseSaveDayStats();
+        this.firebaseSaveDayStats();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -296,12 +300,32 @@ export default class FirebaseController extends React.Component {
         if (this.state.setSaveAllTasks) {
             this.saveAllTasks();
             this.setState({ setSaveAllTasks: false });
+
+            //check if the day has changed
+            let currentDate = formatDayMonth(new Date());
+            if(this.state.dayStats.date != currentDate){
+                this.createNewDayStats();
+            }
         }
     }
 
     // Listen to the Firebase Auth state and set the local state.
     //interval for the tick method, called when changes are made to the props
     componentDidMount() {
+
+        if(this.state.tasks == []){
+
+        }
+
+        if(this.state.dayStats == null){
+
+        }
+
+        this.state = {
+            tasks: [],//todo load from local this.loadLocalTasks(),
+            dayStats: null, // todo load from local
+        }
+
         this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(this.userAuthChanged);
         this.tickInterval = setInterval(() => this.tick(), 1000);
         this.saveInterval = setInterval(() => this.setState({ setSaveAllTasks: true }), SAVE_INTERVAL);
@@ -362,6 +386,7 @@ export default class FirebaseController extends React.Component {
             }));
 
             //day stats from local storage
+
         }
     }
 
@@ -422,7 +447,7 @@ export default class FirebaseController extends React.Component {
             this.db.collection("dayStats")
                 .doc(this.state.dayStats.id)
                 .set(this.state.dayStats)
-                .then(value => console.log("saved task successfully"))
+                .then(value => console.log("saved day stats successfully"))
                 .catch(reason => console.error("error saving task" + reason));
         }
     }
@@ -476,7 +501,10 @@ export default class FirebaseController extends React.Component {
                 }
                 else{
                     querySnapshot.forEach(function (doc) {
-                        callback(doc.data());
+                        let dayStats = doc.data();
+                        dayStats.id = doc.id;
+
+                        callback(dayStats);
                     });
                 }
             })
@@ -489,6 +517,11 @@ export default class FirebaseController extends React.Component {
     loadLocalTasks() {
         let localSavedTasks = JSON.parse(localStorage.getItem("tasks"));
         return this.parseSavedTasks(localSavedTasks);
+    }
+
+    loadLocalDayStats(){
+        let date = formatDayMonth(new Date())
+        return JSON.parse(localStorage.getItem(date));
     }
 
     parseSavedTasks(savedTasks) {

@@ -6,7 +6,6 @@
 -add tagging of tasks to enable fair comparison of metrics (e.g. you might compete a programming task quicker than a writing one)
 
 --stats
--aad creating a new day stat when the day changes and if no tasks are active
 -add breakdown of different time worked e.g. break or work
 -add day overview of task activity and a weekly overview of productivity
 
@@ -46,6 +45,7 @@
 -improve the sign in ui ( https://github.com/firebase/firebaseui-web-react )
 -improve task height sizing when below the min task height (possibly hide text and continue to shrinl)
 -hide text overflow
+-starting or unpausing a task should pause any active tasks
 
 ----non-essential----
 -add dark mode
