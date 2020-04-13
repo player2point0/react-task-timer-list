@@ -92,7 +92,6 @@ export default class FirebaseController extends React.Component {
                     updatedTasks[i].remainingTime = 0;
 
                     if (!updatedTasks[i].timeUp) {
-                        sendNotification("task out of time", "");
                         updatedTasks[i].isViewing = true;
                         updatedTasks[i].timeUp = true;
                         sendNotification("Task time finished", updatedTasks[i].name);
@@ -125,7 +124,7 @@ export default class FirebaseController extends React.Component {
         if(!mins) mins = 0;
 
         //needs to be above zero
-        if (hours < 0 || mins < 0) return;
+        if (hours < 0 || mins < 0 || Number(hours+mins) === 0) return;
 
         let newTaskDuration = hours * 3600 + mins * 60;
         let currentDate = new Date(); //todo possibly change so works with multi days
