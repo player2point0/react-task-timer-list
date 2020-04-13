@@ -28,8 +28,16 @@ export default class SideBar extends React.Component {
         this.toggleSettings = this.toggleSettings.bind(this);
         this.togglePomodoro = this.togglePomodoro.bind(this);
         this.stashBreakTime = this.stashBreakTime.bind(this);
+        this.resetPomodoro = this.resetPomodoro.bind(this);
 
-        this.interval = setInterval(() => this.pomodoroTick(), 1000);
+    }
+
+    componentDidMount() {
+        this.pomodoroTickInterval = setInterval(() => this.pomodoroTick(), 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.pomodoroTickInterval);
     }
 
     toggleSideBar() {
@@ -165,13 +173,30 @@ export default class SideBar extends React.Component {
         }));
     }
 
-    stats() {
+    statsHtml() {
+
+        if(this.props.dayStats === null) return;
+
         return (
             <div>
                 <h3>worked : {formatTime(this.props.dayStats.totalWorked)}</h3>
                 <h3>additional : {formatTime(this.props.dayStats.totalAdditional)}</h3>
             </div>
         );
+    }
+
+    resetPomodoro(){
+        let newPomodoro = {
+            startedWork: false,
+            startedBreak: false,
+            workTimeRemaining: WORK_TIME,
+            breakTimeRemaining: BREAK_TIME,
+            stashBreak: false,
+        };
+
+        this.setState(state =>({
+            pomodoro: newPomodoro
+        }));
     }
 
     render() {
@@ -188,7 +213,7 @@ export default class SideBar extends React.Component {
         let pomodoroHTML;
 
         if (this.state.showStats) {
-            statsHTML = this.stats();
+            statsHTML = this.statsHtml();
         }
 
         if (this.state.showSettings) {
@@ -200,6 +225,7 @@ export default class SideBar extends React.Component {
                 <Pomodoro
                     workTimeRemaining={this.state.pomodoro.workTimeRemaining}
                     breakTimeRemaining={this.state.pomodoro.breakTimeRemaining}
+                    resetPomodoro={this.resetPomodoro}
                 />
             );
         }
@@ -212,7 +238,7 @@ export default class SideBar extends React.Component {
                     </h1>
                     <h1 onClick={this.toggleStats}>stats</h1>
                     {statsHTML}
-                    <h1>week overview</h1>{/*todo add onlick*/}
+                    {/*<h1 onClick={this.showWeekOverview}>week overview </h1>*/}
                     <h1 onClick={this.togglePomodoro}>pomodoro</h1>
                     {pomodoroHTML}
                 </div>

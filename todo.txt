@@ -42,10 +42,10 @@
 -improve task click ux
 -add a work finish time, so that users can aim to finish by 5 and see if they are on track
 -improve the sign in ui ( https://github.com/firebase/firebaseui-web-react )
--improve task height sizing when below the min task height (possibly hide text and continue to shrinl)
+-improve task height sizing when below the min task height (possibly hide text and continue to shrink)
 -hide text overflow
 -starting or unpausing a task should pause any active tasks
--add a reset pomodoro button
+-refactor css into different files
 
 ----non-essential----
 -add dark mode
@@ -53,7 +53,7 @@
 -add in app purchase for dark mode
 -task/day concise overview
 -add stats for the day
--add different days and swithing between them
+-add different days and switching between them
 -add a calender view to 
 -add task priorities
 -add nested tasks
