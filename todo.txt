@@ -2,6 +2,7 @@
 -test on mobile and move the update tasks to a service worker if needed
 -add the option to skip signing in and instead use local storage
 -add task objectives like in a video game e.g. for clean room an objective could be change bed
+-add task priorities and a sorting algorithm
 
 --stats
 -add breakdown of different time worked e.g. break or work
@@ -25,7 +26,6 @@
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
 
 ----UI/UX----
--redesign with figma?
 -improve hours overlay ui (display hours vertically instead of horizontal)
 -change notifications request ui/ux ( https://developers.google.com/web/fundamentals/push-notifications/permission-ux )
 -improve side bar ui and ux 
@@ -38,19 +38,16 @@
 -improve the sign in ui ( https://github.com/firebase/firebaseui-web-react )
 -improve task height sizing when below the min task height (possibly hide text and continue to shrink)
 -hide text overflow
--starting or unpausing a task should pause any active tasks
 -refactor css into different files
+-possibly remove the default displaying of task duration and only show when clicked (cleaner ui)
 
 ----non-essential----
 -add dark mode
 -add settings
 -add in app purchase for dark mode
 -task/day concise overview
--add stats for the day
 -add different days and switching between them
--add a calender view to 
--add task priorities
--add nested tasks
+-add a calender view to
 
 --ai--
 -add ai to suggest the ordering of tasks - for optimal efficiency and to reduce burnout

@@ -200,27 +200,51 @@ export default class FirebaseController extends React.Component {
 
     startTask(id) {
         const updatedTasks = this.state.tasks.slice();
-        for (let i = updatedTasks.length - 1; i >= 0; i--) {
+        let updatedDayStats = this.state.dayStats;
+        let taskActive = false;
+        let currentDate = (new Date()).toISOString();
+        
+        for (let i = 0; i < updatedTasks.length; i++) {
             if (updatedTasks[i].id === id) {
 
                 if (updatedTasks[i].started) {
                     if (updatedTasks[i].remainingTime >= 0) {
-                        if (updatedTasks[i].paused) updatedTasks[i].unPause();
-                        else updatedTasks[i].pause();
+                        if (updatedTasks[i].paused){
+                            updatedTasks[i].unPause();
+                            taskActive = true;
+                            updatedDayStats.startPoints[currentDate] = updatedTasks[i].name;
+                        }
+                        else {
+                            updatedTasks[i].pause();
+                            updatedDayStats.stopPoints[currentDate] = updatedTasks[i].name;
+                        }
                     }
                 }
 
                 else{
                     updatedTasks[i].start();
+                    taskActive = true;
+                    updatedDayStats.startPoints[currentDate] = updatedTasks[i].name;
                 }
 
                 break;
             }
         }
 
+        //pause any other active tasks
+        if(taskActive){
+            for (let i = 0; i < updatedTasks.length; i++) {
+                if (updatedTasks[i].id !== id && updatedTasks[i].started && !updatedTasks[i].paused) {
+                    updatedTasks[i].pause();
+                    updatedDayStats.stopPoints[currentDate] = updatedTasks[i].name;
+                }
+            }
+        }
+
         this.setState({
             tasks: updatedTasks,
             setSaveAllTasks: true,
+            dayStats: updatedDayStats,
         });
     }
 
@@ -324,6 +348,7 @@ export default class FirebaseController extends React.Component {
     //interval for the tick method, called when changes are made to the props
     componentDidMount() {
 
+        //todo add offline loading
         if(this.state.tasks == []){
 
         }
@@ -356,10 +381,13 @@ export default class FirebaseController extends React.Component {
             totalBreak: 0,
             totalWorked: 0,
             userId: null,
+            startPoints: {},
+            stopPoints: {},
         };
 
         this.setState(state => ({
-            dayStats: newDayStats
+            dayStats: newDayStats,
+            setSaveAllTasks: true,
         }));
     }
 
@@ -440,26 +468,37 @@ export default class FirebaseController extends React.Component {
     firebaseSaveDayStats() {
         const currentUser = firebase.auth().currentUser;
         let currentDayStats = this.state.dayStats;
+        let scope = this;
 
         if (!currentUser) {
             console.error("not logged in");
             return;
         }
 
-        if(this.state.dayStats.userId === null){
+        if(!this.state.dayStats.id){
             currentDayStats.userId = currentUser.uid;
 
             this.db.collection("dayStats")
                 .add(this.state.dayStats)
-                .then(value => console.log("saved task successfully"))
-                .catch(reason => console.error("error saving task" + reason));
+                .then(function(val){
+                    //add the id from firebase to the local dayStats
+                    let updatedDayStats = scope.state.dayStats;
+                    updatedDayStats.id = val.id;
+
+                    scope.setState(state => ({
+                        dayStats: updatedDayStats,
+                    }));
+
+                    console.log("saved day stats successfully");
+                })
+                .catch(reason => console.error("error saving day stats" + reason));
         }
         else{
             this.db.collection("dayStats")
                 .doc(this.state.dayStats.id)
                 .set(this.state.dayStats)
                 .then(value => console.log("saved day stats successfully"))
-                .catch(reason => console.error("error saving task" + reason));
+                .catch(reason => console.error("error saving day stats" + reason));
         }
     }
 
