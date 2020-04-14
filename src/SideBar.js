@@ -1,6 +1,6 @@
 import React from "react";
 import Pomodoro from "./Pomodoro.js";
-import {formatDayMonth, formatTime, getDateStr} from "./Ultility.js";
+import {formatTime} from "./Ultility.js";
 
 const WORK_TIME = 25 * 60;
 const BREAK_TIME = 5 * 60;
@@ -138,8 +138,6 @@ export default class SideBar extends React.Component {
                     currentState.showSideBar = true;
 
                     //call callback to show notification, with stashing of break time
-                    let scope = this;
-
                     this.props.sendNotification(
                         "Break time started",
                         "click to stash break",

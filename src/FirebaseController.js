@@ -203,7 +203,7 @@ export default class FirebaseController extends React.Component {
         let updatedDayStats = this.state.dayStats;
         let taskActive = false;
         let currentDate = (new Date()).toISOString();
-        
+
         for (let i = 0; i < updatedTasks.length; i++) {
             if (updatedTasks[i].id === id) {
 
@@ -338,7 +338,7 @@ export default class FirebaseController extends React.Component {
 
             //check if the day has changed
             let currentDate = formatDayMonth(new Date());
-            if(this.state.dayStats.date != currentDate){
+            if(this.state.dayStats.date !== currentDate){
                 this.createNewDayStats();
             }
         }
@@ -349,18 +349,18 @@ export default class FirebaseController extends React.Component {
     componentDidMount() {
 
         //todo add offline loading
-        if(this.state.tasks == []){
+        if(this.state.tasks === []){
 
         }
 
-        if(this.state.dayStats == null){
+        if(this.state.dayStats === null){
 
         }
 
-        this.state = {
+        this.setState(state => ({
             tasks: [],//todo load from local this.loadLocalTasks(),
             dayStats: null, // todo load from local
-        }
+        }));
 
         this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(this.userAuthChanged);
         this.tickInterval = setInterval(() => this.tick(), 1000);
@@ -393,7 +393,6 @@ export default class FirebaseController extends React.Component {
 
     // login / signup / guest
     userAuthChanged(user) {
-        let newState = {};
         let scope = this;
 
         if (user) {
@@ -425,7 +424,6 @@ export default class FirebaseController extends React.Component {
             }));
 
             //day stats from local storage
-
         }
     }
 
