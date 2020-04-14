@@ -7,6 +7,32 @@ const TASK_VIEWING_HEIGHT = 50;
 
 //renders the task based on the passed properties
 class Task extends React.Component {
+
+	constructor(props) {
+		super(props);
+		//store the tasks
+		this.state = {
+
+		};
+
+		this.handleNewObjectiveNameChange = this.handleNewObjectiveNameChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	//methods for the new task input
+	handleNewObjectiveNameChange(e) {
+		this.setState({ newObjectiveName: e.target.value });
+	}
+
+	handleSubmit(e) {
+		e.preventDefault();
+		const currentState = this.state;
+		this.props.addTask(currentState);
+		this.setState(state =>({
+			newObjectiveName: "",
+		}));
+	}
+
 	render() {
 		let THIS_SCOPE = this;
 
@@ -39,36 +65,64 @@ class Task extends React.Component {
 				((this.props.totalDuration - this.props.remainingTime) /
 					this.props.totalDuration);
 
-			taskViewing = (
-				<div className="taskViewing">
-					<button
-						className="taskViewingButton"
-						onClick={function(e) {
-							e.stopPropagation();
-							THIS_SCOPE.props.startTask(THIS_SCOPE.props.id);
-						}}
-					>
-						{startButtonText}
-					</button>
-					<button
-						className="taskViewingButton"
-						onClick={function(e) {
-							e.stopPropagation();
-							THIS_SCOPE.props.finishTask(THIS_SCOPE.props.id);
-						}}
-					>
-						finish
-					</button>
-					<button
-						className="taskViewingButton"
-						onClick={function(e) {
-							e.stopPropagation();
-							THIS_SCOPE.props.addTime(THIS_SCOPE.props.id);
-						}}
-					>
-						add time
-					</button>
+			let objectivesHtml = (
+				<div className="taskObjective">
+					<h2>objective</h2>
+					<button>complete</button>
 				</div>
+			);
+
+			taskViewing = (
+				<React.Fragment>
+					{/*}
+					<div className="taskObjectives">
+						{objectivesHtml}
+						<form
+							className="addObjectiveForm"
+							onSubmit={this.handleSubmit}
+							autoComplete="off"
+						>
+							<input
+								id="objective-name-input"
+								type="text"
+								onChange={this.handleNewObjectiveNameChange}
+								value={this.state.newObjectiveName}
+								placeholder="objective"
+							/>
+							<button>add</button>
+						</form>
+					</div>
+					{*/}
+					<div className="taskViewing">
+						<button
+							className="taskViewingButton"
+							onClick={function(e) {
+								e.stopPropagation();
+								THIS_SCOPE.props.startTask(THIS_SCOPE.props.id);
+							}}
+						>
+							{startButtonText}
+						</button>
+						<button
+							className="taskViewingButton"
+							onClick={function(e) {
+								e.stopPropagation();
+								THIS_SCOPE.props.finishTask(THIS_SCOPE.props.id);
+							}}
+						>
+							finish
+						</button>
+						<button
+							className="taskViewingButton"
+							onClick={function(e) {
+								e.stopPropagation();
+								THIS_SCOPE.props.addTime(THIS_SCOPE.props.id);
+							}}
+						>
+							add time
+						</button>
+					</div>
+				</React.Fragment>
 			);
 		}
 

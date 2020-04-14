@@ -11,6 +11,7 @@
 --server
 -add a more robust server and offline strategy
 -add a sync all tasks button (could also sync hourly)
+-possibly change to pushing changes to firebase every save interval
 
 --prelaunch--
 -add security, e.g. a user should only be able to access their own tasks (https://firebase.google.com/docs/firestore/security/rules-query) (https://firebase.google.com/docs/storage/security/index?authuser=0#authorization)
@@ -25,6 +26,7 @@
 
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
+-improve the timing and countdown, currently the timings are not in sync
 
 ----UI/UX----
 -improve hours overlay ui (display hours vertically instead of horizontal)
@@ -41,6 +43,7 @@
 -hide text overflow
 -refactor css into different files
 -possibly remove the default displaying of task duration and only show when clicked (cleaner ui)
+-refactor to use fragments instead of divs
 
 ----non-essential----
 -add dark mode

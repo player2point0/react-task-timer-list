@@ -238,6 +238,7 @@ export default class FirebaseController extends React.Component {
             for (let i = 0; i < updatedTasks.length; i++) {
                 if (updatedTasks[i].id !== id && updatedTasks[i].started && !updatedTasks[i].paused) {
                     updatedTasks[i].pause();
+                    updatedTasks[i].isViewing = false;
                     updatedDayStats.stopPoints[currentDate] = updatedTasks[i].name;
                 }
             }
@@ -459,6 +460,7 @@ export default class FirebaseController extends React.Component {
                     pauseDates: task.stats.pauseDates,
                     unpauseDates: task.stats.unpauseDates,
                 },
+                objectives: task.objectives,
                 userId: currentUser.uid,
             })
             .then(value => console.log("saved task successfully"))

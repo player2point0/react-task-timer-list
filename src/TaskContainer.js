@@ -16,6 +16,7 @@ class TaskContainer {
 			this.paused = savedTask.paused;
 			this.isViewing = savedTask.isViewing;
 			this.stats = savedTask.stats;
+			this.objectives = savedTask.objectives;
 
 			this.needsSaved = false;
 		} else {
@@ -38,8 +39,18 @@ class TaskContainer {
 				pauseDates: [],
 				unpauseDates: [],
 			};
+			this.objectives = {};
+
 			this.needsSaved = true;
 		}
+	}
+
+	addObjective(objectiveName){
+		this.objectives[objectiveName] = false;
+	}
+
+	completeObjective(objectiveName){
+		this.objectives[objectiveName] = true;
 	}
 
 	addTime() {
