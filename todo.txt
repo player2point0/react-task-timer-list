@@ -18,6 +18,7 @@
 -host it with a good domain name ( https://github.com/firebase/firebaseui-web-react )
 -test on different devices and web broswers
 -possibly refactor using react hooks ( https://reactjs.org/docs/hooks-intro.html)
+-add a version num to the side bar
 
 ----mobile----
 -add mobile support

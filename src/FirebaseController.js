@@ -86,7 +86,6 @@ export default class FirebaseController extends React.Component {
         for (let i = 0; i < updatedTasks.length; i++) {
             if (updatedTasks[i].started && !updatedTasks[i].paused) {
                 updatedTasks[i].remainingTime--;
-                currentDayStats.totalWorked += 1;
 
                 if (updatedTasks[i].remainingTime <= 0) {
                     updatedTasks[i].remainingTime = 0;
@@ -98,6 +97,9 @@ export default class FirebaseController extends React.Component {
 
                         this.setState({setSaveAllTasks: true});
                     }
+                }
+                else{
+                    currentDayStats.totalWorked += 1;
                 }
             }
         }
