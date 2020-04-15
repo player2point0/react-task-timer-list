@@ -177,10 +177,10 @@ export default class SideBar extends React.Component {
         if(this.props.dayStats === null) return;
 
         return (
-            <div>
+            <React.Fragment>
                 <h3>worked : {formatTime(this.props.dayStats.totalWorked)}</h3>
                 <h3>additional : {formatTime(this.props.dayStats.totalAdditional)}</h3>
-            </div>
+            </React.Fragment>
         );
     }
 
@@ -202,7 +202,7 @@ export default class SideBar extends React.Component {
         if (!this.state.showSideBar) {
             return (
                 <h1 className="showSideBar" onClick={this.toggleSideBar}>
-                    s<br></br>i<br></br>d<br></br>e<br></br>b<br></br>a<br></br>r
+                    s<br/>i<br/>d<br/>e<br/>b<br/>a<br/>r
                 </h1>
             );
         }
@@ -243,7 +243,7 @@ export default class SideBar extends React.Component {
                 </div>
                 <div className="closeSideBar" onClick={this.toggleSideBar}>
                     <h1>
-                        c<br></br>l<br></br>o<br></br>s<br></br>e<br></br>
+                        c<br/>l<br/>o<br/>s<br/>e<br/>
                     </h1>
                 </div>
             </div>

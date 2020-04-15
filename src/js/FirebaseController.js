@@ -599,7 +599,7 @@ export default class FirebaseController extends React.Component {
         if(this.state.showAuthHtml) authHtml = <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>;
 
         return (
-            <div>
+            <React.Fragment>
                 {authHtml}
                 <SideBar
                     tasks={this.state.tasks}
@@ -618,7 +618,7 @@ export default class FirebaseController extends React.Component {
                     finishTask={this.finishTask}
                     addTime={this.addTime}
                 />
-            </div>
+            </React.Fragment>
         );
     }
 

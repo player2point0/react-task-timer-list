@@ -9,7 +9,7 @@
     text-align: right;
     color: var(--hour-text-color);
     width : 100%;
-    border-bottom: 1px dashed var(--hour-line-color);
+    border-bottom: 2px dashed var(--hour-line-color);
     background-color: transparent;
     box-sizing: border-box;
     font-size: var(--small-text-size);

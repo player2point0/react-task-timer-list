@@ -9,6 +9,7 @@ export default class TaskController extends React.Component {
 		//store the tasks
 		this.state = {
 			showTaskForm: false,
+			scrollToForm: false,
 		};
 
 		this.toggleTaskForm = this.toggleTaskForm.bind(this);
@@ -22,6 +23,7 @@ export default class TaskController extends React.Component {
 	toggleTaskForm() {
 		this.setState(state => ({
 			showTaskForm: !state.showTaskForm,
+			scrollToForm: true,
 		}));
 	}
 
@@ -46,6 +48,17 @@ export default class TaskController extends React.Component {
 		}));
 	}
 
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if(this.state.scrollToForm){
+			var elmnt = document.getElementById("addTaskForm");
+			if(elmnt) elmnt.scrollIntoView(false);
+
+			this.setState(state =>({
+				scrollToForm: false,
+			}));
+		}
+	}
+
 	render() {
 		let addTaskHtml;
 
@@ -53,6 +66,7 @@ export default class TaskController extends React.Component {
 			//display the inputs
 			addTaskHtml = (
 				<form
+					id="addTaskForm"
 					className="addTaskForm"
 					onSubmit={this.handleSubmit}
 					autoComplete="off"

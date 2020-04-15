@@ -35,10 +35,13 @@ class HoursOverlay extends React.Component {
 
 		for (let i = 1; i < 12; i++) {
 			currentTime.setUTCHours(currentHour + i);
-			let hour = currentTime.getUTCHours();
+			let hour = currentTime.getUTCHours().toString();
 			if (hour < 10) hour = "0" + hour;
 			let hourBar = (
-				<h1 style={{ height: HOUR_HEIGHT + "vh" }} key={hour}>
+				<h1
+					style={{ height: HOUR_HEIGHT + "vh" }}
+					key={hour}
+				>
 					{hour + ":00"}
 				</h1>
 			);
