@@ -23,6 +23,7 @@
 -tidy index.html
 -setup donations (https://ko-fi.com/
 -change notifications request ui/ux ( https://developers.google.com/web/fundamentals/push-notifications/permission-ux )
+-improve the sign in ui ( https://github.com/firebase/firebaseui-web-react )
 
 ----mobile----
 -add mobile support
@@ -37,9 +38,8 @@
 -add move task to top / improve the moving task ux
 -improve task click ux
 -add a work finish time, so that users can aim to finish by 5 and see if they are on track
--improve the sign in ui ( https://github.com/firebase/firebaseui-web-react )
--improve task height sizing when below the min task height (possibly hide text and continue to shrink)
--hide text overflow and possibly remove the default displaying of task duration (show a tick animation) and only show when clicked (cleaner ui)
+
+-force lower case
 
 ----non-essential----
 -add dark mode

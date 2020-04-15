@@ -2,9 +2,12 @@ import React from "react";
 import "../css/task.css";
 import { formatTime } from "../js/Ultility.js";
 
-const MIN_TASK_HEIGHT = 20;
+const MIN_TASK_HEIGHT = 5;
+const MIN_HOUR_TIME = 0.1;
 const HOUR_HEIGHT = 30;
-const TASK_VIEWING_HEIGHT = 50;
+const TASK_VIEWING_HEIGHT = 70;
+const HOUR_IN_SECONDS = 60 * 60;
+const HIDE_CONTENT_HEIGHT = 0;//10;
 
 //renders the task based on the passed properties
 class Task extends React.Component {
@@ -36,19 +39,51 @@ class Task extends React.Component {
 
 	render() {
 		let THIS_SCOPE = this;
+		let taskContent;
 
 		//could resize the task body to fit the task viewing div and not mess up the hours overlay
 		let taskViewing;
-		const HOUR_IN_SECONDS = 60 * 60;
-		let taskHeightPer =
-			this.props.remainingTime / HOUR_IN_SECONDS < 0.5
-				? 0.5
+
+		let taskHeightPer = this.props.remainingTime / HOUR_IN_SECONDS < MIN_HOUR_TIME
+				? MIN_HOUR_TIME
 				: this.props.remainingTime / HOUR_IN_SECONDS;
-		let taskHeight =
-			taskHeightPer * HOUR_HEIGHT < MIN_TASK_HEIGHT
+		let taskHeight = taskHeightPer * HOUR_HEIGHT < MIN_TASK_HEIGHT
 				? MIN_TASK_HEIGHT
 				: taskHeightPer * HOUR_HEIGHT;
 		let coverHeight = 0;
+
+		if(taskHeight>HIDE_CONTENT_HEIGHT || this.props.isViewing){
+			taskContent = (<React.Fragment>
+				<div
+					className="taskViewingCover"
+					style={{ height: coverHeight + "vh" }}
+				/>
+				<div className="taskUpDownButtons">
+					<button
+						className="taskUpButton"
+						onClick={function(e) {
+							e.stopPropagation();
+							THIS_SCOPE.props.taskUp(THIS_SCOPE.props.id);
+						}}
+					>
+						up
+					</button>
+					<button
+						className="taskDownButton"
+						onClick={function(e) {
+							e.stopPropagation();
+							THIS_SCOPE.props.taskDown(THIS_SCOPE.props.id);
+						}}
+					>
+						down
+					</button>
+				</div>
+				<div className="taskSelectButton">
+					<h1 className="taskName">{this.props.name}</h1>
+					<h1 className="taskTime">{formatTime(this.props.remainingTime)}</h1>
+				</div>
+			</React.Fragment>);
+		}
 
 		let startButtonText =
 			this.props.paused || this.props.remainingTime === 0
@@ -133,41 +168,14 @@ class Task extends React.Component {
 				onClick={e => {
 					this.props.taskOnClick(this.props.id, e);
 				}}
-				style={{ height: taskHeight + "vh" }}
+				style={{ height: taskHeight + "vh"}}
 			>
 				<div
 					className="taskBackground"
-					style={{ height: taskHeight + "vh" }}
-				></div>
+					style={{height: taskHeight + "vh"}}
+				/>
 				<div className="taskBody">
-					<div
-						className="taskViewingCover"
-						style={{ height: coverHeight + "vh" }}
-					></div>
-					<div className="taskUpDownButtons">
-						<button
-							className="taskUpButton"
-							onClick={function(e) {
-								e.stopPropagation();
-								THIS_SCOPE.props.taskUp(THIS_SCOPE.props.id);
-							}}
-						>
-							up
-						</button>
-						<button
-							className="taskDownButton"
-							onClick={function(e) {
-								e.stopPropagation();
-								THIS_SCOPE.props.taskDown(THIS_SCOPE.props.id);
-							}}
-						>
-							down
-						</button>
-					</div>
-					<div className="taskSelectButton">
-						<h1 className="taskName">{this.props.name}</h1>
-						<h1 className="taskTime">{formatTime(this.props.remainingTime)}</h1>
-					</div>
+					{taskContent}
 				</div>
 				{taskViewing}
 			</div>

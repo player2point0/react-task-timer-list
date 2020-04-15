@@ -13,6 +13,7 @@
     display: grid;
     grid-template-columns: 1fr 9fr;
     align-content: center;
+    overflow: hidden;
 }
 .taskBody:hover{
     color: var(--text-hover-color);
