@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import FirebaseController from "./FirebaseController.js";
-import * as serviceWorker from "./serviceWorker.js";
+import "./css/index.css";
+import FirebaseController from "./js/FirebaseController.js";
+import * as serviceWorker from "./js/serviceWorker.js";
 
 serviceWorker.register();
 

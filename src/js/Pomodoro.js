@@ -1,5 +1,5 @@
 import React from "react";
-import { formatTime } from "./Ultility.js";
+import { formatTime } from "../js/Ultility.js";
 
 export default class Pomodoro extends React.Component {
 	render() {

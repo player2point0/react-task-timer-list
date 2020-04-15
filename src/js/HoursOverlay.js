@@ -1,4 +1,5 @@
 import React from "react";
+import "../css/hourCover.css";
 
 const HOUR_HEIGHT = 30;
 

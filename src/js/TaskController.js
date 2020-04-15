@@ -1,6 +1,7 @@
 import React from "react";
-import Task from "./ReactTask";
-import HoursOverlay from "./HoursOverlay.js";
+import Task from "../js/ReactTask.js";
+import HoursOverlay from "../js/HoursOverlay.js";
+import "../css/addTaskForm.css";
 
 export default class TaskController extends React.Component {
 	constructor(props) {

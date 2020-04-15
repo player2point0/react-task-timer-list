@@ -1,0 +1,68 @@
+.addTaskButton{
+    width: 100%;
+    font-size: var(--large-text-size);
+    background-color: var(--button-color);
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.addTaskButton h1{
+    font-size: var(--large-text-size);
+    color: var(--text-color);
+    position: relative;
+    z-index: 10;
+}
+.addTaskButton h1:hover{
+    color: var(--text-hover-color);
+}
+
+.addTaskForm{
+    background-color: var(--add-task-color);
+    padding: 10px;
+}
+
+.addTaskForm input{
+    display:block;
+    width: 25vw;
+    height: 5vw;
+    text-align:center;
+    margin: auto auto 1px;
+    font-size: var(--small-text-size);
+    border: none;
+    border-radius: 2px;
+    position: relative;
+    z-index: 10;
+}
+
+
+.taskInput button{
+    display:block;
+    width: 25vw;
+    height: 10vw;
+    margin: auto auto 20px;
+    border: none;
+    border-radius: 2px;
+    color: var(--text-color);
+    background-color: var(--task-background-color);
+    font-size: var(--medium-text-size);
+    position: relative;
+    z-index: 10;
+}
+.taskInput button:hover{
+    color: var(--text-hover-color);
+}
+
+
+@media only screen and (max-width: 600px) {
+    .addTaskForm input{
+        width: 60vw;
+        height: 7.5vw;
+        font-size: var(--small-text-size);
+    }
+
+    .taskInput button{
+        width: 60vw;
+        height: 10vw;
+        font-size: var(--medium-text-size);
+    }
+}

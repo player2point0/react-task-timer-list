@@ -1,0 +1,22 @@
+.hourCover{
+    position: absolute;
+    pointer-events: none;
+    width: 100%;
+}
+
+.hourCover h1{
+    min-height: 5vh;
+    text-align: right;
+    color: var(--hour-text-color);
+    width : 100%;
+    border-bottom: 1px dashed var(--hour-line-color);
+    background-color: transparent;
+    box-sizing: border-box;
+    font-size: var(--small-text-size);
+}
+
+
+@media only screen and (max-width: 600px) {
+
+
+}

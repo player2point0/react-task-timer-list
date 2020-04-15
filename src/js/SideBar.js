@@ -1,6 +1,7 @@
 import React from "react";
-import Pomodoro from "./Pomodoro.js";
-import {formatTime} from "./Ultility.js";
+import Pomodoro from "../js/Pomodoro.js";
+import {formatTime} from "../js/Ultility.js";
+import "../css/sideBar.css";
 
 const WORK_TIME = 25 * 60;
 const BREAK_TIME = 5 * 60;

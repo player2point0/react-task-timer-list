@@ -1,5 +1,6 @@
 import React from "react";
-import { formatTime } from "./Ultility.js";
+import "../css/task.css";
+import { formatTime } from "../js/Ultility.js";
 
 const MIN_TASK_HEIGHT = 20;
 const HOUR_HEIGHT = 30;

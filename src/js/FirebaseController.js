@@ -1,13 +1,15 @@
 import React from "react";
-import "./index.css";
+import "../css/index.css";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import TaskController from "./TaskController.js";
-import TaskContainer from "./TaskContainer.js";
-import {formatDayMonth, requestNotifications, sendNotification} from "./Ultility";
-import SideBar from "./SideBar";
+import TaskController from "../js/TaskController.js";
+import TaskContainer from "../js/TaskContainer.js";
+import {formatDayMonth, requestNotifications, sendNotification} from "../js/Ultility.js";
+import SideBar from "../js/SideBar.js";
+
+console.log(window.location.pathname);
 
 const SAVE_INTERVAL = 60*1000; //in milli for set interval
 
