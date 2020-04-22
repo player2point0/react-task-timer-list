@@ -1,5 +1,6 @@
 import React from "react";
 import Pomodoro from "../js/Pomodoro.js";
+import Stats from "../js/Stats";
 import {formatTime} from "../js/Ultility.js";
 import "../css/sideBar.css";
 
@@ -12,7 +13,7 @@ export default class SideBar extends React.Component {
 
         this.state = {
             showSideBar: false,
-            showStats: true,
+            showStats: false,
             showSettings: false,
             showPomodoro: true,
             pomodoro: {
@@ -172,18 +173,6 @@ export default class SideBar extends React.Component {
         }));
     }
 
-    statsHtml() {
-
-        if(this.props.dayStats === null) return;
-
-        return (
-            <React.Fragment>
-                <h3>worked : {formatTime(this.props.dayStats.totalWorked)}</h3>
-                <h3>additional : {formatTime(this.props.dayStats.totalAdditional)}</h3>
-            </React.Fragment>
-        );
-    }
-
     resetPomodoro(){
         let newPomodoro = {
             startedWork: false,
@@ -208,11 +197,13 @@ export default class SideBar extends React.Component {
         }
 
         let statsHTML;
+        let timeWorked;
         let settingsHTML;
         let pomodoroHTML;
 
         if (this.state.showStats) {
-            statsHTML = this.statsHtml();
+            statsHTML = <Stats
+            dayStats={this.props.dayStats}/>;
         }
 
         if (this.state.showSettings) {
@@ -229,12 +220,17 @@ export default class SideBar extends React.Component {
             );
         }
 
+        if(this.props.dayStats !== null){
+            timeWorked = <h1>total : {formatTime(this.props.dayStats.totalWorked)}</h1>;
+        }
+
         return (
             <div className="sideBarContainer">
                 <div className="sideBar">
                     <h1 className="hideSideBar" onClick={this.toggleSideBar}>
                         sidebar
                     </h1>
+                    {timeWorked}
                     <h1 onClick={this.toggleStats}>stats</h1>
                     {statsHTML}
                     {/*<h1 onClick={this.showWeekOverview}>week overview </h1>*/}
