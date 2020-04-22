@@ -104,6 +104,41 @@
     font-size: var(--medium-text-size);
 }
 
+.taskObjective, .addObjectiveForm{
+    border-top: 1px solid white;
+    color: var(--text-color);
+    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    align-content: center;
+    text-align: center;
+}
+
+.taskObjective button, .addObjectiveForm button{
+    height: auto;
+    align-content: center;
+    font-size: var(--small-text-size);
+    background-color: var(--button-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 2px;
+}
+
+.taskObjective button:hover, .addObjectiveForm button:hover{
+    color: var(--text-hover-color);
+}
+
+.taskObjective h1{
+    font-size: var(--small-text-size);
+
+}
+
+.addObjectiveForm input{
+    text-align: center;
+    border:none;
+    font-size: var(--small-text-size);
+
+}
 
 @media only screen and (max-width: 600px) {
     .taskSelectButton{

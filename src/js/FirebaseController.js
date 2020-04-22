@@ -67,6 +67,8 @@ export default class FirebaseController extends React.Component {
         this.startTask = this.startTask.bind(this);
         this.finishTask = this.finishTask.bind(this);
         this.addTime = this.addTime.bind(this);
+        this.completeObjective = this.completeObjective.bind(this);
+        this.addObjective = this.addObjective.bind(this);
         this.removeTaskWithId = this.removeTaskWithId.bind(this);
         this.createNewDayStats = this.createNewDayStats.bind(this);
         this.userAuthChanged = this.userAuthChanged.bind(this);
@@ -312,6 +314,36 @@ export default class FirebaseController extends React.Component {
         }
 
         this.firebaseSaveDayStats();
+    }
+
+    completeObjective(taskId, objectiveId){
+        const updatedTasks = this.state.tasks.slice();
+        for (let i = 0; i < updatedTasks.length; i++) {
+            if (updatedTasks[i].id === taskId) {
+                updatedTasks[i].completeObjective(objectiveId);
+                break;
+            }
+        }
+
+        this.setState({
+            tasks: updatedTasks,
+            setSaveAllTasks: true,
+        });
+    }
+
+    addObjective(taskId, objectiveName){
+        const updatedTasks = this.state.tasks.slice();
+        for (let i = 0; i < updatedTasks.length; i++) {
+            if (updatedTasks[i].id === taskId) {
+                updatedTasks[i].addObjective(objectiveName);
+                break;
+            }
+        }
+
+        this.setState({
+            tasks: updatedTasks,
+            setSaveAllTasks: true,
+        });
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -617,6 +649,8 @@ export default class FirebaseController extends React.Component {
                     startTask={this.startTask}
                     finishTask={this.finishTask}
                     addTime={this.addTime}
+                    completeObjective={this.completeObjective}
+                    addObjective={this.addObjective}
                 />
             </React.Fragment>
         );
