@@ -29,7 +29,7 @@ export default class TaskController extends React.Component {
 
 	//methods for the new task input
 	handleNewTaskNameChange(e) {
-		this.setState({ newTaskName: e.target.value });
+		this.setState({ newTaskName: e.target.value.toLowerCase() });
 	}
 	handleNewTaskHoursChange(e) {
 		this.setState({ newTaskHours: e.target.value });
@@ -125,6 +125,9 @@ export default class TaskController extends React.Component {
 								startTask={this.props.startTask}
 								finishTask={this.props.finishTask}
 								addTime={this.props.addTime}
+								objectives={task.objectives}
+								completeObjective={this.props.completeObjective}
+								addObjective={this.props.addObjective}
 							/>
 						))}
 					</div>

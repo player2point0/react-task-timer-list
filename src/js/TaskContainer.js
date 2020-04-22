@@ -39,18 +39,29 @@ class TaskContainer {
 				pauseDates: [],
 				unpauseDates: [],
 			};
-			this.objectives = {};
+			this.objectives = [];
 
 			this.needsSaved = true;
 		}
 	}
 
-	addObjective(objectiveName){
-		this.objectives[objectiveName] = false;
+	completeObjective(objectiveId){
+		for(let i = 0;i<this.objectives.length;i++){
+			if(this.objectives[i].id === objectiveId){
+				this.objectives[i].finished = true;
+			}
+		}
+		this.needsSaved = true;
 	}
 
-	completeObjective(objectiveName){
-		this.objectives[objectiveName] = true;
+	addObjective(name){
+		let newObjective = {};
+		newObjective.name = name;
+		newObjective.id = uid(32);
+		newObjective.finished = false;
+
+		this.objectives.push(newObjective);
+		this.needsSaved = true;
 	}
 
 	addTime() {

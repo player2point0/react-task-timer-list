@@ -9,6 +9,37 @@ const TASK_VIEWING_HEIGHT = 70;
 const HOUR_IN_SECONDS = 60 * 60;
 const HIDE_CONTENT_HEIGHT = 0;//10;
 
+class Objective extends React.Component{
+	render() {
+
+		const scope = this;
+
+		let completeButton = <button
+			onClick={function(e) {
+				e.stopPropagation();
+				scope.props.completeObjective(scope.props.taskId, scope.props.id);
+			}}
+		>complete</button>;
+
+		let objectiveName = <h1>{this.props.name}</h1>;
+
+		if(this.props.finished){
+			objectiveName = <del>{objectiveName}</del>;
+		}
+
+		return(<div
+			className="taskObjective"
+			onClick={function(e) {
+				e.stopPropagation();
+			}}
+		>
+			{objectiveName}
+			{completeButton}
+		</div>);
+	}
+}
+
+
 //renders the task based on the passed properties
 class Task extends React.Component {
 
@@ -16,7 +47,7 @@ class Task extends React.Component {
 		super(props);
 		//store the tasks
 		this.state = {
-
+			newObjectiveName: "",
 		};
 
 		this.handleNewObjectiveNameChange = this.handleNewObjectiveNameChange.bind(this);
@@ -31,7 +62,8 @@ class Task extends React.Component {
 	handleSubmit(e) {
 		e.preventDefault();
 		const currentState = this.state;
-		this.props.addTask(currentState);
+		this.props.addObjective(this.props.id, currentState.newObjectiveName);
+
 		this.setState(state =>({
 			newObjectiveName: "",
 		}));
@@ -40,6 +72,7 @@ class Task extends React.Component {
 	render() {
 		let THIS_SCOPE = this;
 		let taskContent;
+		const TASK_ID = this.props.id;
 
 		//could resize the task body to fit the task viewing div and not mess up the hours overlay
 		let taskViewing;
@@ -63,7 +96,7 @@ class Task extends React.Component {
 						className="taskUpButton"
 						onClick={function(e) {
 							e.stopPropagation();
-							THIS_SCOPE.props.taskUp(THIS_SCOPE.props.id);
+							THIS_SCOPE.props.taskUp(TASK_ID);
 						}}
 					>
 						up
@@ -72,7 +105,7 @@ class Task extends React.Component {
 						className="taskDownButton"
 						onClick={function(e) {
 							e.stopPropagation();
-							THIS_SCOPE.props.taskDown(THIS_SCOPE.props.id);
+							THIS_SCOPE.props.taskDown(TASK_ID);
 						}}
 					>
 						down
@@ -101,22 +134,26 @@ class Task extends React.Component {
 				((this.props.totalDuration - this.props.remainingTime) /
 					this.props.totalDuration);
 
-			let objectivesHtml = (
-				<div className="taskObjective">
-					<h2>objective</h2>
-					<button>complete</button>
-				</div>
-			);
-
 			taskViewing = (
 				<React.Fragment>
-					{/*}
 					<div className="taskObjectives">
-						{objectivesHtml}
+						{this.props.objectives.map(objective => (
+							<Objective
+								key={objective.id}
+								name={objective.name}
+								id={objective.id}
+								taskId={TASK_ID}
+								finished={objective.finished}
+								completeObjective={this.props.completeObjective}
+							/>
+						))}
 						<form
 							className="addObjectiveForm"
 							onSubmit={this.handleSubmit}
 							autoComplete="off"
+							onClick={function(e) {
+								e.stopPropagation();
+							}}
 						>
 							<input
 								id="objective-name-input"
@@ -128,7 +165,6 @@ class Task extends React.Component {
 							<button>add</button>
 						</form>
 					</div>
-					{*/}
 					<div className="taskViewing">
 						<button
 							className="taskViewingButton"
