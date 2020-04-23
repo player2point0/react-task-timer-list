@@ -4,6 +4,7 @@
 -task/day planned work brief and concise overview
 
 --stats
+-change the day stat to store info about each second(minute?)
 -add breakdown of different time worked e.g. break or work
 -add day overview of task activity and a weekly overview of productivity
 

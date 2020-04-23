@@ -10,7 +10,7 @@ export default class Stats extends React.Component {
         const spacing = (Math.PI * 2) / 24;
 
         let startTimes = Object.keys(this.props.dayStats.startPoints);
-        let endTimes = Object.keys(this.props.dayStats.startPoints);
+        let endTimes = Object.keys(this.props.dayStats.stopPoints);
         let i = 0;
         let data = [];
 
@@ -19,8 +19,8 @@ export default class Stats extends React.Component {
             let hour = {
                 angle0: (j-1)*spacing,
                 angle: j * spacing,
-                radius: 1,
-                radius0: 0,
+                radius: 4,
+                radius0: 2,
                 stroke: 1,
                 color: 1,
             };
@@ -40,8 +40,8 @@ export default class Stats extends React.Component {
             let newData = {
                 angle0: calcAngle(startTimes[i]),
                 angle: calcAngle(endTimes[i]),
-                radius: 1.5,
-                radius0: 0,
+                radius: 5,
+                radius0: 3,
                 color: 0,
                 stroke: 0.1,
             };
@@ -55,6 +55,7 @@ export default class Stats extends React.Component {
 
         return (
             <XYPlot
+                radiusDomain={[0,5]}
                 colorRange={COLORS}
                 xDomain={[-5, 5]}
                 yDomain={[-5, 5]}
