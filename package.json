@@ -5,6 +5,7 @@
 	"dependencies": {
 		"firebase": "^7.13.1",
 		"firebaseui": "^4.5.0",
+		"nivo": "^0.31.0",
 		"react": "^16.12.0",
 		"react-dom": "^16.12.0",
 		"react-firebaseui": "^4.1.0",
