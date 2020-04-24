@@ -86,6 +86,7 @@ export default class FirebaseController extends React.Component {
     tick() {
         const updatedTasks = this.state.tasks.slice();
         const currentDayStats = this.state.dayStats;
+        let currentDate = (new Date()).toISOString();
 
         for (let i = 0; i < updatedTasks.length; i++) {
             if (updatedTasks[i].started && !updatedTasks[i].paused) {
@@ -104,6 +105,12 @@ export default class FirebaseController extends React.Component {
                 }
                 else{
                     currentDayStats.totalWorked += 1;
+                }
+
+                for(let j = 0;j<currentDayStats.points.length;j++){
+                    if(currentDayStats.points[j].id === updatedTasks[i].id){
+                        currentDayStats.points[j].stop = currentDate;
+                    }
                 }
             }
         }
@@ -218,11 +225,9 @@ export default class FirebaseController extends React.Component {
                         if (updatedTasks[i].paused){
                             updatedTasks[i].unPause();
                             taskActive = true;
-                            updatedDayStats.startPoints[currentDate] = updatedTasks[i].name;
                         }
                         else {
                             updatedTasks[i].pause();
-                            updatedDayStats.stopPoints[currentDate] = updatedTasks[i].name;
                         }
                     }
                 }
@@ -230,7 +235,12 @@ export default class FirebaseController extends React.Component {
                 else{
                     updatedTasks[i].start();
                     taskActive = true;
-                    updatedDayStats.startPoints[currentDate] = updatedTasks[i].name;
+                    updatedDayStats.points.push({
+                        id: updatedTasks[i].id,
+                        name: updatedTasks[i].name,
+                        start: currentDate,
+                        stop: currentDate,
+                    });
                 }
 
                 break;
@@ -418,8 +428,7 @@ export default class FirebaseController extends React.Component {
             totalBreak: 0,
             totalWorked: 0,
             userId: null,
-            startPoints: {},
-            stopPoints: {},
+            points: [],
         };
 
         this.setState(state => ({

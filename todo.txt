@@ -2,6 +2,7 @@
 -test on mobile and move the update tasks to a service worker if needed
 -add the option to skip signing in and instead use local storage
 -task/day planned work brief and concise overview
+-find a way to formalise productivity (possibly length * difficulty)
 
 --stats
 -change the day stat to store info about each second(minute?)

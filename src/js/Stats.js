@@ -8,10 +8,6 @@ export default class Stats extends React.Component {
         if (this.props.dayStats === null) return <h1>no stats</h1>;
 
         const spacing = (Math.PI * 2) / 24;
-
-        let startTimes = Object.keys(this.props.dayStats.startPoints);
-        let endTimes = Object.keys(this.props.dayStats.stopPoints);
-        let i = 0;
         let data = [];
 
         for (let j = 1; j <= 24;j++) {
@@ -35,11 +31,11 @@ export default class Stats extends React.Component {
             //2PI = 24*60
             return minutes / (24.0 * 60.0) * (Math.PI * 2);
         };
-
-        while (i < startTimes.length && i < endTimes.length) {
+        
+        for(let i = 0;i<this.props.dayStats.points.length;i++){
             let newData = {
-                angle0: calcAngle(startTimes[i]),
-                angle: calcAngle(endTimes[i]),
+                angle0: calcAngle(this.props.dayStats.points[i].start),
+                angle: calcAngle(this.props.dayStats.points[i].stop),
                 radius: 5,
                 radius0: 3,
                 color: 0,
@@ -47,8 +43,6 @@ export default class Stats extends React.Component {
             };
 
             data.push(newData);
-
-            i++;
         }
 
         const COLORS = ['red', 'white'];
