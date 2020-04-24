@@ -5,7 +5,7 @@
 -find a way to formalise productivity (possibly length * difficulty)
 
 --stats
--add day overview of task activity and a weekly overview of productivity
+-add a weekly overview of productivity
 
 --server
 -add a more robust server and offline strategy

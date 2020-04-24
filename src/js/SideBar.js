@@ -16,6 +16,7 @@ export default class SideBar extends React.Component {
             showStats: false,
             showSettings: false,
             showPomodoro: true,
+            showOverview: false,
             pomodoro: {
                 startedWork: false,
                 startedBreak: false,
@@ -29,6 +30,7 @@ export default class SideBar extends React.Component {
         this.toggleStats = this.toggleStats.bind(this);
         this.toggleSettings = this.toggleSettings.bind(this);
         this.togglePomodoro = this.togglePomodoro.bind(this);
+        this.toggleOverview = this.toggleOverview.bind(this);
         this.stashBreakTime = this.stashBreakTime.bind(this);
         this.resetPomodoro = this.resetPomodoro.bind(this);
 
@@ -43,38 +45,36 @@ export default class SideBar extends React.Component {
     }
 
     toggleSideBar() {
-        const currentState = this.state.showSideBar;
-
         this.setState(state => ({
-            showSideBar: !currentState,
+            showSideBar: !state.showSideBar,
         }));
     }
 
     toggleStats() {
-        const currentState = this.state.showStats;
-
         this.setState(state => ({
-            showStats: !currentState,
+            showStats: !state.showStats,
         }));
     }
 
     toggleSettings() {
-        const currentState = this.state.showSettings;
-
         this.setState(state => ({
-            showSettings: !currentState,
+            showSettings: !state.showSettings,
         }));
     }
 
     togglePomodoro() {
-        const currentState = this.state.showPomodoro;
-
         this.setState(state => ({
-            showPomodoro: !currentState,
+            showPomodoro: !state.showPomodoro,
         }));
     }
 
-    stashBreakTime(){
+    toggleOverview() {
+        this.setState(state => ({
+            showOverview: !state.showOverview,
+        }));
+    }
+
+    stashBreakTime() {
         const stashPomodoro = this.state.pomodoro;
 
         stashPomodoro.stashBreak = true;
@@ -87,8 +87,8 @@ export default class SideBar extends React.Component {
     pomodoroTick() {
         let activeTask = false;
         const tempTasks = this.props.tasks;
-		let updatedPomodoro = this.state.pomodoro;
-		let currentState = this.state;
+        let updatedPomodoro = this.state.pomodoro;
+        let currentState = this.state;
 
         //check for an active task
         for (let i = 0; i < tempTasks.length; i++) {
@@ -109,11 +109,9 @@ export default class SideBar extends React.Component {
         //if not started and have an active task
         //then start the work time or the break timer
         if (!this.state.pomodoro.startedWork) {
-			updatedPomodoro.startedWork = true;
-			updatedPomodoro.workTimeRemaining = WORK_TIME;
-        }
-
-        else if(this.state.pomodoro.stashBreak){
+            updatedPomodoro.startedWork = true;
+            updatedPomodoro.workTimeRemaining = WORK_TIME;
+        } else if (this.state.pomodoro.stashBreak) {
             updatedPomodoro.workTimeRemaining = WORK_TIME;
             updatedPomodoro.breakTimeRemaining += BREAK_TIME;
             updatedPomodoro.startedBreak = false;
@@ -128,15 +126,15 @@ export default class SideBar extends React.Component {
         //perform the ticks and other logic
         else {
             if (this.state.pomodoro.workTimeRemaining > 0) {
-				updatedPomodoro.workTimeRemaining--;
+                updatedPomodoro.workTimeRemaining--;
             } else {
                 //start break
                 if (!this.state.pomodoro.startedBreak) {
 
                     //pause tasks
-					updatedPomodoro.startedBreak = true;
+                    updatedPomodoro.startedBreak = true;
                     //show the side bar
-					currentState.showPomodoro = true;
+                    currentState.showPomodoro = true;
                     currentState.showSideBar = true;
 
                     //call callback to show notification, with stashing of break time
@@ -147,7 +145,7 @@ export default class SideBar extends React.Component {
                     );
 
                 } else if (this.state.pomodoro.breakTimeRemaining > 0) {
-					updatedPomodoro.breakTimeRemaining--;
+                    updatedPomodoro.breakTimeRemaining--;
                 }
 
                 //break finished
@@ -155,10 +153,10 @@ export default class SideBar extends React.Component {
                     //call other callback to show notification
                     this.props.sendNotification("Break time finished", "");
 
-					updatedPomodoro.startedWork = false;
-					updatedPomodoro.startedBreak = false;
-					updatedPomodoro.breakTimeRemaining = BREAK_TIME;
-					updatedPomodoro.workTimeRemaining = WORK_TIME;
+                    updatedPomodoro.startedWork = false;
+                    updatedPomodoro.startedBreak = false;
+                    updatedPomodoro.breakTimeRemaining = BREAK_TIME;
+                    updatedPomodoro.workTimeRemaining = WORK_TIME;
 
                     //hide the side bar
                     currentState.showSideBar = false;
@@ -173,7 +171,7 @@ export default class SideBar extends React.Component {
         }));
     }
 
-    resetPomodoro(){
+    resetPomodoro() {
         let newPomodoro = {
             startedWork: false,
             startedBreak: false,
@@ -182,7 +180,7 @@ export default class SideBar extends React.Component {
             stashBreak: false,
         };
 
-        this.setState(state =>({
+        this.setState(state => ({
             pomodoro: newPomodoro
         }));
     }
@@ -197,13 +195,13 @@ export default class SideBar extends React.Component {
         }
 
         let statsHTML;
-        let timeWorked;
+        let dayOverviewHTML;
         let settingsHTML;
         let pomodoroHTML;
 
         if (this.state.showStats) {
             statsHTML = <Stats
-            dayStats={this.props.dayStats}/>;
+                dayStats={this.props.dayStats}/>;
         }
 
         if (this.state.showSettings) {
@@ -220,8 +218,8 @@ export default class SideBar extends React.Component {
             );
         }
 
-        if(this.props.dayStats !== null){
-            timeWorked = <h1>total : {formatTime(this.props.dayStats.totalWorked)}</h1>;
+        if (this.props.dayStats !== null && this.state.showOverview) {
+            dayOverviewHTML = <h2>total : {formatTime(this.props.dayStats.totalWorked)}</h2>;
         }
 
         return (
@@ -230,7 +228,8 @@ export default class SideBar extends React.Component {
                     <h1 className="hideSideBar" onClick={this.toggleSideBar}>
                         sidebar
                     </h1>
-                    {timeWorked}
+                    <h1 onClick={this.toggleOverview}>overview</h1>
+                    {dayOverviewHTML}
                     <h1 onClick={this.toggleStats}>stats</h1>
                     {statsHTML}
                     {/*<h1 onClick={this.showWeekOverview}>week overview </h1>*/}
