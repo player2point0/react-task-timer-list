@@ -1,12 +1,9 @@
 ----core----
 -test on mobile and move the update tasks to a service worker if needed
--add the option to skip signing in and instead use local storage
 -task/day planned work brief and concise overview
 -find a way to formalise productivity (possibly length * difficulty)
 
 --stats
--change the day stat to store info about each second(minute?)
--add breakdown of different time worked e.g. break or work
 -add day overview of task activity and a weekly overview of productivity
 
 --server
@@ -15,6 +12,7 @@
 -possibly change to pushing changes to firebase every save interval
 
 --prelaunch--
+-add the option to skip signing in and instead use local storage
 -add security, e.g. a user should only be able to access their own tasks (https://firebase.google.com/docs/firestore/security/rules-query) (https://firebase.google.com/docs/storage/security/index?authuser=0#authorization)
 -add a user feedback form ("what would you change?")
 -host it with a good domain name ( https://github.com/firebase/firebaseui-web-react )
@@ -37,7 +35,6 @@
 ----UI/UX----
 -improve side bar ui and ux
 -improve the moving task ux
--add a work finish time, so that users can aim to finish by 5 and see if they are on track
 -add an option to change focus from long to short tasks (change the task height) and to turn off objectives
 -maybe add back the visual task percentage when clicked on
 

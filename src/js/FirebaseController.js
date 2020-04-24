@@ -85,31 +85,31 @@ export default class FirebaseController extends React.Component {
     //update all the tasks which are started
     tick() {
         const updatedTasks = this.state.tasks.slice();
-        const currentDayStats = this.state.dayStats;
+        const updatedDayStats = this.state.dayStats;
         let currentDate = (new Date()).toISOString();
 
-        for (let i = 0; i < updatedTasks.length; i++) {
-            if (updatedTasks[i].started && !updatedTasks[i].paused) {
-                updatedTasks[i].remainingTime--;
+        for(let updatedTask in updatedTasks){
+            if (updatedTask.started && !updatedTask.paused) {
+                updatedTask.remainingTime--;
 
-                if (updatedTasks[i].remainingTime <= 0) {
-                    updatedTasks[i].remainingTime = 0;
+                if (updatedTask.remainingTime <= 0) {
+                    updatedTask.remainingTime = 0;
 
-                    if (!updatedTasks[i].timeUp) {
-                        updatedTasks[i].isViewing = true;
-                        updatedTasks[i].timeUp = true;
-                        sendNotification("Task time finished", updatedTasks[i].name);
+                    if (!updatedTask.timeUp) {
+                        updatedTask.isViewing = true;
+                        updatedTask.timeUp = true;
+                        sendNotification("Task time finished", updatedTask.name);
 
                         this.setState({setSaveAllTasks: true});
                     }
                 }
                 else{
-                    currentDayStats.totalWorked += 1;
+                    updatedDayStats.totalWorked += 1;
                 }
 
-                for(let j = 0;j<currentDayStats.points.length;j++){
-                    if(currentDayStats.points[j].id === updatedTasks[i].id){
-                        currentDayStats.points[j].stop = currentDate;
+                for(let updatedDayPoint in updatedDayStats.points){
+                    if(updatedDayPoint.id === updatedTask.id){
+                        updatedDayPoint.stop = currentDate;
                     }
                 }
             }
@@ -118,7 +118,7 @@ export default class FirebaseController extends React.Component {
         this.setState(state => ({
             tasks: updatedTasks,
             time: state.time + 1,
-            dayStats: currentDayStats
+            dayStats: updatedDayStats
         }));
     }
 
@@ -154,15 +154,22 @@ export default class FirebaseController extends React.Component {
         }));
     }
 
-    //display the selected task
-    taskOnClick(id) {
-        const updatedTasks = this.state.tasks.slice();
-        for (let i = 0; i < updatedTasks.length; i++) {
-            if (updatedTasks[i].id === id) {
-                updatedTasks[i].view();
+    updateTask(tasks, id, func){
+        for(let i = 0;i<tasks.length;i++){
+            if (tasks[i].id === id) {
+                func(tasks[i]);
                 break;
             }
         }
+    }
+
+    //display the selected task
+    taskOnClick(id) {
+        const updatedTasks = this.state.tasks.slice();
+
+        this.updateTask(updatedTasks, id, function (updatedTask) {
+            updatedTask.view();
+        });
 
         this.setState({
             tasks: updatedTasks,
@@ -217,43 +224,38 @@ export default class FirebaseController extends React.Component {
         let taskActive = false;
         let currentDate = (new Date()).toISOString();
 
-        for (let i = 0; i < updatedTasks.length; i++) {
-            if (updatedTasks[i].id === id) {
-
-                if (updatedTasks[i].started) {
-                    if (updatedTasks[i].remainingTime >= 0) {
-                        if (updatedTasks[i].paused){
-                            updatedTasks[i].unPause();
-                            taskActive = true;
-                        }
-                        else {
-                            updatedTasks[i].pause();
-                        }
+        this.updateTask(updatedTasks, id, function (updatedTask) {
+            if (updatedTask.started) {
+                if (updatedTask.remainingTime >= 0) {
+                    if (updatedTask.paused){
+                        updatedTask.unPause();
+                        taskActive = true;
+                    }
+                    else {
+                        updatedTask.pause();
                     }
                 }
-
-                else{
-                    updatedTasks[i].start();
-                    taskActive = true;
-                    updatedDayStats.points.push({
-                        id: updatedTasks[i].id,
-                        name: updatedTasks[i].name,
-                        start: currentDate,
-                        stop: currentDate,
-                    });
-                }
-
-                break;
             }
-        }
+
+            else{
+                updatedTask.start();
+                taskActive = true;
+                updatedDayStats.points.push({
+                    id: updatedTask.id,
+                    name: updatedTask.name,
+                    start: currentDate,
+                    stop: currentDate,
+                });
+            }
+        });
 
         //pause any other active tasks
         if(taskActive){
-            for (let i = 0; i < updatedTasks.length; i++) {
-                if (updatedTasks[i].id !== id && updatedTasks[i].started && !updatedTasks[i].paused) {
-                    updatedTasks[i].pause();
-                    updatedTasks[i].isViewing = false;
-                    updatedDayStats.stopPoints[currentDate] = updatedTasks[i].name;
+            for(let updatedTask in updatedTasks) {
+                if (updatedTask.id !== id && updatedTask.started && !updatedTask.paused) {
+                    updatedTask.pause();
+                    updatedTask.isViewing = false;
+                    updatedDayStats.stopPoints[currentDate] = updatedTask.name;
                 }
             }
         }
@@ -267,23 +269,21 @@ export default class FirebaseController extends React.Component {
 
     finishTask(id) {
         const updatedTasks = this.state.tasks.slice();
-        for (let i = updatedTasks.length - 1; i >= 0; i--) {
-            if (updatedTasks[i].id === id) {
-                updatedTasks[i].finish();
 
-                this.setState({
-                    tasks: updatedTasks,
-                    setSaveAllTasks: true,
-                    removeTaskId: updatedTasks[i].id
-                });
+        this.updateTask(updatedTasks, id, function (updatedTask) {
+            updatedTask.finish();
+        });
 
-                return;
-            }
-        }
+        this.setState({
+            tasks: updatedTasks,
+            setSaveAllTasks: true,
+            removeTaskId: id
+        });
     }
 
     removeTaskWithId(id){
         const updatedTasks = this.state.tasks.slice();
+
         for (let i = updatedTasks.length - 1; i >= 0; i--) {
             if (updatedTasks[i].id === id) {
                 updatedTasks.splice(i, 1);
@@ -300,12 +300,10 @@ export default class FirebaseController extends React.Component {
 
     addTime(id) {
         const updatedTasks = this.state.tasks.slice();
-        for (let i = 0; i < updatedTasks.length; i++) {
-            if (updatedTasks[i].id === id) {
-                updatedTasks[i].addTime();
-                break;
-            }
-        }
+
+        this.updateTask(updatedTasks, id, function (updatedTask) {
+            updatedTask.addTime();
+        });
 
         this.setState({
             tasks: updatedTasks,
@@ -319,8 +317,8 @@ export default class FirebaseController extends React.Component {
         let date = formatDayMonth(new Date());
         localStorage.setItem(date, JSON.stringify(this.state.dayStats));
 
-        for(let i = 0;i<tasksToSave.length;i++){
-            this.firebaseSaveTask(tasksToSave[i]);
+        for(let taskToSave in tasksToSave){
+            this.firebaseSaveTask(taskToSave);
         }
 
         this.firebaseSaveDayStats();
@@ -328,12 +326,10 @@ export default class FirebaseController extends React.Component {
 
     completeObjective(taskId, objectiveId){
         const updatedTasks = this.state.tasks.slice();
-        for (let i = 0; i < updatedTasks.length; i++) {
-            if (updatedTasks[i].id === taskId) {
-                updatedTasks[i].completeObjective(objectiveId);
-                break;
-            }
-        }
+
+        this.updateTask(updatedTasks, taskId, function (updatedTask) {
+            updatedTasks.completeObjective(objectiveId);
+        });
 
         this.setState({
             tasks: updatedTasks,
@@ -343,12 +339,10 @@ export default class FirebaseController extends React.Component {
 
     addObjective(taskId, objectiveName){
         const updatedTasks = this.state.tasks.slice();
-        for (let i = 0; i < updatedTasks.length; i++) {
-            if (updatedTasks[i].id === taskId) {
-                updatedTasks[i].addObjective(objectiveName);
-                break;
-            }
-        }
+
+        this.updateTask(updatedTasks, taskId, function (updatedTask) {
+            updatedTask.addObjective(objectiveName);
+        });
 
         this.setState({
             tasks: updatedTasks,
@@ -424,8 +418,6 @@ export default class FirebaseController extends React.Component {
     createNewDayStats(){
         let newDayStats = {
             date: formatDayMonth(new Date()),
-            totalAdditional: 0,
-            totalBreak: 0,
             totalWorked: 0,
             userId: null,
             points: [],
@@ -664,5 +656,4 @@ export default class FirebaseController extends React.Component {
             </React.Fragment>
         );
     }
-
 }

@@ -31,7 +31,7 @@ export default class Stats extends React.Component {
             //2PI = 24*60
             return minutes / (24.0 * 60.0) * (Math.PI * 2);
         };
-        
+
         for(let i = 0;i<this.props.dayStats.points.length;i++){
             let newData = {
                 angle0: calcAngle(this.props.dayStats.points[i].start),
