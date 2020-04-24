@@ -88,17 +88,17 @@ export default class FirebaseController extends React.Component {
         const updatedDayStats = this.state.dayStats;
         let currentDate = (new Date()).toISOString();
 
-        for(let updatedTask in updatedTasks){
-            if (updatedTask.started && !updatedTask.paused) {
-                updatedTask.remainingTime--;
+        for(let i = 0;i<updatedTasks.length;i++){
+            if (updatedTasks[i].started && !updatedTasks[i].paused) {
+                updatedTasks[i].remainingTime--;
 
-                if (updatedTask.remainingTime <= 0) {
-                    updatedTask.remainingTime = 0;
+                if (updatedTasks[i].remainingTime <= 0) {
+                    updatedTasks[i].remainingTime = 0;
 
-                    if (!updatedTask.timeUp) {
-                        updatedTask.isViewing = true;
-                        updatedTask.timeUp = true;
-                        sendNotification("Task time finished", updatedTask.name);
+                    if (!updatedTasks[i].timeUp) {
+                        updatedTasks[i].isViewing = true;
+                        updatedTasks[i].timeUp = true;
+                        sendNotification("Task time finished", updatedTasks[i].name);
 
                         this.setState({setSaveAllTasks: true});
                     }
@@ -107,9 +107,9 @@ export default class FirebaseController extends React.Component {
                     updatedDayStats.totalWorked += 1;
                 }
 
-                for(let updatedDayPoint in updatedDayStats.points){
-                    if(updatedDayPoint.id === updatedTask.id){
-                        updatedDayPoint.stop = currentDate;
+                for(let j = 0;j<updatedDayStats.points.length;j++){
+                    if(updatedDayStats.points[j].id === updatedTasks[i].id){
+                        updatedDayStats.points[j].stop = currentDate;
                     }
                 }
             }
@@ -140,7 +140,7 @@ export default class FirebaseController extends React.Component {
         if (hours < 0 || mins < 0 || Number(hours+mins) === 0) return;
 
         let newTaskDuration = hours * 3600 + mins * 60;
-        let currentDate = new Date(); //todo possibly change so works with multi days
+        let currentDate = new Date();
 
         let newTask = new TaskContainer(
             name,
@@ -251,11 +251,11 @@ export default class FirebaseController extends React.Component {
 
         //pause any other active tasks
         if(taskActive){
-            for(let updatedTask in updatedTasks) {
-                if (updatedTask.id !== id && updatedTask.started && !updatedTask.paused) {
-                    updatedTask.pause();
-                    updatedTask.isViewing = false;
-                    updatedDayStats.stopPoints[currentDate] = updatedTask.name;
+            for(let i = 0;i<updatedTasks.length;i++){
+                if (updatedTasks[i].id !== id && updatedTasks[i].started && !updatedTasks[i].paused) {
+                    updatedTasks[i].pause();
+                    updatedTasks[i].isViewing = false;
+                    updatedDayStats.stopPoints[currentDate] = updatedTasks[i].name;
                 }
             }
         }
@@ -317,8 +317,8 @@ export default class FirebaseController extends React.Component {
         let date = formatDayMonth(new Date());
         localStorage.setItem(date, JSON.stringify(this.state.dayStats));
 
-        for(let taskToSave in tasksToSave){
-            this.firebaseSaveTask(taskToSave);
+        for(let i = 0;i<tasksToSave.length;i++){
+            this.firebaseSaveTask(tasksToSave[i]);
         }
 
         this.firebaseSaveDayStats();
