@@ -17,7 +17,7 @@ class HoursOverlay extends React.Component {
 		//draw hour bars for the next 12 hours
 		let hourBars = [];
 		let currentTime = new Date();
-		let currentHour = currentTime.getUTCHours();
+		let currentHour = currentTime.getHours();
 
 		//draw the first bar smaller based on the remaining time in the hour
 		let mins = currentTime.getUTCMinutes();

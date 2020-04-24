@@ -1,5 +1,6 @@
 ----core----
 -test on mobile and move the update tasks to a service worker if needed
+-add mobile support
 -task/day planned work brief and concise overview
 -find a way to formalise productivity (possibly length * difficulty)
 
@@ -24,13 +25,9 @@
 -change notifications request ui/ux ( https://developers.google.com/web/fundamentals/push-notifications/permission-ux )
 -improve the sign in ui ( https://github.com/firebase/firebaseui-web-react )
 
-----mobile----
--add mobile support
-
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
 -improve the timing and countdown, currently the timings are not in sync
--fix bst bug / local time
 
 ----UI/UX----
 -improve side bar ui and ux

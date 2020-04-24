@@ -328,7 +328,7 @@ export default class FirebaseController extends React.Component {
         const updatedTasks = this.state.tasks.slice();
 
         this.updateTask(updatedTasks, taskId, function (updatedTask) {
-            updatedTasks.completeObjective(objectiveId);
+            updatedTask.completeObjective(objectiveId);
         });
 
         this.setState({
