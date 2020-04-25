@@ -1,11 +1,10 @@
 ----core----
 -test on mobile and move the update tasks to a service worker if needed
 -add mobile support
--task/day planned work brief and concise overview
--find a way to formalise productivity (possibly length * difficulty)
 
 --stats
--add a weekly overview of productivity
+-add a weekly overview of productivity and previous day graphs
+-add labels
 
 --server
 -add a more robust server and offline strategy
@@ -47,3 +46,4 @@
 -create different user personaliity bots to train ai e.g. an organised bot, a procrastinator, a long distance, a sprinter
 -create a more data driven application for ai, e.g. allow the ai to change break times, notification durations etc
 -add tagging of tasks to enable fair comparison of metrics (e.g. you might compete a programming task quicker than a writing one), store tags on user
+-find a way to formalise productivity (possibly length * difficulty)

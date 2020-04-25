@@ -50,9 +50,9 @@ body {
 
 
 @media only screen and (max-width: 600px) {
-    *{   
-        --large-text-size: 10vw;
-        --medium-text-size: 7.5vw;
+    *{
+        --large-text-size: 15vw;
+        --medium-text-size: 10vw;
         --small-text-size: 5vw;
     }
 

@@ -219,7 +219,12 @@ export default class SideBar extends React.Component {
         }
 
         if (this.props.dayStats !== null && this.state.showOverview) {
-            dayOverviewHTML = <h2>total : {formatTime(this.props.dayStats.totalWorked)}</h2>;
+            dayOverviewHTML = (
+                <React.Fragment>
+                    <h2>total : {formatTime(this.props.dayStats.totalWorked)}</h2>
+
+                </React.Fragment>
+            );
         }
 
         return (
