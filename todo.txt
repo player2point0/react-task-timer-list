@@ -31,6 +31,7 @@
 
 ----UI/UX----
 -improve side bar ui and ux
+-improve mobile task view ui
 -possibly make the hour overlay more prominent
 -add an option to change focus from long to short tasks (change the task height) and to turn off objectives
 -maybe add back the visual task percentage when clicked on

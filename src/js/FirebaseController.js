@@ -347,7 +347,8 @@ export default class FirebaseController extends React.Component {
         }
 
         if (this.state.dayStats === null) {
-
+            //todo load from local storage
+            this.createNewDayStats();
         }
 
         this.setState(state => ({
