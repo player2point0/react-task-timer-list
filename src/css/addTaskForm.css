@@ -65,4 +65,11 @@
         height: 10vw;
         font-size: var(--medium-text-size);
     }
+
+    .addTaskButton h1{
+        font-size: var(--medium-text-size);
+        word-wrap: break-word;
+        width: 50vw;
+        margin: auto;
+    }
 }

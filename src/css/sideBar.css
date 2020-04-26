@@ -39,25 +39,7 @@
 
 
 @media only screen and (max-width: 600px) {
-    .closeSideBar h1{
-        font-size: var(--large-text-size);
-        color: red;
-        text-align:center;
-    }
-
     .showSideBar{
-        position: fixed;
-        z-index: 100;
-        background-color: white;
-    }
-    .showSideBar:hover{
-        background-color: grey;
-    }
-
-    .hideSideBar{
-        background-color: white;
-    }
-    .hideSideBar:hover{
-        background-color: grey;
+        font-size: var(--medium-text-size);
     }
 }
