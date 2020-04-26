@@ -23,6 +23,7 @@
 -setup donations (https://ko-fi.com/
 -change notifications request ui/ux ( https://developers.google.com/web/fundamentals/push-notifications/permission-ux )
 -improve the sign in ui ( https://github.com/firebase/firebaseui-web-react )
+-add create account (with email)
 
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)

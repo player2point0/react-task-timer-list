@@ -9,7 +9,7 @@ import TaskContainer from "../js/TaskContainer.js";
 import {formatDayMonth, requestNotifications, sendNotification} from "../js/Ultility.js";
 import SideBar from "../js/SideBar.js";
 
-const SAVE_INTERVAL = 60*1000; //in milli for set interval
+const SAVE_INTERVAL = 60 * 1000; //in milli for set interval
 
 //firebase
 const firebaseConfig = {
@@ -25,19 +25,19 @@ const firebaseConfig = {
 
 // Configure FirebaseUI.
 const uiConfig = {
-        // Popup signin flow rather than redirect flow.
-        signInFlow: 'popup',
-        // We will display Google and Facebook as auth providers.
-        signInOptions: [
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-            firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-            firebase.auth.EmailAuthProvider.PROVIDER_ID
-        ],
-        callbacks: {
-            // Avoid redirects after sign-in.
-            signInSuccessWithAuthResult: () => false
-        },
-    };
+    // Popup signin flow rather than redirect flow.
+    signInFlow: 'popup',
+    // We will display Google and Facebook as auth providers.
+    signInOptions: [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+        firebase.auth.EmailAuthProvider.PROVIDER_ID
+    ],
+    callbacks: {
+        // Avoid redirects after sign-in.
+        signInSuccessWithAuthResult: () => false
+    },
+};
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -60,8 +60,6 @@ export default class FirebaseController extends React.Component {
         this.saveAllTasks = this.saveAllTasks.bind(this);
         this.addTask = this.addTask.bind(this);
         this.taskOnClick = this.taskOnClick.bind(this);
-        this.taskUp = this.taskUp.bind(this);
-        this.taskDown = this.taskDown.bind(this);
         this.startTask = this.startTask.bind(this);
         this.finishTask = this.finishTask.bind(this);
         this.addTime = this.addTime.bind(this);
@@ -86,7 +84,7 @@ export default class FirebaseController extends React.Component {
         const updatedDayStats = this.state.dayStats;
         let currentDate = (new Date()).toISOString();
 
-        for(let i = 0;i<updatedTasks.length;i++){
+        for (let i = 0; i < updatedTasks.length; i++) {
             if (updatedTasks[i].started && !updatedTasks[i].paused) {
                 updatedTasks[i].remainingTime--;
 
@@ -100,13 +98,12 @@ export default class FirebaseController extends React.Component {
 
                         this.setState({setSaveAllTasks: true});
                     }
-                }
-                else{
+                } else {
                     updatedDayStats.totalWorked += 1;
                 }
 
-                for(let j = 0;j<updatedDayStats.points.length;j++){
-                    if(updatedDayStats.points[j].id === updatedTasks[i].id){
+                for (let j = 0; j < updatedDayStats.points.length; j++) {
+                    if (updatedDayStats.points[j].id === updatedTasks[i].id) {
                         updatedDayStats.points[j].stop = currentDate;
                     }
                 }
@@ -128,14 +125,14 @@ export default class FirebaseController extends React.Component {
         let mins = currentState.newTaskMins;
 
         //need a name and at least one time value
-        if(!name || (!hours && !mins)) return;
+        if (!name || (!hours && !mins)) return;
 
         //if we have one and not the other then assume zero
-        if(!hours) hours = 0;
-        if(!mins) mins = 0;
+        if (!hours) hours = 0;
+        if (!mins) mins = 0;
 
         //needs to be above zero
-        if (hours < 0 || mins < 0 || Number(hours+mins) === 0) return;
+        if (hours < 0 || mins < 0 || Number(hours + mins) === 0) return;
 
         let newTaskDuration = hours * 3600 + mins * 60;
         let currentDate = new Date();
@@ -152,8 +149,8 @@ export default class FirebaseController extends React.Component {
         }));
     }
 
-    updateTask(tasks, id, func){
-        for(let i = 0;i<tasks.length;i++){
+    updateTask(tasks, id, func) {
+        for (let i = 0; i < tasks.length; i++) {
             if (tasks[i].id === id) {
                 func(tasks[i]);
                 break;
@@ -174,48 +171,6 @@ export default class FirebaseController extends React.Component {
         });
     }
 
-    //move the selected task up in the UI and nearer to the front in the list
-    taskUp(id) {
-        const updatedTasks = this.state.tasks.slice();
-        for (let i = 0; i < updatedTasks.length; i++) {
-            if (updatedTasks[i].id === id) {
-                if (i - 1 < 0) return; //already in first place
-
-                //swap
-                let tempTask = updatedTasks[i];
-                updatedTasks[i] = updatedTasks[i - 1];
-                updatedTasks[i - 1] = tempTask;
-
-                break;
-            }
-        }
-
-        this.setState({
-            tasks: updatedTasks,
-        });
-    }
-
-    //move the selected task down in the UI and nearer to the end in the list
-    taskDown(id) {
-        const updatedTasks = this.state.tasks.slice();
-        for (let i = 0; i < updatedTasks.length; i++) {
-            if (updatedTasks[i].id === id) {
-                if (i + 1 >= updatedTasks.length) return; //already in last place
-
-                //swap
-                let tempTask = updatedTasks[i];
-                updatedTasks[i] = updatedTasks[i + 1];
-                updatedTasks[i + 1] = tempTask;
-
-                break;
-            }
-        }
-
-        this.setState({
-            tasks: updatedTasks,
-        });
-    }
-
     startTask(id) {
         const updatedTasks = this.state.tasks.slice();
         let updatedDayStats = this.state.dayStats;
@@ -225,17 +180,14 @@ export default class FirebaseController extends React.Component {
         this.updateTask(updatedTasks, id, function (updatedTask) {
             if (updatedTask.started) {
                 if (updatedTask.remainingTime >= 0) {
-                    if (updatedTask.paused){
+                    if (updatedTask.paused) {
                         updatedTask.unPause();
                         taskActive = true;
-                    }
-                    else {
+                    } else {
                         updatedTask.pause();
                     }
                 }
-            }
-
-            else{
+            } else {
                 updatedTask.start();
                 taskActive = true;
                 updatedDayStats.points.push({
@@ -248,8 +200,8 @@ export default class FirebaseController extends React.Component {
         });
 
         //pause any other active tasks
-        if(taskActive){
-            for(let i = 0;i<updatedTasks.length;i++){
+        if (taskActive) {
+            for (let i = 0; i < updatedTasks.length; i++) {
                 if (updatedTasks[i].id !== id && updatedTasks[i].started && !updatedTasks[i].paused) {
                     updatedTasks[i].pause();
                     updatedTasks[i].isViewing = false;
@@ -279,7 +231,7 @@ export default class FirebaseController extends React.Component {
         });
     }
 
-    removeTaskWithId(id){
+    removeTaskWithId(id) {
         const updatedTasks = this.state.tasks.slice();
 
         for (let i = updatedTasks.length - 1; i >= 0; i--) {
@@ -315,14 +267,14 @@ export default class FirebaseController extends React.Component {
         let date = formatDayMonth(new Date());
         localStorage.setItem(date, JSON.stringify(this.state.dayStats));
 
-        for(let i = 0;i<tasksToSave.length;i++){
+        for (let i = 0; i < tasksToSave.length; i++) {
             this.firebaseSaveTask(tasksToSave[i]);
         }
 
         this.firebaseSaveDayStats();
     }
 
-    completeObjective(taskId, objectiveId){
+    completeObjective(taskId, objectiveId) {
         const updatedTasks = this.state.tasks.slice();
 
         this.updateTask(updatedTasks, taskId, function (updatedTask) {
@@ -335,7 +287,7 @@ export default class FirebaseController extends React.Component {
         });
     }
 
-    addObjective(taskId, objectiveName){
+    addObjective(taskId, objectiveName) {
         const updatedTasks = this.state.tasks.slice();
 
         this.updateTask(updatedTasks, taskId, function (updatedTask) {
@@ -350,7 +302,7 @@ export default class FirebaseController extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
 
-        if(this.state.removeTaskId){
+        if (this.state.removeTaskId) {
             this.removeTaskWithId(this.state.removeTaskId);
             this.setState({removeTaskId: ""});
         }
@@ -361,8 +313,8 @@ export default class FirebaseController extends React.Component {
             let taskToSave = [];
             let currentTasks = this.state.tasks.slice();
 
-            for(let i = 0;i<currentTasks.length;i++){
-                if(currentTasks[i].needsSaved){
+            for (let i = 0; i < currentTasks.length; i++) {
+                if (currentTasks[i].needsSaved) {
                     taskToSave.push(currentTasks[i]);
                     currentTasks[i].needsSaved = false;
                 }
@@ -377,8 +329,10 @@ export default class FirebaseController extends React.Component {
 
             //check if the day has changed
             let currentDate = formatDayMonth(new Date());
-            if(this.state.dayStats.date !== currentDate){
-                this.createNewDayStats();
+            if (this.state.dayStats !== null) {
+                if (this.state.dayStats.date !== currentDate) {
+                    this.createNewDayStats();
+                }
             }
         }
     }
@@ -388,11 +342,11 @@ export default class FirebaseController extends React.Component {
     componentDidMount() {
 
         //todo add offline loading
-        if(this.state.tasks === []){
+        if (this.state.tasks === []) {
 
         }
 
-        if(this.state.dayStats === null){
+        if (this.state.dayStats === null) {
 
         }
 
@@ -403,7 +357,7 @@ export default class FirebaseController extends React.Component {
 
         this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(this.userAuthChanged);
         this.tickInterval = setInterval(() => this.tick(), 1000);
-        this.saveInterval = setInterval(() => this.setState({ setSaveAllTasks: true }), SAVE_INTERVAL);
+        this.saveInterval = setInterval(() => this.setState({setSaveAllTasks: true}), SAVE_INTERVAL);
     }
 
     // Make sure we un-register Firebase observers when the component unmounts.
@@ -413,7 +367,7 @@ export default class FirebaseController extends React.Component {
         clearInterval(this.saveInterval);
     }
 
-    createNewDayStats(){
+    createNewDayStats() {
         let newDayStats = {
             date: formatDayMonth(new Date()),
             totalWorked: 0,
@@ -442,11 +396,9 @@ export default class FirebaseController extends React.Component {
 
             //get saved day stats
             this.firebaseGetDayStats(function (dayStats) {
-                if(dayStats == null){
+                if (dayStats == null) {
                     scope.createNewDayStats();
-                }
-
-                else{
+                } else {
                     scope.setState(state => ({
                         dayStats: dayStats
                     }));
@@ -510,12 +462,12 @@ export default class FirebaseController extends React.Component {
             return;
         }
 
-        if(!this.state.dayStats.id){
+        if (!this.state.dayStats.id) {
             currentDayStats.userId = currentUser.uid;
 
             this.db.collection("dayStats")
                 .add(this.state.dayStats)
-                .then(function(val){
+                .then(function (val) {
                     //add the id from firebase to the local dayStats
                     let updatedDayStats = scope.state.dayStats;
                     updatedDayStats.id = val.id;
@@ -527,8 +479,7 @@ export default class FirebaseController extends React.Component {
                     console.log("saved day stats successfully");
                 })
                 .catch(reason => console.error("error saving day stats" + reason));
-        }
-        else{
+        } else {
             this.db.collection("dayStats")
                 .doc(this.state.dayStats.id)
                 .set(this.state.dayStats)
@@ -581,10 +532,9 @@ export default class FirebaseController extends React.Component {
             .limit(1)
             .get()
             .then(function (querySnapshot) {
-                if(querySnapshot.empty){
+                if (querySnapshot.empty) {
                     callback(null);
-                }
-                else{
+                } else {
                     querySnapshot.forEach(function (doc) {
                         let dayStats = doc.data();
                         dayStats.id = doc.id;
@@ -604,7 +554,7 @@ export default class FirebaseController extends React.Component {
         return this.parseSavedTasks(localSavedTasks);
     }
 
-    loadLocalDayStats(){
+    loadLocalDayStats() {
         let date = formatDayMonth(new Date())
         return JSON.parse(localStorage.getItem(date));
     }
@@ -627,7 +577,8 @@ export default class FirebaseController extends React.Component {
     render() {
         let authHtml;
 
-        if(this.state.showAuthHtml) authHtml = <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>;
+        if (this.state.showAuthHtml) authHtml =
+            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>;
 
         return (
             <React.Fragment>
@@ -643,8 +594,6 @@ export default class FirebaseController extends React.Component {
                     tasks={this.state.tasks}
                     addTask={this.addTask}
                     taskOnClick={this.taskOnClick}
-                    taskUp={this.taskUp}
-                    taskDown={this.taskDown}
                     startTask={this.startTask}
                     finishTask={this.finishTask}
                     addTime={this.addTime}

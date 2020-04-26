@@ -120,8 +120,6 @@ export default class TaskController extends React.Component {
 								paused={task.paused}
 								isViewing={task.isViewing}
 								taskOnClick={this.props.taskOnClick}
-								taskUp={this.props.taskUp}
-								taskDown={this.props.taskDown}
 								startTask={this.props.startTask}
 								finishTask={this.props.finishTask}
 								addTime={this.props.addTime}
