@@ -102,9 +102,11 @@ export default class FirebaseController extends React.Component {
                     updatedDayStats.totalWorked += 1;
                 }
 
-                for (let j = 0; j < updatedDayStats.points.length; j++) {
-                    if (updatedDayStats.points[j].id === updatedTasks[i].id) {
-                        updatedDayStats.points[j].stop = currentDate;
+                //if a task is active update the stop time
+                for (let j = 0; j < updatedDayStats.tasks.length; j++) {
+                    if (updatedDayStats.tasks[j].id === updatedTasks[i].id) {
+                        let length = updatedDayStats.tasks[j].stop.length;
+                        updatedDayStats.tasks[j].stop[length-1] = currentDate;
                     }
                 }
             }
@@ -149,7 +151,7 @@ export default class FirebaseController extends React.Component {
         }));
     }
 
-    updateTask(tasks, id, func) {
+    updateTaskByIdFunc(tasks, id, func) {
         for (let i = 0; i < tasks.length; i++) {
             if (tasks[i].id === id) {
                 func(tasks[i]);
@@ -162,7 +164,7 @@ export default class FirebaseController extends React.Component {
     taskOnClick(id) {
         const updatedTasks = this.state.tasks.slice();
 
-        this.updateTask(updatedTasks, id, function (updatedTask) {
+        this.updateTaskByIdFunc(updatedTasks, id, function (updatedTask) {
             updatedTask.view();
         });
 
@@ -177,12 +179,21 @@ export default class FirebaseController extends React.Component {
         let taskActive = false;
         let currentDate = (new Date()).toISOString();
 
-        this.updateTask(updatedTasks, id, function (updatedTask) {
+        this.updateTaskByIdFunc(updatedTasks, id, function (updatedTask) {
             if (updatedTask.started) {
                 if (updatedTask.remainingTime >= 0) {
                     if (updatedTask.paused) {
                         updatedTask.unPause();
                         taskActive = true;
+
+                        //update the dayStat start and stop values
+                        for (let j = 0; j < updatedDayStats.tasks.length; j++) {
+                            if (updatedDayStats.tasks[j].id === updatedTask.id) {
+                                updatedDayStats.tasks[j].start.push(currentDate);
+                                updatedDayStats.tasks[j].stop.push(currentDate);
+                            }
+                        }
+
                     } else {
                         updatedTask.pause();
                     }
@@ -190,11 +201,11 @@ export default class FirebaseController extends React.Component {
             } else {
                 updatedTask.start();
                 taskActive = true;
-                updatedDayStats.points.push({
+                updatedDayStats.tasks.push({
                     id: updatedTask.id,
                     name: updatedTask.name,
-                    start: currentDate,
-                    stop: currentDate,
+                    start: [currentDate],
+                    stop: [currentDate],
                 });
             }
         });
@@ -205,7 +216,6 @@ export default class FirebaseController extends React.Component {
                 if (updatedTasks[i].id !== id && updatedTasks[i].started && !updatedTasks[i].paused) {
                     updatedTasks[i].pause();
                     updatedTasks[i].isViewing = false;
-                    updatedDayStats.stopPoints[currentDate] = updatedTasks[i].name;
                 }
             }
         }
@@ -220,7 +230,7 @@ export default class FirebaseController extends React.Component {
     finishTask(id) {
         const updatedTasks = this.state.tasks.slice();
 
-        this.updateTask(updatedTasks, id, function (updatedTask) {
+        this.updateTaskByIdFunc(updatedTasks, id, function (updatedTask) {
             updatedTask.finish();
         });
 
@@ -251,7 +261,7 @@ export default class FirebaseController extends React.Component {
     addTime(id) {
         const updatedTasks = this.state.tasks.slice();
 
-        this.updateTask(updatedTasks, id, function (updatedTask) {
+        this.updateTaskByIdFunc(updatedTasks, id, function (updatedTask) {
             updatedTask.addTime();
         });
 
@@ -277,7 +287,7 @@ export default class FirebaseController extends React.Component {
     completeObjective(taskId, objectiveId) {
         const updatedTasks = this.state.tasks.slice();
 
-        this.updateTask(updatedTasks, taskId, function (updatedTask) {
+        this.updateTaskByIdFunc(updatedTasks, taskId, function (updatedTask) {
             updatedTask.completeObjective(objectiveId);
         });
 
@@ -290,7 +300,7 @@ export default class FirebaseController extends React.Component {
     addObjective(taskId, objectiveName) {
         const updatedTasks = this.state.tasks.slice();
 
-        this.updateTask(updatedTasks, taskId, function (updatedTask) {
+        this.updateTaskByIdFunc(updatedTasks, taskId, function (updatedTask) {
             updatedTask.addObjective(objectiveName);
         });
 
@@ -373,7 +383,7 @@ export default class FirebaseController extends React.Component {
             date: formatDayMonth(new Date()),
             totalWorked: 0,
             userId: null,
-            points: [],
+            tasks: [],
         };
 
         this.setState(state => ({

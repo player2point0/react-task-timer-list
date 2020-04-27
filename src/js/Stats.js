@@ -1,5 +1,5 @@
 import React from 'react';
-import {XYPlot, ArcSeries} from 'react-vis';
+import {XYPlot, ArcSeries, LabelSeries} from 'react-vis';
 
 
 export default class Stats extends React.Component {
@@ -20,16 +20,22 @@ export default class Stats extends React.Component {
         const graphHeight = window.screen.availHeight * 0.75;
         let taskData = [];
         let hourData = [];
+        let hourLabelData = [];
 
-        for (let i = 0; i < this.props.dayStats.points.length; i++) {
-            let newData = {
-                angle0: this.calcAngle(this.props.dayStats.points[i].start),
-                angle: this.calcAngle(this.props.dayStats.points[i].stop),
-                radius: 5,
-                radius0: 2,
-            };
+        for (let i = 0; i < this.props.dayStats.tasks.length; i++) {
 
-            taskData.push(newData);
+            //todo add different colors for tasks
+            for(let j = 0;j<this.props.dayStats.tasks[i].start.length;j++){
+
+                let newData = {
+                    angle0: this.calcAngle(this.props.dayStats.tasks[i].start[j]),
+                    angle: this.calcAngle(this.props.dayStats.tasks[i].stop[j]),
+                    radius: 5,
+                    radius0: 2,
+                };
+
+                taskData.push(newData);
+            }
         }
 
         for (let j = 1; j <= 24; j++) {
@@ -59,6 +65,10 @@ export default class Stats extends React.Component {
                     stroke={'black'}
                     colorType={'literal'}
                 >
+                    <LabelSeries
+                        animation
+                        allowOffsetToBeReversed
+                        data={hourLabelData} />
                     <ArcSeries
                         color={'#0FA3B1'}
                         animation
