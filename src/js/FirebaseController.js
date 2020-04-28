@@ -102,13 +102,27 @@ export default class FirebaseController extends React.Component {
                     updatedDayStats.totalWorked += 1;
                 }
 
+                let taskInDayStats = false;
+
                 //if a task is active update the stop time
                 for (let j = 0; j < updatedDayStats.tasks.length; j++) {
                     if (updatedDayStats.tasks[j].id === updatedTasks[i].id) {
                         let length = updatedDayStats.tasks[j].stop.length;
                         updatedDayStats.tasks[j].stop[length-1] = currentDate;
+
+                        taskInDayStats = true;
                     }
                 }
+
+                if(!taskInDayStats){
+                    updatedDayStats.tasks.push({
+                        id: updatedTasks[i].id,
+                        name: updatedTasks[i].name,
+                        start: [currentDate],
+                        stop: [currentDate],
+                    });
+                }
+                
             }
         }
 
@@ -179,6 +193,8 @@ export default class FirebaseController extends React.Component {
         let taskActive = false;
         let currentDate = (new Date()).toISOString();
 
+        //todo check if the task is from a previous day stat and so doesn't exist in the tasks
+
         this.updateTaskByIdFunc(updatedTasks, id, function (updatedTask) {
             if (updatedTask.started) {
                 if (updatedTask.remainingTime >= 0) {
@@ -186,12 +202,25 @@ export default class FirebaseController extends React.Component {
                         updatedTask.unPause();
                         taskActive = true;
 
+                        let taskInDayStats = false;
+
                         //update the dayStat start and stop values
                         for (let j = 0; j < updatedDayStats.tasks.length; j++) {
                             if (updatedDayStats.tasks[j].id === updatedTask.id) {
                                 updatedDayStats.tasks[j].start.push(currentDate);
                                 updatedDayStats.tasks[j].stop.push(currentDate);
+
+                                taskInDayStats = true;
                             }
+                        }
+
+                        if(!taskInDayStats){
+                            updatedDayStats.tasks.push({
+                                id: updatedTask.id,
+                                name: updatedTask.name,
+                                start: [currentDate],
+                                stop: [currentDate],
+                            });
                         }
 
                     } else {

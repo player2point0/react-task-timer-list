@@ -22,6 +22,7 @@ https://startup.google.com/
 -improve the sign in ui ( https://github.com/firebase/firebaseui-web-react )
 -add create account (with email)
 -setup billing
+-improve branding (app icon and branding)
 
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
