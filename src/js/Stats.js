@@ -1,5 +1,5 @@
 import React from 'react';
-import {XYPlot, ArcSeries, LabelSeries} from 'react-vis';
+import {XYPlot, ArcSeries, LabelSeries, XAxis, YAxis} from 'react-vis';
 
 
 export default class Stats extends React.Component {
@@ -20,7 +20,10 @@ export default class Stats extends React.Component {
         const graphHeight = window.screen.availHeight * 0.75;
         let taskData = [];
         let hourData = [];
-        let hourLabelData = [];
+        let hourLabelData = [
+            {x: 2, y: 0, label: '0600'},
+            {x: -2, y: 0, label: '1800'}
+        ];
 
         for (let i = 0; i < this.props.dayStats.tasks.length; i++) {
 
@@ -65,10 +68,6 @@ export default class Stats extends React.Component {
                     stroke={'black'}
                     colorType={'literal'}
                 >
-                    <LabelSeries
-                        animation
-                        allowOffsetToBeReversed
-                        data={hourLabelData} />
                     <ArcSeries
                         color={'#0FA3B1'}
                         animation
@@ -78,6 +77,11 @@ export default class Stats extends React.Component {
                         color={'rgb(240, 84, 23)'}
                         animation
                         data={hourData}
+                    />
+                    <LabelSeries
+                        animation
+                        allowOffsetToBeReversed
+                        data={hourLabelData}
                     />
                 </XYPlot>
             </React.Fragment>
