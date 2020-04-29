@@ -1,6 +1,6 @@
 --stats
 -add a weekly overview of productivity and previous day graphs
--add labels
+-refactor task stats
 
 --server
 -add a more robust server and offline strategy
@@ -32,6 +32,7 @@ https://startup.google.com/
 
 ----UI/UX----
 -improve side bar ui and ux
+-improve stats ui
 -improve mobile task view ui
 -possibly make the hour overlay more prominent
 -add an option to change focus from long to short tasks (change the task height) and to turn off objectives

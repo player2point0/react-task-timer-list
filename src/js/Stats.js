@@ -4,6 +4,14 @@ import {XYPlot, ArcSeries, LabelSeries, XAxis, YAxis} from 'react-vis';
 
 export default class Stats extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            centerText: ""
+        };
+    }
+
     calcAngle(val) {
         let date = new Date(val);
         let minutes = (date.getHours() * 60) + date.getMinutes();
@@ -21,8 +29,9 @@ export default class Stats extends React.Component {
         let taskData = [];
         let hourData = [];
         let hourLabelData = [
-            {x: 2, y: 0, label: '0600'},
-            {x: -2, y: 0, label: '1800'}
+            {x: 3, y: 0, label: '0600'},
+            {x: -3, y: 0, label: '1800'},
+            {x: 0, y: 0, label: this.state.centerText}
         ];
 
         for (let i = 0; i < this.props.dayStats.tasks.length; i++) {
@@ -35,6 +44,7 @@ export default class Stats extends React.Component {
                     angle: this.calcAngle(this.props.dayStats.tasks[i].stop[j]),
                     radius: 5,
                     radius0: 2,
+                    name: this.props.dayStats.tasks[i].name,
                 };
 
                 taskData.push(newData);
@@ -68,20 +78,38 @@ export default class Stats extends React.Component {
                     stroke={'black'}
                     colorType={'literal'}
                 >
+                    <XAxis/>
+                    <YAxis/>
                     <ArcSeries
                         color={'#0FA3B1'}
                         animation
                         data={taskData}
+                        onValueMouseOver={(datapoint)=>{
+                            console.log(datapoint);
+                            this.setState(state => ({
+                                centerText: datapoint.name
+                            }));
+                        }}
+                        onValueMouseOut={()=>{
+                            this.setState(state => ({
+                                centerText: ""
+                            }));
+                        }}
                     />
                     <ArcSeries
                         color={'rgb(240, 84, 23)'}
                         animation
                         data={hourData}
+
                     />
                     <LabelSeries
+                        xDomain={[-5, 5]}
+                        yDomain={[-5, 5]}
                         animation
-                        allowOffsetToBeReversed
+                        labelAnchorX={"middle"}
+                        labelAnchorY={"middle"}
                         data={hourLabelData}
+                        style={{fontSize: "var(--small-text-size)"}}
                     />
                 </XYPlot>
             </React.Fragment>

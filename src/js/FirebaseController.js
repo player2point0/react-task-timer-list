@@ -55,7 +55,7 @@ export default class FirebaseController extends React.Component {
             removeTaskId: "",
             setSaveAllTasks: false,
             dayStats: null, // todo load from local
-        }
+        };
 
         this.saveAllTasks = this.saveAllTasks.bind(this);
         this.addTask = this.addTask.bind(this);
