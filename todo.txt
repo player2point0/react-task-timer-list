@@ -1,3 +1,5 @@
+-refactor react task
+
 --stats
 -add a weekly overview of productivity and previous day graphs
 -refactor task stats
@@ -27,8 +29,6 @@ https://startup.google.com/
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
 -improve the timing and countdown, currently the timings are not in sync
--fix the sidebar scroll bug
--fix task viewing when no time remains
 
 ----UI/UX----
 -improve side bar ui and ux

@@ -8,6 +8,7 @@ const HOUR_HEIGHT = 30;
 const TASK_VIEWING_HEIGHT = 70;
 const HOUR_IN_SECONDS = 60 * 60;
 const HIDE_CONTENT_HEIGHT = 0;//10;
+const OBJECTIVE_HEIGHT = 5;
 
 function Objective(props) {
 
@@ -88,7 +89,7 @@ class Task extends React.Component {
 
 		if (!this.props.started) startButtonText = "start";
 
-		if (taskHeight > HIDE_CONTENT_HEIGHT || this.props.isViewing) {
+		if (taskHeight > HIDE_CONTENT_HEIGHT) {
             taskContent = (<React.Fragment>
                 <div
                     className="taskViewingCover"
@@ -110,7 +111,10 @@ class Task extends React.Component {
                 ((this.props.totalDuration - this.props.remainingTime) /
                     this.props.totalDuration);
 
+            //todo add support for the sizing of multi line objectives
             let taskObjectives;
+            taskHeight += this.props.objectives.length * OBJECTIVE_HEIGHT;
+
             if(this.props.objectives){
             	taskObjectives = this.props.objectives.map(objective => (
 					<Objective
