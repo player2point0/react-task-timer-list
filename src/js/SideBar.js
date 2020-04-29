@@ -187,6 +187,9 @@ export default class SideBar extends React.Component {
 
     render() {
         if (!this.state.showSideBar) {
+            //for scroll bug
+            document.body.style.overflow = '';
+
             return (
                 <h1 className="showSideBar" onClick={this.toggleSideBar}>
                     s<br/>i<br/>d<br/>e<br/>b<br/>a<br/>r
@@ -226,6 +229,8 @@ export default class SideBar extends React.Component {
                 </React.Fragment>
             );
         }
+        //for scroll bug
+        document.body.style.overflow = "hidden";
 
         return (
             <div className="sideBarContainer">
