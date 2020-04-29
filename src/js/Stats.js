@@ -29,8 +29,6 @@ export default class Stats extends React.Component {
         let taskData = [];
         let hourData = [];
         let hourLabelData = [
-            {x: 3, y: 0, label: '0600'},
-            {x: -3, y: 0, label: '1800'},
             {x: 0, y: 0, label: this.state.centerText}
         ];
 
@@ -53,11 +51,15 @@ export default class Stats extends React.Component {
 
         for (let j = 1; j <= 24; j++) {
 
+            let hourText = j-1;
+            if(hourText<10) hourText = "0"+hourText;
+
             let hour = {
                 angle0: (j - 1) * spacing,
                 angle: j * spacing,
                 radius: 4,
                 radius0: 2,
+                name: hourText+":00"
             };
 
             hourData.push(hour);
@@ -78,14 +80,11 @@ export default class Stats extends React.Component {
                     stroke={'black'}
                     colorType={'literal'}
                 >
-                    <XAxis/>
-                    <YAxis/>
                     <ArcSeries
                         color={'#0FA3B1'}
                         animation
                         data={taskData}
                         onValueMouseOver={(datapoint)=>{
-                            console.log(datapoint);
                             this.setState(state => ({
                                 centerText: datapoint.name
                             }));
@@ -100,7 +99,16 @@ export default class Stats extends React.Component {
                         color={'rgb(240, 84, 23)'}
                         animation
                         data={hourData}
-
+                        onValueMouseOver={(datapoint)=>{
+                            this.setState(state => ({
+                                centerText: datapoint.name
+                            }));
+                        }}
+                        onValueMouseOut={()=>{
+                            this.setState(state => ({
+                                centerText: ""
+                            }));
+                        }}
                     />
                     <LabelSeries
                         xDomain={[-5, 5]}
