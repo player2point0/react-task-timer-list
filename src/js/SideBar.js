@@ -1,6 +1,6 @@
 import React from "react";
 import Pomodoro from "../js/Pomodoro.js";
-import Stats from "../js/Stats";
+import DayStats from "./DayStats";
 import {formatTime, padNumWithZero} from "../js/Ultility.js";
 import "../css/sideBar.css";
 
@@ -13,7 +13,7 @@ function DayOverview(props) {
     let finishMinute;
     let totalPlanned = 0;
 
-    for(let i = 0;i<props.tasks.length;i++){
+    for (let i = 0; i < props.tasks.length; i++) {
         totalPlanned += props.tasks[i].remainingTime;
     }
 
@@ -26,7 +26,7 @@ function DayOverview(props) {
         <React.Fragment>
             <h2>total worked {formatTime(props.dayStats.totalWorked)}</h2>
             <h2>total planned {formatTime(totalPlanned)}</h2>
-            <h2>finish time {finishHour+":"+finishMinute}</h2>
+            <h2>finish time {finishHour + ":" + finishMinute}</h2>
         </React.Fragment>
     );
 }
@@ -37,7 +37,8 @@ export default class SideBar extends React.Component {
 
         this.state = {
             showSideBar: false,
-            showStats: false,
+            showDayStats: false,
+            showWeekStats: false,
             showSettings: false,
             showPomodoro: true,
             showOverview: false,
@@ -51,13 +52,13 @@ export default class SideBar extends React.Component {
         };
 
         this.toggleSideBar = this.toggleSideBar.bind(this);
-        this.toggleStats = this.toggleStats.bind(this);
+        this.toggleDayStats = this.toggleDayStats.bind(this);
+        this.toggleWeekStats = this.toggleWeekStats.bind(this);
         this.toggleSettings = this.toggleSettings.bind(this);
         this.togglePomodoro = this.togglePomodoro.bind(this);
         this.toggleOverview = this.toggleOverview.bind(this);
         this.stashBreakTime = this.stashBreakTime.bind(this);
         this.resetPomodoro = this.resetPomodoro.bind(this);
-
     }
 
     componentDidMount() {
@@ -74,9 +75,15 @@ export default class SideBar extends React.Component {
         }));
     }
 
-    toggleStats() {
+    toggleDayStats() {
         this.setState(state => ({
-            showStats: !state.showStats,
+            showDayStats: !state.showDayStats,
+        }));
+    }
+
+    toggleWeekStats() {
+        this.setState(state => ({
+            showWeekStats: !state.showWeekStats,
         }));
     }
 
@@ -221,15 +228,11 @@ export default class SideBar extends React.Component {
             );
         }
 
-        let statsHTML;
+        let dayStatsHTML;
+        let weekStatsHTML;
         let dayOverviewHTML;
         let settingsHTML;
         let pomodoroHTML;
-
-        if (this.state.showStats) {
-            statsHTML = <Stats
-                dayStats={this.props.dayStats}/>;
-        }
 
         if (this.state.showSettings) {
             settingsHTML = "settings html";
@@ -245,14 +248,27 @@ export default class SideBar extends React.Component {
             );
         }
 
-        if (this.props.dayStats !== null && this.state.showOverview) {
-            dayOverviewHTML = (
-                <DayOverview
-                    tasks={this.props.tasks}
+        if (this.props.dayStats !== null) {
+            if (this.state.showOverview) {
+                dayOverviewHTML = (
+                    <DayOverview
+                        tasks={this.props.tasks}
+                        dayStats={this.props.dayStats}
+                    />
+                );
+            }
+
+            if (this.state.showDayStats) {
+                dayStatsHTML = <DayStats
                     dayStats={this.props.dayStats}
-                />
-            );
+                />;
+            }
+
+            if (this.state.showWeekStats) {
+                weekStatsHTML = <h2>week stats</h2>;
+            }
         }
+
         //for scroll bug
         document.body.style.overflow = "hidden";
 
@@ -264,9 +280,10 @@ export default class SideBar extends React.Component {
                     </h1>
                     <h1 onClick={this.toggleOverview}>overview</h1>
                     {dayOverviewHTML}
-                    <h1 onClick={this.toggleStats}>stats</h1>
-                    {statsHTML}
-                    {/*<h1 onClick={this.toggleWeekOverview}>week overview </h1>*/}
+                    <h1 onClick={this.toggleDayStats}>day stats</h1>
+                    {dayStatsHTML}
+                    {<h1 onClick={this.toggleWeekStats}>week stats</h1>}
+                    {weekStatsHTML}
                     <h1 onClick={this.togglePomodoro}>pomodoro</h1>
                     {pomodoroHTML}
                 </div>

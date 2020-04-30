@@ -2,7 +2,7 @@ import React from 'react';
 import {XYPlot, ArcSeries, LabelSeries, XAxis, YAxis} from 'react-vis';
 
 
-export default class Stats extends React.Component {
+export default class DayStats extends React.Component {
 
     constructor(props) {
         super(props);
