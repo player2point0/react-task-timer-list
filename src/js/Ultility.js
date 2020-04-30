@@ -26,15 +26,11 @@ function closeNotification(notification, onClickFunc) {
 }
 
 export function formatTime(time) {
-    let hours = String(Math.floor(time / 3600));
-    let mins = String(Math.floor((time - hours * 3600) / 60));
-    let seconds = String(Math.floor(time - hours * 3600 - mins * 60));
+    let hours = Math.floor(time / 3600);
+    let mins = Math.floor((time - hours * 3600) / 60);
+    let seconds = Math.floor(time - hours * 3600 - mins * 60);
 
-    if (hours.length < 2) hours = "0" + hours;
-    if (mins.length < 2) mins = "0" + mins;
-    if (seconds.length < 2) seconds = "0" + seconds;
-
-    return hours + ":" + mins + ":" + seconds;
+    return padNumWithZero(hours) + ":" + padNumWithZero(mins) + ":" + padNumWithZero(seconds);
 }
 
 export function formatDayMonth(d){

@@ -1,5 +1,6 @@
 import React from "react";
 import "../css/hourCover.css";
+import {padNumWithZero} from "./Ultility";
 
 const HOUR_HEIGHT = 30;
 
@@ -22,7 +23,7 @@ class HoursOverlay extends React.Component {
 		//draw the first bar smaller based on the remaining time in the hour
 		let mins = currentTime.getMinutes();
 		let heightPer = 1 - mins / 60.0;
-		if (mins < 10) mins = "0" + mins;
+		mins = padNumWithZero(mins)
 		let hourBar = (
 			<h1
 				style={{ height: heightPer * HOUR_HEIGHT + "vh" }}
@@ -35,8 +36,7 @@ class HoursOverlay extends React.Component {
 
 		for (let i = 1; i < 12; i++) {
 			currentTime.setUTCHours(currentHour + i);
-			let hour = currentTime.getHours().toString();
-			if (hour < 10) hour = "0" + hour;
+			let hour = padNumWithZero(currentTime.getHours().toString());
 			let hourBar = (
 				<h1
 					style={{ height: HOUR_HEIGHT + "vh" }}
