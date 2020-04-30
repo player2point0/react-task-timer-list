@@ -44,3 +44,8 @@ export function formatDayMonth(d){
 
 	return date + "/" + month + "/" + year;
 }
+
+export function padNumWithZero(val) {
+    if(val < 10) return "0"+val;
+    return val;
+}

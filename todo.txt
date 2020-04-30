@@ -1,6 +1,7 @@
 -refactor react task
 
 --stats
+-extend daily overview?
 -add a weekly overview of productivity and previous day graphs
 -refactor task stats
 

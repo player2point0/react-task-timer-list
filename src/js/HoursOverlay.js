@@ -20,7 +20,7 @@ class HoursOverlay extends React.Component {
 		let currentHour = currentTime.getHours();
 
 		//draw the first bar smaller based on the remaining time in the hour
-		let mins = currentTime.getUTCMinutes();
+		let mins = currentTime.getMinutes();
 		let heightPer = 1 - mins / 60.0;
 		if (mins < 10) mins = "0" + mins;
 		let hourBar = (
@@ -35,7 +35,7 @@ class HoursOverlay extends React.Component {
 
 		for (let i = 1; i < 12; i++) {
 			currentTime.setUTCHours(currentHour + i);
-			let hour = currentTime.getUTCHours().toString();
+			let hour = currentTime.getHours().toString();
 			if (hour < 10) hour = "0" + hour;
 			let hourBar = (
 				<h1

@@ -1,7 +1,7 @@
 import React from "react";
 import Pomodoro from "../js/Pomodoro.js";
 import Stats from "../js/Stats";
-import {formatTime} from "../js/Ultility.js";
+import {formatTime, padNumWithZero} from "../js/Ultility.js";
 import "../css/sideBar.css";
 
 const WORK_TIME = 25 * 60;
@@ -222,10 +222,26 @@ export default class SideBar extends React.Component {
         }
 
         if (this.props.dayStats !== null && this.state.showOverview) {
+
+            let finishTime = new Date();
+            let finishHour;
+            let finishMinute;
+            let totalPlanned = 0;
+
+            for(let i = 0;i<this.props.tasks.length;i++){
+                totalPlanned += this.props.tasks[i].remainingTime;
+            }
+
+            finishTime.setTime(finishTime.getTime() + totalPlanned * 1000);
+
+            finishHour = padNumWithZero(finishTime.getHours());
+            finishMinute = padNumWithZero(finishTime.getMinutes());
+
             dayOverviewHTML = (
                 <React.Fragment>
-                    <h2>total : {formatTime(this.props.dayStats.totalWorked)}</h2>
-
+                    <h2>total worked {formatTime(this.props.dayStats.totalWorked)}</h2>
+                    <h2>finish time {finishHour+":"+finishMinute}</h2>
+                    <h2>total planned {formatTime(totalPlanned)}</h2>
                 </React.Fragment>
             );
         }
