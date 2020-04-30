@@ -7,6 +7,30 @@ import "../css/sideBar.css";
 const WORK_TIME = 25 * 60;
 const BREAK_TIME = 5 * 60;
 
+function DayOverview(props) {
+    let finishTime = new Date();
+    let finishHour;
+    let finishMinute;
+    let totalPlanned = 0;
+
+    for(let i = 0;i<props.tasks.length;i++){
+        totalPlanned += props.tasks[i].remainingTime;
+    }
+
+    finishTime.setTime(finishTime.getTime() + totalPlanned * 1000);
+
+    finishHour = padNumWithZero(finishTime.getHours());
+    finishMinute = padNumWithZero(finishTime.getMinutes());
+
+    return (
+        <React.Fragment>
+            <h2>total worked {formatTime(props.dayStats.totalWorked)}</h2>
+            <h2>total planned {formatTime(totalPlanned)}</h2>
+            <h2>finish time {finishHour+":"+finishMinute}</h2>
+        </React.Fragment>
+    );
+}
+
 export default class SideBar extends React.Component {
     constructor(props) {
         super(props);
@@ -222,27 +246,11 @@ export default class SideBar extends React.Component {
         }
 
         if (this.props.dayStats !== null && this.state.showOverview) {
-
-            let finishTime = new Date();
-            let finishHour;
-            let finishMinute;
-            let totalPlanned = 0;
-
-            for(let i = 0;i<this.props.tasks.length;i++){
-                totalPlanned += this.props.tasks[i].remainingTime;
-            }
-
-            finishTime.setTime(finishTime.getTime() + totalPlanned * 1000);
-
-            finishHour = padNumWithZero(finishTime.getHours());
-            finishMinute = padNumWithZero(finishTime.getMinutes());
-
             dayOverviewHTML = (
-                <React.Fragment>
-                    <h2>total worked {formatTime(this.props.dayStats.totalWorked)}</h2>
-                    <h2>finish time {finishHour+":"+finishMinute}</h2>
-                    <h2>total planned {formatTime(totalPlanned)}</h2>
-                </React.Fragment>
+                <DayOverview
+                    tasks={this.props.tasks}
+                    dayStats={this.props.dayStats}
+                />
             );
         }
         //for scroll bug
@@ -258,7 +266,7 @@ export default class SideBar extends React.Component {
                     {dayOverviewHTML}
                     <h1 onClick={this.toggleStats}>stats</h1>
                     {statsHTML}
-                    {/*<h1 onClick={this.showWeekOverview}>week overview </h1>*/}
+                    {/*<h1 onClick={this.toggleWeekOverview}>week overview </h1>*/}
                     <h1 onClick={this.togglePomodoro}>pomodoro</h1>
                     {pomodoroHTML}
                 </div>

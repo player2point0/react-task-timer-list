@@ -1,9 +1,8 @@
 -refactor react task
+-refactor task stats
 
 --stats
--extend daily overview?
 -add a weekly overview of productivity and previous day graphs
--refactor task stats
 
 --server
 -add a more robust server and offline strategy
