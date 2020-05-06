@@ -79,6 +79,7 @@ export default class FirebaseController extends React.Component {
     }
 
     //update all the tasks which are started
+    //todo change to use the date in the task object
     tick() {
         const updatedTasks = this.state.tasks.slice();
         const updatedDayStats = this.state.dayStats;
@@ -131,6 +132,10 @@ export default class FirebaseController extends React.Component {
             time: state.time + 1,
             dayStats: updatedDayStats
         }));
+
+        const milliseconds = (new Date()).getMilliseconds();
+        const newTimeout = 1000 - milliseconds;
+        this.tickInterval = setTimeout(() => this.tick(), newTimeout);
     }
 
     addTask(currentState) {
@@ -396,7 +401,7 @@ export default class FirebaseController extends React.Component {
         }));
 
         this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(this.userAuthChanged);
-        this.tickInterval = setInterval(() => this.tick(), 1000);
+        this.tickInterval = setTimeout(() => this.tick(), 1000);
         this.saveInterval = setInterval(() => this.setState({setSaveAllTasks: true}), SAVE_INTERVAL);
     }
 

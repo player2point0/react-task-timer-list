@@ -142,7 +142,8 @@ export default class SideBar extends React.Component {
         if (!this.state.pomodoro.startedWork) {
             updatedPomodoro.startedWork = true;
             updatedPomodoro.workTimeRemaining = WORK_TIME;
-        } else if (this.state.pomodoro.stashBreak) {
+        }
+        else if (this.state.pomodoro.stashBreak) {
             updatedPomodoro.workTimeRemaining = WORK_TIME;
             updatedPomodoro.breakTimeRemaining += BREAK_TIME;
             updatedPomodoro.startedBreak = false;

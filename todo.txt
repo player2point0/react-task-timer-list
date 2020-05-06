@@ -25,7 +25,6 @@ https://startup.google.com/
 
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
--improve the timing and countdown, currently the timings are not in sync (change to use the date object and a reference time)
 
 ----UI/UX----
 -improve side bar ui and ux
