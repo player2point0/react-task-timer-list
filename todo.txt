@@ -1,10 +1,7 @@
--refactor react task
--refactor task stats
+--stats--
+-add a weekly overview of productivity and previous day graphs (store the previous week of day stats)
 
---stats
--add a weekly overview of productivity and previous day graphs
-
---server
+--server--
 -add a more robust server and offline strategy
 -add a sync all tasks button (could also sync hourly)
 -possibly change to pushing changes to firebase every save interval
@@ -28,7 +25,7 @@ https://startup.google.com/
 
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
--improve the timing and countdown, currently the timings are not in sync
+-improve the timing and countdown, currently the timings are not in sync (change to use the date object and a reference time)
 
 ----UI/UX----
 -improve side bar ui and ux
@@ -42,6 +39,24 @@ https://startup.google.com/
 -add dark mode
 -add settings
 -add in app purchase for dark mode
+
+--flow--
+-could use flow as a metric
+(https://en.wikipedia.org/wiki/Flow_(psychology))
+-increase the amount of flow
+Knowing what to do
+Knowing how to do it
+Knowing how well you are doing
+Knowing where to go (if navigation is involved)
+High perceived challenges
+High perceived skills
+Freedom from distractions
+Goals are clear
+Feedback is immediate
+A balance exists between opportunity and capacity
+(https://en.wikipedia.org/wiki/Jenova_Chen)
+(https://en.wikipedia.org/wiki/Dynamic_game_difficulty_balancing)
+(https://en.wikipedia.org/wiki/Motivation)
 
 --ai--
 -download data from before 26th april (https://firebase.google.com/docs/firestore/manage-data/export-import)

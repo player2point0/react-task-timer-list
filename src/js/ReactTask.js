@@ -34,7 +34,6 @@ function Objective(props) {
         {objectiveName}
         {completeButton}
     </div>);
-
 }
 
 //renders the task based on the passed properties
@@ -67,29 +66,30 @@ class Task extends React.Component {
     }
 
     render() {
-    	//todo refactor this
+        //todo refactor this
         let THIS_SCOPE = this;
         let taskContent;
         const TASK_ID = this.props.id;
 
         let taskViewing;
 
-        let taskHeightPer = this.props.remainingTime / HOUR_IN_SECONDS < MIN_HOUR_TIME
+        let taskHeightPer = (this.props.remainingTime / HOUR_IN_SECONDS) < MIN_HOUR_TIME
             ? MIN_HOUR_TIME
-            : this.props.remainingTime / HOUR_IN_SECONDS;
-        let taskHeight = taskHeightPer * HOUR_HEIGHT < MIN_TASK_HEIGHT
+            : (this.props.remainingTime / HOUR_IN_SECONDS);
+        let taskHeight = (taskHeightPer * HOUR_HEIGHT) < MIN_TASK_HEIGHT
             ? MIN_TASK_HEIGHT
-            : taskHeightPer * HOUR_HEIGHT;
+            : (taskHeightPer * HOUR_HEIGHT);
         let coverHeight = 0;
 
-		let startButtonText =
-			this.props.paused || this.props.remainingTime === 0
-				? "un pause"
-				: "pause";
+        let startButtonText = this.props.paused || this.props.remainingTime === 0
+            ? "un pause"
+            : "pause";
 
-		if (!this.props.started) startButtonText = "start";
+        if (!this.props.started) startButtonText = "start";
 
-		if (taskHeight > HIDE_CONTENT_HEIGHT) {
+        //show the task name and time when large enough
+        //currently HIDE_CONTENT_HEIGHT is 0, so always shows
+        if (taskHeight > HIDE_CONTENT_HEIGHT) {
             taskContent = (<React.Fragment>
                 <div
                     className="taskViewingCover"
@@ -106,8 +106,7 @@ class Task extends React.Component {
         if (this.props.isViewing) {
             taskHeight += TASK_VIEWING_HEIGHT; //expands the task by 50vh to display the buttons, could add a max/min height
 
-            coverHeight =
-                taskHeight *
+            coverHeight = taskHeight *
                 ((this.props.totalDuration - this.props.remainingTime) /
                     this.props.totalDuration);
 
@@ -115,19 +114,18 @@ class Task extends React.Component {
             let taskObjectives;
             taskHeight += this.props.objectives.length * OBJECTIVE_HEIGHT;
 
-            if(this.props.objectives){
-            	taskObjectives = this.props.objectives.map(objective => (
-					<Objective
-						key={objective.id}
-						name={objective.name}
-						id={objective.id}
-						taskId={TASK_ID}
-						finished={objective.finished}
-						completeObjective={this.props.completeObjective}
-					/>
-				));
-			}
-
+            if (this.props.objectives) {
+                taskObjectives = this.props.objectives.map(objective => (
+                    <Objective
+                        key={objective.id}
+                        name={objective.name}
+                        id={objective.id}
+                        taskId={TASK_ID}
+                        finished={objective.finished}
+                        completeObjective={this.props.completeObjective}
+                    />
+                ));
+            }
 
             taskViewing = (
                 <React.Fragment>

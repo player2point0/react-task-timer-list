@@ -1,5 +1,5 @@
 import React from 'react';
-import {XYPlot, ArcSeries, LabelSeries, XAxis, YAxis} from 'react-vis';
+import {XYPlot, ArcSeries, LabelSeries} from 'react-vis';
 
 
 export default class DayStats extends React.Component {
