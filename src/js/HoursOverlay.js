@@ -19,23 +19,24 @@ class HoursOverlay extends React.Component {
 		let hourBars = [];
 		let currentTime = new Date();
 		let currentHour = currentTime.getHours();
+		let currentHourFormatted = padNumWithZero(currentHour);
 
 		//draw the first bar smaller based on the remaining time in the hour
 		let mins = currentTime.getMinutes();
 		let heightPer = 1 - mins / 60.0;
-		mins = padNumWithZero(mins)
+		mins = padNumWithZero(mins);
 		let hourBar = (
 			<h1
 				style={{ height: heightPer * HOUR_HEIGHT + "vh" }}
-				key={currentHour + ":" + mins}
+				key={currentHourFormatted + ":" + mins}
 			>
-				{currentHour + ":" + mins}
+				{currentHourFormatted + ":" + mins}
 			</h1>
 		);
 		hourBars.push(hourBar);
 
 		for (let i = 1; i < 12; i++) {
-			currentTime.setUTCHours(currentHour + i);
+			currentTime.setHours(currentHour + i);
 			let hour = padNumWithZero(currentTime.getHours().toString());
 			let hourBar = (
 				<h1
