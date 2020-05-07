@@ -79,7 +79,6 @@ export default class FirebaseController extends React.Component {
     }
 
     //update all the tasks which are started
-    //todo change to use the date in the task object
     tick() {
         const updatedTasks = this.state.tasks.slice();
         const updatedDayStats = this.state.dayStats;
