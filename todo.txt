@@ -1,16 +1,13 @@
 --stats--
 -add a weekly overview of productivity and previous day graphs (store the previous week of day stats)
 
---server--
--add a sync all tasks button (could also sync hourly)
-
 --offline--
 -add a more robust server and offline strategy
+-change sync button to check if running offline first
 -add the option to skip signing in and instead use local storage
 
 --prelaunch--
 https://startup.google.com/
--add security, e.g. a user should only be able to access their own tasks (https://firebase.google.com/docs/firestore/security/rules-query) (https://firebase.google.com/docs/storage/security/index?authuser=0#authorization)
 -add a user feedback form ("what would you change?")
 -host it with a good domain name ( https://github.com/firebase/firebaseui-web-react )
 -test on different devices and web broswers
