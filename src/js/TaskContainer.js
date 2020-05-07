@@ -13,7 +13,8 @@ class TaskContainer {
 			this.timeUp = savedTask.timeUp;
 			this.started = savedTask.started;
 			this.finished = savedTask.finished;
-			this.paused = savedTask.paused;
+			//load tasks as paused to prevent daystat problems and for ux
+			this.paused = true;//savedTask.paused;
 			this.isViewing = savedTask.isViewing;
 			this.stats = savedTask.stats;
 			this.objectives = savedTask.objectives;
