@@ -55,6 +55,7 @@ export default class FirebaseController extends React.Component {
             removeTaskId: "",
             setSaveAllTasks: false,
             dayStats: null, // todo load from local
+            weekDayStats: null,
         };
 
         this.saveAllTasks = this.saveAllTasks.bind(this);
@@ -443,10 +444,37 @@ export default class FirebaseController extends React.Component {
                 scope.createNewDayStats();
             } else {
                 scope.setState(state => ({
-                    dayStats: dayStats
+                    dayStats: dayStats,
                 }));
             }
-        });
+        }, new Date());
+
+
+        //load a weeks worth of previous day stats
+        let currentDate = new Date();
+        let weekDayStats = [];
+
+        for(let i = 0;i<8;i++){
+            this.firebaseGetDayStats(function (dayStats) {
+
+                //todo change to use a promise
+                // for performance and to fix date bug
+                if(dayStats === null){
+                    dayStats = {
+                        date: formatDayMonth(currentDate),
+                    };
+                }
+
+                weekDayStats.push(dayStats)
+
+                scope.setState(state => ({
+                    weekDayStats: weekDayStats,
+                }));
+
+            }, currentDate);
+
+            currentDate.setDate(currentDate.getDate()-1);
+        }
     }
 
     // login / signup / guest
@@ -566,9 +594,9 @@ export default class FirebaseController extends React.Component {
             });
     }
 
-    firebaseGetDayStats(callback) {
+    firebaseGetDayStats(callback, day) {
         const currentUser = firebase.auth().currentUser;
-        const currentDate = formatDayMonth(new Date());
+        const currentDate = formatDayMonth(day);
 
         if (!currentUser) {
             console.error("not logged in");
@@ -634,7 +662,7 @@ export default class FirebaseController extends React.Component {
                 {authHtml}
                 <SideBar
                     tasks={this.state.tasks}
-                    dayStats={this.state.dayStats}
+                    weekDayStats={this.state.weekDayStats}
                     sendNotification={sendNotification}
                     syncAll={this.loadServerData}
                 />

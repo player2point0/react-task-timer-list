@@ -8,8 +8,12 @@ export default class DayStats extends React.Component {
         super(props);
 
         this.state = {
-            centerText: ""
+            centerText: "",
+            weekDayIndex: 0,
         };
+
+        this.increaseWeekDayIndex = this.increaseWeekDayIndex.bind(this)
+        this.decreaseWeekDayIndex = this.decreaseWeekDayIndex.bind(this)
     }
 
     calcAngle(val) {
@@ -20,8 +24,26 @@ export default class DayStats extends React.Component {
         return minutes / (24.0 * 60.0) * (Math.PI * 2);
     };
 
+    decreaseWeekDayIndex(){
+        let newIndex = this.state.weekDayIndex - 1;
+        if(newIndex < 0) newIndex = 0;
+
+        this.setState(state => ({
+            weekDayIndex: newIndex,
+        }))
+    }
+
+    increaseWeekDayIndex(){
+        let newIndex = this.state.weekDayIndex + 1;
+        if(newIndex > 7) newIndex = 7;
+
+        this.setState(state => ({
+            weekDayIndex: newIndex,
+        }))
+    }
+
     render() {
-        if (this.props.dayStats === null) return <h1>no stats</h1>;
+        const currentDayStat = this.props.weekDayStats[this.state.weekDayIndex];
 
         const spacing = (Math.PI * 2) / 24;
         const graphWidth = window.screen.availWidth * 0.7;
@@ -32,22 +54,25 @@ export default class DayStats extends React.Component {
             {x: 0, y: 0, label: this.state.centerText}
         ];
 
-        for (let i = 0; i < this.props.dayStats.tasks.length; i++) {
+        if(currentDayStat !== null && currentDayStat.hasOwnProperty("tasks") && currentDayStat.tasks !== null){
+            for (let i = 0; i < currentDayStat.tasks.length; i++) {
 
-            //todo add different colors for tasks
-            for(let j = 0;j<this.props.dayStats.tasks[i].start.length;j++){
+                //todo add different colors for tasks
+                for(let j = 0;j<currentDayStat.tasks[i].start.length;j++){
 
-                let newData = {
-                    angle0: this.calcAngle(this.props.dayStats.tasks[i].start[j]),
-                    angle: this.calcAngle(this.props.dayStats.tasks[i].stop[j]),
-                    radius: 5,
-                    radius0: 2,
-                    name: this.props.dayStats.tasks[i].name,
-                };
+                    let newData = {
+                        angle0: this.calcAngle(currentDayStat.tasks[i].start[j]),
+                        angle: this.calcAngle(currentDayStat.tasks[i].stop[j]),
+                        radius: 5,
+                        radius0: 2,
+                        name: currentDayStat.tasks[i].name,
+                    };
 
-                taskData.push(newData);
+                    taskData.push(newData);
+                }
             }
         }
+
 
         for (let j = 1; j <= 24; j++) {
 
@@ -67,7 +92,9 @@ export default class DayStats extends React.Component {
 
         return (
             <React.Fragment>
-                <h2>{this.props.dayStats.date}</h2>
+                <h2>{currentDayStat.date}</h2>
+                <h2 onClick={this.increaseWeekDayIndex}>previous</h2>
+                <h2 onClick={this.decreaseWeekDayIndex}>next</h2>
                 <XYPlot
                     radiusDomain={[0, 5]}
                     xDomain={[-5, 5]}

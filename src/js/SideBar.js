@@ -49,6 +49,7 @@ export default class SideBar extends React.Component {
                 breakTimeRemaining: BREAK_TIME,
                 stashBreak: false,
             },
+            dayStatDay: new Date(),
         };
 
         this.toggleSideBar = this.toggleSideBar.bind(this);
@@ -249,19 +250,19 @@ export default class SideBar extends React.Component {
             );
         }
 
-        if (this.props.dayStats !== null) {
+        if (this.props.weekDayStats !== null) {
             if (this.state.showOverview) {
                 dayOverviewHTML = (
                     <DayOverview
                         tasks={this.props.tasks}
-                        dayStats={this.props.dayStats}
+                        dayStats={this.props.weekDayStats[0]}
                     />
                 );
             }
 
             if (this.state.showDayStats) {
                 dayStatsHTML = <DayStats
-                    dayStats={this.props.dayStats}
+                    weekDayStats={this.props.weekDayStats}
                 />;
             }
 
@@ -283,8 +284,8 @@ export default class SideBar extends React.Component {
                     {dayOverviewHTML}
                     <h1 onClick={this.toggleDayStats}>day stats</h1>
                     {dayStatsHTML}
-                    {<h1 onClick={this.toggleWeekStats}>week stats</h1>}
-                    {weekStatsHTML}
+                    {/*<h1 onClick={this.toggleWeekStats}>week stats</h1>}
+                    {weekStatsHTML*/}
                     <h1 onClick={this.togglePomodoro}>pomodoro</h1>
                     {pomodoroHTML}
                     <h1 onClick={this.props.syncAll}>sync all</h1>
