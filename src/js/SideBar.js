@@ -287,6 +287,7 @@ export default class SideBar extends React.Component {
                     {weekStatsHTML}
                     <h1 onClick={this.togglePomodoro}>pomodoro</h1>
                     {pomodoroHTML}
+                    <h1 onClick={this.props.syncAll}>sync all</h1>
                 </div>
                 <div className="closeSideBar" onClick={this.toggleSideBar}>
                     <h1>

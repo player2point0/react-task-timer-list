@@ -74,6 +74,7 @@ export default class FirebaseController extends React.Component {
         this.firebaseGetDayStats = this.firebaseGetDayStats.bind(this);
         this.loadLocalTasks = this.loadLocalTasks.bind(this);
         this.parseSavedTasks = this.parseSavedTasks.bind(this);
+        this.loadServerData = this.loadServerData.bind(this);
 
         this.db = firebase.firestore();
     }
@@ -108,13 +109,13 @@ export default class FirebaseController extends React.Component {
                 for (let j = 0; j < updatedDayStats.tasks.length; j++) {
                     if (updatedDayStats.tasks[j].id === updatedTasks[i].id) {
                         let length = updatedDayStats.tasks[j].stop.length;
-                        updatedDayStats.tasks[j].stop[length-1] = currentDate;
+                        updatedDayStats.tasks[j].stop[length - 1] = currentDate;
 
                         taskInDayStats = true;
                     }
                 }
 
-                if(!taskInDayStats){
+                if (!taskInDayStats) {
                     updatedDayStats.tasks.push({
                         id: updatedTasks[i].id,
                         name: updatedTasks[i].name,
@@ -122,7 +123,7 @@ export default class FirebaseController extends React.Component {
                         stop: [currentDate],
                     });
                 }
-                
+
             }
         }
 
@@ -218,7 +219,7 @@ export default class FirebaseController extends React.Component {
                             }
                         }
 
-                        if(!taskInDayStats){
+                        if (!taskInDayStats) {
                             updatedDayStats.tasks.push({
                                 id: updatedTask.id,
                                 name: updatedTask.name,
@@ -425,29 +426,33 @@ export default class FirebaseController extends React.Component {
         }));
     }
 
-    // login / signup / guest
-    userAuthChanged(user) {
+    loadServerData() {
         let scope = this;
 
-        if (user) {
-            //get saved tasks
-            this.firebaseGetAllTasks(function (savedTasks) {
-                scope.setState(state => ({
-                    tasks: scope.parseSavedTasks(savedTasks),
-                    showAuthHtml: false,
-                }));
-            });
+        //get saved tasks
+        this.firebaseGetAllTasks(function (savedTasks) {
+            scope.setState(state => ({
+                tasks: scope.parseSavedTasks(savedTasks),
+                showAuthHtml: false,
+            }));
+        });
 
-            //get saved day stats
-            this.firebaseGetDayStats(function (dayStats) {
-                if (dayStats == null) {
-                    scope.createNewDayStats();
-                } else {
-                    scope.setState(state => ({
-                        dayStats: dayStats
-                    }));
-                }
-            });
+        //get saved day stats
+        this.firebaseGetDayStats(function (dayStats) {
+            if (dayStats == null) {
+                scope.createNewDayStats();
+            } else {
+                scope.setState(state => ({
+                    dayStats: dayStats
+                }));
+            }
+        });
+    }
+
+    // login / signup / guest
+    userAuthChanged(user) {
+        if (user) {
+            this.loadServerData();
         } else {
             //tasks from local storage
             this.setState(state => ({
@@ -455,7 +460,7 @@ export default class FirebaseController extends React.Component {
                 showAuthHtml: true,
             }));
 
-            //day stats from local storage
+            //todo load day stats from local storage
         }
     }
 
@@ -631,6 +636,7 @@ export default class FirebaseController extends React.Component {
                     tasks={this.state.tasks}
                     dayStats={this.state.dayStats}
                     sendNotification={sendNotification}
+                    syncAll={this.loadServerData}
                 />
                 <TaskController
                     firebaseSaveTask={this.firebaseSaveTask}
