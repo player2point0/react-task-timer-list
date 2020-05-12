@@ -1,7 +1,6 @@
 --offline--
 -add a more robust server and offline strategy
 -change sync button to check if running offline first
--add the option to skip signing in and instead use local storage
 
 --prelaunch--
 https://startup.google.com/
@@ -15,18 +14,12 @@ https://startup.google.com/
 -improve branding (app icon and branding)
 
 --onboarding--
--add create account (with email)
--change notifications request ui/ux ( https://developers.google.com/web/fundamentals/push-notifications/permission-ux )
 -add start info for first time users
--improve the sign in ui ( https://github.com/firebase/firebaseui-web-react )
 
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
 -timers still running slow
 -odd spacing for tasks with long titles and short time
-
---mobile--
--redesign as comapanion app
 
 ----UI/UX----
 -improve side bar ui and ux
@@ -41,7 +34,11 @@ https://startup.google.com/
 -add settings
 -add in app purchase for dark mode
 
+--mobile--
+-redesign as comapanion app
+
 --flow--
+-add a way to better keep track of the time spent on a task
 -could use flow as a metric
 (https://en.wikipedia.org/wiki/Flow_(psychology))
 -increase the amount of flow

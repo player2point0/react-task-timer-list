@@ -35,7 +35,7 @@ export default class DayStats extends React.Component {
 
     increaseWeekDayIndex(){
         let newIndex = this.state.weekDayIndex + 1;
-        if(newIndex > 7) newIndex = 7;
+        if(newIndex >= this.props.weekDayStats.length) newIndex = this.props.weekDayStats.length-1;
 
         this.setState(state => ({
             weekDayIndex: newIndex,

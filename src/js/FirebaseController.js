@@ -1,5 +1,6 @@
 import React from "react";
 import "../css/index.css";
+import "../css/auth.css";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import * as firebase from "firebase/app";
 import "firebase/auth";
@@ -25,13 +26,15 @@ const firebaseConfig = {
 
 // Configure FirebaseUI.
 const uiConfig = {
-    // Popup signin flow rather than redirect flow.
-    signInFlow: 'popup',
     // We will display Google and Facebook as auth providers.
     signInOptions: [
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
         firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-        firebase.auth.EmailAuthProvider.PROVIDER_ID
+        {
+            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            // Whether the display name should be displayed in the Sign Up page.
+            requireDisplayName: false
+        }
     ],
     callbacks: {
         // Avoid redirects after sign-in.
@@ -396,9 +399,14 @@ export default class FirebaseController extends React.Component {
             this.createNewDayStats();
         }
 
+        if(this.state.weekDayStats === null){
+            this.setState(state => ({
+                weekDayStats: [state.dayStats]
+            }))
+        }
+
         this.setState(state => ({
             tasks: [],//todo load from local this.loadLocalTasks(),
-            dayStats: null, // todo load from local
         }));
 
         this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(this.userAuthChanged);
@@ -631,7 +639,7 @@ export default class FirebaseController extends React.Component {
     }
 
     loadLocalDayStats() {
-        let date = formatDayMonth(new Date())
+        let date = formatDayMonth(new Date());
         return JSON.parse(localStorage.getItem(date));
     }
 
@@ -653,8 +661,12 @@ export default class FirebaseController extends React.Component {
     render() {
         let authHtml;
 
-        if (this.state.showAuthHtml) authHtml =
-            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>;
+        if (this.state.showAuthHtml){
+            authHtml =<div className={"authContainer"}>
+                <h1 className={"authTitle"}>sign in / up</h1>
+                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
+            </div>;
+        }
 
         return (
             <React.Fragment>

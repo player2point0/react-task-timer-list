@@ -1,0 +1,13 @@
+.authContainer{
+    text-transform: lowercase;
+}
+
+.authTitle{
+    text-align: center;
+    font-size: var(--medium-text-size);
+}
+
+.firebaseui-subtitle, .firebaseui-text, .firebaseui-idp-text, .firebaseui-idp-text-long {
+    color: rgba(255, 255, 255, 0.87);
+    text-transform: lowercase !important;
+}
