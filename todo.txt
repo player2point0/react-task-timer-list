@@ -6,7 +6,7 @@
 --prelaunch--
 https://startup.google.com/
 -add a user feedback form ("what would you change?")
--host it with a good domain name ( https://github.com/firebase/firebaseui-web-react )
+-host it with a good domain name
 -test on different devices and web browsers
 -possibly refactor using react hooks ( https://reactjs.org/docs/hooks-intro.html)
 -add a version num to the side bar
@@ -23,6 +23,10 @@ https://startup.google.com/
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
 -timers still running slow
+-odd spacing for tasks with long titles and short time
+
+--mobile--
+-redesign as comapanion app
 
 ----UI/UX----
 -improve side bar ui and ux

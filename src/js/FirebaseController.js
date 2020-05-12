@@ -439,7 +439,7 @@ export default class FirebaseController extends React.Component {
         });
 
         //get saved day stats
-        this.firebaseGetDayStats(function (dayStats) {
+        this.firebaseGetDayStats(function (dayStats, date) {
             if (dayStats == null) {
                 scope.createNewDayStats();
             } else {
@@ -449,31 +449,28 @@ export default class FirebaseController extends React.Component {
             }
         }, new Date());
 
-
         //load a weeks worth of previous day stats
-        let currentDate = new Date();
+        let weekDate = new Date();
         let weekDayStats = [];
 
         for(let i = 0;i<8;i++){
-            this.firebaseGetDayStats(function (dayStats) {
 
-                //todo change to use a promise
-                // for performance and to fix date bug
+            this.firebaseGetDayStats(function (dayStats, date) {
                 if(dayStats === null){
                     dayStats = {
-                        date: formatDayMonth(currentDate),
+                        date: date,
                     };
                 }
 
-                weekDayStats.push(dayStats)
+                weekDayStats.push(dayStats);
 
                 scope.setState(state => ({
                     weekDayStats: weekDayStats,
                 }));
 
-            }, currentDate);
+            }, weekDate);
 
-            currentDate.setDate(currentDate.getDate()-1);
+            weekDate.setDate(weekDate.getDate()-1);
         }
     }
 
@@ -565,6 +562,8 @@ export default class FirebaseController extends React.Component {
         }
     }
 
+    //todo possibly change to use a promise
+
     firebaseGetAllTasks(callback) {
         const currentUser = firebase.auth().currentUser;
 
@@ -610,13 +609,13 @@ export default class FirebaseController extends React.Component {
             .get()
             .then(function (querySnapshot) {
                 if (querySnapshot.empty) {
-                    callback(null);
+                    callback(null, currentDate);
                 } else {
                     querySnapshot.forEach(function (doc) {
                         let dayStats = doc.data();
                         dayStats.id = doc.id;
 
-                        callback(dayStats);
+                        callback(dayStats, currentDate);
                     });
                 }
             })
