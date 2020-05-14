@@ -74,6 +74,7 @@ export default class FirebaseController extends React.Component {
         this.userAuthChanged = this.userAuthChanged.bind(this);
         this.firebaseSaveTask = this.firebaseSaveTask.bind(this);
         this.firebaseSaveDayStats = this.firebaseSaveDayStats.bind(this);
+        this.firebaseSaveFeedback = this.firebaseSaveFeedback.bind(this);
         this.firebaseGetAllTasks = this.firebaseGetAllTasks.bind(this);
         this.firebaseGetDayStats = this.firebaseGetDayStats.bind(this);
         this.loadLocalTasks = this.loadLocalTasks.bind(this);
@@ -570,6 +571,25 @@ export default class FirebaseController extends React.Component {
         }
     }
 
+    firebaseSaveFeedback(feedback) {
+        const currentUser = firebase.auth().currentUser;
+        let userId = "null";
+
+        if(currentUser){
+            userId = currentUser.uid;
+        }
+
+        console.log(feedback);
+
+        this.db.collection("userFeedback")
+            .add({
+                feedbackText: feedback,
+                userId: currentUser,
+            })
+            .then(value => console.log("saved feedback successfully"))
+            .catch(reason => console.error("error saving feedback" + reason));
+    }
+
     //todo possibly change to use a promise
 
     firebaseGetAllTasks(callback) {
@@ -676,6 +696,7 @@ export default class FirebaseController extends React.Component {
                     weekDayStats={this.state.weekDayStats}
                     sendNotification={sendNotification}
                     syncAll={this.loadServerData}
+                    firebaseSaveFeedback={this.firebaseSaveFeedback}
                 />
                 <TaskController
                     firebaseSaveTask={this.firebaseSaveTask}

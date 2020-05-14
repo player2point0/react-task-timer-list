@@ -1,6 +1,7 @@
 import React from "react";
 import Pomodoro from "../js/Pomodoro.js";
 import DayStats from "./DayStats";
+import FeedbackForm from "./FeedbackForm";
 import {formatTime, padNumWithZero} from "../js/Ultility.js";
 import "../css/sideBar.css";
 
@@ -42,6 +43,7 @@ export default class SideBar extends React.Component {
             showSettings: false,
             showPomodoro: true,
             showOverview: false,
+            showFeedback: false,
             pomodoro: {
                 startedWork: false,
                 startedBreak: false,
@@ -58,6 +60,7 @@ export default class SideBar extends React.Component {
         this.toggleSettings = this.toggleSettings.bind(this);
         this.togglePomodoro = this.togglePomodoro.bind(this);
         this.toggleOverview = this.toggleOverview.bind(this);
+        this.toggleFeedback = this.toggleFeedback.bind(this);
         this.stashBreakTime = this.stashBreakTime.bind(this);
         this.resetPomodoro = this.resetPomodoro.bind(this);
     }
@@ -103,6 +106,12 @@ export default class SideBar extends React.Component {
     toggleOverview() {
         this.setState(state => ({
             showOverview: !state.showOverview,
+        }));
+    }
+
+    toggleFeedback() {
+        this.setState(state => ({
+            showFeedback: !state.showFeedback,
         }));
     }
 
@@ -235,6 +244,7 @@ export default class SideBar extends React.Component {
         let dayOverviewHTML;
         let settingsHTML;
         let pomodoroHTML;
+        let feedbackHTML;
 
         if (this.state.showSettings) {
             settingsHTML = "settings html";
@@ -271,6 +281,13 @@ export default class SideBar extends React.Component {
             }
         }
 
+        if (this.state.showFeedback) {
+            feedbackHTML = <FeedbackForm
+                firebaseSaveFeedback={this.props.firebaseSaveFeedback}
+                toggleFeedback={this.toggleFeedback}
+            />;
+        }
+
         //for scroll bug
         document.body.style.overflow = "hidden";
 
@@ -289,6 +306,8 @@ export default class SideBar extends React.Component {
                     <h1 onClick={this.togglePomodoro}>pomodoro</h1>
                     {pomodoroHTML}
                     <h1 onClick={this.props.syncAll}>sync all</h1>
+                    <h1 onClick={this.toggleFeedback}>feedback</h1>
+                    {feedbackHTML}
                 </div>
                 <div className="closeSideBar" onClick={this.toggleSideBar}>
                     <h1>

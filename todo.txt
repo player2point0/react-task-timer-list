@@ -1,13 +1,13 @@
+-maybe change day stats to only record time worked
+
 --offline--
 -add a more robust server and offline strategy
 -change sync button to check if running offline first
 
 --prelaunch--
-https://startup.google.com/
--add a user feedback form ("what would you change?")
+-check security (https://www.youtube.com/watch?v=PUBnlbjZFAI&t=142s)
 -host it with a good domain name
 -test on different devices and web browsers
--possibly refactor using react hooks ( https://reactjs.org/docs/hooks-intro.html)
 -add a version num to the side bar
 -setup donations (https://ko-fi.com/
 -setup billing
@@ -33,14 +33,18 @@ https://startup.google.com/
 -add dark mode
 -add settings
 -add in app purchase for dark mode
+-possibly refactor using react hooks ( https://reactjs.org/docs/hooks-intro.html)
 
 --mobile--
 -redesign as comapanion app
 
 --flow--
+-maybe add a daily starter task to get people started e.g. 25 mins of stretching or reading
 -add a way to better keep track of the time spent on a task
 -could use flow as a metric
-(https://en.wikipedia.org/wiki/Flow_(psychology))
+-possibly have users report on the current tasks difficult and their current skill level,
+ assuming their skill level changes throughout the day. Report this at a each break
+ and use it to tailor the current task
 -increase the amount of flow
 Knowing what to do
 Knowing how to do it
@@ -52,9 +56,13 @@ Freedom from distractions
 Goals are clear
 Feedback is immediate
 A balance exists between opportunity and capacity
-(https://en.wikipedia.org/wiki/Jenova_Chen)
+(https://jenovachen.info/research)
 (https://en.wikipedia.org/wiki/Dynamic_game_difficulty_balancing)
 (https://en.wikipedia.org/wiki/Motivation)
+(https://www.reddit.com/r/productivity/top/)
+(https://en.wikipedia.org/wiki/Zen)
+(https://tricycle.org/magazine/transcendent-imperative/)
+(https://fociai.com/)
 
 --ai--
 -download data from before 26th april (https://firebase.google.com/docs/firestore/manage-data/export-import)
