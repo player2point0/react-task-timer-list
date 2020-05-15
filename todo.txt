@@ -18,15 +18,16 @@
 
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
--timers still running slow
 
 ----UI/UX----
--improve side bar ui and ux
 -improve stats ui
 -improve mobile task view ui
 -possibly make the hour overlay more prominent
 -add an option to change focus from long to short tasks (change the task height) and to turn off objectives
 -maybe add back the visual task percentage when clicked on
+-improve feedback ui
+-refactor css text sizing to be more consistent
+-add feedback for syncing
 
 ----non-essential----
 -add dark mode

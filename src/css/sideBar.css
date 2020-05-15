@@ -1,5 +1,5 @@
 .sideBar{
-    background-color: rgba(87, 86, 86, 0.95);
+    background-color: var(--sideBar-background-color);
     width: 70vw;
     height:inherit;
     display:inline-block;
@@ -34,11 +34,36 @@
 
 .hideSideBar{
     background-color: var(--sideBar-button-color);
+    font-size: var(--medium-text-size);
+    padding-left: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 .hideSideBar:hover{
     background-color: var(--text-hover-color);
 }
 
+.sideBarElement{
+    border-bottom: 1px solid var(--task-border-color);
+}
+
+.sideBarElement h1{
+    font-size: var(--medium-text-size);
+    padding-left: 2px;
+    padding-top: 2px;
+    padding-bottom: 5px;
+}
+
+.sideBarElement h1:hover{
+    background-color:  var(--sideBar-Element-color);
+}
+
+.sideBarElementContent{
+    border-top: 1px solid var(--task-border-color);
+    margin-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 
 @media only screen and (max-width: 600px) {
     .showSideBar{

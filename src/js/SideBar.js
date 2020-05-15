@@ -32,6 +32,17 @@ function DayOverview(props) {
     );
 }
 
+function SideBarElement(props){
+    return (
+        <div className={"sideBarElement"}>
+            <h1 onClick={props.onClick}>{props.name}</h1>
+            {!props.contentHTML || <div className={"sideBarElementContent"}>
+                {props.contentHTML}
+            </div>}
+        </div>
+    );
+}
+
 export default class SideBar extends React.Component {
     constructor(props) {
         super(props);
@@ -133,7 +144,7 @@ export default class SideBar extends React.Component {
         let currentState = this.state;
         const currentDate = new Date();
         const deltaTime = (currentDate - this.state.lastTickTime) / 1000.0;
-        
+
         //check for an active task
         for (let i = 0; i < tempTasks.length; i++) {
             //check for a running task
@@ -298,20 +309,33 @@ export default class SideBar extends React.Component {
         return (
             <div className="sideBarContainer">
                 <div className="sideBar">
-                    <h1 className="hideSideBar" onClick={this.toggleSideBar}>
-                        sidebar
-                    </h1>
-                    <h1 onClick={this.toggleOverview}>overview</h1>
-                    {dayOverviewHTML}
-                    <h1 onClick={this.toggleDayStats}>day stats</h1>
-                    {dayStatsHTML}
+                    <h1 className="hideSideBar" onClick={this.toggleSideBar}>sidebar</h1>
+                    <SideBarElement
+                        onClick={this.toggleOverview}
+                        name={"overview"}
+                        contentHTML={dayOverviewHTML}
+                    />
+                    <SideBarElement
+                        onClick={this.toggleDayStats}
+                        name={"day stats"}
+                        contentHTML={dayStatsHTML}
+                    />
+                    <SideBarElement
+                        onClick={this.togglePomodoro}
+                        name={"pomodoro"}
+                        contentHTML={pomodoroHTML}
+                    />
                     {/*<h1 onClick={this.toggleWeekStats}>week stats</h1>}
                     {weekStatsHTML*/}
-                    <h1 onClick={this.togglePomodoro}>pomodoro</h1>
-                    {pomodoroHTML}
-                    <h1 onClick={this.props.syncAll}>sync all</h1>
-                    <h1 onClick={this.toggleFeedback}>feedback</h1>
-                    {feedbackHTML}
+                    <SideBarElement
+                        onClick={this.props.syncAll}
+                        name={"sync all"}
+                    />
+                    <SideBarElement
+                        onClick={this.toggleFeedback}
+                        name={"feedback"}
+                        contentHTML={feedbackHTML}
+                    />
                 </div>
                 <div className="closeSideBar" onClick={this.toggleSideBar}>
                     <h1>

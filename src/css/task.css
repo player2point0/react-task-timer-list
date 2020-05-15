@@ -80,7 +80,7 @@
 }
 
 .taskObjective, .addObjectiveForm{
-    border-top: 1px solid white;
+    border-top: 1px solid var(--task-border-color);
     color: var(--text-color);
     justify-content: space-evenly;
     display: grid;
@@ -96,7 +96,6 @@
     background-color: var(--button-color);
     color: var(--text-color);
     border: none;
-    border-radius: 2px;
 }
 
 .taskObjective button:hover, .addObjectiveForm button:hover{

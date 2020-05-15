@@ -22,7 +22,9 @@ color scheme
     --add-task-color: #0FA3B1;
     --hour-text-color: rgba(87, 86, 86, 1);
     --hour-line-color: rgba(87, 86, 86, 1);
+    --sideBar-background-color: rgb(87, 86, 86);
     --sideBar-button-color: rgb(240, 84, 23);
+    --sideBar-Element-color: rgb(230,255,245);
     --large-text-size: 10vh;
     --medium-text-size: 7.5vh;
     --small-text-size: 5vh;
