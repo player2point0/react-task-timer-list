@@ -54,7 +54,7 @@ export default class FirebaseController extends React.Component {
         this.state = {
             tasks: [],//todo load from local this.loadLocalTasks(),
             showAuthHtml: (firebase.auth().currentUser === null),
-            time: 0,
+            lastTickTime: new Date(),
             removeTaskId: "",
             setSaveAllTasks: false,
             dayStats: null, // todo load from local
@@ -88,11 +88,13 @@ export default class FirebaseController extends React.Component {
     tick() {
         const updatedTasks = this.state.tasks.slice();
         const updatedDayStats = this.state.dayStats;
-        let currentDate = (new Date()).toISOString();
+        const currentDate = new Date();
+        const currentDateString = currentDate.toISOString();
+        const deltaTime = (currentDate - this.state.lastTickTime) / 1000.0;
 
         for (let i = 0; i < updatedTasks.length; i++) {
             if (updatedTasks[i].started && !updatedTasks[i].paused) {
-                updatedTasks[i].remainingTime--;
+                updatedTasks[i].remainingTime -= deltaTime;
 
                 if (updatedTasks[i].remainingTime <= 0) {
                     updatedTasks[i].remainingTime = 0;
@@ -105,7 +107,7 @@ export default class FirebaseController extends React.Component {
                         this.setState({setSaveAllTasks: true});
                     }
                 } else {
-                    updatedDayStats.totalWorked += 1;
+                    updatedDayStats.totalWorked += deltaTime;
                 }
 
                 let taskInDayStats = false;
@@ -114,7 +116,7 @@ export default class FirebaseController extends React.Component {
                 for (let j = 0; j < updatedDayStats.tasks.length; j++) {
                     if (updatedDayStats.tasks[j].id === updatedTasks[i].id) {
                         let length = updatedDayStats.tasks[j].stop.length;
-                        updatedDayStats.tasks[j].stop[length - 1] = currentDate;
+                        updatedDayStats.tasks[j].stop[length - 1] = currentDateString;
 
                         taskInDayStats = true;
                     }
@@ -124,23 +126,18 @@ export default class FirebaseController extends React.Component {
                     updatedDayStats.tasks.push({
                         id: updatedTasks[i].id,
                         name: updatedTasks[i].name,
-                        start: [currentDate],
-                        stop: [currentDate],
+                        start: [currentDateString],
+                        stop: [currentDateString],
                     });
                 }
-
             }
         }
 
         this.setState(state => ({
             tasks: updatedTasks,
-            time: state.time + 1,
+            lastTickTime: currentDate,
             dayStats: updatedDayStats
         }));
-
-        const milliseconds = (new Date()).getMilliseconds();
-        const newTimeout = 1000 - milliseconds;
-        this.tickInterval = setTimeout(() => this.tick(), newTimeout);
     }
 
     addTask(currentState) {
@@ -411,7 +408,7 @@ export default class FirebaseController extends React.Component {
         }));
 
         this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(this.userAuthChanged);
-        this.tickInterval = setTimeout(() => this.tick(), 1000);
+        this.tickInterval = setInterval(() => this.tick(), 1000);
         this.saveInterval = setInterval(() => this.setState({setSaveAllTasks: true}), SAVE_INTERVAL);
     }
 
@@ -578,8 +575,6 @@ export default class FirebaseController extends React.Component {
         if(currentUser){
             userId = currentUser.uid;
         }
-
-        console.log(feedback);
 
         this.db.collection("userFeedback")
             .add({

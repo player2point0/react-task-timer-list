@@ -28,7 +28,7 @@ function closeNotification(notification, onClickFunc) {
 export function formatTime(time) {
     let hours = Math.floor(time / 3600);
     let mins = Math.floor((time - hours * 3600) / 60);
-    let seconds = Math.floor(time - hours * 3600 - mins * 60);
+    let seconds = Math.round(time - hours * 3600 - mins * 60);
 
     return padNumWithZero(hours) + ":" + padNumWithZero(mins) + ":" + padNumWithZero(seconds);
 }

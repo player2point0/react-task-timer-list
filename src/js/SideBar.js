@@ -52,6 +52,7 @@ export default class SideBar extends React.Component {
                 stashBreak: false,
             },
             dayStatDay: new Date(),
+            lastTickTime: new Date(),
         };
 
         this.toggleSideBar = this.toggleSideBar.bind(this);
@@ -130,7 +131,9 @@ export default class SideBar extends React.Component {
         const tempTasks = this.props.tasks;
         let updatedPomodoro = this.state.pomodoro;
         let currentState = this.state;
-
+        const currentDate = new Date();
+        const deltaTime = (currentDate - this.state.lastTickTime) / 1000.0;
+        
         //check for an active task
         for (let i = 0; i < tempTasks.length; i++) {
             //check for a running task
@@ -168,7 +171,7 @@ export default class SideBar extends React.Component {
         //perform the ticks and other logic
         else {
             if (this.state.pomodoro.workTimeRemaining > 0) {
-                updatedPomodoro.workTimeRemaining--;
+                updatedPomodoro.workTimeRemaining -= deltaTime;
             } else {
                 //start break
                 if (!this.state.pomodoro.startedBreak) {
@@ -187,7 +190,7 @@ export default class SideBar extends React.Component {
                     );
 
                 } else if (this.state.pomodoro.breakTimeRemaining > 0) {
-                    updatedPomodoro.breakTimeRemaining--;
+                    updatedPomodoro.breakTimeRemaining -= deltaTime;
                 }
 
                 //break finished
@@ -210,6 +213,7 @@ export default class SideBar extends React.Component {
             pomodoro: updatedPomodoro,
             showPomodoro: currentState.showPomodoro,
             showSideBar: currentState.showSideBar,
+            lastTickTime: currentDate,
         }));
     }
 

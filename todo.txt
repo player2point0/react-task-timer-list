@@ -62,6 +62,7 @@ A balance exists between opportunity and capacity
 (https://en.wikipedia.org/wiki/Zen)
 (https://tricycle.org/magazine/transcendent-imperative/)
 (https://fociai.com/)
+(https://www.eisenhower.me/eisenhower-matrix/)
 
 --ai--
 -download data from before 26th april (https://firebase.google.com/docs/firestore/manage-data/export-import)
