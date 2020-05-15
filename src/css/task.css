@@ -60,6 +60,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-content: center;
+    align-items: center;
     padding-right: 2em;
     padding-left: 1em;
 }
