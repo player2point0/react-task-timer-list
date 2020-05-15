@@ -20,8 +20,6 @@
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
 
 ----UI/UX----
--improve stats ui
--improve mobile task view ui
 -possibly make the hour overlay more prominent
 -add an option to change focus from long to short tasks (change the task height) and to turn off objectives
 -maybe add back the visual task percentage when clicked on
@@ -37,6 +35,7 @@
 
 --mobile--
 -redesign as comapanion app
+-improve mobile task view ui
 
 --flow--
 -maybe add a daily starter task to get people started e.g. 25 mins of stretching or reading

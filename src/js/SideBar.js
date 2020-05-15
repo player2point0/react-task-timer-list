@@ -35,7 +35,10 @@ function DayOverview(props) {
 function SideBarElement(props){
     return (
         <div className={"sideBarElement"}>
-            <h1 onClick={props.onClick}>{props.name}</h1>
+            <h1
+                className={"sideBarElementTitle"}
+                onClick={props.onClick}
+            >{props.name}</h1>
             {!props.contentHTML || <div className={"sideBarElementContent"}>
                 {props.contentHTML}
             </div>}
@@ -327,10 +330,10 @@ export default class SideBar extends React.Component {
                     />
                     {/*<h1 onClick={this.toggleWeekStats}>week stats</h1>}
                     {weekStatsHTML*/}
-                    <SideBarElement
+                    {/*<SideBarElement
                         onClick={this.props.syncAll}
                         name={"sync all"}
-                    />
+                    />*/}
                     <SideBarElement
                         onClick={this.toggleFeedback}
                         name={"feedback"}

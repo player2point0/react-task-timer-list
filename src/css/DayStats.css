@@ -1,0 +1,15 @@
+.dayStatsContainer{
+    position: relative;
+}
+
+.dayStatControls{
+    position: absolute;
+}
+
+.centerTextName{
+    font-size: var(--medium-text-size);
+}
+
+.centerTextDuration{
+    font-size: var(--medium-text-size);
+}
