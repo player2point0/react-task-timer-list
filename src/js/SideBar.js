@@ -13,6 +13,7 @@ function DayOverview(props) {
     let finishHour;
     let finishMinute;
     let totalPlanned = 0;
+    let totalWorked = 0;
 
     for (let i = 0; i < props.tasks.length; i++) {
         totalPlanned += props.tasks[i].remainingTime;
@@ -23,9 +24,13 @@ function DayOverview(props) {
     finishHour = padNumWithZero(finishTime.getHours());
     finishMinute = padNumWithZero(finishTime.getMinutes());
 
+    if(props.dayStats.totalWorked){
+        totalWorked = props.dayStats.totalWorked;
+    }
+
     return (
         <React.Fragment>
-            <h2>total worked {formatTime(props.dayStats.totalWorked)}</h2>
+            <h2>total worked {formatTime(totalWorked)}</h2>
             <h2>total planned {formatTime(totalPlanned)}</h2>
             <h2>finish time {finishHour + ":" + finishMinute}</h2>
         </React.Fragment>
@@ -186,6 +191,7 @@ export default class SideBar extends React.Component {
         else {
             if (this.state.pomodoro.workTimeRemaining > 0) {
                 updatedPomodoro.workTimeRemaining -= deltaTime;
+                if(updatedPomodoro.workTimeRemaining < 0) updatedPomodoro.workTimeRemaining = 0;
             } else {
                 //start break
                 if (!this.state.pomodoro.startedBreak) {
@@ -205,6 +211,7 @@ export default class SideBar extends React.Component {
 
                 } else if (this.state.pomodoro.breakTimeRemaining > 0) {
                     updatedPomodoro.breakTimeRemaining -= deltaTime;
+                    if(updatedPomodoro.workTimeRemaining < 0) updatedPomodoro.workTimeRemaining = 0;
                 }
 
                 //break finished

@@ -459,7 +459,9 @@ export default class FirebaseController extends React.Component {
         let weekDate = new Date();
         let weekDayStats = [];
 
-        for(let i = 0;i<8;i++){
+        for(let i = 0;i<7;i++){
+
+            weekDate.setDate(weekDate.getDate()-1);
 
             this.firebaseGetDayStats(function (dayStats, date) {
                 if(dayStats === null){
@@ -475,8 +477,6 @@ export default class FirebaseController extends React.Component {
                 }));
 
             }, weekDate);
-
-            weekDate.setDate(weekDate.getDate()-1);
         }
     }
 
@@ -675,6 +675,12 @@ export default class FirebaseController extends React.Component {
 
     render() {
         let authHtml;
+        let weekDayStats = this.state.weekDayStats;
+
+        if(weekDayStats){
+            weekDayStats = weekDayStats.splice();
+            weekDayStats.unshift(this.state.dayStats);
+        }
 
         if (this.state.showAuthHtml){
             authHtml =<div className={"authContainer"}>
@@ -688,7 +694,7 @@ export default class FirebaseController extends React.Component {
                 {authHtml}
                 <SideBar
                     tasks={this.state.tasks}
-                    weekDayStats={this.state.weekDayStats}
+                    weekDayStats={weekDayStats}
                     sendNotification={sendNotification}
                     syncAll={this.loadServerData}
                     firebaseSaveFeedback={this.firebaseSaveFeedback}

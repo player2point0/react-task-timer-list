@@ -1,8 +1,7 @@
 -maybe change day stats to only record time worked
 
 --offline--
--add a more robust server and offline strategy
--change sync button to check if running offline first
+-add a more robust server
 
 --prelaunch--
 -check security (https://www.youtube.com/watch?v=PUBnlbjZFAI&t=142s)
@@ -18,6 +17,7 @@
 
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
+-work time negative in pomodoro, when on break
 
 ----UI/UX----
 -possibly make the hour overlay more prominent
@@ -32,6 +32,8 @@
 -add settings
 -add in app purchase for dark mode
 -possibly refactor using react hooks ( https://reactjs.org/docs/hooks-intro.html)
+-add offline strategy
+-change sync button to check if running offline first
 
 --mobile--
 -redesign as comapanion app

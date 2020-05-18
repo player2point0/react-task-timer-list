@@ -14,7 +14,7 @@ class TaskContainer {
 			this.started = savedTask.started;
 			this.finished = savedTask.finished;
 			//load tasks as paused to prevent daystat problems and for ux
-			this.paused = true;//savedTask.paused;
+			this.paused = true && savedTask.started;// && started prevents the pausing when started bug
 			this.isViewing = savedTask.isViewing;
 			this.stats = savedTask.stats;
 			this.objectives = savedTask.objectives;
