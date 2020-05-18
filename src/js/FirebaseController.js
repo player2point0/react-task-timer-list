@@ -52,12 +52,12 @@ export default class FirebaseController extends React.Component {
         super(props);
 
         this.state = {
-            tasks: [],//todo load from local this.loadLocalTasks(),
+            tasks: [],
             showAuthHtml: (firebase.auth().currentUser === null),
             lastTickTime: new Date(),
             removeTaskId: "",
             setSaveAllTasks: false,
-            dayStats: null, // todo load from local
+            dayStats: null,
             weekDayStats: null,
         };
 
@@ -77,7 +77,6 @@ export default class FirebaseController extends React.Component {
         this.firebaseSaveFeedback = this.firebaseSaveFeedback.bind(this);
         this.firebaseGetAllTasks = this.firebaseGetAllTasks.bind(this);
         this.firebaseGetDayStats = this.firebaseGetDayStats.bind(this);
-        this.loadLocalTasks = this.loadLocalTasks.bind(this);
         this.parseSavedTasks = this.parseSavedTasks.bind(this);
         this.loadServerData = this.loadServerData.bind(this);
 
@@ -309,10 +308,6 @@ export default class FirebaseController extends React.Component {
 
     //save all tasks
     saveAllTasks(tasksToSave) {
-        localStorage.setItem("tasks", JSON.stringify(tasksToSave));
-        let date = formatDayMonth(new Date());
-        localStorage.setItem(date, JSON.stringify(this.state.dayStats));
-
         for (let i = 0; i < tasksToSave.length; i++) {
             this.firebaseSaveTask(tasksToSave[i]);
         }
@@ -387,13 +382,7 @@ export default class FirebaseController extends React.Component {
     //interval for the tick method, called when changes are made to the props
     componentDidMount() {
 
-        //todo add offline loading
-        if (this.state.tasks === []) {
-
-        }
-
         if (this.state.dayStats === null) {
-            //todo load from local storage
             this.createNewDayStats();
         }
 
@@ -402,10 +391,6 @@ export default class FirebaseController extends React.Component {
                 weekDayStats: [state.dayStats]
             }))
         }
-
-        this.setState(state => ({
-            tasks: [],//todo load from local this.loadLocalTasks(),
-        }));
 
         this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(this.userAuthChanged);
         this.tickInterval = setInterval(() => this.tick(), 1000);
@@ -485,13 +470,9 @@ export default class FirebaseController extends React.Component {
         if (user) {
             this.loadServerData();
         } else {
-            //tasks from local storage
             this.setState(state => ({
-                tasks: this.loadLocalTasks(),
                 showAuthHtml: true,
             }));
-
-            //todo load day stats from local storage
         }
     }
 
@@ -645,17 +626,6 @@ export default class FirebaseController extends React.Component {
             .catch(function (error) {
                 console.log("Error getting documents: ", error);
             });
-    }
-
-    //load any saved tasks
-    loadLocalTasks() {
-        let localSavedTasks = JSON.parse(localStorage.getItem("tasks"));
-        return this.parseSavedTasks(localSavedTasks);
-    }
-
-    loadLocalDayStats() {
-        let date = formatDayMonth(new Date());
-        return JSON.parse(localStorage.getItem(date));
     }
 
     parseSavedTasks(savedTasks) {
