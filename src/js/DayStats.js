@@ -1,5 +1,5 @@
 import React from 'react';
-import {XYPlot, ArcSeries, LabelSeries} from 'react-vis';
+import {XYPlot, ArcSeries} from 'react-vis';
 import "../css/DayStats.css";
 import {formatTime} from "./Ultility";
 

@@ -648,7 +648,7 @@ export default class FirebaseController extends React.Component {
         let weekDayStats = this.state.weekDayStats;
 
         if(weekDayStats){
-            weekDayStats = weekDayStats.splice();
+            weekDayStats = weekDayStats.slice();
             weekDayStats.unshift(this.state.dayStats);
         }
 

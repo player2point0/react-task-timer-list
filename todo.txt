@@ -1,4 +1,6 @@
--maybe change day stats to only record time worked
+-refactor methods into more appropriate classes
+-lift up pomodoro state
+-change day stats to only record time worked
 
 --offline--
 -add a more robust server
@@ -19,11 +21,9 @@
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
 
 ----UI/UX----
--possibly make the hour overlay more prominent
 -maybe add back the visual task percentage when clicked on
 -improve user feedback ui
 -refactor css text sizing to be more consistent
--add feedback for syncing
 
 ----non-essential----
 -add dark mode
