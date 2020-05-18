@@ -105,10 +105,13 @@ export default class DayStats extends React.Component {
                         className={"sideBarElementButtonHover"}
                         onClick={this.decreaseWeekDayIndex}
                     >next</h2>
-                    <h1 className={"centerTextName"}>{this.state.centerTextName}</h1>
-                    {!this.state.centerTextDuration ||
-                    <h1 className={"centerTextDuration"}>{this.state.centerTextDuration}</h1>}
+                    <div className={"centerText"}>
+                        <h1 className={"centerTextName"}>{this.state.centerTextName}</h1>
+                        {!this.state.centerTextDuration ||
+                        <h1 className={"centerTextDuration"}>{this.state.centerTextDuration}</h1>}
+                    </div>
                 </div>
+
                 <XYPlot
                     className={"dayGraph"}
                     radiusDomain={[0, 5]}

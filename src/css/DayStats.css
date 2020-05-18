@@ -6,10 +6,19 @@
     position: absolute;
 }
 
+.centerText{
+    pointer-events: none;
+    position: absolute;
+}
+
 .centerTextName{
     font-size: var(--medium-text-size);
+    border: 1px solid red;
+    width: fit-content;
 }
 
 .centerTextDuration{
     font-size: var(--medium-text-size);
+    border: 1px solid red;
+    width: fit-content;
 }
