@@ -17,8 +17,6 @@
 
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
--fix very long objective name overflow bug in task objectives
--add padding to task objectives
 
 ----UI/UX----
 -possibly make the hour overlay more prominent

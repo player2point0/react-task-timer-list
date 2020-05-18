@@ -104,7 +104,10 @@
 
 .taskObjective h1{
     font-size: var(--small-text-size);
-
+    width: auto;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    padding-left: 1em;
 }
 
 .addObjectiveForm input{
