@@ -9,6 +9,7 @@ const TASK_VIEWING_HEIGHT = 70;
 const HOUR_IN_SECONDS = 60 * 60;
 const HIDE_CONTENT_HEIGHT = 0;//10;
 const OBJECTIVE_HEIGHT = 5;
+const OBJECTIVE_LINE_LENGTH = 35;
 
 function Objective(props) {
 
@@ -66,7 +67,6 @@ class Task extends React.Component {
     }
 
     render() {
-        //todo refactor this
         let THIS_SCOPE = this;
         let taskContent;
         const TASK_ID = this.props.id;
@@ -110,8 +110,13 @@ class Task extends React.Component {
                 ((this.props.totalDuration - this.props.remainingTime) /
                     this.props.totalDuration);
 
-            //todo add support for the sizing of multi line objectives
             let taskObjectives;
+
+            //adjust the task height to take the objective height into account
+            for(let i = 0;i<this.props.objectives.length;i++){
+                taskHeight += (this.props.objectives[i].name.length / OBJECTIVE_LINE_LENGTH) * OBJECTIVE_HEIGHT;
+            }
+
             taskHeight += this.props.objectives.length * OBJECTIVE_HEIGHT;
 
             if (this.props.objectives) {

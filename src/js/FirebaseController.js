@@ -10,7 +10,7 @@ import TaskContainer from "../js/TaskContainer.js";
 import {formatDayMonth, requestNotifications, sendNotification} from "../js/Ultility.js";
 import SideBar from "../js/SideBar.js";
 
-const SAVE_INTERVAL = 60 * 1000; //in milli for set interval
+const SAVE_INTERVAL = 5 * 60 * 1000; //in milli for set interval
 
 //firebase
 const firebaseConfig = {

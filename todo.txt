@@ -17,13 +17,13 @@
 
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
--work time negative in pomodoro, when on break
+-fix very long objective name overflow bug in task objectives
+-add padding to task objectives
 
 ----UI/UX----
 -possibly make the hour overlay more prominent
--add an option to change focus from long to short tasks (change the task height) and to turn off objectives
 -maybe add back the visual task percentage when clicked on
--improve feedback ui
+-improve user feedback ui
 -refactor css text sizing to be more consistent
 -add feedback for syncing
 
@@ -36,7 +36,7 @@
 -change sync button to check if running offline first
 
 --mobile--
--redesign as comapanion app
+-redesign as companion app
 -improve mobile task view ui
 
 --flow--
