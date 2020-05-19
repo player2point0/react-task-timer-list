@@ -15,6 +15,11 @@ import {uiConfig, loadServerData, userAuthChanged,
 import {formatDayMonth, sendNotification} from "../js/Ultility.js";
 import SideBar from "../js/SideBar.js";
 
+import {BREAK_TIME, WORK_TIME, pomodoroTick,
+    resetPomodoro, stashBreakTime} from "../js/Pomodoro"
+
+import {togglePomodoro, toggleSideBar} from "../js/SideBar";
+
 const SAVE_INTERVAL = 5 * 60 * 1000; //in milli for set interval
 
 export default class MainApp extends React.Component {
@@ -30,6 +35,22 @@ export default class MainApp extends React.Component {
             setSaveAllTasks: false,
             dayStats: null,
             weekDayStats: null,
+            pomodoro: {
+                startedWork: false,
+                startedBreak: false,
+                workTimeRemaining: WORK_TIME,
+                breakTimeRemaining: BREAK_TIME,
+                stashBreak: false,
+                hidePomodoro: false,
+                updatedPomodoro: false,
+                hideSideBar: true,
+                updatedSideBar: true,
+            },
+            sideBarToggles: {
+                showPomodoro: true,
+                showSideBar: false,
+            },
+            lastPomodoroTickTime: new Date(),
         };
 
         this.tick = tick.bind(this);
@@ -52,6 +73,12 @@ export default class MainApp extends React.Component {
         this.firebaseGetDayStats = firebaseGetDayStats.bind(this);
         this.parseSavedTasks = parseSavedTasks.bind(this);
         this.loadServerData = loadServerData.bind(this);
+
+        this.pomodoroTick = pomodoroTick.bind(this);
+        this.stashBreakTime = stashBreakTime.bind(this);
+        this.resetPomodoro = resetPomodoro.bind(this);
+        this.toggleSideBar = toggleSideBar.bind(this);
+        this.togglePomodoro = togglePomodoro.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -156,6 +183,12 @@ export default class MainApp extends React.Component {
                     sendNotification={sendNotification}
                     syncAll={this.loadServerData}
                     firebaseSaveFeedback={this.firebaseSaveFeedback}
+                    pomodoro={this.state.pomodoro}
+                    pomodoroTick={this.pomodoroTick}
+                    resetPomodoro={this.resetPomodoro}
+                    sideBarToggles={this.state.sideBarToggles}
+                    toggleSideBar={this.toggleSideBar}
+                    togglePomodoro={this.togglePomodoro}
                 />
                 <TaskController
                     firebaseSaveTask={this.firebaseSaveTask}

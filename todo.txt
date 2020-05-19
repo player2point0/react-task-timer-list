@@ -1,8 +1,7 @@
--refactor methods into more appropriate classes
--lift up pomodoro state
 -change day stats to only record time worked
 -add more day stat info, total worked
 -maybe add week overview
+-tidy code using intelij tools
 
 --offline--
 -add a more robust server

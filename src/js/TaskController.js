@@ -52,8 +52,8 @@ export default class TaskController extends React.Component {
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if(this.state.scrollToForm){
-			var elmnt = document.getElementById("addTaskForm");
-			if(elmnt) elmnt.scrollIntoView(false);
+			const addTaskFrom = document.getElementById("addTaskForm");
+			if(addTaskFrom) addTaskFrom.scrollIntoView(false);
 
 			this.setState(state =>({
 				scrollToForm: false,
