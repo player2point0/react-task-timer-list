@@ -10,7 +10,8 @@ function DayOverview(props) {
     let finishHour;
     let finishMinute;
     let totalPlanned = 0;
-    let totalWorked = 0;
+    let totalWork = 0;
+    let totalBreak = 0;
 
     for (let i = 0; i < props.tasks.length; i++) {
         totalPlanned += props.tasks[i].remainingTime;
@@ -22,12 +23,17 @@ function DayOverview(props) {
     finishMinute = padNumWithZero(finishTime.getMinutes());
 
     if(props.dayStats.totalWorked){
-        totalWorked = props.dayStats.totalWorked;
+        totalWork = props.dayStats.totalWorked;
+    }
+
+    if(props.dayStats.totalBreak){
+        totalBreak = props.dayStats.totalBreak;
     }
 
     return (
         <React.Fragment>
-            <h2>total worked {formatTime(totalWorked)}</h2>
+            <h2>total work {formatTime(totalWork)}</h2>
+            <h2>total break {formatTime(totalBreak)}</h2>
             <h2>total planned {formatTime(totalPlanned)}</h2>
             <h2>finish time {finishHour + ":" + finishMinute}</h2>
         </React.Fragment>

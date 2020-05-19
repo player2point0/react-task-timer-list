@@ -148,6 +148,7 @@ export default class MainApp extends React.Component {
         let newDayStats = {
             date: formatDayMonth(new Date()),
             totalWorked: 0,
+            totalBreak: 0,
             userId: null,
             tasks: [],
         };

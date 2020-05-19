@@ -1,5 +1,5 @@
 import React from "react";
-import { formatTime } from "../js/Ultility.js";
+import { formatTime, sendNotification } from "../js/Ultility.js";
 
 export const WORK_TIME = 25 * 60;
 export const BREAK_TIME = 5 * 60;
@@ -87,7 +87,7 @@ export function pomodoroTick() {
 				currentState.showSideBar = true;
 
 				//call callback to show notification, with stashing of break time
-				this.props.sendNotification(
+				sendNotification(
 					"Break time started",
 					"click to stash break",
 					this.stashBreakTime
@@ -95,13 +95,13 @@ export function pomodoroTick() {
 
 			} else if (this.state.pomodoro.breakTimeRemaining > 0) {
 				updatedPomodoro.breakTimeRemaining -= deltaTime;
-				if(updatedPomodoro.workTimeRemaining < 0) updatedPomodoro.workTimeRemaining = 0;
+				if(updatedPomodoro.breakTimeRemaining < 0) updatedPomodoro.breakTimeRemaining = 0;
 			}
 
 			//break finished
 			else {
 				//call other callback to show notification
-				this.props.sendNotification("Break time finished", "");
+				sendNotification("Break time finished", "");
 
 				updatedPomodoro.startedWork = false;
 				updatedPomodoro.startedBreak = false;

@@ -1,4 +1,3 @@
--change day stats to only record time worked
 -add more day stat info, total worked
 -maybe add week overview
 -tidy code using intelij tools
