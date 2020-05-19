@@ -1,4 +1,3 @@
-import React from "react";
 import "../css/index.css";
 import "../css/auth.css";
 import * as firebase from "firebase/app";
@@ -191,7 +190,7 @@ export function firebaseSaveFeedback(feedback) {
     firebase.firestore().collection("userFeedback")
         .add({
             feedbackText: feedback,
-            userId: currentUser,
+            userId: userId,
         })
         .then(value => console.log("saved feedback successfully"))
         .catch(reason => console.error("error saving feedback" + reason));
