@@ -103,7 +103,6 @@ class TaskContainer {
 		this.isViewing = !this.isViewing;
 		this.needsSaved = true;
 	}
-
 }
 
 export default TaskContainer;
