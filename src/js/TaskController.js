@@ -119,7 +119,7 @@ export default class TaskController extends React.Component {
                                 key={task.id}
                                 id={task.id}
                                 name={task.name}
-                                totalDuration={task.totalDuration}
+                                totalTime={task.totalTime}
                                 remainingTime={task.remainingTime}
                                 started={task.started}
                                 paused={task.paused}

@@ -87,33 +87,14 @@ class Task extends React.Component {
 
         if (!this.props.started) startButtonText = "start";
 
-        //show the task name and time when large enough
-        //currently HIDE_CONTENT_HEIGHT is 0, so always shows
-        if (taskHeight > HIDE_CONTENT_HEIGHT) {
-            taskContent = (<React.Fragment>
-                <div
-                    className="taskViewingCover"
-                    style={{height: coverHeight + "vh"}}
-                />
-                <div className="taskSelectButton">
-                    <h1 className="taskName">{this.props.name}</h1>
-                    <h1 className="taskTime">{formatTime(this.props.remainingTime)}</h1>
-                </div>
-            </React.Fragment>);
-        }
-
         //display additional details when the task is selected
         if (this.props.isViewing) {
             taskHeight += TASK_VIEWING_HEIGHT; //expands the task by 50vh to display the buttons, could add a max/min height
 
-            coverHeight = taskHeight *
-                ((this.props.totalDuration - this.props.remainingTime) /
-                    this.props.totalDuration);
-
             let taskObjectives;
 
             //adjust the task height to take the objective height into account
-            for(let i = 0;i<this.props.objectives.length;i++){
+            for (let i = 0; i < this.props.objectives.length; i++) {
                 taskHeight += (this.props.objectives[i].name.length / OBJECTIVE_LINE_LENGTH) * OBJECTIVE_HEIGHT;
             }
 
@@ -131,6 +112,10 @@ class Task extends React.Component {
                     />
                 ));
             }
+
+            coverHeight = taskHeight *
+                ((this.props.totalTime - this.props.remainingTime) /
+                    this.props.totalTime);
 
             taskViewing = (
                 <React.Fragment>
@@ -185,6 +170,21 @@ class Task extends React.Component {
                     </div>
                 </React.Fragment>
             );
+        }
+
+        //show the task name and time when large enough
+        //currently HIDE_CONTENT_HEIGHT is 0, so always shows
+        if (taskHeight > HIDE_CONTENT_HEIGHT) {
+            taskContent = (<React.Fragment>
+                <div
+                    className="taskViewingCover"
+                    style={{height: coverHeight + "vh"}}
+                />
+                <div className="taskSelectButton">
+                    <h1 className="taskName">{this.props.name}</h1>
+                    <h1 className="taskTime">{formatTime(this.props.remainingTime)}</h1>
+                </div>
+            </React.Fragment>);
         }
 
         return (

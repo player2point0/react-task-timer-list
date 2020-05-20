@@ -16,13 +16,13 @@
 
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
+-possible pomodoro break bug after pausing for a while
 
 --mobile--
 -redesign as companion app
 -improve mobile task view ui
 
 ----UI/UX----
--maybe add back the visual task percentage when clicked on
 -refactor css text sizing to be more consistent
 
 ----non-essential----
