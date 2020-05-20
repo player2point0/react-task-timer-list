@@ -1,4 +1,5 @@
 import React from 'react';
+import "../css/feedback.css";
 
 export default class DayStats extends React.Component {
 
@@ -29,26 +30,25 @@ export default class DayStats extends React.Component {
     }
 
     render() {
-        return (<div>
-        <form
-            onSubmit={this.handleSubmit}
-            autoComplete="off"
-        >
-            <textarea
-                name="feedbackText"
-                rows="10"
-                cols="30"
-                placeholder="what would you change?"
-                onChange={this.handleFeedbackTextChange}
-                value={this.state.newFeedbackText}
-            />
-            <br/>
-            <input
-                type="submit"
-                value="submit"
-            />
-        </form>
-            </div>
+        return (
+            <form
+                autoComplete="off"
+            >
+                <textarea
+                   className={"feedbackTextArea"}
+                    name="feedbackText"
+                    rows="5"
+                    cols="30"
+                    placeholder="what would you change?"
+                    onChange={this.handleFeedbackTextChange}
+                    value={this.state.newFeedbackText}
+                />
+                <br/>
+                <h2
+                    onClick={this.handleSubmit}
+                    className={"feedBackSubmit"}
+                >submit</h2>
+            </form>
         );
     }
 }
