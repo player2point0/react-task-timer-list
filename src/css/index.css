@@ -62,4 +62,9 @@ body {
     body {
       background-color: lightblue;
     }
+
+    .mainBody{
+        font-size: var(--medium-text-size);
+        padding-top: 1.6ex;
+    }
   }

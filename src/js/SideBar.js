@@ -118,9 +118,10 @@ export default class SideBar extends React.Component {
             document.body.style.overflow = '';
 
             return (
-                <h1 className="showSideBar" onClick={this.props.toggleSideBar}>
-                    s<br/>i<br/>d<br/>e<br/>b<br/>a<br/>r
-                </h1>
+                <h1
+                    className="showSideBar"
+                    onClick={this.props.toggleSideBar}
+                >sidebar</h1>
             );
         }
 
@@ -210,10 +211,11 @@ export default class SideBar extends React.Component {
                         contentHTML={feedbackHTML}
                     />
                 </div>
-                <div className="closeSideBar" onClick={this.props.toggleSideBar}>
-                    <h1>
-                        c<br/>l<br/>o<br/>s<br/>e<br/>
-                    </h1>
+                <div
+                    className="closeSideBar"
+                    onClick={this.props.toggleSideBar}
+                >
+                    <h1>close</h1>
                 </div>
             </div>
         );
