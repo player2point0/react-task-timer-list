@@ -74,7 +74,12 @@
 }
 
 @media only screen and (max-width: 600px) {
-    .showSideBar{
-        font-size: var(--medium-text-size);
+    .sideBarContainer{
+        display: none;
     }
+
+    .showSideBar{
+        display: none;
+    }
+
 }
