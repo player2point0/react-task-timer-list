@@ -13,12 +13,12 @@ import {uiConfig, loadServerData, userAuthChanged,
     getCurrentUser, getAuth} from "./FirebaseController";
 
 import {formatDayMonth, sendNotification} from "../js/Ultility.js";
-import SideBar from "../js/SideBar.js";
+import SideBar from "./sideBar/SideBar.js";
 
 import {BREAK_TIME, WORK_TIME, pomodoroTick,
-    resetPomodoro, stashBreakTime} from "../js/Pomodoro"
+    resetPomodoro, stashBreakTime} from "./sideBar/Pomodoro"
 
-import {togglePomodoro, toggleSideBar} from "../js/SideBar";
+import {togglePomodoro, toggleSideBar} from "./sideBar/SideBar";
 
 const SAVE_INTERVAL = 5 * 60 * 1000; //in milli for set interval
 

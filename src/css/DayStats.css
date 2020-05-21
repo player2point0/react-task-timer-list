@@ -13,11 +13,17 @@
 }
 
 .centerTextName{
-    font-size: var(--medium-text-size);
+    font-size: var(--small-text-size);
     width: fit-content;
 }
 
 .centerTextDuration{
-    font-size: var(--medium-text-size);
+    font-size: var(--small-text-size);
     width: fit-content;
+}
+
+@media only screen and (max-width: 600px) {
+    .dayStatsContainer{
+        display: none;
+    }
 }

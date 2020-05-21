@@ -1,7 +1,7 @@
 import React from 'react';
 import {XYPlot, ArcSeries} from 'react-vis';
-import "../css/DayStats.css";
-import {formatTime} from "./Ultility";
+import "../../css/DayStats.css";
+import {formatTime} from "../Ultility";
 
 export default class DayStats extends React.Component {
 
@@ -96,13 +96,13 @@ export default class DayStats extends React.Component {
         return (
             <div className={"dayStatsContainer"}>
                 <div className={"dayStatControls"}>
-                    <div>{currentDayStat.date}</div>
+                    <div className={"sideBarElementText"}>{currentDayStat.date}</div>
                     <div
-                        className={"sideBarElementButtonHover"}
+                        className={"sideBarElementButton"}
                         onClick={this.increaseWeekDayIndex}
                     >previous</div>
                     <div
-                        className={"sideBarElementButtonHover"}
+                        className={"sideBarElementButton"}
                         onClick={this.decreaseWeekDayIndex}
                     >next</div>
                     <div className={"centerText"}>

@@ -1,5 +1,5 @@
 import React from "react";
-import { formatTime, sendNotification } from "../js/Ultility.js";
+import { formatTime, sendNotification } from "../Ultility.js";
 
 export const WORK_TIME = 25 * 60;
 export const BREAK_TIME = 5 * 60;
@@ -8,12 +8,12 @@ export default class Pomodoro extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<h3>work time {formatTime(this.props.workTimeRemaining)}</h3>
-				<h3>break time {formatTime(this.props.breakTimeRemaining)}</h3>
-				<h2
-					className={"sideBarElementButtonHover"}
+				<div className={"sideBarElementText"}>work time {formatTime(this.props.workTimeRemaining)}</div>
+				<div className={"sideBarElementText"}>break time {formatTime(this.props.breakTimeRemaining)}</div>
+				<div
+					className={"sideBarElementButton"}
 					onClick={this.props.resetPomodoro}
-				>reset</h2>
+				>reset</div>
 			</React.Fragment>
 		);
 	}

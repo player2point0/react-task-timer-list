@@ -1,11 +1,3 @@
 .feedbackTextArea{
-    font-size: var(--small-text-size);
-}
-
-.feedBackSubmit{
-    font-size: var(--small-text-size);
-}
-
-.feedBackSubmit:hover{
-    color: var(--sideBar-button-hover-color);
+    font-size: var(--very-small-text-size);
 }

@@ -1,44 +1,9 @@
 import React from "react";
-import Pomodoro from "../js/Pomodoro.js";
+import Pomodoro from "./Pomodoro.js";
 import DayStats from "./DayStats";
 import FeedbackForm from "./FeedbackForm";
-import {formatTime, padNumWithZero} from "../js/Ultility.js";
-import "../css/sideBar.css";
-
-function DayOverview(props) {
-    let finishTime = new Date();
-    let finishHour;
-    let finishMinute;
-    let totalPlanned = 0;
-    let totalWork = 0;
-    let totalBreak = 0;
-
-    for (let i = 0; i < props.tasks.length; i++) {
-        totalPlanned += props.tasks[i].remainingTime;
-    }
-
-    finishTime.setTime(finishTime.getTime() + totalPlanned * 1000);
-
-    finishHour = padNumWithZero(finishTime.getHours());
-    finishMinute = padNumWithZero(finishTime.getMinutes());
-
-    if(props.dayStats.totalWorked){
-        totalWork = props.dayStats.totalWorked;
-    }
-
-    if(props.dayStats.totalBreak){
-        totalBreak = props.dayStats.totalBreak;
-    }
-
-    return (
-        <React.Fragment>
-            <div className={"sideBarElementText"}>total work {formatTime(totalWork)}</div>
-            <div className={"sideBarElementText"}>total break {formatTime(totalBreak)}</div>
-            <div className={"sideBarElementText"}>total planned {formatTime(totalPlanned)}</div>
-            <div className={"sideBarElementText"}>finish time {finishHour + ":" + finishMinute}</div>
-        </React.Fragment>
-    );
-}
+import DayOverview from "./DayOverview";
+import "../../css/sideBar.css";
 
 function SideBarElement(props){
     return (

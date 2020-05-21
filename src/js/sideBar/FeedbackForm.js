@@ -1,5 +1,5 @@
 import React from 'react';
-import "../css/feedback.css";
+import "../../css/feedback.css";
 
 export default class DayStats extends React.Component {
 
@@ -46,7 +46,7 @@ export default class DayStats extends React.Component {
                 <br/>
                 <div
                     onClick={this.handleSubmit}
-                    className={"feedBackSubmit"}
+                    className={"sideBarElementButton"}
                 >submit</div>
             </form>
         );

@@ -29,8 +29,9 @@ color scheme
     --large-text-size: 10vh;
     --medium-text-size: 7.5vh;
     --small-text-size: 5vh;
+    --very-small-text-size: 3.5vh;
     user-select: none;
-    font-weight: normal;
+    font-weight: 600;
 }
 
 body {

@@ -29,7 +29,7 @@
     z-index: 100;
     color: var(--text-color);
     background-color: var(--sideBar-button-color);
-    font-size: var(--small-text-size);
+    font-size: var(--medium-text-size);
     height: 100vh;
     width: 1em;
     overflow-wrap: break-word;
@@ -70,7 +70,7 @@
 }
 
 .sideBarElementText{
-    font-size: var(--small-text-size);
+    font-size: var(--very-small-text-size);
 }
 
 .sideBarElementContent{
@@ -81,15 +81,21 @@
     color: var(--text-color);
 }
 
-.sideBarElementButtonHover:hover{
-    color: var(--sideBar-button-hover-color);
+.sideBarElementButton{
+    font-size: var(--small-text-size);
+    background-color: var(--button-color);
+    width: fit-content;
+    margin-top: 2px;
+    padding: 2px;
+    border-radius: 2px;
+}
+.sideBarElementButton:hover{
+    color: var(--text-hover-color);
 }
 
 @media only screen and (max-width: 600px) {
 
     .showSideBar{
-        background-color: var(--sideBar-button-color);
-        font-size: var(--medium-text-size);
         height: 1.5ex;
         width: 100%;
     }
@@ -107,12 +113,9 @@
     }
 
     .sideBar{
-        background-color: var(--sideBar-background-color);
         width: 100%;
         height: 90%;
         display: block;
-        overflow-x: hidden;
-        overflow-y: auto;
     }
 
     .sideBarContainer{
