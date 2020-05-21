@@ -20,21 +20,24 @@ function Objective(props) {
         }}
     >complete</button>;
 
-    let objectiveName = <h1>{props.name}</h1>;
+    let objectiveName = <div
+        className={"taskObjectiveName"}
+    >{props.name}</div>;
 
     if (props.finished) {
         objectiveName = <del>{objectiveName}</del>;
     }
 
-    return (<div
-        className="taskObjective"
-        onClick={function (e) {
-            e.stopPropagation();
-        }}
-    >
-        {objectiveName}
-        {completeButton}
-    </div>);
+    return (
+        <div
+            className="taskObjective"
+            onClick={function (e) {
+                e.stopPropagation();
+            }}
+        >
+            {objectiveName}
+            {completeButton}
+        </div>);
 }
 
 //renders the task based on the passed properties
@@ -181,8 +184,8 @@ class Task extends React.Component {
                     style={{height: coverHeight + "vh"}}
                 />
                 <div className="taskSelectButton">
-                    <h1 className="taskName">{this.props.name}</h1>
-                    <h1 className="taskTime">{formatTime(this.props.remainingTime)}</h1>
+                    <div className="taskName">{this.props.name}</div>
+                    <div className="taskTime">{formatTime(this.props.remainingTime)}</div>
                 </div>
             </React.Fragment>);
         }

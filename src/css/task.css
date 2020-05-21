@@ -102,7 +102,7 @@
     color: var(--text-hover-color);
 }
 
-.taskObjective h1{
+.taskObjectiveName{
     font-size: var(--small-text-size);
     width: auto;
     overflow: hidden;

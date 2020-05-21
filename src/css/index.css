@@ -30,6 +30,7 @@ color scheme
     --medium-text-size: 7.5vh;
     --small-text-size: 5vh;
     user-select: none;
+    font-weight: normal;
 }
 
 body {

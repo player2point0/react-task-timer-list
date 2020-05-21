@@ -96,19 +96,19 @@ export default class DayStats extends React.Component {
         return (
             <div className={"dayStatsContainer"}>
                 <div className={"dayStatControls"}>
-                    <h2>{currentDayStat.date}</h2>
-                    <h2
+                    <div>{currentDayStat.date}</div>
+                    <div
                         className={"sideBarElementButtonHover"}
                         onClick={this.increaseWeekDayIndex}
-                    >previous</h2>
-                    <h2
+                    >previous</div>
+                    <div
                         className={"sideBarElementButtonHover"}
                         onClick={this.decreaseWeekDayIndex}
-                    >next</h2>
+                    >next</div>
                     <div className={"centerText"}>
-                        <h1 className={"centerTextName"}>{this.state.centerTextName}</h1>
+                        <div className={"centerTextName"}>{this.state.centerTextName}</div>
                         {!this.state.centerTextDuration ||
-                        <h1 className={"centerTextDuration"}>{this.state.centerTextDuration}</h1>}
+                        <div className={"centerTextDuration"}>{this.state.centerTextDuration}</div>}
                     </div>
                 </div>
 

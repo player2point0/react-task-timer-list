@@ -32,10 +32,10 @@ function DayOverview(props) {
 
     return (
         <React.Fragment>
-            <h2>total work {formatTime(totalWork)}</h2>
-            <h2>total break {formatTime(totalBreak)}</h2>
-            <h2>total planned {formatTime(totalPlanned)}</h2>
-            <h2>finish time {finishHour + ":" + finishMinute}</h2>
+            <div className={"sideBarElementText"}>total work {formatTime(totalWork)}</div>
+            <div className={"sideBarElementText"}>total break {formatTime(totalBreak)}</div>
+            <div className={"sideBarElementText"}>total planned {formatTime(totalPlanned)}</div>
+            <div className={"sideBarElementText"}>finish time {finishHour + ":" + finishMinute}</div>
         </React.Fragment>
     );
 }
@@ -43,10 +43,10 @@ function DayOverview(props) {
 function SideBarElement(props){
     return (
         <div className={"sideBarElement"}>
-            <h1
+            <div
                 className={"sideBarElementTitle"}
                 onClick={props.onClick}
-            >{props.name}</h1>
+            >{props.name}</div>
             {!props.contentHTML || <div className={"sideBarElementContent"}>
                 {props.contentHTML}
             </div>}
@@ -118,10 +118,10 @@ export default class SideBar extends React.Component {
             document.body.style.overflow = '';
 
             return (
-                <h1
+                <div
                     className="showSideBar"
                     onClick={this.props.toggleSideBar}
-                >sidebar</h1>
+                >sidebar</div>
             );
         }
 
@@ -163,7 +163,7 @@ export default class SideBar extends React.Component {
             }
 
             if (this.state.showWeekStats) {
-                weekStatsHTML = <h2>week stats</h2>;
+                weekStatsHTML = <div>week stats</div>;
             }
         }
 
@@ -180,10 +180,10 @@ export default class SideBar extends React.Component {
         return (
             <div className="sideBarContainer">
                 <div className="sideBar">
-                    <h1
+                    <div
                         className="hideSideBar"
                         onClick={this.props.toggleSideBar}
-                    >sidebar</h1>
+                    >sidebar</div>
                     <SideBarElement
                         onClick={this.toggleOverview}
                         name={"overview"}
@@ -215,7 +215,7 @@ export default class SideBar extends React.Component {
                     className="closeSideBar"
                     onClick={this.props.toggleSideBar}
                 >
-                    <h1>close</h1>
+                    <div>close</div>
                 </div>
             </div>
         );

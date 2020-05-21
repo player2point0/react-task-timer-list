@@ -15,7 +15,7 @@
     align-content: center;
     position: fixed;
 }
-.closeSideBar h1{
+.closeSideBar div{
     font-size: var(--large-text-size);
     color: var(--sideBar-button-color);
     text-align:center;
@@ -67,6 +67,10 @@
 
 .sideBarElementTitle:hover{
     background-color: var(--sideBar-button-color);
+}
+
+.sideBarElementText{
+    font-size: var(--small-text-size);
 }
 
 .sideBarElementContent{

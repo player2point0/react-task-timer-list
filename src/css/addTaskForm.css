@@ -6,13 +6,13 @@
     padding-bottom: 10px;
 }
 
-.addTaskButton h1{
+.addTaskButton div{
     font-size: var(--large-text-size);
     color: var(--text-color);
     position: relative;
     z-index: 10;
 }
-.addTaskButton h1:hover{
+.addTaskButton div:hover{
     color: var(--text-hover-color);
 }
 

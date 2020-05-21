@@ -4,7 +4,7 @@
     width: 100%;
 }
 
-.hourCover h1{
+.hourCoverHour{
     min-height: 5vh;
     text-align: right;
     color: var(--hour-text-color);

@@ -170,7 +170,7 @@ export default class MainApp extends React.Component {
 
         if (this.state.showAuthHtml){
             authHtml =<div className={"authContainer"}>
-                <h1 className={"authTitle"}>sign in / up</h1>
+                <div className={"authTitle"}>sign in / up</div>
                 <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={getAuth()}/>
             </div>;
         }

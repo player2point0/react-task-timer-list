@@ -4,6 +4,7 @@
 
 .dayStatControls{
     position: absolute;
+    font-size: var(--small-text-size);
 }
 
 .centerText{

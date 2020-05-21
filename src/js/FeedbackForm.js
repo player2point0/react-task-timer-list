@@ -44,10 +44,10 @@ export default class DayStats extends React.Component {
                     value={this.state.newFeedbackText}
                 />
                 <br/>
-                <h2
+                <div
                     onClick={this.handleSubmit}
                     className={"feedBackSubmit"}
-                >submit</h2>
+                >submit</div>
             </form>
         );
     }

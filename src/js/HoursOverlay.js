@@ -26,12 +26,13 @@ class HoursOverlay extends React.Component {
 		let heightPer = 1 - mins / 60.0;
 		mins = padNumWithZero(mins);
 		let hourBar = (
-			<h1
+			<div
+				className={"hourCoverHour"}
 				style={{ height: heightPer * HOUR_HEIGHT + "vh" }}
 				key={currentHourFormatted + ":" + mins}
 			>
 				{currentHourFormatted + ":" + mins}
-			</h1>
+			</div>
 		);
 		hourBars.push(hourBar);
 
@@ -39,12 +40,13 @@ class HoursOverlay extends React.Component {
 			currentTime.setHours(currentHour + i);
 			let hour = padNumWithZero(currentTime.getHours().toString());
 			let hourBar = (
-				<h1
+				<div
+					className={"hourCoverHour"}
 					style={{ height: HOUR_HEIGHT + "vh" }}
 					key={hour}
 				>
 					{hour + ":00"}
-				</h1>
+				</div>
 			);
 			hourBars.push(hourBar);
 		}

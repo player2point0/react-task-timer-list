@@ -135,7 +135,7 @@ export default class TaskController extends React.Component {
                         ))}
                     </div>
                     <div className="addTaskButton" onClick={this.toggleTaskForm}>
-                        <h1>add task</h1>
+                        <div>add task</div>
                     </div>
                     {addTaskHtml}
                 </div>
