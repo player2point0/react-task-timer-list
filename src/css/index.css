@@ -58,7 +58,8 @@ body {
     *{
         --large-text-size: 15vw;
         --medium-text-size: 10vw;
-        --small-text-size: 5vw;
+        --small-text-size: 7vw;
+        --very-small-text-size: 5vw;
     }
 
     body {

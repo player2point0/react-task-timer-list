@@ -154,11 +154,13 @@ export default class SideBar extends React.Component {
                         name={"overview"}
                         contentHTML={dayOverviewHTML}
                     />
-                    <SideBarElement
-                        onClick={this.toggleDayStats}
-                        name={"day stats"}
-                        contentHTML={dayStatsHTML}
-                    />
+                    <div className={"sideBarHideMobile"}>
+                        <SideBarElement
+                            onClick={this.toggleDayStats}
+                            name={"day stats"}
+                            contentHTML={dayStatsHTML}
+                        />
+                    </div>
                     <SideBarElement
                         onClick={this.props.togglePomodoro}
                         name={"pomodoro"}
