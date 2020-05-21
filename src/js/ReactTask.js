@@ -18,7 +18,7 @@ function Objective(props) {
             e.stopPropagation();
             props.completeObjective(props.taskId, props.id);
         }}
-    >complete</button>;
+    >done</button>;
 
     let objectiveName = <div
         className={"taskObjectiveName"}
@@ -135,6 +135,7 @@ class Task extends React.Component {
                             <input
                                 id="objective-name-input"
                                 type="text"
+                                className="addObjectiveInput"
                                 onChange={this.handleNewObjectiveNameChange}
                                 value={this.state.newObjectiveName}
                                 placeholder="objective"

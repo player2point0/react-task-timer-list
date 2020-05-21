@@ -19,17 +19,14 @@
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
 -possible pomodoro break bug after pausing for a while
 
---mobile--
--redesign as companion app
--research popout app like spotify web player
--improve mobile task view ui
-
 ----non-essential----
 -add dark mode
 -add settings
 -add in app purchase for dark mode
 -possibly refactor using react hooks ( https://reactjs.org/docs/hooks-intro.html)
 -add offline strategy
+-redesign as companion app
+-research popout app like spotify web player
 
 --flow--
 -maybe add a daily starter task to get people started e.g. 25 mins of stretching or reading

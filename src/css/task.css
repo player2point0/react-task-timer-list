@@ -27,7 +27,7 @@
 }
 
 .taskViewing{
-    height: 50vh;
+    height: 45vh;
     justify-content: space-evenly;
     display: grid;
     grid-template-columns: auto auto auto;
@@ -79,6 +79,10 @@
     font-size: var(--medium-text-size);
 }
 
+.taskObjectives{
+    height: fit-content;
+}
+
 .taskObjective, .addObjectiveForm{
     border-top: 1px solid var(--task-border-color);
     color: var(--text-color);
@@ -102,9 +106,8 @@
     color: var(--text-hover-color);
 }
 
-.taskObjectiveName{
+.taskObjectiveName, .addObjectiveInput{
     font-size: var(--small-text-size);
-    width: auto;
     overflow: hidden;
     overflow-wrap: break-word;
     padding-left: 1em;
@@ -124,15 +127,14 @@
     }
 
     .taskViewing{
-        justify-content: space-evenly;
-        display: grid;
         grid-row-gap: 10px;
-        grid-template-columns: auto auto;
-        align-content: center;
+        grid-template-columns: auto;
+        height: fit-content;
     }
 
     .taskViewingButton{
-        width: 25vh;
-        height: 25vh;
+        width: 75vw;
+        height: 10vh;
+        border-radius: 1px;
     }
 }
