@@ -24,10 +24,6 @@
 -research popout app like spotify web player
 -improve mobile task view ui
 
-----UI/UX----
--refactor css text sizing to be more consistent (change to use rem or em)
--improve sidebar font sizing
-
 ----non-essential----
 -add dark mode
 -add settings
