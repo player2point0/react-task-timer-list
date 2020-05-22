@@ -5,7 +5,7 @@ import FeedbackForm from "./FeedbackForm";
 import DayOverview from "./DayOverview";
 import "../../css/sideBar.css";
 
-function SideBarElement(props){
+function SideBarElement(props) {
     return (
         <div className={"sideBarElement"}>
             <div
@@ -150,7 +150,8 @@ export default class SideBar extends React.Component {
                     <div
                         className="hideSideBar"
                         onClick={this.props.toggleSideBar}
-                    >sidebar</div>
+                    >sidebar
+                    </div>
                     <SideBarElement
                         onClick={this.toggleOverview}
                         name={"overview"}
@@ -179,6 +180,19 @@ export default class SideBar extends React.Component {
                         name={"feedback"}
                         contentHTML={feedbackHTML}
                     />
+                    <br/>
+                    {/*}<a
+                        href='https://ko-fi.com/P5P81QN0F'
+                        target='_blank'>
+                        <img
+                            height='36'
+                            style={{border: "0px",
+                                height: "36px"}}
+                            src='https://cdn.ko-fi.com/cdn/kofi1.png?v=2'
+                            border='0'
+                            alt='Buy Me a Coffee at ko-fi.com'/>
+                    </a>
+                    {*/}
                 </div>
                 <div
                     className="closeSideBar"

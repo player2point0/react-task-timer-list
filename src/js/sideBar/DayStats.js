@@ -136,7 +136,6 @@ export default class DayStats extends React.Component {
                 >
                     <ArcSeries
                         color={'#0FA3B1'}
-                        animation
                         data={taskData}
                         onValueMouseOver={(datapoint)=>{
                             this.setState(state => ({
@@ -153,7 +152,6 @@ export default class DayStats extends React.Component {
                     />
                     <ArcSeries
                         color={'rgb(240, 84, 23)'}
-                        animation
                         data={hourData}
                         onValueMouseOver={(datapoint)=>{
                             this.setState(state => ({
