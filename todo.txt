@@ -1,7 +1,8 @@
--add more day stat info, total worked
+-add a breakdown of break time into daystats
 -maybe add week overview
 -tidy code using intelij tools
 -add a stash button to the pomodoro that can be used at anytime during a break
+-maybe add a max number of task objectives to prevent scope creep?
 
 --offline--
 -add a more robust server
@@ -17,7 +18,6 @@
 
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
--possible pomodoro break bug after pausing for a while
 
 ----non-essential----
 -add dark mode

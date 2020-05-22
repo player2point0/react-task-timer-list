@@ -34,10 +34,10 @@ export default class DayOverview extends React.Component {
 
         return (
             <React.Fragment>
-                <div className={"sideBarElementText"}>total work {formatTime(totalWork)}</div>
-                <div className={"sideBarElementText"}>total break {formatTime(totalBreak)}</div>
-                <div className={"sideBarElementText"}>total planned {formatTime(totalPlanned)}</div>
-                <div className={"sideBarElementText"}>finish time {finishHour + ":" + finishMinute}</div>
+                <div className={"sideBarElementText"}>total work: {formatTime(totalWork)}</div>
+                <div className={"sideBarElementText"}>total break: {formatTime(totalBreak)}</div>
+                <div className={"sideBarElementText"}>total planned: {formatTime(totalPlanned)}</div>
+                <div className={"sideBarElementText"}>finish time: {finishHour + ":" + finishMinute}</div>
             </React.Fragment>
         );
     }

@@ -8,8 +8,8 @@ export default class Pomodoro extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<div className={"sideBarElementText"}>work time {formatTime(this.props.workTimeRemaining)}</div>
-				<div className={"sideBarElementText"}>break time {formatTime(this.props.breakTimeRemaining)}</div>
+				<div className={"sideBarElementText"}>work time: {formatTime(this.props.workTimeRemaining)}</div>
+				<div className={"sideBarElementText"}>break time: {formatTime(this.props.breakTimeRemaining)}</div>
 				<div
 					className={"sideBarElementButton"}
 					onClick={this.props.resetPomodoro}
@@ -36,6 +36,8 @@ export function pomodoroTick() {
 	let currentState = this.state;
 	const currentDate = new Date();
 	const deltaTime = (currentDate - this.state.lastTickTime) / 1000.0;
+
+	if(deltaTime > 2) alert("pomodoro "+deltaTime);
 
 	//check for an active task
 	for (let i = 0; i < tempTasks.length; i++) {

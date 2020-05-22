@@ -52,6 +52,7 @@ export default class DayStats extends React.Component {
         const graphHeight = window.screen.availHeight * 0.75;
         let taskData = [];
         let hourData = [];
+        let totalWorked = 0;
 
         if(currentDayStat !== null && currentDayStat.hasOwnProperty("tasks") && currentDayStat.tasks !== null){
             for (let i = 0; i < currentDayStat.tasks.length; i++) {
@@ -93,10 +94,15 @@ export default class DayStats extends React.Component {
             hourData.push(hour);
         }
 
+        if(currentDayStat.totalWorked){
+            totalWorked = currentDayStat.totalWorked;
+        }
+
         return (
             <div className={"dayStatsContainer"}>
                 <div className={"dayStatControls"}>
                     <div className={"sideBarElementText"}>{currentDayStat.date}</div>
+                    <div className={"sideBarElementText"}>total work: {formatTime(totalWorked)}</div>
                     <div
                         className={"sideBarElementButton"}
                         onClick={this.increaseWeekDayIndex}
