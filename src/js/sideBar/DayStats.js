@@ -94,9 +94,12 @@ export default class DayStats extends React.Component {
             hourData.push(hour);
         }
 
-        if(currentDayStat.totalWorked){
-            totalWorked = currentDayStat.totalWorked;
+        if(currentDayStat !== null){
+            if(currentDayStat.totalWorked){
+                totalWorked = currentDayStat.totalWorked;
+            }
         }
+
 
         return (
             <div className={"dayStatsContainer"}>

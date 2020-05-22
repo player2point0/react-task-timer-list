@@ -3,10 +3,6 @@ import {formatTime, padNumWithZero} from "../Ultility";
 
 export default class DayOverview extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         let finishTime = new Date();
         let finishHour;

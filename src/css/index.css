@@ -9,8 +9,8 @@ color scheme
 
 @import url('https://fonts.googleapis.com/css?family=Major+Mono+Display|Roboto+Mono|Share+Tech+Mono&display=swap');
 *{
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     font-family: 'Major Mono Display', monospace;
     --text-color: rgb(255, 255, 255);
     --text-hover-color: rgb(87, 86, 86);
