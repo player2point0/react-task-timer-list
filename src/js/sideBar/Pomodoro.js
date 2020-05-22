@@ -6,14 +6,25 @@ export const BREAK_TIME = 5 * 60;
 
 export default class Pomodoro extends React.Component {
 	render() {
+
+		let stashHTML;
+
+		if(this.props.onBreak){
+			stashHTML = <div
+				className={"sideBarElementButton"}
+				onClick={this.props.stashBreakTime}
+			>stash</div>
+		}
+
 		return (
 			<React.Fragment>
 				<div className={"sideBarElementText"}>work time: {formatTime(this.props.workTimeRemaining)}</div>
 				<div className={"sideBarElementText"}>break time: {formatTime(this.props.breakTimeRemaining)}</div>
+				{stashHTML}
 				<div
-					className={"sideBarElementButton"}
-					onClick={this.props.resetPomodoro}
-				>reset</div>
+				className={"sideBarElementButton"}
+				onClick={this.props.resetPomodoro}
+			>reset</div>
 			</React.Fragment>
 		);
 	}

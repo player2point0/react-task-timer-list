@@ -187,6 +187,7 @@ export default class MainApp extends React.Component {
                     pomodoro={this.state.pomodoro}
                     pomodoroTick={this.pomodoroTick}
                     resetPomodoro={this.resetPomodoro}
+                    stashBreakTime={this.stashBreakTime}
                     sideBarToggles={this.state.sideBarToggles}
                     toggleSideBar={this.toggleSideBar}
                     togglePomodoro={this.togglePomodoro}

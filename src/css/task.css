@@ -117,6 +117,8 @@
     text-align: center;
     border:none;
     font-size: var(--small-text-size);
+    color: var(--text-color);
+    border-bottom: 2px solid var(--task-border-color);
 }
 
 @media only screen and (max-width: 600px) {

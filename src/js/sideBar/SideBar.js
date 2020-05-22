@@ -107,6 +107,8 @@ export default class SideBar extends React.Component {
                     workTimeRemaining={this.props.pomodoro.workTimeRemaining}
                     breakTimeRemaining={this.props.pomodoro.breakTimeRemaining}
                     resetPomodoro={this.props.resetPomodoro}
+                    onBreak={this.props.pomodoro.startedWork && this.props.pomodoro.startedBreak}
+                    stashBreakTime={this.props.stashBreakTime}
                 />
             );
         }
