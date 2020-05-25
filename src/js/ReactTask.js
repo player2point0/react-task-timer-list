@@ -26,6 +26,7 @@ function Objective(props) {
 
     if (props.finished) {
         objectiveName = <del>{objectiveName}</del>;
+        completeButton = "";
     }
 
     return (

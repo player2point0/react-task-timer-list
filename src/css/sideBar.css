@@ -1,5 +1,7 @@
 .sideBarContainer{
     height: 100vh;
+    position: fixed;
+    z-index: 100;
 }
 
 .sideBar{
