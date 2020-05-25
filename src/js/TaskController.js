@@ -79,6 +79,7 @@ export default class TaskController extends React.Component {
                     <input
                         id="task-name-input"
                         type="text"
+                        autoFocus
                         onChange={this.handleNewTaskNameChange}
                         value={this.state.newTaskName}
                         placeholder="name"

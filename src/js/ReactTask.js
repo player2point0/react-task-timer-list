@@ -136,6 +136,7 @@ class Task extends React.Component {
                                 id="objective-name-input"
                                 type="text"
                                 className="addObjectiveInput"
+                                autoFocus
                                 onChange={this.handleNewObjectiveNameChange}
                                 value={this.state.newObjectiveName}
                                 placeholder="objective"

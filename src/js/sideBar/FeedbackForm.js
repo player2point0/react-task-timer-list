@@ -39,6 +39,7 @@ export default class DayStats extends React.Component {
                     name="feedbackText"
                     rows="5"
                     cols="30"
+                    autoFocus
                     placeholder="what would you change?"
                     onChange={this.handleFeedbackTextChange}
                     value={this.state.newFeedbackText}
