@@ -64,9 +64,17 @@ export default class DayStats extends React.Component {
                         new Date(currentDayStat.tasks[i].start[j]);
                     duration /= 1000;
 
+                    let angle0 = this.calcAngle(currentDayStat.tasks[i].start[j]);
+                    let angle = this.calcAngle(currentDayStat.tasks[i].stop[j]);
+
+                    //angle over rap fix
+                    if(angle < angle0){
+                        angle = 2*Math.PI;
+                    }
+
                     let newData = {
-                        angle0: this.calcAngle(currentDayStat.tasks[i].start[j]),
-                        angle: this.calcAngle(currentDayStat.tasks[i].stop[j]),
+                        angle0: angle0,
+                        angle: angle,
                         radius: 5,
                         radius0: 2,
                         name: currentDayStat.tasks[i].name,
@@ -100,7 +108,6 @@ export default class DayStats extends React.Component {
             }
         }
 
-
         return (
             <div className={"dayStatsContainer"}>
                 <div className={"dayStatControls"}>
@@ -120,7 +127,6 @@ export default class DayStats extends React.Component {
                         <div className={"centerTextDuration"}>{this.state.centerTextDuration}</div>}
                     </div>
                 </div>
-
                 <XYPlot
                     className={"dayGraph"}
                     radiusDomain={[0, 5]}

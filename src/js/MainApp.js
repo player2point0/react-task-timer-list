@@ -107,13 +107,14 @@ export default class MainApp extends React.Component {
                 setSaveAllTasks: false,
                 task: currentTasks
             }));
+        }
 
-            //check if the day has changed
-            let currentDate = formatDayMonth(new Date());
-            if (this.state.dayStats !== null) {
-                if (this.state.dayStats.date !== currentDate) {
-                    this.createNewDayStats();
-                }
+        //check if the day has changed
+        let currentDate = formatDayMonth(new Date());
+        if (this.state.dayStats !== null) {
+            if (this.state.dayStats.date !== currentDate) {
+                this.createNewDayStats();
+                alert("new day");
             }
         }
     }

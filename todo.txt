@@ -7,6 +7,8 @@
 -host it with a good domain name
 -improve branding (app icon and branding)
 -add start info for first time users
+-improve the notification ux
+-when an objective is done remove the done button
 
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
