@@ -4,19 +4,25 @@ import "../css/auth.css";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import TaskController from "../js/TaskController.js";
 
-import {tick, addTask, updateTaskByIdFunc, taskOnClick, startTask, finishTask,
-    removeTaskWithId, addTime, saveAllTasks, completeObjective, addObjective} from "../js/TaskController";
+import {
+    tick, addTask, updateTaskByIdFunc, taskOnClick, startTask, finishTask,
+    removeTaskWithId, addTime, saveAllTasks, completeObjective, addObjective
+} from "../js/TaskController";
 
-import {uiConfig, loadServerData, userAuthChanged,
+import {
+    uiConfig, loadServerData, userAuthChanged,
     firebaseSaveTask, firebaseSaveDayStats, firebaseSaveFeedback,
     firebaseGetAllTasks, firebaseGetDayStats, parseSavedTasks,
-    getCurrentUser, getAuth} from "./FirebaseController";
+    getCurrentUser, getAuth
+} from "./FirebaseController";
 
 import {formatDayMonth, sendNotification} from "../js/Ultility.js";
 import SideBar from "./sideBar/SideBar.js";
 
-import {BREAK_TIME, WORK_TIME, pomodoroTick,
-    resetPomodoro, stashBreakTime} from "./sideBar/Pomodoro"
+import {
+    BREAK_TIME, WORK_TIME, pomodoroTick,
+    resetPomodoro, stashBreakTime
+} from "./sideBar/Pomodoro"
 
 import {togglePomodoro, toggleSideBar} from "./sideBar/SideBar";
 
@@ -127,7 +133,7 @@ export default class MainApp extends React.Component {
             this.createNewDayStats();
         }
 
-        if(this.state.weekDayStats === null){
+        if (this.state.weekDayStats === null) {
             this.setState(state => ({
                 weekDayStats: [state.dayStats]
             }))
@@ -164,21 +170,20 @@ export default class MainApp extends React.Component {
         let authHtml;
         let weekDayStats = this.state.weekDayStats;
 
-        if(weekDayStats){
+        if (weekDayStats) {
             weekDayStats = weekDayStats.slice();
             weekDayStats.unshift(this.state.dayStats);
         }
 
-        if (this.state.showAuthHtml){
-            authHtml =<div className={"authContainer"}>
+        if (this.state.showAuthHtml) {
+            authHtml = <div className={"authContainer"}>
                 <div className={"authTitle"}>sign in / up</div>
                 <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={getAuth()}/>
             </div>;
         }
 
         return (
-            <React.Fragment>
-                {authHtml}
+            <div>
                 <SideBar
                     tasks={this.state.tasks}
                     weekDayStats={weekDayStats}
@@ -193,19 +198,24 @@ export default class MainApp extends React.Component {
                     toggleSideBar={this.toggleSideBar}
                     togglePomodoro={this.togglePomodoro}
                 />
-                <TaskController
-                    firebaseSaveTask={this.firebaseSaveTask}
-                    firebaseGetAllTasks={this.firebaseGetAllTasks}
-                    tasks={this.state.tasks}
-                    addTask={this.addTask}
-                    taskOnClick={this.taskOnClick}
-                    startTask={this.startTask}
-                    finishTask={this.finishTask}
-                    addTime={this.addTime}
-                    completeObjective={this.completeObjective}
-                    addObjective={this.addObjective}
-                />
-            </React.Fragment>
+                <div className={"mainApp"}>
+                    <div className="tasksContainer">
+                        {authHtml}
+                        <TaskController
+                            firebaseSaveTask={this.firebaseSaveTask}
+                            firebaseGetAllTasks={this.firebaseGetAllTasks}
+                            tasks={this.state.tasks}
+                            addTask={this.addTask}
+                            taskOnClick={this.taskOnClick}
+                            startTask={this.startTask}
+                            finishTask={this.finishTask}
+                            addTime={this.addTime}
+                            completeObjective={this.completeObjective}
+                            addObjective={this.addObjective}
+                        />
+                    </div>
+                </div>
+            </div>
         );
     }
 }

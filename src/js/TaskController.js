@@ -111,35 +111,31 @@ export default class TaskController extends React.Component {
         }
 
         return (
-            <div className="app">
-                <div className="mainBody">
-                    <HoursOverlay tasks={this.props.tasks}/>
-                    <div className="tasksContainer">
-                        {this.props.tasks.map(task => (
-                            <Task
-                                key={task.id}
-                                id={task.id}
-                                name={task.name}
-                                totalTime={task.totalTime}
-                                remainingTime={task.remainingTime}
-                                started={task.started}
-                                paused={task.paused}
-                                isViewing={task.isViewing}
-                                taskOnClick={this.props.taskOnClick}
-                                startTask={this.props.startTask}
-                                finishTask={this.props.finishTask}
-                                addTime={this.props.addTime}
-                                objectives={task.objectives}
-                                completeObjective={this.props.completeObjective}
-                                addObjective={this.props.addObjective}
-                            />
-                        ))}
-                    </div>
-                    <div className="addTaskButton" onClick={this.toggleTaskForm}>
-                        <div>add task</div>
-                    </div>
-                    {addTaskHtml}
+            <div>
+                <HoursOverlay tasks={this.props.tasks}/>
+                {this.props.tasks.map(task => (
+                    <Task
+                        key={task.id}
+                        id={task.id}
+                        name={task.name}
+                        totalTime={task.totalTime}
+                        remainingTime={task.remainingTime}
+                        started={task.started}
+                        paused={task.paused}
+                        isViewing={task.isViewing}
+                        taskOnClick={this.props.taskOnClick}
+                        startTask={this.props.startTask}
+                        finishTask={this.props.finishTask}
+                        addTime={this.props.addTime}
+                        objectives={task.objectives}
+                        completeObjective={this.props.completeObjective}
+                        addObjective={this.props.addObjective}
+                    />
+                ))}
+                <div className="addTaskButton" onClick={this.toggleTaskForm}>
+                    <div>add task</div>
                 </div>
+                {addTaskHtml}
             </div>
         );
     }
@@ -153,7 +149,7 @@ export function tick() {
     const currentDateString = currentDate.toISOString();
     const deltaTime = (currentDate - this.state.lastTickTime) / 1000.0;
 
-    if(deltaTime > 2) alert("tick "+deltaTime);
+    if (deltaTime > 2) alert("tick " + deltaTime);
 
     for (let i = 0; i < updatedTasks.length; i++) {
         if (updatedTasks[i].started && !updatedTasks[i].paused) {
@@ -172,11 +168,9 @@ export function tick() {
             } else {
                 if (this.state.pomodoro.startedWork && !this.state.pomodoro.startedBreak) {
                     updatedDayStats.totalWorked += deltaTime;
+                } else if (this.state.pomodoro.startedWork && this.state.pomodoro.startedBreak) {
+                    updatedDayStats.totalBreak += deltaTime;
                 }
-
-				else if (this.state.pomodoro.startedWork && this.state.pomodoro.startedBreak) {
-					updatedDayStats.totalBreak += deltaTime;
-				}
             }
 
             let taskInDayStats = false;

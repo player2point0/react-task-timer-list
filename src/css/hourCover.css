@@ -2,13 +2,13 @@
     position: absolute;
     pointer-events: none;
     width: 100%;
+    left: 0;
 }
 
 .hourCoverHour{
     min-height: 5vh;
     text-align: right;
     color: var(--hour-text-color);
-    width : 100%;
     border-bottom: 2px dashed var(--hour-line-color);
     background-color: transparent;
     box-sizing: border-box;

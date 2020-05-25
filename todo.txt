@@ -3,7 +3,7 @@
 -test on different devices and web browsers
 -setup billing
 
--app name
+-app name (flocus)
 -host it with a good domain name
 -improve branding (app icon and branding)
 -add start info for first time users
@@ -12,7 +12,6 @@
 
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
--fix cliping of task names
 
 ----non-essential----
 -add dark mode

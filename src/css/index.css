@@ -39,20 +39,15 @@ body {
     width: 100%;
 }
 
-.mainBody{
-    width: 100%;
+/* adds a space for the sidebar*/
+.mainApp{
+    font-size: var(--medium-text-size);
+    display: grid;
+    grid-template-columns: 1em auto;
 }
-
 .tasksContainer{
-    width: 100%;
+    grid-column-start: 2;
 }
-
-.sideBarContainer{
-    height: 100vh;
-    z-index: 100;
-    position: fixed;
-}
-
 
 @media only screen and (max-width: 600px) {
     *{
@@ -66,8 +61,14 @@ body {
       background-color: lightblue;
     }
 
-    .mainBody{
+    .mainApp{
         font-size: var(--medium-text-size);
-        padding-top: 1.6ex;
+        grid-template-columns: none;
+        grid-template-rows: 1.5ex auto;
+    }
+
+    .tasksContainer{
+        grid-column-start: unset;
+        grid-row-start: 2;
     }
   }
