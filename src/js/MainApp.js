@@ -119,6 +119,17 @@ export default class MainApp extends React.Component {
         let currentDate = formatDayMonth(new Date());
         if (this.state.dayStats !== null) {
             if (this.state.dayStats.date !== currentDate) {
+                //update the week stats by one day
+                let newWeekDayStats = this.state.weekDayStats.slice();
+                //remove the oldest date from the end
+                newWeekDayStats.pop();
+                //add the latest day stat to the front
+                newWeekDayStats.unshift(this.state.dayStats);
+
+                this.setState(state => ({
+                    weekDayStats: newWeekDayStats,
+                }));
+
                 this.createNewDayStats();
                 alert("new day");
             }

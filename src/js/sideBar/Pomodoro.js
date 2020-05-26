@@ -47,9 +47,7 @@ export function pomodoroTick() {
 	let currentState = this.state;
 	const currentDate = new Date();
 	const deltaTime = (currentDate - this.state.lastTickTime) / 1000.0;
-
-	if(deltaTime > 2) alert("pomodoro "+deltaTime);
-
+	
 	//check for an active task
 	for (let i = 0; i < tempTasks.length; i++) {
 		//check for a running task

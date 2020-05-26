@@ -149,8 +149,6 @@ export function tick() {
     const currentDateString = currentDate.toISOString();
     const deltaTime = (currentDate - this.state.lastTickTime) / 1000.0;
 
-    if (deltaTime > 2) alert("tick " + deltaTime);
-
     for (let i = 0; i < updatedTasks.length; i++) {
         if (updatedTasks[i].started && !updatedTasks[i].paused) {
             updatedTasks[i].remainingTime -= deltaTime;
