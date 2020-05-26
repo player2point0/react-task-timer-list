@@ -10,6 +10,8 @@
 -add start info for first time users
 -improve the notification ux
 
+-test timings
+
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
 

@@ -52,6 +52,7 @@
     z-index: -1;
     width: 100%;
     position: absolute;
+    left: 0;
 }
 
 .taskSelectButton{
