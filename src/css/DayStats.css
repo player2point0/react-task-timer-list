@@ -5,7 +5,9 @@
 .dayStatControls{
     position: absolute;
     font-size: var(--small-text-size);
+    width: 15vw;
 }
+
 
 .centerText{
     pointer-events: none;

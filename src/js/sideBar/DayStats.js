@@ -112,7 +112,7 @@ export default class DayStats extends React.Component {
             <div className={"dayStatsContainer"}>
                 <div className={"dayStatControls"}>
                     <div className={"sideBarElementText"}>{currentDayStat.date}</div>
-                    <div className={"sideBarElementText"}>total work: {formatTime(totalWorked)}</div>
+                    <div className={"sideBarElementText"}>{formatTime(totalWorked)}</div>
                     <div
                         className={"sideBarElementButton"}
                         onClick={this.increaseWeekDayIndex}
