@@ -86,7 +86,7 @@ export default class SideBar extends React.Component {
                 <div
                     className="showSideBar"
                     onClick={this.props.toggleSideBar}
-                >sidebar</div>
+                >flocus</div>
             );
         }
 
@@ -150,7 +150,7 @@ export default class SideBar extends React.Component {
                     <div
                         className="hideSideBar"
                         onClick={this.props.toggleSideBar}
-                    >sidebar
+                    >flocus
                     </div>
                     <SideBarElement
                         onClick={this.toggleOverview}

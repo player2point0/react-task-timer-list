@@ -5,9 +5,6 @@
 -setup billing
 -host it with a good domain name
 
--app name (flocus)
--improve branding (app icon and branding)
-
 -add start info for first time users
 -improve the notification ux
 -add an install prompt (for pwa)
@@ -29,6 +26,9 @@
 -refactor stats and maybe create a custom graph solution (current is depreciated)
 
 --flow--
+-maybe add a report of the work completed in the last 25 minutes and a couple of metrics for flow,
+this makes you more aware of what you have done and allows for a day recap. alo provides a journal element
+
 -maybe add a daily starter task to get people started e.g. 25 mins of stretching or reading
 -add a way to better keep track of the time spent on a task
 -could use flow as a metric
