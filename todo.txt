@@ -3,31 +3,30 @@
 -test on different devices and web browsers
 -test timings
 -setup billing
--host it with a good domain name
+-host it with a good domain name (https://domains.google.com/m/registrar/search/favorites?)
 
 -add start info for first time users
 -improve the notification ux
--add an install prompt (for pwa)
 
--maybe remove the task time when not clicked on
+--week overview--
+-create a week daystat object
+-create a graph of time for each week day
+-create a heat map for each week
 
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
 
 ----non-essential----
--add dark mode
 -add settings
--add in app purchase for dark mode
--possibly refactor using react hooks ( https://reactjs.org/docs/hooks-intro.html)
 -add offline strategy
 -redesign as companion app
 -research popout app like spotify web player
--maybe add week overview
 -refactor stats and maybe create a custom graph solution (current is depreciated)
+-add an install prompt (for pwa) (https://web.dev/customize-install/)
 
 --flow--
 -maybe add a report of the work completed in the last 25 minutes and a couple of metrics for flow,
-this makes you more aware of what you have done and allows for a day recap. alo provides a journal element
+this makes you more aware of what you have done and allows for a day recap. also provides a journal element
 
 -maybe add a daily starter task to get people started e.g. 25 mins of stretching or reading
 -add a way to better keep track of the time spent on a task
@@ -36,6 +35,19 @@ this makes you more aware of what you have done and allows for a day recap. alo 
  assuming their skill level changes throughout the day. Report this at a each break
  and use it to tailor the current task
 -increase the amount of flow
+
+
+Flow producing activity are:
+
+We are up to the activity.
+We are able to concentrate on the activity.
+The activity has clear goals.
+The activity has direct feedback.
+We feel that we control the activity.
+Our worries and concerns disappear.
+Our subjective experience of time is altered.
+
+
 Knowing what to do
 Knowing how to do it
 Knowing how well you are doing
@@ -46,14 +58,10 @@ Freedom from distractions
 Goals are clear
 Feedback is immediate
 A balance exists between opportunity and capacity
-(https://jenovachen.info/research)
-(https://en.wikipedia.org/wiki/Dynamic_game_difficulty_balancing)
-(https://en.wikipedia.org/wiki/Motivation)
+
+
 (https://www.reddit.com/r/productivity/top/)
-(https://en.wikipedia.org/wiki/Zen)
-(https://tricycle.org/magazine/transcendent-imperative/)
-(https://fociai.com/)
-(https://www.eisenhower.me/eisenhower-matrix/)
+()
 
 --ai--
 -download data from before 26th april (https://firebase.google.com/docs/firestore/manage-data/export-import)

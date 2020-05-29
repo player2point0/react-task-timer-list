@@ -131,7 +131,6 @@ export default class MainApp extends React.Component {
                 }));
 
                 this.createNewDayStats();
-                alert("new day");
             }
         }
     }
