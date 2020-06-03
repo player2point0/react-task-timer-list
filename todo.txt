@@ -4,12 +4,13 @@
 -test timings
 -setup billing
 -host it with a good domain name (https://domains.google.com/m/registrar/search/favorites?)
-
 -add start info for first time users
 -improve the notification ux
+-reset the pomodoro if paused for more than 5 minutes
+-rename dayStats to dayStat or something less confusing
 
 --week overview--
--create a week daystat object
+-create a get week day stats function
 -create a graph of time for each week day
 -create a heat map for each week
 
@@ -23,6 +24,14 @@
 -research popout app like spotify web player
 -refactor stats and maybe create a custom graph solution (current is depreciated)
 -add an install prompt (for pwa) (https://web.dev/customize-install/)
+
+--personal coach--
+-a way to report how you are feeling
+-provides advice based on how you are feeling
+-assigns and changes what task you are working on based on how you are feeling. e.g. if bored maybe change to other task
+-suggest different break based on how you are feeling. e.g. meditation or walk if faitgued
+-uses machine learning
+-provides an overview of day
 
 --flow--
 -maybe add a report of the work completed in the last 25 minutes and a couple of metrics for flow,
@@ -64,7 +73,6 @@ A balance exists between opportunity and capacity
 ()
 
 --ai--
--download data from before 26th april (https://firebase.google.com/docs/firestore/manage-data/export-import)
 -add ai to suggest the ordering of tasks - for optimal efficiency and to reduce burnout
 -experiment with using a monte carlo tree search to order the tasks
 -add ai autocomplete for task names and suggested duration

@@ -12,8 +12,8 @@ import {
 import {
     uiConfig, loadServerData, userAuthChanged,
     firebaseSaveTask, firebaseSaveDayStats, firebaseSaveFeedback,
-    firebaseGetAllTasks, firebaseGetDayStats, parseSavedTasks,
-    getCurrentUser, getAuth
+    firebaseGetAllTasks, firebaseGetDayStats, getWeekStats,
+    parseSavedTasks, getCurrentUser, getAuth
 } from "./FirebaseController";
 
 import {formatDayMonth, sendNotification} from "../js/Ultility.js";
@@ -77,6 +77,7 @@ export default class MainApp extends React.Component {
         this.firebaseSaveFeedback = firebaseSaveFeedback.bind(this);
         this.firebaseGetAllTasks = firebaseGetAllTasks.bind(this);
         this.firebaseGetDayStats = firebaseGetDayStats.bind(this);
+        this.getWeekStats = getWeekStats.bind(this);
         this.parseSavedTasks = parseSavedTasks.bind(this);
         this.loadServerData = loadServerData.bind(this);
 

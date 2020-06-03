@@ -48,8 +48,9 @@ export function getAuth() {
     return firebase.auth();
 }
 
-export function loadServerData() {
+export async function loadServerData() {
     let scope = this;
+    const currentDate = new Date();
 
     //get saved tasks
     this.firebaseGetAllTasks(function (savedTasks) {
@@ -60,39 +61,37 @@ export function loadServerData() {
     });
 
     //get saved day stats
-    this.firebaseGetDayStats(function (dayStats, date) {
-        if (dayStats == null) {
-            scope.createNewDayStats();
-        } else {
-            scope.setState(state => ({
-                dayStats: dayStats,
-            }));
-        }
-    }, new Date());
+    this.firebaseGetDayStats(currentDate)
+        .then(function (dayStats) {
+            if (dayStats.hasOwnProperty("id")) {
+                scope.setState(state => ({
+                    dayStats: dayStats,
+                }));
+            } else {
+                scope.createNewDayStats();
+            }
+        });
 
     //load a weeks worth of previous day stats
-    let weekDate = new Date();
-    let weekDayStats = [];
+    let weekDayStats = await this.getWeekStats(currentDate);
+
+    this.setState(state => ({
+        weekDayStats: weekDayStats,
+    }));
+}
+
+export async function getWeekStats(weekDate){
+    let weekDayStatPromises = [];
 
     for(let i = 0;i<7;i++){
-
         weekDate.setDate(weekDate.getDate()-1);
 
-        this.firebaseGetDayStats(function (dayStats, date) {
-            if(dayStats === null){
-                dayStats = {
-                    date: date,
-                };
-            }
-
-            weekDayStats.push(dayStats);
-
-            scope.setState(state => ({
-                weekDayStats: weekDayStats,
-            }));
-
-        }, weekDate);
+        weekDayStatPromises.push(
+            this.firebaseGetDayStats(weekDate)
+        );
     }
+
+    return await Promise.all(weekDayStatPromises);
 }
 
 // login / signup / guest
@@ -196,7 +195,7 @@ export function firebaseSaveFeedback(feedback) {
         .catch(reason => console.error("error saving feedback" + reason));
 }
 
-//todo possibly change to use a promise
+//todo change to use a promise
 export function firebaseGetAllTasks(callback) {
     const currentUser = firebase.auth().currentUser;
 
@@ -226,35 +225,108 @@ export function firebaseGetAllTasks(callback) {
         });
 }
 
-export function firebaseGetDayStats(callback, day) {
+export async function firebaseGetDayStats(date) {
     const currentUser = firebase.auth().currentUser;
-    const currentDate = formatDayMonth(day);
+    const currentDate = formatDayMonth(date);
 
     if (!currentUser) {
         console.error("not logged in");
+        //todo test and change this so it doesn't break the promises
         return;
     }
 
-    firebase.firestore().collection("dayStats")
-        .where("userId", "==", currentUser.uid)
-        .where("date", "==", currentDate)
-        .limit(1)
-        .get()
-        .then(function (querySnapshot) {
-            if (querySnapshot.empty) {
-                callback(null, currentDate);
-            } else {
+    return new Promise(async function(resolve, reject){
+        await firebase.firestore().collection("dayStats")
+            .where("userId", "==", currentUser.uid)
+            .where("date", "==", currentDate)
+            .limit(1)
+            .get()
+            .then(function (querySnapshot) {
+                if(querySnapshot.empty){
+                    resolve({date: currentDate});
+                }
+                //returns a single dayStat object
                 querySnapshot.forEach(function (doc) {
                     let dayStats = doc.data();
                     dayStats.id = doc.id;
 
-                    callback(dayStats, currentDate);
+                    resolve(dayStats);
                 });
-            }
-        })
-        .catch(function (error) {
-            console.log("Error getting documents: ", error);
-        });
+            })
+            .catch(function (error) {
+                    console.log("Error getting documents: ", error);
+                }
+            );
+    });
+
+    /*
+    module.exports.getSavedSongs = async (access_token, axios) =>{
+
+  //get limit
+  const limitOptions = {
+    url: 'https://api.spotify.com/v1/me/tracks',
+    headers: { 'Authorization': 'Bearer ' + access_token },
+    params: {
+      limit: 1,
+      offset: 0
+    },
+    json: true
+  };
+
+  const limitResult = await axios(limitOptions);
+  const limit = limitResult.data.total;
+
+  //generate enough promises
+  let offset = 0;
+  let songPromises = [];
+
+  while(offset <= limit)
+  {
+    songPromises.push(getSongAtOffset(access_token, axios, offset));
+    offset += 50;
+  }
+
+  let songsArr = await Promise.all(songPromises);  //returns an array of response
+
+  let songIds = [];
+
+  for(let i = 0;i<songsArr.length;i++)
+  {
+    let songsResponse = songsArr[i].data.items;
+
+    for(let j = 0;j<songsResponse.length;j++)
+    {
+      let songId = songsResponse[j].track.id;
+      songIds.push(songId);
+    }
+  }
+
+  return songIds;
+};
+
+function getSongAtOffset(access_token, axios, offset)
+{
+  const options = {
+    method:'get',
+    url: 'https://api.spotify.com/v1/me/tracks',
+    headers: { 'Authorization': 'Bearer ' + access_token },
+    params : {
+      limit: 50,
+      offset: offset
+    },
+    json: true
+  };
+
+  return new Promise((resolve, reject) => {
+
+    const result = axios(options);
+
+    resolve(result);
+  });
+}
+     */
+
+
 }
 
 export function parseSavedTasks(savedTasks) {
