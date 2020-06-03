@@ -144,7 +144,7 @@ export default class TaskController extends React.Component {
 //update all the tasks which are started
 export function tick() {
     const updatedTasks = this.state.tasks.slice();
-    const updatedDayStats = this.state.dayStats;
+    const updatedDayStat = this.state.dayStat;
     const currentDate = new Date();
     const currentDateString = currentDate.toISOString();
     const deltaTime = (currentDate - this.state.lastTickTime) / 1000.0;
@@ -165,26 +165,26 @@ export function tick() {
                 }
             } else {
                 if (this.state.pomodoro.startedWork && !this.state.pomodoro.startedBreak) {
-                    updatedDayStats.totalWorked += deltaTime;
+                    updatedDayStat.totalWorked += deltaTime;
                 } else if (this.state.pomodoro.startedWork && this.state.pomodoro.startedBreak) {
-                    updatedDayStats.totalBreak += deltaTime;
+                    updatedDayStat.totalBreak += deltaTime;
                 }
             }
 
-            let taskInDayStats = false;
+            let taskInDayStat = false;
 
             //if a task is active update the stop time
-            for (let j = 0; j < updatedDayStats.tasks.length; j++) {
-                if (updatedDayStats.tasks[j].id === updatedTasks[i].id) {
-                    let length = updatedDayStats.tasks[j].stop.length;
-                    updatedDayStats.tasks[j].stop[length - 1] = currentDateString;
+            for (let j = 0; j < updatedDayStat.tasks.length; j++) {
+                if (updatedDayStat.tasks[j].id === updatedTasks[i].id) {
+                    let length = updatedDayStat.tasks[j].stop.length;
+                    updatedDayStat.tasks[j].stop[length - 1] = currentDateString;
 
-                    taskInDayStats = true;
+                    taskInDayStat = true;
                 }
             }
 
-            if (!taskInDayStats) {
-                updatedDayStats.tasks.push({
+            if (!taskInDayStat) {
+                updatedDayStat.tasks.push({
                     id: updatedTasks[i].id,
                     name: updatedTasks[i].name,
                     start: [currentDateString],
@@ -197,7 +197,7 @@ export function tick() {
     this.setState(state => ({
         tasks: updatedTasks,
         lastTickTime: currentDate,
-        dayStats: updatedDayStats
+        dayStat: updatedDayStat
     }));
 }
 
@@ -257,7 +257,7 @@ export function taskOnClick(id) {
 
 export function startTask(id) {
     const updatedTasks = this.state.tasks.slice();
-    let updatedDayStats = this.state.dayStats;
+    let updatedDayStat = this.state.dayStat;
     let taskActive = false;
     let currentDate = (new Date()).toISOString();
 
@@ -270,20 +270,20 @@ export function startTask(id) {
                     updatedTask.unPause();
                     taskActive = true;
 
-                    let taskInDayStats = false;
+                    let taskInDayStat = false;
 
                     //update the dayStat start and stop values
-                    for (let j = 0; j < updatedDayStats.tasks.length; j++) {
-                        if (updatedDayStats.tasks[j].id === updatedTask.id) {
-                            updatedDayStats.tasks[j].start.push(currentDate);
-                            updatedDayStats.tasks[j].stop.push(currentDate);
+                    for (let j = 0; j < updatedDayStat.tasks.length; j++) {
+                        if (updatedDayStat.tasks[j].id === updatedTask.id) {
+                            updatedDayStat.tasks[j].start.push(currentDate);
+                            updatedDayStat.tasks[j].stop.push(currentDate);
 
-                            taskInDayStats = true;
+                            taskInDayStat = true;
                         }
                     }
 
-                    if (!taskInDayStats) {
-                        updatedDayStats.tasks.push({
+                    if (!taskInDayStat) {
+                        updatedDayStat.tasks.push({
                             id: updatedTask.id,
                             name: updatedTask.name,
                             start: [currentDate],
@@ -298,7 +298,7 @@ export function startTask(id) {
         } else {
             updatedTask.start();
             taskActive = true;
-            updatedDayStats.tasks.push({
+            updatedDayStat.tasks.push({
                 id: updatedTask.id,
                 name: updatedTask.name,
                 start: [currentDate],
@@ -320,7 +320,7 @@ export function startTask(id) {
     this.setState({
         tasks: updatedTasks,
         setSaveAllTasks: true,
-        dayStats: updatedDayStats,
+        dayStat: updatedDayStat,
     });
 }
 
@@ -374,7 +374,7 @@ export function saveAllTasks(tasksToSave) {
         this.firebaseSaveTask(tasksToSave[i]);
     }
 
-    this.firebaseSaveDayStats();
+    this.firebaseSaveDayStat();
 }
 
 export function completeObjective(taskId, objectiveId) {

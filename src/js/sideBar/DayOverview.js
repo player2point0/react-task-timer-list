@@ -20,12 +20,12 @@ export default class DayOverview extends React.Component {
         finishHour = padNumWithZero(finishTime.getHours());
         finishMinute = padNumWithZero(finishTime.getMinutes());
 
-        if(this.props.dayStats.totalWorked){
-            totalWork = this.props.dayStats.totalWorked;
+        if(this.props.dayStat.totalWorked){
+            totalWork = this.props.dayStat.totalWorked;
         }
 
-        if(this.props.dayStats.totalBreak){
-            totalBreak = this.props.dayStats.totalBreak;
+        if(this.props.dayStat.totalBreak){
+            totalBreak = this.props.dayStat.totalBreak;
         }
 
         return (

@@ -61,14 +61,14 @@ export async function loadServerData() {
     });
 
     //get saved day stats
-    this.firebaseGetDayStats(currentDate)
-        .then(function (dayStats) {
-            if (dayStats.hasOwnProperty("id")) {
+    this.firebaseGetDayStat(currentDate)
+        .then(function (dayStat) {
+            if (dayStat.hasOwnProperty("id")) {
                 scope.setState(state => ({
-                    dayStats: dayStats,
+                    dayStat: dayStat,
                 }));
             } else {
-                scope.createNewDayStats();
+                scope.createNewDayStat();
             }
         });
 
@@ -85,7 +85,7 @@ export async function getWeekStats(weekDate){
 
     for(let i = 0;i<7;i++){
         weekDayStatPromises.push(
-            this.firebaseGetDayStats(weekDate)
+            this.firebaseGetDayStat(weekDate)
         );
 
         weekDate.setDate(weekDate.getDate()-1);
@@ -142,9 +142,9 @@ export function firebaseSaveTask(task) {
         .catch(reason => console.error("error saving task" + reason));
 }
 
-export function firebaseSaveDayStats() {
+export function firebaseSaveDayStat() {
     const currentUser = firebase.auth().currentUser;
-    let currentDayStats = this.state.dayStats;
+    let currentDayStat = this.state.dayStat;
     let scope = this;
 
     if (!currentUser) {
@@ -152,18 +152,18 @@ export function firebaseSaveDayStats() {
         return;
     }
 
-    if (!this.state.dayStats.id) {
-        currentDayStats.userId = currentUser.uid;
+    if (!this.state.dayStat.id) {
+        currentDayStat.userId = currentUser.uid;
 
         firebase.firestore().collection("dayStats")
-            .add(this.state.dayStats)
+            .add(this.state.dayStat)
             .then(function (val) {
-                //add the id from firebase to the local dayStats
-                let updatedDayStats = scope.state.dayStats;
-                updatedDayStats.id = val.id;
+                //add the id from firebase to the local dayStat
+                let updatedDayStat = scope.state.dayStat;
+                updatedDayStat.id = val.id;
 
                 scope.setState(state => ({
-                    dayStats: updatedDayStats,
+                    dayStat: updatedDayStat,
                 }));
 
                 console.log("saved day stats successfully");
@@ -171,8 +171,8 @@ export function firebaseSaveDayStats() {
             .catch(reason => console.error("error saving day stats" + reason));
     } else {
         firebase.firestore().collection("dayStats")
-            .doc(this.state.dayStats.id)
-            .set(this.state.dayStats)
+            .doc(this.state.dayStat.id)
+            .set(this.state.dayStat)
             .then(value => console.log("saved day stats successfully"))
             .catch(reason => console.error("error saving day stats" + reason));
     }
@@ -225,7 +225,7 @@ export function firebaseGetAllTasks(callback) {
         });
 }
 
-export async function firebaseGetDayStats(date) {
+export async function firebaseGetDayStat(date) {
     const currentUser = firebase.auth().currentUser;
     const currentDate = formatDayMonth(date);
 
@@ -247,10 +247,10 @@ export async function firebaseGetDayStats(date) {
                 }
                 //returns a single dayStat object
                 querySnapshot.forEach(function (doc) {
-                    let dayStats = doc.data();
-                    dayStats.id = doc.id;
+                    let dayStat = doc.data();
+                    dayStat.id = doc.id;
 
-                    resolve(dayStats);
+                    resolve(dayStat);
                 });
             })
             .catch(function (error) {

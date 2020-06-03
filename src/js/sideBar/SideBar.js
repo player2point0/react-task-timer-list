@@ -118,7 +118,7 @@ export default class SideBar extends React.Component {
                 dayOverviewHTML = (
                     <DayOverview
                         tasks={this.props.tasks}
-                        dayStats={this.props.weekDayStats[0]}
+                        dayStat={this.props.weekDayStats[0]}
                     />
                 );
             }

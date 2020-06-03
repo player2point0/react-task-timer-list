@@ -53,8 +53,8 @@ export default class DayStats extends React.Component {
         let taskData = [];
         let hourData = [];
         let totalWorked = 0;
-        let availableTaskColors = ["#d1fab0", "#c8f9a0", "#bff890", "#b5f781", "#acf671",
-            "#A3F561", "#93dd57", "#82c44e", "#72ac44", "#62933a", "#527b31",];
+        let availableTaskColors = ["#dafbc0", "#c8f9a0", "#b5f781",
+            "#A3F561", "#82c44e", "#62933a", "#416227"];
         let colorMap = {};
 
         if(currentDayStat !== null && currentDayStat.hasOwnProperty("tasks") && currentDayStat.tasks !== null){

@@ -11,8 +11,8 @@ import {
 
 import {
     uiConfig, loadServerData, userAuthChanged,
-    firebaseSaveTask, firebaseSaveDayStats, firebaseSaveFeedback,
-    firebaseGetAllTasks, firebaseGetDayStats, getWeekStats,
+    firebaseSaveTask, firebaseSaveDayStat, firebaseSaveFeedback,
+    firebaseGetAllTasks, firebaseGetDayStat, getWeekStats,
     parseSavedTasks, getCurrentUser, getAuth
 } from "./FirebaseController";
 
@@ -39,7 +39,7 @@ export default class MainApp extends React.Component {
             lastTickTime: new Date(),
             removeTaskId: "",
             setSaveAllTasks: false,
-            dayStats: null,
+            dayStat: null,
             weekDayStats: null,
             pomodoro: {
                 startedWork: false,
@@ -71,13 +71,13 @@ export default class MainApp extends React.Component {
         this.addObjective = addObjective.bind(this);
         this.removeTaskWithId = removeTaskWithId.bind(this);
         this.updateTaskByIdFunc = updateTaskByIdFunc.bind(this);
-        this.createNewDayStats = this.createNewDayStats.bind(this);
+        this.createNewDayStat = this.createNewDayStat.bind(this);
         this.userAuthChanged = userAuthChanged.bind(this);
         this.firebaseSaveTask = firebaseSaveTask.bind(this);
-        this.firebaseSaveDayStats = firebaseSaveDayStats.bind(this);
+        this.firebaseSaveDayStat = firebaseSaveDayStat.bind(this);
         this.firebaseSaveFeedback = firebaseSaveFeedback.bind(this);
         this.firebaseGetAllTasks = firebaseGetAllTasks.bind(this);
-        this.firebaseGetDayStats = firebaseGetDayStats.bind(this);
+        this.firebaseGetDayStat = firebaseGetDayStat.bind(this);
         this.getWeekStats = getWeekStats.bind(this);
         this.parseSavedTasks = parseSavedTasks.bind(this);
         this.loadServerData = loadServerData.bind(this);
@@ -119,20 +119,20 @@ export default class MainApp extends React.Component {
 
         //check if the day has changed
         let currentDate = formatDayMonth(new Date());
-        if (this.state.dayStats !== null) {
-            if (this.state.dayStats.date !== currentDate) {
+        if (this.state.dayStat !== null) {
+            if (this.state.dayStat.date !== currentDate) {
                 //update the week stats by one day
                 let newWeekDayStats = this.state.weekDayStats.slice();
                 //remove the oldest date from the end
                 newWeekDayStats.pop();
                 //add the latest day stat to the front
-                newWeekDayStats.unshift(this.state.dayStats);
+                newWeekDayStats.unshift(this.state.dayStat);
 
                 this.setState(state => ({
                     weekDayStats: newWeekDayStats,
                 }));
 
-                this.createNewDayStats();
+                this.createNewDayStat();
             }
         }
     }
@@ -141,13 +141,13 @@ export default class MainApp extends React.Component {
     //interval for the tick method, called when changes are made to the props
     componentDidMount() {
 
-        if (this.state.dayStats === null) {
-            this.createNewDayStats();
+        if (this.state.dayStat === null) {
+            this.createNewDayStat();
         }
 
         if (this.state.weekDayStats === null) {
             this.setState(state => ({
-                weekDayStats: [state.dayStats]
+                weekDayStats: [state.dayStat]
             }))
         }
 
@@ -163,8 +163,8 @@ export default class MainApp extends React.Component {
         clearInterval(this.saveInterval);
     }
 
-    createNewDayStats() {
-        let newDayStats = {
+    createNewDayStat() {
+        let newDayStat = {
             date: formatDayMonth(new Date()),
             totalWorked: 0,
             totalBreak: 0,
@@ -173,7 +173,7 @@ export default class MainApp extends React.Component {
         };
 
         this.setState(state => ({
-            dayStats: newDayStats,
+            dayStat: newDayStat,
             setSaveAllTasks: true,
         }));
     }
@@ -186,7 +186,7 @@ export default class MainApp extends React.Component {
             weekDayStats = weekDayStats.slice();
             //swap day stat loaded from the server with the current one
             weekDayStats.shift();
-            weekDayStats.unshift(this.state.dayStats);
+            weekDayStats.unshift(this.state.dayStat);
         }
 
         if (this.state.showAuthHtml) {
