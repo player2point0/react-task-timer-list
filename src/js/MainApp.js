@@ -51,6 +51,7 @@ export default class MainApp extends React.Component {
                 updatedPomodoro: false,
                 hideSideBar: true,
                 updatedSideBar: true,
+                idleTime: 0,
             },
             sideBarToggles: {
                 showPomodoro: true,

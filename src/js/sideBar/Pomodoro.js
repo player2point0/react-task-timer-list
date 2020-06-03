@@ -3,6 +3,7 @@ import { formatTime, sendNotification } from "../Ultility.js";
 
 export const WORK_TIME = 25 * 60;
 export const BREAK_TIME = 5 * 60;
+const MAX_IDLE_TIME = 5 * 60;
 
 export default class Pomodoro extends React.Component {
 	render() {
@@ -61,8 +62,35 @@ export function pomodoroTick() {
 		}
 	}
 
-	//nothing to do - afk
-	if (!activeTask) return;
+	//idle
+	if (!activeTask){
+		updatedPomodoro.idleTime += deltaTime;
+		this.setState(state => ({
+			pomodoro: updatedPomodoro,
+		}));
+
+		return;
+	}
+
+	else {
+		//been idle for long enough to reset the timer
+		if(this.state.pomodoro.idleTime >= MAX_IDLE_TIME){
+			updatedPomodoro.startedWork = false;
+			updatedPomodoro.startedBreak = false;
+			updatedPomodoro.breakTimeRemaining = BREAK_TIME;
+			updatedPomodoro.workTimeRemaining = WORK_TIME;
+			updatedPomodoro.idleTime = 0;
+
+			this.setState(state => ({
+				pomodoro: updatedPomodoro,
+			}));
+
+			return;
+		}
+
+		//reset the idle when no longer idle
+		updatedPomodoro.idleTime = 0;
+	}
 
 	//if not started and have an active task
 	//then start the work time or the break timer
