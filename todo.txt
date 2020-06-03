@@ -20,7 +20,7 @@
 -add offline strategy
 -redesign as companion app
 -research popout app like spotify web player
--refactor stats and maybe create a custom graph solution (current is depreciated)
+-refactor stats
 -add an install prompt (for pwa) (https://web.dev/customize-install/)
 
 --personal coach--

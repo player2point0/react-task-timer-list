@@ -53,11 +53,24 @@ export default class DayStats extends React.Component {
         let taskData = [];
         let hourData = [];
         let totalWorked = 0;
+        let availableTaskColors = ["#d1fab0", "#c8f9a0", "#bff890", "#b5f781", "#acf671",
+            "#A3F561", "#93dd57", "#82c44e", "#72ac44", "#62933a", "#527b31",];
+        let colorMap = {};
 
         if(currentDayStat !== null && currentDayStat.hasOwnProperty("tasks") && currentDayStat.tasks !== null){
             for (let i = 0; i < currentDayStat.tasks.length; i++) {
 
-                //todo add different colors for tasks
+                let color = "#A3F561";
+
+                if(colorMap.hasOwnProperty(currentDayStat.tasks[i].name)) {
+                    color = colorMap[currentDayStat.tasks[i].name];
+                }
+
+                else if(availableTaskColors.length > 0){
+                    colorMap[currentDayStat.tasks[i].name] = availableTaskColors.pop();
+                    color = colorMap[currentDayStat.tasks[i].name];
+                }
+
                 for(let j = 0;j<currentDayStat.tasks[i].start.length;j++){
 
                     let duration = new Date(currentDayStat.tasks[i].stop[j]) -
@@ -72,6 +85,7 @@ export default class DayStats extends React.Component {
                         angle = 2*Math.PI;
                     }
 
+
                     let newData = {
                         angle0: angle0,
                         angle: angle,
@@ -79,6 +93,7 @@ export default class DayStats extends React.Component {
                         radius0: 2,
                         name: currentDayStat.tasks[i].name,
                         duration: formatTime(duration),
+                        color: color,
                     };
 
                     taskData.push(newData);
