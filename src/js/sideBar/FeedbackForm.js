@@ -1,7 +1,7 @@
 import React from 'react';
 import "../../css/feedback.css";
 
-export default class DayStats extends React.Component {
+export default class FeedbackForm extends React.Component {
 
     constructor(props) {
         super(props);
