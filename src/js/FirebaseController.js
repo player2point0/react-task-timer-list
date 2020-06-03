@@ -84,11 +84,11 @@ export async function getWeekStats(weekDate){
     let weekDayStatPromises = [];
 
     for(let i = 0;i<7;i++){
-        weekDate.setDate(weekDate.getDate()-1);
-
         weekDayStatPromises.push(
             this.firebaseGetDayStats(weekDate)
         );
+
+        weekDate.setDate(weekDate.getDate()-1);
     }
 
     return await Promise.all(weekDayStatPromises);

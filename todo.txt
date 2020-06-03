@@ -6,11 +6,9 @@
 -host it with a good domain name (https://domains.google.com/m/registrar/search/favorites?)
 -add start info for first time users
 -improve the notification ux
--reset the pomodoro if paused for more than 5 minutes
 -rename dayStats to dayStat or something less confusing
 
 --week overview--
--create a get week day stats function
 -create a graph of time for each week day
 -create a heat map for each week
 

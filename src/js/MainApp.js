@@ -184,6 +184,8 @@ export default class MainApp extends React.Component {
 
         if (weekDayStats) {
             weekDayStats = weekDayStats.slice();
+            //swap day stat loaded from the server with the current one
+            weekDayStats.shift();
             weekDayStats.unshift(this.state.dayStats);
         }
 
