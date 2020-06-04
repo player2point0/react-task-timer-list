@@ -6,8 +6,7 @@
 -host it with a good domain name (https://domains.google.com/m/registrar/search/favorites?)
 -add start info for first time users
 -improve the notification ux
-
--remove the hole in the day stats graph and change the sizing
+-redesign the dayStats and weekStats
 
 -make task viewing the exact height ot the screen
 -add scroll to objectives maybe?

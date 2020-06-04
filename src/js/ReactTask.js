@@ -93,16 +93,17 @@ class Task extends React.Component {
 
         //display additional details when the task is selected
         if (this.props.isViewing) {
-            taskHeight += TASK_VIEWING_HEIGHT; //expands the task by 50vh to display the buttons, could add a max/min height
+            //taskHeight += TASK_VIEWING_HEIGHT; //expands the task by 50vh to display the buttons, could add a max/min height
+            taskHeight = "100";
 
             let taskObjectives;
 
             //adjust the task height to take the objective height into account
             for (let i = 0; i < this.props.objectives.length; i++) {
-                taskHeight += (this.props.objectives[i].name.length / OBJECTIVE_LINE_LENGTH) * OBJECTIVE_HEIGHT;
+                //taskHeight += (this.props.objectives[i].name.length / OBJECTIVE_LINE_LENGTH) * OBJECTIVE_HEIGHT;
             }
 
-            taskHeight += this.props.objectives.length * OBJECTIVE_HEIGHT;
+            //taskHeight += this.props.objectives.length * OBJECTIVE_HEIGHT;
 
             if (this.props.objectives) {
                 taskObjectives = this.props.objectives.map(objective => (

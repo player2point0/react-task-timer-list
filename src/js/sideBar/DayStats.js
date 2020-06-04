@@ -90,7 +90,7 @@ export default class DayStats extends React.Component {
                         angle0: angle0,
                         angle: angle,
                         radius: 5,
-                        radius0: 2,
+                        radius0: 3,
                         name: currentDayStat.tasks[i].name,
                         duration: formatTime(duration),
                         color: color,
@@ -109,8 +109,8 @@ export default class DayStats extends React.Component {
             let hour = {
                 angle0: (j - 1) * spacing,
                 angle: j * spacing,
-                radius: 4,
-                radius0: 2,
+                radius: 3,
+                radius0: 1,
                 name: hourText+":00"
             };
 
