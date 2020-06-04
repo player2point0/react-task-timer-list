@@ -8,9 +8,6 @@
 -improve the notification ux
 -redesign the dayStats and weekStats
 
--make task viewing the exact height ot the screen
--add scroll to objectives maybe?
-
 --week overview--
 -create a graph of time for each week day
 -create a heat map for each week
@@ -18,6 +15,7 @@
 
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
+-fix previous daystats being removed when the date changes
 
 ----non-essential----
 -add settings
