@@ -86,9 +86,12 @@ class Task extends React.Component {
         if(!this.props.isViewing){
             return (
                 <div
+                    id={this.props.id}
                     className="task"
                     onClick={e => {
                         this.props.taskOnClick(this.props.id, e);
+                        const task = document.getElementById(this.props.id);
+                        if (task) task.scrollIntoView(true);
                     }}
                     style={{
                         height: taskHeight + "vh",

@@ -7,6 +7,8 @@
 -add start info for first time users
 -improve the notification ux
 -redesign the dayStats and weekStats
+-sort the tasks by length or num objectives or age?
+-maybe refactor the scroll to view into displaying a separate popup element
 
 --week overview--
 -create a graph of time for each week day
@@ -64,17 +66,11 @@
 Flow producing activity are:
 
 app can control:
-We are able to concentrate on the activity
-The activity has clear goals
-The activity has direct feedback
+We are able to concentrate on the activity / Freedom from distractions
+The activity has clear goals / Knowing what to do /
+The activity has direct feedback / Knowing how well you are doing / Feedback is immediate
 We feel that we control the activity
 Our worries and concerns disappear
-Knowing what to do
-Knowing how well you are doing
-Freedom from distractions
-Goals are clear
-Feedback is immediate
-
 
 app can't control:
 We are up to the activity

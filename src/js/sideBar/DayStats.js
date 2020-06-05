@@ -109,7 +109,7 @@ export default class DayStats extends React.Component {
             let hour = {
                 angle0: (j - 1) * spacing,
                 angle: j * spacing,
-                radius: 3,
+                radius: 3.5,
                 radius0: 1,
                 name: hourText+":00"
             };
