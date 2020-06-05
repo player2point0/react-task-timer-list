@@ -2,8 +2,10 @@
     border-bottom: 5px solid var(--task-border-color);
     box-sizing: border-box;
     z-index: -3;
-    display: grid;
     width: 100%;
+    background-color: var(--task-background-color);
+    display: grid;
+    grid-template-columns: 1fr;
 }
 
 .taskBody{
@@ -13,25 +15,18 @@
     grid-template-columns: 1fr;
     align-content: center;
     overflow: hidden;
+    padding: 10px;
 }
 .taskBody:hover{
     color: var(--text-hover-color);
 }
 
-.taskBackground{
-    background-color: var(--task-background-color);
-    width: inherit;
-    z-index: -2;
-    position: absolute;
-    left: 0;
-}
-
 .taskViewing{
-    height: 45vh;
     justify-content: space-evenly;
     display: grid;
     grid-template-columns: auto auto auto;
     align-content: center;
+    padding: 10px;
 }
 
 .taskViewingButton{
@@ -45,14 +40,6 @@
 }
 .taskViewingButton:hover{
     color:  var(--text-hover-color);
-}
-
-.taskViewingCover{
-    background-color: var(--task-cover-color);
-    z-index: -1;
-    width: 100%;
-    position: absolute;
-    left: 0;
 }
 
 .taskSelectButton{
