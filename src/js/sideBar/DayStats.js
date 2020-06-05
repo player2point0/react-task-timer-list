@@ -23,7 +23,7 @@ export default class DayStats extends React.Component {
         let minutes = (date.getHours() * 60) + date.getMinutes();
 
         //2PI = 24*60
-        return minutes / (24.0 * 60.0) * (Math.PI * 2);
+        return (minutes / (24.0 * 60.0)) * (Math.PI * 2);
     };
 
     decreaseWeekDayIndex(){
@@ -84,7 +84,6 @@ export default class DayStats extends React.Component {
                     if(angle < angle0){
                         angle = 2*Math.PI;
                     }
-
 
                     let newData = {
                         angle0: angle0,

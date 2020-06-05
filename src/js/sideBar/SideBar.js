@@ -1,6 +1,7 @@
 import React from "react";
 import Pomodoro from "./Pomodoro.js";
 import DayStats from "./DayStats";
+import WeekStats from "./WeekStats";
 import FeedbackForm from "./FeedbackForm";
 import DayOverview from "./DayOverview";
 import "../../css/sideBar.css";
@@ -130,7 +131,9 @@ export default class SideBar extends React.Component {
             }
 
             if (this.state.showWeekStats) {
-                weekStatsHTML = <div>week stats</div>;
+                weekStatsHTML = <WeekStats
+                    weekDayStats={this.props.weekDayStats}
+                />;
             }
         }
 
@@ -163,14 +166,18 @@ export default class SideBar extends React.Component {
                             name={"day stats"}
                             contentHTML={dayStatsHTML}
                         />
+                        <SideBarElement
+                            onClick={this.toggleWeekStats}
+                            name={"week stats"}
+                            contentHTML={weekStatsHTML}
+                        />
                     </div>
+
                     <SideBarElement
                         onClick={this.props.togglePomodoro}
                         name={"pomodoro"}
                         contentHTML={pomodoroHTML}
                     />
-                    {/*<h1 onClick={this.toggleWeekStats}>week stats</h1>}
-                    {weekStatsHTML*/}
                     {/*<SideBarElement
                         onClick={this.props.syncAll}
                         name={"sync all"}
