@@ -17,7 +17,7 @@
 
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
--fix previous daystats being removed when the date changes
+-when changing daystats, it loads an outdated one and gets ride of the second most recent
 
 ----non-essential----
 -add settings

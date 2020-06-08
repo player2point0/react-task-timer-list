@@ -166,11 +166,13 @@ export default class SideBar extends React.Component {
                             name={"day stats"}
                             contentHTML={dayStatsHTML}
                         />
+                        {/*}
                         <SideBarElement
                             onClick={this.toggleWeekStats}
                             name={"week stats"}
                             contentHTML={weekStatsHTML}
                         />
+                        {*/}
                     </div>
 
                     <SideBarElement
