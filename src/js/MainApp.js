@@ -2,12 +2,12 @@ import React from "react";
 import "../css/index.css";
 import "../css/auth.css";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import TaskController from "../js/TaskController.js";
+import TaskController from "./Task/TaskController.js";
 
 import {
     tick, addTask, updateTaskByIdFunc, taskOnClick, startTask, finishTask,
     removeTaskWithId, addTime, saveAllTasks, completeObjective, addObjective
-} from "../js/TaskController";
+} from "./Task/TaskController";
 
 import {
     uiConfig, loadServerData, userAuthChanged,

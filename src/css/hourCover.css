@@ -9,10 +9,14 @@
     min-height: 5vh;
     text-align: right;
     color: var(--hour-text-color);
-    border-bottom: 2px dashed var(--hour-line-color);
     background-color: transparent;
     box-sizing: border-box;
     font-size: var(--small-text-size);
+}
+
+.line{
+    background: linear-gradient(90deg, transparent 25%, var(--hour-line-color) 100%);
+    height: 2px;
 }
 
 

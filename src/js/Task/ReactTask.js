@@ -1,6 +1,6 @@
 import React from "react";
-import "../css/task.css";
-import {formatTime} from "../js/Ultility.js";
+import "../../css/task.css";
+import {formatTime} from "../Ultility.js";
 
 const MIN_TASK_HEIGHT = 5;
 const MIN_HOUR_TIME = 0.1;
@@ -38,6 +38,34 @@ function Objective(props) {
         </div>);
 }
 
+function TaskNotViewing(props) {
+    let taskHeightPer = (props.remainingTime / HOUR_IN_SECONDS) < MIN_HOUR_TIME
+        ? MIN_HOUR_TIME : (props.remainingTime / HOUR_IN_SECONDS);
+    let taskHeight = (taskHeightPer * HOUR_HEIGHT) < MIN_TASK_HEIGHT
+        ? MIN_TASK_HEIGHT : (taskHeightPer * HOUR_HEIGHT);
+
+    return (
+        <div
+            id={props.id}
+            className="task"
+            onClick={e => {
+                props.taskOnClick(props.id, e);
+                const task = document.getElementById(props.id);
+                if (task) task.scrollIntoView(true);
+            }}
+            style={{
+                height: taskHeight + "vh",
+            }}
+        >
+            <div className="taskBody">
+                <div className="taskSelectButton">
+                    <div className="taskName">{props.name}</div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 //renders the task based on the passed properties
 class Task extends React.Component {
 
@@ -61,49 +89,24 @@ class Task extends React.Component {
         e.preventDefault();
         const currentState = this.state;
 
-        if(!currentState.newObjectiveName) return;
+        if (!currentState.newObjectiveName) return;
 
         this.props.addObjective(this.props.id, currentState.newObjectiveName);
 
-        this.setState(state => ({
+        this.setState({
             newObjectiveName: "",
-        }));
+        });
     }
 
     render() {
-        let taskHeightPer = (this.props.remainingTime / HOUR_IN_SECONDS) < MIN_HOUR_TIME
-            ? MIN_HOUR_TIME : (this.props.remainingTime / HOUR_IN_SECONDS);
-        let taskHeight = (taskHeightPer * HOUR_HEIGHT) < MIN_TASK_HEIGHT
-            ? MIN_TASK_HEIGHT : (taskHeightPer * HOUR_HEIGHT);
-
-        const taskContent = (<React.Fragment>
-                <div className="taskSelectButton">
-                    <div className="taskName">{this.props.name}</div>
-                    <div className="taskTime">{formatTime(this.props.remainingTime)}</div>
-                </div>
-            </React.Fragment>);
-
-        if(!this.props.isViewing){
-            return (
-                <div
-                    id={this.props.id}
-                    className="task"
-                    onClick={e => {
-                        this.props.taskOnClick(this.props.id, e);
-                        const task = document.getElementById(this.props.id);
-                        if (task) task.scrollIntoView(true);
-                    }}
-                    style={{
-                        height: taskHeight + "vh",
-                    }}
-                >
-                    <div className="taskBody">
-                        {taskContent}
-                    </div>
-                </div>
-            );
+        if (!this.props.isViewing) {
+            return (<TaskNotViewing
+                name={this.props.name}
+                remainingTime={this.props.remainingTime}
+                id={this.props.id}
+                taskOnClick={this.props.taskOnClick}
+            />);
         }
-
 
         let THIS_SCOPE = this;
         const TASK_ID = this.props.id;
@@ -190,10 +193,13 @@ class Task extends React.Component {
                 }}
                 style={{
                     minHeight: MIN_TASK_VIEWING_HEIGHT + "vh",
-                    }}
+                }}
             >
                 <div className="taskBody">
-                    {taskContent}
+                    <div className="taskSelectButton">
+                        <div className="taskName">{this.props.name}</div>
+                        <div className="taskTime">{formatTime(this.props.remainingTime)}</div>
+                    </div>
                 </div>
                 {taskViewing}
             </div>

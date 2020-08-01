@@ -6,10 +6,6 @@
 -pass in the date to the create task constructor
 
 --redesign--
--remove pomodoro
--remove sidebar
--update task styling
--update hour line styling
 -add a recap screen
 
 --flow reporting--
