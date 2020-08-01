@@ -240,9 +240,17 @@ export function updateTaskByIdFunc(tasks, id, func) {
 export function taskOnClick(id) {
     const updatedTasks = this.state.tasks.slice();
 
-    this.updateTaskByIdFunc(updatedTasks, id, function (updatedTask) {
-        updatedTask.view();
-    });
+    const selectedTask = updatedTasks.find(task => task.id === id);
+
+    selectedTask.view();
+
+    if(selectedTask.isViewing){
+        updatedTasks.forEach(task => {
+           if(task.id !== id && task.isViewing){
+               task.view();
+           }
+        });
+    }
 
     this.setState({
         tasks: updatedTasks,
