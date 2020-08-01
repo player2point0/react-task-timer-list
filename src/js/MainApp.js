@@ -16,15 +16,7 @@ import {
     parseSavedTasks, getCurrentUser, getAuth
 } from "./FirebaseController";
 
-import {formatDayMonth, sendNotification} from "../js/Ultility.js";
-import SideBar from "./sideBar/SideBar.js";
-
-import {
-    BREAK_TIME, WORK_TIME, pomodoroTick,
-    resetPomodoro, stashBreakTime
-} from "./sideBar/Pomodoro"
-
-import {togglePomodoro, toggleSideBar} from "./sideBar/SideBar";
+import {formatDayMonth} from "../js/Ultility.js";
 
 const SAVE_INTERVAL = 5 * 60 * 1000; //in milli for set interval
 
@@ -41,23 +33,6 @@ export default class MainApp extends React.Component {
             setSaveAllTasks: false,
             dayStat: null,
             weekDayStats: null,
-            pomodoro: {
-                startedWork: false,
-                startedBreak: false,
-                workTimeRemaining: WORK_TIME,
-                breakTimeRemaining: BREAK_TIME,
-                stashBreak: false,
-                hidePomodoro: false,
-                updatedPomodoro: false,
-                hideSideBar: true,
-                updatedSideBar: true,
-                idleTime: 0,
-            },
-            sideBarToggles: {
-                showPomodoro: true,
-                showSideBar: false,
-            },
-            lastPomodoroTickTime: new Date(),
         };
 
         this.tick = tick.bind(this);
@@ -81,12 +56,6 @@ export default class MainApp extends React.Component {
         this.getWeekStats = getWeekStats.bind(this);
         this.parseSavedTasks = parseSavedTasks.bind(this);
         this.loadServerData = loadServerData.bind(this);
-
-        this.pomodoroTick = pomodoroTick.bind(this);
-        this.stashBreakTime = stashBreakTime.bind(this);
-        this.resetPomodoro = resetPomodoro.bind(this);
-        this.toggleSideBar = toggleSideBar.bind(this);
-        this.togglePomodoro = togglePomodoro.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -111,10 +80,10 @@ export default class MainApp extends React.Component {
 
             this.saveAllTasks(taskToSave);
 
-            this.setState(state => ({
+            this.setState({
                 setSaveAllTasks: false,
                 task: currentTasks
-            }));
+            });
         }
 
         //check if the day has changed
@@ -128,9 +97,9 @@ export default class MainApp extends React.Component {
                 //add the latest day stat to the front
                 newWeekDayStats.unshift(this.state.dayStat);
 
-                this.setState(state => ({
+                this.setState({
                     weekDayStats: newWeekDayStats,
-                }));
+                });
 
                 this.createNewDayStat();
             }
@@ -172,10 +141,10 @@ export default class MainApp extends React.Component {
             tasks: [],
         };
 
-        this.setState(state => ({
+        this.setState({
             dayStat: newDayStat,
             setSaveAllTasks: true,
-        }));
+        });
     }
 
     render() {
@@ -198,37 +167,19 @@ export default class MainApp extends React.Component {
 
         return (
             <div>
-                <SideBar
+                {authHtml}
+                <TaskController
+                    firebaseSaveTask={this.firebaseSaveTask}
+                    firebaseGetAllTasks={this.firebaseGetAllTasks}
                     tasks={this.state.tasks}
-                    weekDayStats={weekDayStats}
-                    sendNotification={sendNotification}
-                    syncAll={this.loadServerData}
-                    firebaseSaveFeedback={this.firebaseSaveFeedback}
-                    pomodoro={this.state.pomodoro}
-                    pomodoroTick={this.pomodoroTick}
-                    resetPomodoro={this.resetPomodoro}
-                    stashBreakTime={this.stashBreakTime}
-                    sideBarToggles={this.state.sideBarToggles}
-                    toggleSideBar={this.toggleSideBar}
-                    togglePomodoro={this.togglePomodoro}
+                    addTask={this.addTask}
+                    taskOnClick={this.taskOnClick}
+                    startTask={this.startTask}
+                    finishTask={this.finishTask}
+                    addTime={this.addTime}
+                    completeObjective={this.completeObjective}
+                    addObjective={this.addObjective}
                 />
-                <div className={"mainApp"}>
-                    <div className="tasksContainer">
-                        {authHtml}
-                        <TaskController
-                            firebaseSaveTask={this.firebaseSaveTask}
-                            firebaseGetAllTasks={this.firebaseGetAllTasks}
-                            tasks={this.state.tasks}
-                            addTask={this.addTask}
-                            taskOnClick={this.taskOnClick}
-                            startTask={this.startTask}
-                            finishTask={this.finishTask}
-                            addTime={this.addTime}
-                            completeObjective={this.completeObjective}
-                            addObjective={this.addObjective}
-                        />
-                    </div>
-                </div>
             </div>
         );
     }

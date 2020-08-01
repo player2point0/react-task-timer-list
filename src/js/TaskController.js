@@ -46,11 +46,11 @@ export default class TaskController extends React.Component {
         e.preventDefault();
         const currentState = this.state;
         this.props.addTask(currentState);
-        this.setState(state => ({
+        this.setState({
             newTaskName: "",
             newTaskHours: "0",
             newTaskMins: "0",
-        }));
+        });
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -58,9 +58,9 @@ export default class TaskController extends React.Component {
             const addTaskFrom = document.getElementById("addTaskForm");
             if (addTaskFrom) addTaskFrom.scrollIntoView(false);
 
-            this.setState(state => ({
+            this.setState({
                 scrollToForm: false,
-            }));
+            });
         }
     }
 
@@ -163,12 +163,6 @@ export function tick() {
 
                     this.setState({setSaveAllTasks: true});
                 }
-            } else {
-                if (this.state.pomodoro.startedWork && !this.state.pomodoro.startedBreak) {
-                    updatedDayStat.totalWorked += deltaTime;
-                } else if (this.state.pomodoro.startedWork && this.state.pomodoro.startedBreak) {
-                    updatedDayStat.totalBreak += deltaTime;
-                }
             }
 
             let taskInDayStat = false;
@@ -194,11 +188,11 @@ export function tick() {
         }
     }
 
-    this.setState(state => ({
+    this.setState({
         tasks: updatedTasks,
         lastTickTime: currentDate,
         dayStat: updatedDayStat
-    }));
+    });
 }
 
 export function addTask(currentState) {

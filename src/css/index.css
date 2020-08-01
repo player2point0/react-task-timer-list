@@ -39,16 +39,6 @@ body {
     width: 100%;
 }
 
-/* adds a space for the sidebar*/
-.mainApp{
-    font-size: var(--medium-text-size);
-    display: grid;
-    grid-template-columns: 1em auto;
-}
-.tasksContainer{
-    grid-column-start: 2;
-}
-
 @media only screen and (max-width: 600px) {
     *{
         --large-text-size: 15vw;
@@ -59,16 +49,5 @@ body {
 
     body {
       background-color: lightblue;
-    }
-
-    .mainApp{
-        font-size: var(--medium-text-size);
-        grid-template-columns: none;
-        grid-template-rows: 1.5ex auto;
-    }
-
-    .tasksContainer{
-        grid-column-start: unset;
-        grid-row-start: 2;
     }
   }

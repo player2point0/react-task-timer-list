@@ -1,3 +1,21 @@
+--refactor--
+
+
+--future tasks--
+-add a set date button to add task
+-pass in the date to the create task constructor
+
+--redesign--
+-remove pomodoro
+-remove sidebar
+-update task styling
+-update hour line styling
+-add a recap screen
+
+--flow reporting--
+-create the flow input chart
+-update the backend and db code
+
 --prelaunch--
 -check security (https://www.youtube.com/watch?v=PUBnlbjZFAI&t=142s)
 -test on different devices and web browsers
@@ -57,6 +75,7 @@
 (https://www.reddit.com/r/productivity/top/)
 
 --ai--
+-setup firebase ml using a tensorflow lite model
 -experiment with using a monte carlo tree search to order the tasks
 -add ai autocomplete for task names and suggested duration
 -create different user personality bots to train ai e.g. an organised bot, a procrastinator, a long distance, a sprinter
