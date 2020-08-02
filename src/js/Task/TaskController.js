@@ -1,5 +1,5 @@
 import React from "react";
-import Task from "./ReactTask.js";
+import Task from "./Task.js";
 import HoursOverlay from "../HoursOverlay.js";
 import "../../css/addTaskForm.css";
 import {requestNotifications, sendNotification} from "../Ultility";
@@ -123,6 +123,9 @@ export default class TaskController extends React.Component {
                         started={task.started}
                         paused={task.paused}
                         isViewing={task.isViewing}
+                        finished={task.finished}
+                        flowReported={task.flowReported}
+                        reportFlow={this.props.reportFlow}
                         taskOnClick={this.props.taskOnClick}
                         startTask={this.props.startTask}
                         finishTask={this.props.finishTask}
@@ -244,11 +247,11 @@ export function taskOnClick(id) {
 
     selectedTask.view();
 
-    if(selectedTask.isViewing){
+    if (selectedTask.isViewing) {
         updatedTasks.forEach(task => {
-           if(task.id !== id && task.isViewing){
-               task.view();
-           }
+            if (task.id !== id && task.isViewing) {
+                task.view();
+            }
         });
     }
 
@@ -326,7 +329,34 @@ export function startTask(id) {
     });
 }
 
-export function finishTask(id) {
+export function reportFlow(id, focus, productive) {
+    const updatedDayStat = this.state.dayStat;
+    const currentTask = updatedDayStat.tasks.find(task => task.id === id);
+    const REPORT_DELAY = 500;
+
+    //task hasn't been started
+    if (!currentTask) {
+        this.setState({
+            setSaveAllTasks: true,
+            removeTaskId: id
+        });
+
+        return;
+    }
+
+    currentTask.focus = focus;
+    currentTask.productive = productive;
+
+    setTimeout(() => {
+        this.setState({
+            dayStat: updatedDayStat,
+            setSaveAllTasks: true,
+            removeTaskId: id
+        })
+    }, REPORT_DELAY);
+}
+
+export function finishTask(id,) {
     const updatedTasks = this.state.tasks.slice();
 
     this.updateTaskByIdFunc(updatedTasks, id, function (updatedTask) {
@@ -336,7 +366,7 @@ export function finishTask(id) {
     this.setState({
         tasks: updatedTasks,
         setSaveAllTasks: true,
-        removeTaskId: id
+        //removeTaskId: id
     });
 }
 

@@ -1,12 +1,10 @@
 import React from "react";
-import "../../css/task.css";
+import "../../css/taskViewing.css";
 import {formatTime} from "../Ultility.js";
+import TaskNotViewing from "./TaskNotViewing";
+import FlowReport from "./FlowReport";
 
-const MIN_TASK_HEIGHT = 5;
-const MIN_HOUR_TIME = 0.1;
-const HOUR_HEIGHT = 30;
 const MIN_TASK_VIEWING_HEIGHT = 100;
-const HOUR_IN_SECONDS = 60 * 60;
 
 function Objective(props) {
 
@@ -36,34 +34,6 @@ function Objective(props) {
             {objectiveName}
             {completeButton}
         </div>);
-}
-
-function TaskNotViewing(props) {
-    let taskHeightPer = (props.remainingTime / HOUR_IN_SECONDS) < MIN_HOUR_TIME
-        ? MIN_HOUR_TIME : (props.remainingTime / HOUR_IN_SECONDS);
-    let taskHeight = (taskHeightPer * HOUR_HEIGHT) < MIN_TASK_HEIGHT
-        ? MIN_TASK_HEIGHT : (taskHeightPer * HOUR_HEIGHT);
-
-    return (
-        <div
-            id={props.id}
-            className="task"
-            onClick={e => {
-                props.taskOnClick(props.id, e);
-                const task = document.getElementById(props.id);
-                if (task) task.scrollIntoView(true);
-            }}
-            style={{
-                height: taskHeight + "vh",
-            }}
-        >
-            <div className="taskBody">
-                <div className="taskSelectButton">
-                    <div className="taskName">{props.name}</div>
-                </div>
-            </div>
-        </div>
-    );
 }
 
 //renders the task based on the passed properties
@@ -108,6 +78,17 @@ class Task extends React.Component {
             />);
         }
 
+        if(this.props.finished){
+            if(!this.props.started){
+                this.props.reportFlow(this.props.id, null, null);
+            }
+
+            return <FlowReport
+                onDone={this.props.reportFlow}
+                id={this.props.id}
+            />;
+        }
+
         let THIS_SCOPE = this;
         const TASK_ID = this.props.id;
 
@@ -131,28 +112,6 @@ class Task extends React.Component {
 
         const taskViewing = (
             <React.Fragment>
-                <div className="taskObjectives">
-                    {taskObjectives}
-                    <form
-                        className="addObjectiveForm"
-                        onSubmit={this.handleSubmit}
-                        autoComplete="off"
-                        onClick={function (e) {
-                            e.stopPropagation();
-                        }}
-                    >
-                        <input
-                            id="objective-name-input"
-                            type="text"
-                            className="addObjectiveInput"
-                            autoFocus
-                            onChange={this.handleNewObjectiveNameChange}
-                            value={this.state.newObjectiveName}
-                            placeholder="objective"
-                        />
-                        <button>add</button>
-                    </form>
-                </div>
                 <div className="taskViewing">
                     <button
                         className="taskViewingButton"
@@ -181,6 +140,28 @@ class Task extends React.Component {
                     >
                         add time
                     </button>
+                </div>
+                <div className="taskObjectives">
+                    {taskObjectives}
+                    <form
+                        className="addObjectiveForm"
+                        onSubmit={this.handleSubmit}
+                        autoComplete="off"
+                        onClick={function (e) {
+                            e.stopPropagation();
+                        }}
+                    >
+                        <input
+                            id="objective-name-input"
+                            type="text"
+                            className="addObjectiveInput"
+                            autoFocus
+                            onChange={this.handleNewObjectiveNameChange}
+                            value={this.state.newObjectiveName}
+                            placeholder="objective"
+                        />
+                        <button>add</button>
+                    </form>
                 </div>
             </React.Fragment>
         );

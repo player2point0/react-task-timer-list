@@ -6,7 +6,8 @@ import TaskController from "./Task/TaskController.js";
 
 import {
     tick, addTask, updateTaskByIdFunc, taskOnClick, startTask, finishTask,
-    removeTaskWithId, addTime, saveAllTasks, completeObjective, addObjective
+    reportFlow,removeTaskWithId, addTime, saveAllTasks, completeObjective,
+    addObjective
 } from "./Task/TaskController";
 
 import {
@@ -42,6 +43,7 @@ export default class MainApp extends React.Component {
         this.startTask = startTask.bind(this);
         this.finishTask = finishTask.bind(this);
         this.addTime = addTime.bind(this);
+        this.reportFlow = reportFlow.bind(this);
         this.completeObjective = completeObjective.bind(this);
         this.addObjective = addObjective.bind(this);
         this.removeTaskWithId = removeTaskWithId.bind(this);
@@ -176,6 +178,7 @@ export default class MainApp extends React.Component {
                     taskOnClick={this.taskOnClick}
                     startTask={this.startTask}
                     finishTask={this.finishTask}
+                    reportFlow={this.reportFlow}
                     addTime={this.addTime}
                     completeObjective={this.completeObjective}
                     addObjective={this.addObjective}
