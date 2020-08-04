@@ -3,6 +3,7 @@ import "../css/index.css";
 import "../css/auth.css";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import TaskController from "./Task/TaskController.js";
+import DayRecap from "./DayRecap";
 
 import {
     tick, addTask, updateTaskByIdFunc, taskOnClick, startTask, finishTask,
@@ -169,6 +170,9 @@ export default class MainApp extends React.Component {
 
         return (
             <div>
+                <DayRecap
+                    dayStat={this.state.dayStat}
+                />
                 {authHtml}
                 <TaskController
                     firebaseSaveTask={this.firebaseSaveTask}

@@ -10,7 +10,7 @@
 -add a recap screen
 
 --flow reporting--
--update the backend and db code
+-add flow reporting to pause
 
 --prelaunch--
 -check security (https://www.youtube.com/watch?v=PUBnlbjZFAI&t=142s)

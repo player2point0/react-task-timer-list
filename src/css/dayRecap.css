@@ -1,0 +1,12 @@
+.dayRecapButton{
+    position: fixed;
+    bottom: 0;
+    padding: 10px;
+    background-color: #0FA3B1;
+    color: white;
+    font-size: var(--small-text-size);
+}
+
+.dayRecapButton:hover{
+    color: var(--text-hover-color);
+}

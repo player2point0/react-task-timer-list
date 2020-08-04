@@ -1,6 +1,7 @@
 import React from "react";
 import "../css/hourCover.css";
 import {padNumWithZero} from "./Ultility";
+import uid from "uid";
 
 const HOUR_HEIGHT = 30;
 
@@ -43,6 +44,7 @@ class HoursOverlay extends React.Component {
         mins = padNumWithZero(mins);
 
         hourBars.push(<HourBar
+            key={uid(16)}
             heightPer={heightPer}
             hour={currentHourFormatted}
             mins={mins}
@@ -52,10 +54,10 @@ class HoursOverlay extends React.Component {
             currentTime.setHours(currentHour + i);
             let hour = padNumWithZero(currentTime.getHours().toString());
             hourBars.push(<HourBar
+                key={uid(16)}
                 heightPer={1}
                 hour={hour}
                 mins={"00"}
-
             />);
         }
 

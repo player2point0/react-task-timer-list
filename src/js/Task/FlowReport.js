@@ -25,6 +25,7 @@ export default function ({onDone, id}) {
         y: screenHeight / 2 - inputPinDim / 2
     });
 
+    //todo add the option to leave this blank for tasks where this would not apply e.g. lunch
     const flowInputOnClick = (e) => {
         const distX = (screenWidth - inputSideLength) / 2;
         const distY = (screenHeight - inputSideLength) / 2;
