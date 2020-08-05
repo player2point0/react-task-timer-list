@@ -1,12 +1,19 @@
-.dayRecapButton{
-    position: fixed;
-    bottom: 0;
-    padding: 10px;
-    background-color: #0FA3B1;
-    color: white;
-    font-size: var(--small-text-size);
+.recapTask{
+    border-bottom: 5px solid var(--task-border-color);
+    box-sizing: border-box;
+    z-index: -3;
+    width: 100%;
+    background-color: var(--task-background-color);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-content: center;
+    align-items: center;
 }
 
-.dayRecapButton:hover{
-    color: var(--text-hover-color);
+.recapTaskName{
+    text-align: center;
+    z-index: 10;
+    height: auto;
+    font-size: var(--medium-text-size);
+    color: var(--text-color);
 }

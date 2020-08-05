@@ -45,3 +45,8 @@ export function padNumWithZero(val) {
     if(val < 10) return "0"+val;
     return val;
 }
+
+export function dateDiffInSeconds(startTime, stopTime) {
+    //returns the difference in seconds
+    return (new Date(stopTime) - new Date(startTime)) / 1000;
+}

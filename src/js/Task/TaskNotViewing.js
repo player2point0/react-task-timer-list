@@ -1,10 +1,10 @@
 import React from "react";
 import "../../css/taskNotViewing.css";
 
-const MIN_TASK_HEIGHT = 5;
-const MIN_HOUR_TIME = 0.1;
-const HOUR_HEIGHT = 30;
-const HOUR_IN_SECONDS = 60 * 60;
+export const MIN_TASK_HEIGHT = 5;
+export const MIN_HOUR_TIME = 0.1;
+export const HOUR_HEIGHT = 30;
+export const HOUR_IN_SECONDS = 60 * 60;
 
 export default function TaskNotViewing(props) {
     let taskHeightPer = (props.remainingTime / HOUR_IN_SECONDS) < MIN_HOUR_TIME
