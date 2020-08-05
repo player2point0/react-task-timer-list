@@ -35,8 +35,10 @@ export default class MainApp extends React.Component {
             setSaveAllTasks: false,
             dayStat: null,
             weekDayStats: null,
+            showRecap: false,
         };
 
+        this.toggleDayRecap = this.toggleDayRecap.bind(this);
         this.tick = tick.bind(this);
         this.saveAllTasks = saveAllTasks.bind(this);
         this.addTask = addTask.bind(this);
@@ -150,6 +152,12 @@ export default class MainApp extends React.Component {
         });
     }
 
+    toggleDayRecap() {
+        this.setState(state => ({
+            showRecap: !state.showRecap,
+        }));
+    }
+
     render() {
         let authHtml;
         let weekDayStats = this.state.weekDayStats;
@@ -170,11 +178,17 @@ export default class MainApp extends React.Component {
 
         return (
             <div>
-                <DayRecap
+                    <div
+                        className={"dayRecapButton"}
+                        onClick={this.toggleDayRecap}
+                    >
+                        recap
+                    </div>
+                {this.state.showRecap? <DayRecap
                     dayStat={this.state.dayStat}
-                />
+                />:""}
                 {authHtml}
-                <TaskController
+                {!this.state.showRecap?<TaskController
                     firebaseSaveTask={this.firebaseSaveTask}
                     firebaseGetAllTasks={this.firebaseGetAllTasks}
                     tasks={this.state.tasks}
@@ -186,7 +200,7 @@ export default class MainApp extends React.Component {
                     addTime={this.addTime}
                     completeObjective={this.completeObjective}
                     addObjective={this.addObjective}
-                />
+                />:""}
             </div>
         );
     }
