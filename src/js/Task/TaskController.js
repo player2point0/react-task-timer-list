@@ -66,6 +66,7 @@ export default class TaskController extends React.Component {
 
     render() {
         let addTaskHtml;
+        const taskViewing = this.props.tasks.some(task => task.isViewing);
 
         if (this.state.showTaskForm) {
             //display the inputs
@@ -112,7 +113,10 @@ export default class TaskController extends React.Component {
 
         return (
             <div>
-                <HoursOverlay tasks={this.props.tasks}/>
+                {!taskViewing?<HoursOverlay
+                    startTime={new Date()}
+                    numHours={12}
+                />:""}
                 {this.props.tasks.map(task => (
                     <Task
                         key={task.id}

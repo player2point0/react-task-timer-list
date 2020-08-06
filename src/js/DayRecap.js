@@ -5,12 +5,12 @@ import uid from "uid";
 import {dateDiffInSeconds} from "./Ultility";
 
 import {MIN_TASK_HEIGHT, MIN_HOUR_TIME, HOUR_HEIGHT, HOUR_IN_SECONDS} from './Task/TaskNotViewing';
+import HoursOverlay from "./HoursOverlay";
 
 export default function DayRecap({dayStat}) {
     if (!dayStat) return "no daystats loaded";
     if(dayStat.tasks.length === 0) return "no daystats loaded";
 
-    //todo refactor the hours overlay to take a start and a end time
     //go through each task
     //in each task go through the start times
     //compare the gap between the start time and the end time
@@ -77,6 +77,10 @@ export default function DayRecap({dayStat}) {
 
     return (
         <div>
+            <HoursOverlay
+                startTime={new Date(recapTasksAndBreaks[0].startTime)}
+                numHours={12}
+            />
             {recapTasksAndBreaks.map(task => <DayRecapTask
                 key={uid(16)}
                 startTime={task.startTime}

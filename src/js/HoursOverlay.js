@@ -20,23 +20,13 @@ function HourBar(props) {
     );
 }
 
-
 //renders the hours overlay
 class HoursOverlay extends React.Component {
     render() {
-        //could adjust the height of the bars based on an viewed tasks
-        //check if any tasks are viewed and if so don't display the overlay
-        for (let i = 0; i < this.props.tasks.length; i++) {
-            if (this.props.tasks[i].isViewing) {
-                return <div className="hourCover"/>;
-            }
-        }
-
         //draw hour bars for the next 12 hours
         let hourBars = [];
-        let currentTime = new Date();
-        let currentHour = currentTime.getHours();
-        let currentHourFormatted = padNumWithZero(currentHour);
+        let currentTime = this.props.startTime;
+        let currentHourFormatted = padNumWithZero(currentTime.getHours());
 
         //draw the first bar smaller based on the remaining time in the hour
         let mins = currentTime.getMinutes();
@@ -50,8 +40,8 @@ class HoursOverlay extends React.Component {
             mins={mins}
         />);
 
-        for (let i = 1; i < 12; i++) {
-            currentTime.setHours(currentHour + i);
+        for (let i = 1; i < this.props.numHours; i++) {
+            currentTime.setHours(currentTime.getHours() + 1);
             let hour = padNumWithZero(currentTime.getHours().toString());
             hourBars.push(<HourBar
                 key={uid(16)}

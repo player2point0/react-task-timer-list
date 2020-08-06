@@ -2,6 +2,7 @@
 -update code base to use hooks
 -remove unused modules
 -move time sizing constants to a separate class and maybe generate them on the fly
+-remove the taskViewing property
 
 --future tasks--
 -add a set date button to add task
