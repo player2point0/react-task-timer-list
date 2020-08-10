@@ -4,16 +4,19 @@
 -move time sizing constants to a separate class and maybe generate them on the fly
 -remove the taskViewing property
 
+--redesign--
+-reduce the sizing of tasks etc
+
+--day recap--
+-fix bug
+-add unit test
+
+--flow reporting--
+-fix resizing of window
+
 --future tasks--
 -add a set date button to add task
 -pass in the date to the create task constructor
-
---redesign--
--reduce the sizing of tasks etc
--add a recap screen
-
---flow reporting--
--add flow reporting to pause
 
 --prelaunch--
 -check security (https://www.youtube.com/watch?v=PUBnlbjZFAI&t=142s)

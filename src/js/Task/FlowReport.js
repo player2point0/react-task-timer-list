@@ -1,17 +1,19 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import "../../css/flowReport.css";
 
 
 const INPUT_SIDE_SCALE = 0.75;
 
 
-export default function ({onDone, id}) {
+export default function FlowReport({onDone, id, setReportFlow}) {
     //todo when open prevent scrolling to stop drifting placements
     //todo recalculate the values when the window is scaled
 
-    const screenWidth = document.documentElement.clientWidth
+    const screenWidth = window.innerWidth
+        || document.documentElement.clientWidth
         || document.body.clientWidth;
-    const screenHeight = document.documentElement.clientHeight
+    const screenHeight = window.innerHeight
+        || document.documentElement.clientHeight
         || document.body.clientHeight;
 
     const inputWidth = screenWidth * INPUT_SIDE_SCALE;
@@ -25,10 +27,31 @@ export default function ({onDone, id}) {
         y: screenHeight / 2 - inputPinDim / 2
     });
 
+
+    React.useEffect(() => {
+        function handleResize() {
+            const inputWidth = screenWidth * INPUT_SIDE_SCALE;
+            const inputHeight = screenHeight * INPUT_SIDE_SCALE;
+            const inputSideLength = inputWidth < inputHeight ? inputWidth : inputHeight;
+
+            const inputPinDim = 50;
+
+            //todo maybe change to percentge to fix sizing
+            setInputPinCoords({
+                x: screenWidth / 2 - inputPinDim / 2,
+                y: screenHeight / 2 - inputPinDim / 2
+            });
+        }
+
+        window.addEventListener('onchange', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    });
+
     //todo add the option to leave this blank for tasks where this would not apply e.g. lunch
     const flowInputOnClick = (e) => {
         const distX = (screenWidth - inputSideLength) / 2;
-        const distY = (screenHeight - inputSideLength) / 2;
+        const distY = (screenHeight - inputSideLength) / 2 - document.body.scrollHeight;
 
         const focused = (e.clientX - distX) / inputSideLength;
         const productive = 1 - (e.clientY - distY) / inputSideLength;
@@ -43,7 +66,6 @@ export default function ({onDone, id}) {
 
         onDone(id, focusedRounded, productiveRounded);
     };
-
 
     return (
         <div className={"flowBody"}>

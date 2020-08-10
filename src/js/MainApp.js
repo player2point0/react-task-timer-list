@@ -8,7 +8,7 @@ import DayRecap from "./DayRecap";
 import {
     tick, addTask, updateTaskByIdFunc, taskOnClick, startTask, finishTask,
     reportFlow,removeTaskWithId, addTime, saveAllTasks, completeObjective,
-    addObjective
+    addObjective, setReportFlow,
 } from "./Task/TaskController";
 
 import {
@@ -47,6 +47,7 @@ export default class MainApp extends React.Component {
         this.finishTask = finishTask.bind(this);
         this.addTime = addTime.bind(this);
         this.reportFlow = reportFlow.bind(this);
+        this.setReportFlow = setReportFlow.bind(this);
         this.completeObjective = completeObjective.bind(this);
         this.addObjective = addObjective.bind(this);
         this.removeTaskWithId = removeTaskWithId.bind(this);
@@ -196,6 +197,7 @@ export default class MainApp extends React.Component {
                     taskOnClick={this.taskOnClick}
                     startTask={this.startTask}
                     finishTask={this.finishTask}
+                    setReportFlow={this.setReportFlow}
                     reportFlow={this.reportFlow}
                     addTime={this.addTime}
                     completeObjective={this.completeObjective}

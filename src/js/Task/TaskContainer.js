@@ -13,6 +13,7 @@ class TaskContainer {
 			this.timeUp = savedTask.timeUp;
 			this.started = savedTask.started;
 			this.finished = savedTask.finished;
+			this.reportFlowFlag = false;
 			//load tasks as paused to prevent daystat problems and for ux
 			this.paused = savedTask.started;
 			this.isViewing = savedTask.isViewing;
@@ -31,6 +32,7 @@ class TaskContainer {
 			this.timeUp = false;
 			this.started = false;
 			this.finished = false;
+			this.reportFlowFlag = false;
 			this.paused = false;
 			this.isViewing = false;
 			this.stats = {
@@ -102,6 +104,11 @@ class TaskContainer {
 	view(){
 		this.isViewing = !this.isViewing;
 		this.needsSaved = true;
+	}
+
+	//todo could probably change to a toggle
+	setReportFlow(val){
+		this.reportFlowFlag = val;
 	}
 }
 

@@ -69,6 +69,8 @@ class Task extends React.Component {
     }
 
     render() {
+        let THIS_SCOPE = this;
+
         if (!this.props.isViewing) {
             return (<TaskNotViewing
                 name={this.props.name}
@@ -78,18 +80,23 @@ class Task extends React.Component {
             />);
         }
 
-        if(this.props.finished){
-            if(!this.props.started){
-                this.props.reportFlow(this.props.id, null, null);
+        if(this.props.reportFlowFlag){
+
+            if(this.props.finished){
+                return <FlowReport
+                    onDone={this.props.reportFlow}
+                    id={this.props.id}
+                />;
             }
 
-            return <FlowReport
-                onDone={this.props.reportFlow}
-                id={this.props.id}
-            />;
+            if(this.props.paused){
+                return <FlowReport
+                    onDone={this.props.reportFlow}
+                    id={this.props.id}
+                />;
+            }
         }
 
-        let THIS_SCOPE = this;
         const TASK_ID = this.props.id;
 
         let taskObjectives;
@@ -117,7 +124,10 @@ class Task extends React.Component {
                         className="taskViewingButton"
                         onClick={function (e) {
                             e.stopPropagation();
+                            //set the pause tag if not started and the flow tag
                             THIS_SCOPE.props.startTask(THIS_SCOPE.props.id);
+                            //todo need a set report flow method in task controller
+                            THIS_SCOPE.props.setReportFlow(THIS_SCOPE.props.id, true);
                         }}
                     >
                         {startButtonText}
@@ -126,7 +136,9 @@ class Task extends React.Component {
                         className="taskViewingButton"
                         onClick={function (e) {
                             e.stopPropagation();
+                            //set the finished flag and the flow tag
                             THIS_SCOPE.props.finishTask(THIS_SCOPE.props.id);
+                            THIS_SCOPE.props.setReportFlow(THIS_SCOPE.props.id, true);
                         }}
                     >
                         finish

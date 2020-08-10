@@ -68,6 +68,35 @@ export default class TaskController extends React.Component {
         let addTaskHtml;
         const taskViewing = this.props.tasks.some(task => task.isViewing);
 
+        //if reporting flow then display just the report flow to prevent scrolling bugs
+        for(let i = 0;i<this.props.tasks.length;i++){
+            const task = this.props.tasks[i];
+
+            if(task.reportFlowFlag && (task.paused || task.finished)){
+                return <Task
+                    key={task.id}
+                    id={task.id}
+                    name={task.name}
+                    totalTime={task.totalTime}
+                    remainingTime={task.remainingTime}
+                    started={task.started}
+                    paused={task.paused}
+                    isViewing={task.isViewing}
+                    finished={task.finished}
+                    reportFlowFlag={task.reportFlowFlag}
+                    setReportFlow={this.props.setReportFlow}
+                    reportFlow={this.props.reportFlow}
+                    taskOnClick={this.props.taskOnClick}
+                    startTask={this.props.startTask}
+                    finishTask={this.props.finishTask}
+                    addTime={this.props.addTime}
+                    objectives={task.objectives}
+                    completeObjective={this.props.completeObjective}
+                    addObjective={this.props.addObjective}
+                />
+            }
+        }
+
         if (this.state.showTaskForm) {
             //display the inputs
             addTaskHtml = (
@@ -128,7 +157,8 @@ export default class TaskController extends React.Component {
                         paused={task.paused}
                         isViewing={task.isViewing}
                         finished={task.finished}
-                        flowReported={task.flowReported}
+                        reportFlowFlag={task.reportFlowFlag}
+                        setReportFlow={this.props.setReportFlow}
                         reportFlow={this.props.reportFlow}
                         taskOnClick={this.props.taskOnClick}
                         startTask={this.props.startTask}
@@ -333,13 +363,31 @@ export function startTask(id) {
     });
 }
 
+export function setReportFlow(id, val){
+
+    const updatedTasks = this.state.tasks.slice();
+
+    this.updateTaskByIdFunc(updatedTasks, id, function (updatedTask) {
+        updatedTask.setReportFlow(val);
+    });
+
+    this.setState({
+        tasks: updatedTasks,
+    });
+}
+
 export function reportFlow(id, focus, productive) {
     const updatedDayStat = this.state.dayStat;
-    const currentTask = updatedDayStat.tasks.find(task => task.id === id);
+    const currentDayStatTask = updatedDayStat.tasks.find(task => task.id === id);
+
+    //todo check this
+    const updatedTasks = this.state.tasks;
+    const currentTask = updatedTasks.find(task => task.id === id);
+
     const REPORT_DELAY = 500;
 
     //task hasn't been started
-    if (!currentTask) {
+    if (!currentDayStatTask || !currentTask) {
         this.setState({
             setSaveAllTasks: true,
             removeTaskId: id
@@ -348,15 +396,32 @@ export function reportFlow(id, focus, productive) {
         return;
     }
 
-    currentTask.focus = focus;
-    currentTask.productive = productive;
+    if(currentDayStatTask.hasOwnProperty("focus")){
+        currentDayStatTask.focus.push(focus);
+    }
+    else currentDayStatTask.focus = [focus];
+
+    if(currentDayStatTask.hasOwnProperty("productive")){
+        currentDayStatTask.productive.push(productive);
+    }
+    else currentDayStatTask.productive = [productive];
+
+    //separate server and animation logic for speed
+    this.setState({
+        dayStat: updatedDayStat,
+        setSaveAllTasks: true,
+    });
 
     setTimeout(() => {
-        this.setState({
-            dayStat: updatedDayStat,
-            setSaveAllTasks: true,
-            removeTaskId: id
-        })
+        if(currentTask.finished){
+            this.setState({
+                dayStat: updatedDayStat,
+                setSaveAllTasks: true,
+                removeTaskId: id
+            });
+        }
+
+        this.setReportFlow(id, false);
     }, REPORT_DELAY);
 }
 
