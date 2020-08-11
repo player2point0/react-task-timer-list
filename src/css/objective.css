@@ -1,0 +1,34 @@
+.taskObjective, .addObjectiveForm{
+    border-top: 1px solid var(--task-border-color);
+    color: var(--text-color);
+    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    align-content: center;
+    text-align: center;
+}
+
+.taskObjective button, .addObjectiveForm button{
+    height: auto;
+    align-content: center;
+    font-size: var(--small-text-size);
+    background-color: var(--button-color);
+    color: var(--text-color);
+    border: none;
+}
+
+.taskObjective button:hover, .addObjectiveForm button:hover{
+    color: var(--text-hover-color);
+}
+
+.taskObjectiveName, .addObjectiveInput{
+    font-size: var(--small-text-size);
+    overflow: hidden;
+    overflow-wrap: break-word;
+}
+
+.addObjectiveForm input{
+    text-align: center;
+    border:none;
+    border-bottom: 2px solid var(--task-border-color);
+}

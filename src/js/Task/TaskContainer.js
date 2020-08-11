@@ -1,5 +1,7 @@
 import uid from "uid";
 
+const TEN_MINS = 10*60;
+
 class TaskContainer {
 	constructor(name, duration, date, savedTask) {
 		if (savedTask) {
@@ -28,7 +30,7 @@ class TaskContainer {
 			//time in seconds
 			this.totalTime = duration;
 			this.remainingTime = duration;
-			this.addTimeAmt = Number(duration / 2);
+			this.addTimeAmt = TEN_MINS;//Number(duration / 2);
 			this.timeUp = false;
 			this.started = false;
 			this.finished = false;

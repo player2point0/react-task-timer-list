@@ -1,4 +1,4 @@
-.task{
+.taskVIewing{
     border-bottom: 5px solid var(--task-border-color);
     box-sizing: border-box;
     z-index: -3;
@@ -6,23 +6,10 @@
     background-color: var(--task-background-color);
     display: grid;
     grid-template-columns: 1fr;
+    height: 100vh;
 }
 
-.taskBody{
-    color: var(--text-color);
-    justify-content: space-evenly;
-    display: inline-grid;
-    grid-template-columns: 1fr;
-    align-content: center;
-    overflow: hidden;
-    padding: 10px;
-    height: 20vh;
-}
-.taskBody:hover{
-    color: var(--text-hover-color);
-}
-
-.taskViewing{
+.taskViewingButtons{
     justify-content: space-evenly;
     display: grid;
     grid-template-columns: auto auto auto;
@@ -43,84 +30,29 @@
     color:  var(--text-hover-color);
 }
 
-.taskSelectButton{
-    min-height: 10vh;
-    height: inherit;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-content: center;
-    align-items: center;
+.taskControls{
+    border-top: 1px solid white;
 }
 
-.taskName{
-    text-align: center;
-    z-index: 10;
-    height: auto;
-    font-size: var(--medium-text-size);
+.taskObjectives{
+    padding-top: 5px;
+    height: 70vh;
+    min-height: 70vh;
+    overflow-y: scroll;
 }
 
 .taskTime{
     text-align: center;
     z-index: 10;
     height: auto;
-    font-size: var(--medium-text-size);
-}
-
-.taskObjectives{
-    height: fit-content;
-}
-
-.taskObjective, .addObjectiveForm{
-    border-top: 1px solid var(--task-border-color);
+    font-size: var(--large-text-size);
     color: var(--text-color);
-    justify-content: space-evenly;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    align-content: center;
-    text-align: center;
-}
-
-.taskObjective button, .addObjectiveForm button{
-    height: auto;
-    align-content: center;
-    font-size: var(--small-text-size);
-    background-color: var(--button-color);
-    color: var(--text-color);
-    border: none;
-}
-
-.taskObjective button:hover, .addObjectiveForm button:hover{
-    color: var(--text-hover-color);
-}
-
-.taskObjectiveName, .addObjectiveInput{
-    font-size: var(--small-text-size);
-    overflow: hidden;
-    overflow-wrap: break-word;
-}
-
-.addObjectiveForm input{
-    text-align: center;
-    border:none;
-    border-bottom: 2px solid var(--task-border-color);
 }
 
 @media only screen and (max-width: 600px) {
-    .taskSelectButton{
-        grid-template-columns: auto;
-        grid-row-gap: 10px;
-        min-height: 10vh;
-    }
-
-    .taskViewing{
-        grid-row-gap: 10px;
-        grid-template-columns: auto;
-        height: fit-content;
-    }
 
     .taskViewingButton{
-        width: 75vw;
-        height: 10vh;
+        height: 20vh;
         border-radius: 1px;
     }
 }

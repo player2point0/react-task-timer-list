@@ -3,6 +3,9 @@
 -remove unused modules
 -move time sizing constants to a separate class and maybe generate them on the fly
 -remove the taskViewing property
+-add in redux?
+-change to a better design pattern
+-group css and js into related components
 
 --redesign--
 -reduce the sizing of tasks etc
@@ -13,10 +16,6 @@
 
 --flow reporting--
 -fix resizing of window
-
---future tasks--
--add a set date button to add task
--pass in the date to the create task constructor
 
 --prelaunch--
 -check security (https://www.youtube.com/watch?v=PUBnlbjZFAI&t=142s)
