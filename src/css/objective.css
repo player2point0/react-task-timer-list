@@ -1,11 +1,14 @@
 .taskObjective, .addObjectiveForm{
-    border-top: 1px solid var(--task-border-color);
+    height: 100%;
+    width: 25vw;
+    border-right: 1px solid var(--task-border-color);
     color: var(--text-color);
     justify-content: space-evenly;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
+    display: inline-grid;
+    grid-template-columns: 2fr auto;
     align-content: center;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .taskObjective button, .addObjectiveForm button{

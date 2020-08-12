@@ -6,6 +6,7 @@
 -add in redux?
 -change to a better design pattern
 -group css and js into related components
+-change to a multi page app?
 
 --redesign--
 -reduce the sizing of tasks etc

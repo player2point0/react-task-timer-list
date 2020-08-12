@@ -34,11 +34,17 @@
     border-top: 1px solid white;
 }
 
+.taskObjectiveScrollContainer{
+    width: max-content;
+    height: 100%;
+    box-sizing: border-box;
+}
+
 .taskObjectives{
-    padding-top: 5px;
     height: 70vh;
-    min-height: 70vh;
-    overflow-y: scroll;
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
 }
 
 .taskTime{
@@ -54,5 +60,9 @@
     .taskViewingButton{
         height: 20vh;
         border-radius: 1px;
+    }
+
+    .taskObjectives{
+        height: 60vh;
     }
 }

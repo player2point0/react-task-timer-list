@@ -6,9 +6,6 @@ import TaskViewing from "./TaskViewing";
 
 //renders the task based on the passed properties
 class Task extends React.Component {
-
-
-
     render() {
         if (!this.props.isViewing) {
             return (<TaskNotViewing

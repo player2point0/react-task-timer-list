@@ -12,7 +12,7 @@ export default function TaskViewing({
     const [newObjectiveName, setNewObjectiveName] = useState("");
 
 
-    const handleSubmit = (e) =>{
+    const handleSubmit = (e) => {
         e.preventDefault();
         if (!newObjectiveName) return;
 
@@ -33,15 +33,15 @@ export default function TaskViewing({
         taskObjectives = objectives
             .filter(objective => !objective.hide)
             .map(objective => (
-            <Objective
-                key={objective.id}
-                name={objective.name}
-                id={objective.id}
-                taskId={TASK_ID}
-                finished={objective.finished}
-                completeObjective={completeObjective}
-            />
-        ));
+                <Objective
+                    key={objective.id}
+                    name={objective.name}
+                    id={objective.id}
+                    taskId={TASK_ID}
+                    finished={objective.finished}
+                    completeObjective={completeObjective}
+                />
+            ));
     }
 
     const addTaskObjective =
@@ -95,8 +95,10 @@ export default function TaskViewing({
             }}
         >
             <div className="taskObjectives">
-                {taskObjectives}
-                {addTaskObjective}
+                <div className={"taskObjectiveScrollContainer"}>
+                    {taskObjectives}
+                    {addTaskObjective}
+                </div>
             </div>
             <div className={"taskControls"}>
                 <div className="taskTime">{formatTime(remainingTime)}</div>

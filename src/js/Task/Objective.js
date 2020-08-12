@@ -1,25 +1,22 @@
 import React from "react";
 import '../../css/objective.css';
 
-export default function Objective(props) {
+export default function Objective({completeObjective, taskId, id, name, finished}) {
 
     let completeButton = <button
         onClick={function (e) {
             e.stopPropagation();
-            props.completeObjective(props.taskId, props.id);
+            completeObjective(taskId, id);
         }}
     >done</button>;
 
     let objectiveName = <div
         className={"taskObjectiveName"}
-    >{props.name}</div>;
+    >{name}</div>;
 
-    if (props.finished) {
-        return <div/>
-        /*
+    if (finished) {
         objectiveName = <del>{objectiveName}</del>;
         completeButton = "";
-    */
     }
 
     return (

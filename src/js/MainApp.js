@@ -160,6 +160,9 @@ export default class MainApp extends React.Component {
     }
 
     render() {
+        //todo refactor this to a more advanced system of display content
+        // one that could also be expanded to work with a a/b system
+        // maybe using the state / redux state if it is added
         let authHtml;
         let weekDayStats = this.state.weekDayStats;
 
