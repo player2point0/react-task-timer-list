@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import '../css/dayRecap.css';
-import './Task/TaskNotViewing'
+import './dayRecap.css';
+import '../Task/NotViewing/TaskNotViewing'
 import uid from "uid";
 import {dateDiffInSeconds} from "./Ultility";
 
-import {MIN_TASK_HEIGHT, MIN_HOUR_TIME, HOUR_HEIGHT, HOUR_IN_SECONDS} from './Task/TaskNotViewing';
+import {MIN_TASK_HEIGHT, MIN_HOUR_TIME, HOUR_HEIGHT, HOUR_IN_SECONDS} from '../Task/NotViewing/TaskNotViewing';
 import HoursOverlay from "./HoursOverlay";
 
 export default function DayRecap({dayStat}) {

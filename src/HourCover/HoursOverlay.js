@@ -1,5 +1,5 @@
 import React from "react";
-import "../css/hourCover.css";
+import "./hourCover.css";
 import {padNumWithZero} from "./Ultility";
 import uid from "uid";
 

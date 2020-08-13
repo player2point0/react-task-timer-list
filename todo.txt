@@ -1,12 +1,24 @@
 --refactor--
--update code base to use hooks
 -remove unused modules
 -move time sizing constants to a separate class and maybe generate them on the fly
--remove the taskViewing property
--add in redux?
--change to a better design pattern
--group css and js into related components
--change to a multi page app?
+
+--group files--
+-update import path to be absolute
+-regroup the logic, the current pattern of bind everything probably isn't needed if we change to redux
+
+--hooks--
+-refactor classes into react hooks
+
+--redux--
+-implement redux
+-display components based on the redux state, build a state machine for this
+
+--unit tests-
+-create for day recap
+-look into other classes
+
+--ab testing--
+-create an ab component, that takes two components and will record the flow for that component and user to the db
 
 --redesign--
 -reduce the sizing of tasks etc

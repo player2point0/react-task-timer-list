@@ -1,7 +1,7 @@
 import React from "react";
 import Task from "./Task.js";
-import HoursOverlay from "../HoursOverlay.js";
-import "../../css/addTaskForm.css";
+import HoursOverlay from "../HourCover/HoursOverlay.js";
+import "../MainApp/addTaskForm.css";
 import {requestNotifications, sendNotification} from "../Ultility";
 import TaskContainer from "./TaskContainer";
 

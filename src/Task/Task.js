@@ -1,8 +1,8 @@
 import React from "react";
-import "../../css/taskViewing.css";
-import TaskNotViewing from "./TaskNotViewing";
-import FlowReport from "./FlowReport";
-import TaskViewing from "./TaskViewing";
+import "./Viewing/taskViewing.css";
+import TaskNotViewing from "./NotViewing/TaskNotViewing";
+import FlowReport from "./FlowReport/FlowReport";
+import TaskViewing from "./Viewing/TaskViewing";
 
 //renders the task based on the passed properties
 class Task extends React.Component {

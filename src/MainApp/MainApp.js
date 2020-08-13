@@ -1,15 +1,15 @@
 import React from "react";
-import "../css/index.css";
-import "../css/auth.css";
+import "../index.css";
+import "./auth.css";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import TaskController from "./Task/TaskController.js";
-import DayRecap from "./DayRecap";
+import TaskController from "../Task/TaskController.js";
+import DayRecap from "../DayRecap/DayRecap";
 
 import {
     tick, addTask, updateTaskByIdFunc, taskOnClick, startTask, finishTask,
     reportFlow,removeTaskWithId, addTime, saveAllTasks, completeObjective,
     addObjective, setReportFlow,
-} from "./Task/TaskController";
+} from "../Task/TaskController";
 
 import {
     uiConfig, loadServerData, userAuthChanged,
@@ -18,7 +18,7 @@ import {
     parseSavedTasks, getCurrentUser, getAuth
 } from "./FirebaseController";
 
-import {formatDayMonth} from "../js/Ultility.js";
+import {formatDayMonth} from "../Utility/Ultility.js";
 
 const SAVE_INTERVAL = 5 * 60 * 1000; //in milli for set interval
 

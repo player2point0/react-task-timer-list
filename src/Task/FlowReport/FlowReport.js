@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import "../../css/flowReport.css";
+import "./flowReport.css";
 
 
 const INPUT_SIDE_SCALE = 0.75;

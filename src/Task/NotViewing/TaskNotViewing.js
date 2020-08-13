@@ -1,5 +1,5 @@
 import React from "react";
-import "../../css/taskNotViewing.css";
+import "./taskNotViewing.css";
 
 export const MIN_TASK_HEIGHT = 5;
 export const MIN_HOUR_TIME = 0.1;

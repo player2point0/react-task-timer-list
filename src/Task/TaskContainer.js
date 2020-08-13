@@ -18,7 +18,7 @@ class TaskContainer {
 			this.reportFlowFlag = false;
 			//load tasks as paused to prevent daystat problems and for ux
 			this.paused = savedTask.started;
-			this.isViewing = savedTask.isViewing;
+			this.isViewing = false;//savedTask.isViewing;
 			this.stats = savedTask.stats;
 			this.objectives = savedTask.objectives;
 

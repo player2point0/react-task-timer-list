@@ -1,10 +1,10 @@
-import "../css/index.css";
-import "../css/auth.css";
+import "../index.css";
+import "../MainApp/auth.css";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import TaskContainer from "./Task/TaskContainer.js";
-import {formatDayMonth} from "../js/Ultility.js";
+import TaskContainer from "../Task/TaskContainer.js";
+import {formatDayMonth} from "../Utility/Ultility.js";
 
 //firebase
 export const firebaseConfig = {
