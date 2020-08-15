@@ -16,6 +16,7 @@
     height: auto;
     font-size: var(--medium-text-size);
     color: var(--text-color);
+    padding-left: 10px;
 }
 .taskNotViewingName:hover{
     color: var(--text-hover-color);

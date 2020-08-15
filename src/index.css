@@ -46,6 +46,7 @@ body {
     background-color: #f05417;
     color: white;
     font-size: var(--small-text-size);
+    z-index: 100;
 }
 
 .dayRecapButton:hover{

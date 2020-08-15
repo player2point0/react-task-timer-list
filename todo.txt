@@ -1,6 +1,10 @@
 --refactor--
 -move time sizing constants to a separate class and maybe generate them on the fly
 
+
+-make recap part of day. daily recap of work and fill in the gaps
+-overview of flow
+
 --group files--
 -regroup the logic, the current pattern of bind everything probably isn't needed if we change to redux
 
@@ -8,7 +12,7 @@
 -refactor classes into react hooks
 
 --redux--
--implement redux
+-implement https://easy-peasy.now.sh/
 -display components based on the redux state, build a state machine for this
 
 --unit tests-
@@ -20,6 +24,7 @@
 
 --redesign--
 -reduce the sizing of tasks etc
+-maybe remove hour overlay and use the space on the left for time. Could have the hour every 3 hours
 
 --day recap--
 -fix bug
@@ -40,24 +45,16 @@
 -sort the tasks by length or num objectives or age?
 -maybe refactor the scroll to view into displaying a separate popup element
 
---week overview--
--create a graph of time for each week day
--create a heat map for each week
--tweak colors and add key
-
 ----bugs----
 -add unit tests (https://jestjs.io/docs/en/tutorial-react)
 -when changing daystats, it loads an outdated one and gets ride of the second most recent
 
 ----non-essential----
--add settings
 -add offline strategy
--redesign as companion app
 -test popout app
  (https://medium.com/javascript-in-plain-english/recreating-spotifys-floating-pop-ups-5dd3603aa7f9)
  (https://googlechrome.github.io/samples/picture-in-picture/)
  (https://w3c.github.io/picture-in-picture/#htmlvideoelement-extensions)
--refactor stats
 -add an install prompt (for pwa) (https://web.dev/customize-install/)
 
 --personal flow coach--
