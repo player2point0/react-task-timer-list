@@ -1,5 +1,4 @@
 import React from "react";
-import "./Viewing/taskViewing.css";
 import TaskNotViewing from "./NotViewing/TaskNotViewing";
 import FlowReport from "./FlowReport/FlowReport";
 import TaskViewing from "./Viewing/TaskViewing";

@@ -1,6 +1,6 @@
 import React from "react";
 import "./hourCover.css";
-import {padNumWithZero} from "./Ultility";
+import {padNumWithZero} from "../Utility/Utility";
 import uid from "uid";
 
 const HOUR_HEIGHT = 30;

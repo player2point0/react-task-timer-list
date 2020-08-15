@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import "./taskViewing.css";
-import {formatTime} from "../Ultility.js";
-import Objective from "./Objective/Objective";
+import {formatTime} from "../../Utility/Utility";
+import Objective from "../Objective/Objective";
 
 export default function TaskViewing({
                                         id, paused, remainingTime, started, objectives, completeObjective,

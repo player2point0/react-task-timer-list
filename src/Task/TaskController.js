@@ -1,8 +1,8 @@
 import React from "react";
-import Task from "./Task.js";
-import HoursOverlay from "../HourCover/HoursOverlay.js";
+import Task from "./Task";
+import HoursOverlay from "../HourCover/HoursOverlay";
 import "../MainApp/addTaskForm.css";
-import {requestNotifications, sendNotification} from "../Ultility";
+import {requestNotifications, sendNotification} from "../Utility/Utility";
 import TaskContainer from "./TaskContainer";
 
 export default class TaskController extends React.Component {

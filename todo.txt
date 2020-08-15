@@ -3,7 +3,6 @@
 -move time sizing constants to a separate class and maybe generate them on the fly
 
 --group files--
--update import path to be absolute
 -regroup the logic, the current pattern of bind everything probably isn't needed if we change to redux
 
 --hooks--

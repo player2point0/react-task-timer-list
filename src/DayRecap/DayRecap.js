@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import './dayRecap.css';
 import '../Task/NotViewing/TaskNotViewing'
 import uid from "uid";
-import {dateDiffInSeconds} from "./Ultility";
+import {dateDiffInSeconds} from "../Utility/Utility";
+import HoursOverlay from "../HourCover/HoursOverlay";
 
 import {MIN_TASK_HEIGHT, MIN_HOUR_TIME, HOUR_HEIGHT, HOUR_IN_SECONDS} from '../Task/NotViewing/TaskNotViewing';
-import HoursOverlay from "./HoursOverlay";
 
 export default function DayRecap({dayStat}) {
     if (!dayStat) return "no daystats loaded";

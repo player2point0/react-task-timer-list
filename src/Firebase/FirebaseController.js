@@ -3,8 +3,8 @@ import "../MainApp/auth.css";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import TaskContainer from "../Task/TaskContainer.js";
-import {formatDayMonth} from "../Utility/Ultility.js";
+import TaskContainer from "../Task/TaskContainer";
+import {formatDayMonth} from "../Utility/Utility";
 
 //firebase
 export const firebaseConfig = {

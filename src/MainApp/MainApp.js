@@ -2,7 +2,7 @@ import React from "react";
 import "../index.css";
 import "./auth.css";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import TaskController from "../Task/TaskController.js";
+import TaskController from "../Task/TaskController";
 import DayRecap from "../DayRecap/DayRecap";
 
 import {
@@ -16,9 +16,9 @@ import {
     firebaseSaveTask, firebaseSaveDayStat, firebaseSaveFeedback,
     firebaseGetAllTasks, firebaseGetDayStat, getWeekStats,
     parseSavedTasks, getCurrentUser, getAuth
-} from "./FirebaseController";
+} from "../Firebase/FirebaseController";
 
-import {formatDayMonth} from "../Utility/Ultility.js";
+import {formatDayMonth} from "../Utility/Utility";
 
 const SAVE_INTERVAL = 5 * 60 * 1000; //in milli for set interval
 
