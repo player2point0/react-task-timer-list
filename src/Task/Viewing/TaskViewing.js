@@ -95,10 +95,8 @@ export default function TaskViewing({
             }}
         >
             <div className="taskObjectives">
-                <div className={"taskObjectiveScrollContainer"}>
                     {taskObjectives}
                     {addTaskObjective}
-                </div>
             </div>
             <div className={"taskControls"}>
                 <div className="taskTime">{formatTime(remainingTime)}</div>

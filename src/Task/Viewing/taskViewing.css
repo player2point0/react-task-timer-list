@@ -34,17 +34,11 @@
     border-top: 1px solid white;
 }
 
-.taskObjectiveScrollContainer{
-    width: max-content;
-    height: 100%;
-    box-sizing: border-box;
-}
-
 .taskObjectives{
-    height: 70vh;
+    height: 60vh;
     width: 100%;
-    overflow-x: scroll;
-    overflow-y: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .taskTime{

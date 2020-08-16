@@ -1,10 +1,10 @@
 .taskObjective, .addObjectiveForm{
-    height: 100%;
-    width: 25vw;
-    border: 1px solid var(--task-border-color);
+    height: fit-content;
+    width: 100%;
+    border-bottom: 1px solid var(--task-border-color);
     color: var(--text-color);
     display: inline-grid;
-    grid-template-columns: 2fr auto;
+    grid-template-columns: 3fr 1fr;
     text-align: center;
     box-sizing: border-box;
 }
@@ -24,12 +24,9 @@
 
 .taskObjectiveName, .addObjectiveInput{
     font-size: var(--small-text-size);
-    width: auto;
     height: fit-content;
     overflow: hidden;
     overflow-wrap: break-word;
-    transform: translate(0%,100%);
-    border: 1px solid red;
 }
 
 .addObjectiveForm input{
