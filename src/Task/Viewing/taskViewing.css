@@ -47,6 +47,16 @@
     height: auto;
     font-size: var(--large-text-size);
     color: var(--text-color);
+    padding-top: 10px;
+}
+
+.taskName{
+    text-align: center;
+    z-index: 10;
+    height: auto;
+    font-size: var(--medium-text-size);
+    color: var(--text-color);
+    padding-top: 10px;
 }
 
 @media only screen and (max-width: 600px) {

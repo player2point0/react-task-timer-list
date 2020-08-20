@@ -6,7 +6,7 @@ import Objective from "../Objective/Objective";
 export default function TaskViewing({
                                         id, paused, remainingTime, started, objectives, completeObjective,
                                         startTask, setReportFlow, finishTask, addTime, taskOnClick,
-                                        addObjective
+                                        addObjective, name
                                     }) {
 
     const [newObjectiveName, setNewObjectiveName] = useState("");
@@ -99,6 +99,7 @@ export default function TaskViewing({
                     {addTaskObjective}
             </div>
             <div className={"taskControls"}>
+                <div className="taskName">{name}</div>
                 <div className="taskTime">{formatTime(remainingTime)}</div>
                 {taskViewingButtons}
             </div>
