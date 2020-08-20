@@ -7,10 +7,7 @@ import HoursOverlay from "../HourCover/HoursOverlay";
 
 import {MIN_TASK_HEIGHT, MIN_HOUR_TIME, HOUR_HEIGHT, HOUR_IN_SECONDS} from '../Task/NotViewing/TaskNotViewing';
 
-export default function DayRecap({dayStat}) {
-    if (!dayStat) return "no daystats loaded";
-    if(dayStat.tasks.length === 0) return "no daystats loaded";
-
+export function groupDayStatTasks(tasks){
     //go through each task
     //in each task go through the start times
     //compare the gap between the start time and the end time
@@ -19,12 +16,12 @@ export default function DayRecap({dayStat}) {
     const MAX_BREAK_TIME = 5 * 60;
     let recapTasksArr = [];
 
-    for (let taskIndex = 0; taskIndex < dayStat.tasks.length; taskIndex++) {
-        const currentTask = dayStat.tasks[taskIndex];
+    for (let taskIndex = 0; taskIndex < tasks.length; taskIndex++) {
+        const currentTask = tasks[taskIndex];
         let currentStartTime = currentTask.start[0];
         let currentStopTime = currentTask.stop[0];
 
-        for (let timeIndex = 0; timeIndex < dayStat.tasks[taskIndex].start.length - 1; timeIndex++) {
+        for (let timeIndex = 0; timeIndex < tasks[taskIndex].start.length - 1; timeIndex++) {
             let breakLength = dateDiffInSeconds(currentTask.stop[timeIndex], currentTask.start[timeIndex + 1]);
 
             if (breakLength > MAX_BREAK_TIME) {
@@ -44,7 +41,6 @@ export default function DayRecap({dayStat}) {
         });
     }
 
-    //todo refactor this and add a unit test
     //sort the tasks by time
     recapTasksArr.sort((taskA, taskB) => dateDiffInSeconds(taskB.startTime, taskA.startTime));
     //go through and fill in any spaces
@@ -74,6 +70,15 @@ export default function DayRecap({dayStat}) {
     });
 
     recapTasksAndBreaks.sort((taskA, taskB) => dateDiffInSeconds(taskB.startTime, taskA.startTime));
+
+    return recapTasksAndBreaks;
+}
+
+export default function DayRecap({dayStat}) {
+    if (!dayStat) return "no daystats loaded";
+    if(dayStat.tasks.length === 0) return "no daystats loaded";
+
+    const recapTasksAndBreaks = groupDayStatTasks(dayStat.taks);
 
     return (
         <div>

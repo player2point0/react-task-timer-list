@@ -22,9 +22,16 @@
 --ab testing--
 -create an ab component, that takes two components and will record the flow for that component and user to the db
 
+--backend--
+-create firebase functions
+-create a function to return the tasks and order them by importance
+-create a rule based system to order tasks
+-create a weekly cron job to calculate optimal flow times
+
 --redesign--
 -reduce the sizing of tasks etc
 -maybe remove hour overlay and use the space on the left for time. Could have the hour every 3 hours
+-maybe change to a tag system and a description
 
 --day recap--
 -fix bug
@@ -32,6 +39,8 @@
 
 --flow reporting--
 -fix resizing of window
+-add a n/a option
+
 
 --prelaunch--
 -check security (https://www.youtube.com/watch?v=PUBnlbjZFAI&t=142s)

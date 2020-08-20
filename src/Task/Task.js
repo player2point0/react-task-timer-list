@@ -35,6 +35,7 @@ class Task extends React.Component {
             id={this.props.id}
             paused={this.props.paused}
             remainingTime={this.props.remainingTime}
+            name={this.props.name}
             started={this.props.started}
             objectives={this.props.objectives}
             completeObjective={this.props.completeObjective}
