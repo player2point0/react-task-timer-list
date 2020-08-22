@@ -78,7 +78,7 @@ export default function DayRecap({dayStat}) {
     if (!dayStat) return "no daystats loaded";
     if(dayStat.tasks.length === 0) return "no daystats loaded";
 
-    const recapTasksAndBreaks = groupDayStatTasks(dayStat.taks);
+    const recapTasksAndBreaks = groupDayStatTasks(dayStat.tasks);
 
     return (
         <div>
