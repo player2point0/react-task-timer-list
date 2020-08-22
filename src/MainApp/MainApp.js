@@ -4,6 +4,7 @@ import "./auth.css";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import TaskController from "../Task/TaskController";
 import DayRecap from "../DayRecap/DayRecap";
+import { useStoreState } from 'easy-peasy';
 
 import {
     tick, addTask, updateTaskByIdFunc, taskOnClick, startTask, finishTask,

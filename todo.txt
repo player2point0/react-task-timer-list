@@ -13,10 +13,10 @@
 
 --redux--
 -implement https://easy-peasy.now.sh/
--display components based on the redux state, build a state machine for this
+-change task to use redux
+-display components based on the redux state, build a state machine for this. or maybe use a router
 
 --unit tests-
--create for day recap
 -look into other classes
 
 --ab testing--
@@ -36,6 +36,7 @@
 --day recap--
 -fix bug
 -add unit test
+-daystat progress can get overwritten, maybe sync every hour
 
 --flow reporting--
 -fix resizing of window
