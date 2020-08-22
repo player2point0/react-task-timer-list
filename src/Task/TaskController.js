@@ -2,16 +2,24 @@ import React, {useState, useEffect} from "react";
 import Task from "./Task";
 import HoursOverlay from "../HourCover/HoursOverlay";
 import "../MainApp/addTaskForm.css";
-import {requestNotifications, sendNotification} from "../Utility/Utility";
-import TaskContainer from "./TaskContainer";
+import {sendNotification} from "../Utility/Utility";
 import NewTaskForm from "./NewTaskForm";
 import {useStoreActions, useStoreState} from 'easy-peasy';
+import {getAuth, userAuthChanged} from "../Firebase/FirebaseController";
+
+const SAVE_INTERVAL = 5 * 60 * 1000; //in milli for set interval
 
 export default function TaskController() {
 
     const [showTaskForm, setShowTaskForm] = useState(false);
     const [scrollToForm, setScrollToForm] = useState(false);
-    const tasks = useStoreState(state => state.tasks);
+    const [lastTickTime, setLastTickTime] = useState(new Date());
+
+    const updateTasks = useStoreActions(actions => actions.tasks.updateTasks);
+    const updateDayStat = useStoreActions(actions => actions.dayStat.updateDayStat);
+
+    const tasks = useStoreState(state => state.tasks.tasks);
+    const dayStat = useStoreState(state => state.dayStat.dayStat);
 
     //display the add task inputs
     const toggleTaskForm = () => {
@@ -26,7 +34,24 @@ export default function TaskController() {
 
             setScrollToForm(false);
         }
-    },[scrollToForm]);
+
+        const tickInterval = setInterval(() => {
+            const currentDate = new Date();
+            const deltaTime = (currentDate - lastTickTime) / 1000.0;
+            setLastTickTime(currentDate);
+            tick(tasks, dayStat, deltaTime, updateTasks, updateDayStat);
+        }, 1000);
+        const saveInterval = setInterval(() => {
+            //todo call the firebase save
+            //this.setState({setSaveAllTasks: true})
+        }, SAVE_INTERVAL);
+
+        return () => {
+            clearInterval(tickInterval);
+            clearInterval(saveInterval);
+        };
+
+    },[scrollToForm, lastTickTime, tasks]);
 
     const taskBeingViewed = tasks.some(task => task.isViewing);
 
@@ -81,24 +106,21 @@ export default function TaskController() {
 }
 
 //update all the tasks which are started
-export function tick() {
-    const updatedTasks = this.state.tasks.slice();
-    const updatedDayStat = this.state.dayStat;
+function tick(tasks, dayStat, deltaTime, updateTasks, updateDayStat) {
     const currentDate = new Date();
     const currentDateString = currentDate.toISOString();
-    const deltaTime = (currentDate - this.state.lastTickTime) / 1000.0;
 
-    for (let i = 0; i < updatedTasks.length; i++) {
-        if (updatedTasks[i].started && !updatedTasks[i].paused) {
-            updatedTasks[i].remainingTime -= deltaTime;
+    for (let i = 0; i < tasks.length; i++) {
+        if (tasks[i].started && !tasks[i].paused) {
+            tasks[i].remainingTime -= deltaTime;
 
-            if (updatedTasks[i].remainingTime <= 0) {
-                updatedTasks[i].remainingTime = 0;
+            if (tasks[i].remainingTime <= 0) {
+                tasks[i].remainingTime = 0;
 
-                if (!updatedTasks[i].timeUp) {
-                    updatedTasks[i].isViewing = true;
-                    updatedTasks[i].timeUp = true;
-                    sendNotification("Task time finished", updatedTasks[i].name);
+                if (!tasks[i].timeUp) {
+                    tasks[i].isViewing = true;
+                    tasks[i].timeUp = true;
+                    sendNotification("Task time finished", tasks[i].name);
 
                     this.setState({setSaveAllTasks: true});
                 }
@@ -107,19 +129,19 @@ export function tick() {
             let taskInDayStat = false;
 
             //if a task is active update the stop time
-            for (let j = 0; j < updatedDayStat.tasks.length; j++) {
-                if (updatedDayStat.tasks[j].id === updatedTasks[i].id) {
-                    let length = updatedDayStat.tasks[j].stop.length;
-                    updatedDayStat.tasks[j].stop[length - 1] = currentDateString;
+            for (let j = 0; j < dayStat.tasks.length; j++) {
+                if (dayStat.tasks[j].id === dayStat[i].id) {
+                    let length = dayStat.tasks[j].stop.length;
+                    dayStat.tasks[j].stop[length - 1] = currentDateString;
 
                     taskInDayStat = true;
                 }
             }
 
             if (!taskInDayStat) {
-                updatedDayStat.tasks.push({
-                    id: updatedTasks[i].id,
-                    name: updatedTasks[i].name,
+                dayStat.tasks.push({
+                    id: tasks[i].id,
+                    name: tasks[i].name,
                     start: [currentDateString],
                     stop: [currentDateString],
                 });
@@ -127,11 +149,8 @@ export function tick() {
         }
     }
 
-    this.setState({
-        tasks: updatedTasks,
-        lastTickTime: currentDate,
-        dayStat: updatedDayStat
-    });
+    updateTasks(tasks);
+    updateDayStat(dayStat);
 }
 
 export function updateTaskByIdFunc(tasks, id, func) {
@@ -338,7 +357,19 @@ export function addTime(id) {
 }
 
 //save all tasks
-export function saveAllTasks(tasksToSave) {
+export function saveAllTasks(tasks) {
+
+    //grab the tasks that have changed
+    let tasksToSave = [];
+
+    for (let i = 0; i < tasks.length; i++) {
+        if (tasks[i].needsSaved) {
+            tasksToSave.push(tasks[i]);
+            tasks[i].needsSaved = false;
+        }
+    }
+    //todo add an action to reset the save flag
+
     for (let i = 0; i < tasksToSave.length; i++) {
         this.firebaseSaveTask(tasksToSave[i]);
     }

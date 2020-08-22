@@ -12,7 +12,6 @@
 -refactor classes into react hooks
 
 --redux--
--implement https://easy-peasy.now.sh/
 -change task to use redux
 -display components based on the redux state, build a state machine for this. or maybe use a router
 
@@ -41,7 +40,8 @@
 --flow reporting--
 -fix resizing of window
 -add a n/a option
-
+-add shadow dots of previous values for the day, from the dayStat
+-maybe also report flow after completing an objective
 
 --prelaunch--
 -check security (https://www.youtube.com/watch?v=PUBnlbjZFAI&t=142s)

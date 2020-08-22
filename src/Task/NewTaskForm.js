@@ -8,7 +8,7 @@ export default function NewTaskForm() {
     const [newTaskName, setNewTaskName] = useState("");
     const [newTaskHours, setNewTaskHours] = useState("0");
     const [newTaskMins, setNewTaskMins] = useState("0");
-    const addTaskAction = useStoreActions(actions => actions.addTask);
+    const addTaskAction = useStoreActions(actions => actions.tasks.addTask);
 
     //methods for the new task input
     const handleNewTaskNameChange = (e) => {
