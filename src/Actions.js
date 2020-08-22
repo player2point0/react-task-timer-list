@@ -5,8 +5,3 @@ import { action } from 'easy-peasy';
 export const loadTasks = action((state, payload) => {
    state.tasks = payload
 });
-
-//todo could also add firebase saving here
-export const addTask =  action((state, payload) => {
-   state.tasks.push(payload)
-});
