@@ -24,37 +24,11 @@ export default function NewTaskForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        addTask(newTaskName, newTaskHours, newTaskMins);
+        addTask(newTaskName, newTaskHours, newTaskMins, addTaskAction);
 
         setNewTaskName("");
         setNewTaskHours("0");
         setNewTaskMins("0");
-    };
-
-    const addTask = (name, hours, mins) => {
-        requestNotifications();
-        //todo add feedback about wrong input
-        //need a name and at least one time value
-        if (!name || (!hours && !mins)) return;
-
-        //if we have one and not the other then assume zero
-        if (!hours) hours = 0;
-        if (!mins) mins = 0;
-
-        //needs to be above zero
-        if (hours < 0 || mins < 0 || Number(hours + mins) === 0) return;
-
-        let newTaskDuration = hours * 3600 + mins * 60;
-        let currentDate = new Date();
-
-        let newTask = new TaskContainer(
-            name,
-            newTaskDuration,
-            currentDate
-        );
-
-        addTaskAction(newTask);
-        //todo call firebase save
     };
 
     return <form
@@ -94,4 +68,30 @@ export default function NewTaskForm() {
             <button>add</button>
         </div>
     </form>;
+};
+
+function addTask(name, hours, mins, addTaskAction) {
+    requestNotifications();
+    //todo add feedback about wrong input
+    //need a name and at least one time value
+    if (!name || (!hours && !mins)) return;
+
+    //if we have one and not the other then assume zero
+    if (!hours) hours = 0;
+    if (!mins) mins = 0;
+
+    //needs to be above zero
+    if (hours < 0 || mins < 0 || Number(hours + mins) === 0) return;
+
+    let newTaskDuration = hours * 3600 + mins * 60;
+    let currentDate = new Date();
+
+    let newTask = new TaskContainer(
+        name,
+        newTaskDuration,
+        currentDate
+    );
+
+    addTaskAction(newTask);
+    //todo call firebase save
 }
