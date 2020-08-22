@@ -1,15 +1,9 @@
 --refactor--
--move time sizing constants to a separate class and maybe generate them on the fly
-
-
 -make recap part of day. daily recap of work and fill in the gaps
 -overview of flow
 
 --group files--
 -regroup the logic, the current pattern of bind everything probably isn't needed if we change to redux
-
---hooks--
--refactor classes into react hooks
 
 --redux--
 -change task to use redux
@@ -28,6 +22,7 @@
 -create a weekly cron job to calculate optimal flow times
 
 --redesign--
+-move time sizing constants to a separate class and maybe generate them on the fly
 -reduce the sizing of tasks etc
 -maybe remove hour overlay and use the space on the left for time. Could have the hour every 3 hours
 -maybe change to a tag system and a description
