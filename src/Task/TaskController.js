@@ -1,79 +1,63 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Task from "./Task";
 import HoursOverlay from "../HourCover/HoursOverlay";
 import "../MainApp/addTaskForm.css";
 import {requestNotifications, sendNotification} from "../Utility/Utility";
 import TaskContainer from "./TaskContainer";
+import NewTaskForm from "./NewTaskForm";
+import {useStoreActions, useStoreState} from 'easy-peasy';
 
-export default class TaskController extends React.Component {
-    constructor(props) {
-        super(props);
-        //store the tasks
-        this.state = {
-            showTaskForm: false,
-            scrollToForm: false,
-        };
+export default function TaskController() {
 
-        this.toggleTaskForm = this.toggleTaskForm.bind(this);
-        this.handleNewTaskNameChange = this.handleNewTaskNameChange.bind(this);
-        this.handleNewTaskHoursChange = this.handleNewTaskHoursChange.bind(this);
-        this.handleNewTaskMinsChange = this.handleNewTaskMinsChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    const [showTaskForm, setShowTaskForm] = useState(false);
+    const [scrollToForm, setScrollToForm] = useState(false);
+    const tasks = useStoreState(state => state.tasks);
 
     //display the add task inputs
-    toggleTaskForm() {
-        this.setState(state => ({
-            showTaskForm: !state.showTaskForm,
-            scrollToForm: true,
-        }));
-    }
+    const toggleTaskForm = () => {
+        setShowTaskForm(!showTaskForm);
+        setScrollToForm(true);
+    };
 
-    //methods for the new task input
-    handleNewTaskNameChange(e) {
-        this.setState({newTaskName: e.target.value.toLowerCase()});
-    }
-
-    handleNewTaskHoursChange(e) {
-        this.setState({newTaskHours: e.target.value});
-    }
-
-    handleNewTaskMinsChange(e) {
-        this.setState({newTaskMins: e.target.value});
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-        const currentState = this.state;
-        this.props.addTask(currentState);
-        this.setState({
-            newTaskName: "",
-            newTaskHours: "0",
-            newTaskMins: "0",
-        });
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.state.scrollToForm) {
+    useEffect(() => {
+        if (scrollToForm) {
             const addTaskFrom = document.getElementById("addTaskForm");
             if (addTaskFrom) addTaskFrom.scrollIntoView(false);
 
-            this.setState({
-                scrollToForm: false,
-            });
+            setScrollToForm(false);
+        }
+    },[scrollToForm]);
+
+    const taskBeingViewed = tasks.some(task => task.isViewing);
+
+    for(let i = 0;i<tasks.length;i++){
+        const task = tasks[i];
+
+        if(task.reportFlowFlag && (task.paused || task.finished)){
+            return <Task
+                key={task.id}
+                id={task.id}
+                name={task.name}
+                totalTime={task.totalTime}
+                remainingTime={task.remainingTime}
+                started={task.started}
+                paused={task.paused}
+                isViewing={task.isViewing}
+                finished={task.finished}
+                reportFlowFlag={task.reportFlowFlag}
+                objectives={task.objectives}
+             />
         }
     }
 
-    render() {
-        let addTaskHtml;
-        const taskViewing = this.props.tasks.some(task => task.isViewing);
-
-        //if reporting flow then display just the report flow to prevent scrolling bugs
-        for(let i = 0;i<this.props.tasks.length;i++){
-            const task = this.props.tasks[i];
-
-            if(task.reportFlowFlag && (task.paused || task.finished)){
-                return <Task
+    return (
+        <div>
+            {!taskBeingViewed && <HoursOverlay
+                startTime={new Date()}
+                numHours={12}
+            />}
+            {tasks.map(task => (
+                <Task
                     key={task.id}
                     id={task.id}
                     name={task.name}
@@ -84,98 +68,16 @@ export default class TaskController extends React.Component {
                     isViewing={task.isViewing}
                     finished={task.finished}
                     reportFlowFlag={task.reportFlowFlag}
-                    setReportFlow={this.props.setReportFlow}
-                    reportFlow={this.props.reportFlow}
-                    taskOnClick={this.props.taskOnClick}
-                    startTask={this.props.startTask}
-                    finishTask={this.props.finishTask}
-                    addTime={this.props.addTime}
                     objectives={task.objectives}
-                    completeObjective={this.props.completeObjective}
-                    addObjective={this.props.addObjective}
                 />
-            }
-        }
-
-        if (this.state.showTaskForm) {
-            //display the inputs
-            addTaskHtml = (
-                <form
-                    id="addTaskForm"
-                    className="addTaskForm"
-                    onSubmit={this.handleSubmit}
-                    autoComplete="off"
-                >
-                    <input
-                        id="task-name-input"
-                        type="text"
-                        autoFocus
-                        onChange={this.handleNewTaskNameChange}
-                        value={this.state.newTaskName}
-                        placeholder="name"
-                    />
-                    <input
-                        id="task-hours-input"
-                        type="number"
-                        min="0"
-                        max="99"
-                        onChange={this.handleNewTaskHoursChange}
-                        value={this.state.newTaskHours}
-                        placeholder="hours"
-                    />
-                    <input
-                        id="task-mins-input"
-                        type="number"
-                        min="0"
-                        max="60"
-                        step="1"
-                        onChange={this.handleNewTaskMinsChange}
-                        value={this.state.newTaskMins}
-                        placeholder="minutes"
-                    />
-                    <div className="taskInput">
-                        <button>add</button>
-                    </div>
-                </form>
-            );
-        }
-
-        return (
-            <div>
-                {!taskViewing?<HoursOverlay
-                    startTime={new Date()}
-                    numHours={12}
-                />:""}
-                {this.props.tasks.map(task => (
-                    <Task
-                        key={task.id}
-                        id={task.id}
-                        name={task.name}
-                        totalTime={task.totalTime}
-                        remainingTime={task.remainingTime}
-                        started={task.started}
-                        paused={task.paused}
-                        isViewing={task.isViewing}
-                        finished={task.finished}
-                        reportFlowFlag={task.reportFlowFlag}
-                        setReportFlow={this.props.setReportFlow}
-                        reportFlow={this.props.reportFlow}
-                        taskOnClick={this.props.taskOnClick}
-                        startTask={this.props.startTask}
-                        finishTask={this.props.finishTask}
-                        addTime={this.props.addTime}
-                        objectives={task.objectives}
-                        completeObjective={this.props.completeObjective}
-                        addObjective={this.props.addObjective}
-                    />
-                ))}
-                <div className="addTaskButton" onClick={this.toggleTaskForm}>
-                    <div>add task</div>
-                </div>
-                {addTaskHtml}
+            ))}
+            <div className="addTaskButton" onClick={toggleTaskForm}>
+                <div>add task</div>
             </div>
-        );
-    }
+            {showTaskForm &&
+            <NewTaskForm/>}
+        </div>
+    );
 }
 
 //update all the tasks which are started
@@ -230,38 +132,6 @@ export function tick() {
         lastTickTime: currentDate,
         dayStat: updatedDayStat
     });
-}
-
-export function addTask(currentState) {
-    requestNotifications();
-
-    let name = currentState.newTaskName;
-    let hours = currentState.newTaskHours;
-    let mins = currentState.newTaskMins;
-
-    //need a name and at least one time value
-    if (!name || (!hours && !mins)) return;
-
-    //if we have one and not the other then assume zero
-    if (!hours) hours = 0;
-    if (!mins) mins = 0;
-
-    //needs to be above zero
-    if (hours < 0 || mins < 0 || Number(hours + mins) === 0) return;
-
-    let newTaskDuration = hours * 3600 + mins * 60;
-    let currentDate = new Date();
-
-    let newTask = new TaskContainer(
-        name,
-        newTaskDuration,
-        currentDate
-    );
-
-    this.setState(state => ({
-        tasks: state.tasks.concat(newTask),
-        setSaveAllTasks: true,
-    }));
 }
 
 export function updateTaskByIdFunc(tasks, id, func) {
@@ -363,7 +233,7 @@ export function startTask(id) {
     });
 }
 
-export function setReportFlow(id, val){
+export function setReportFlow(id, val) {
 
     const updatedTasks = this.state.tasks.slice();
 
@@ -396,15 +266,13 @@ export function reportFlow(id, focus, productive) {
         return;
     }
 
-    if(currentDayStatTask.hasOwnProperty("focus")){
+    if (currentDayStatTask.hasOwnProperty("focus")) {
         currentDayStatTask.focus.push(focus);
-    }
-    else currentDayStatTask.focus = [focus];
+    } else currentDayStatTask.focus = [focus];
 
-    if(currentDayStatTask.hasOwnProperty("productive")){
+    if (currentDayStatTask.hasOwnProperty("productive")) {
         currentDayStatTask.productive.push(productive);
-    }
-    else currentDayStatTask.productive = [productive];
+    } else currentDayStatTask.productive = [productive];
 
     //separate server and animation logic for speed
     this.setState({
@@ -413,7 +281,7 @@ export function reportFlow(id, focus, productive) {
     });
 
     setTimeout(() => {
-        if(currentTask.finished){
+        if (currentTask.finished) {
             this.setState({
                 dayStat: updatedDayStat,
                 setSaveAllTasks: true,

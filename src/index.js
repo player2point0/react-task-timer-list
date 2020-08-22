@@ -4,12 +4,14 @@ import "./index.css";
 import MainApp from "./MainApp/MainApp";
 import * as serviceWorker from "./MainApp/serviceWorker";
 import {createStore, StoreProvider} from 'easy-peasy';
+import {addTask} from "./Actions";
 
 serviceWorker.register();
 
 //todo split this up
 const store = createStore({
     tasks: [],
+    addTask: addTask,
     showAuthHtml: true,
     lastTickTime: new Date(),
     removeTaskId: "",
