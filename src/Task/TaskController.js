@@ -162,27 +162,6 @@ export function updateTaskByIdFunc(tasks, id, func) {
     }
 }
 
-//display the selected task
-export function taskOnClick(id) {
-    const updatedTasks = this.state.tasks.slice();
-
-    const selectedTask = updatedTasks.find(task => task.id === id);
-
-    selectedTask.view();
-
-    if (selectedTask.isViewing) {
-        updatedTasks.forEach(task => {
-            if (task.id !== id && task.isViewing) {
-                task.view();
-            }
-        });
-    }
-
-    this.setState({
-        tasks: updatedTasks,
-    });
-}
-
 export function startTask(id) {
     const updatedTasks = this.state.tasks.slice();
     let updatedDayStat = this.state.dayStat;

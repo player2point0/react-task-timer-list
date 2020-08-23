@@ -4,14 +4,14 @@ import FlowReport from "./FlowReport/FlowReport";
 import TaskViewing from "./Viewing/TaskViewing";
 
 //renders the task based on the passed properties
-export default function Task({isViewing, name, remainingTime, id, taskOnClick,
-                             reportFlowFlag, finished, reportFlow, paused}) {
+export default function Task({isViewing, name, remainingTime, id,
+                             reportFlowFlag, finished, reportFlow, paused,
+                             started, objectives}) {
     if (!isViewing) {
         return (<TaskNotViewing
             name={name}
             remainingTime={remainingTime}
             id={id}
-            taskOnClick={taskOnClick}
         />);
     }
 
@@ -32,18 +32,11 @@ export default function Task({isViewing, name, remainingTime, id, taskOnClick,
     }
 
     return <TaskViewing
-        id={this.props.id}
-        paused={this.props.paused}
-        remainingTime={this.props.remainingTime}
-        name={this.props.name}
-        started={this.props.started}
-        objectives={this.props.objectives}
-        completeObjective={this.props.completeObjective}
-        startTask={this.props.startTask}
-        setReportFlow={this.props.setReportFlow}
-        finishTask={this.props.finishTask}
-        addTime={this.props.addTime}
-        taskOnClick={this.props.taskOnClick}
-        addObjective={this.props.addObjective}
+        id={id}
+        paused={paused}
+        remainingTime={remainingTime}
+        name={name}
+        started={started}
+        objectives={objectives}
     />;
 }

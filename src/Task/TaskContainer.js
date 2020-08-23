@@ -2,7 +2,7 @@ import uid from "uid";
 
 const TEN_MINS = 10*60;
 
-class TaskContainer {
+export default class TaskContainer {
 	constructor(name, duration, date, savedTask) {
 		if (savedTask) {
 			this.id = savedTask.id;
@@ -113,5 +113,3 @@ class TaskContainer {
 		this.reportFlowFlag = val;
 	}
 }
-
-export default TaskContainer;

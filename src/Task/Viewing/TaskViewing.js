@@ -11,7 +11,6 @@ export default function TaskViewing({
 
     const [newObjectiveName, setNewObjectiveName] = useState("");
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!newObjectiveName) return;
