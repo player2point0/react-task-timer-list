@@ -21,3 +21,12 @@ export const viewTask = action((state, taskId) => {
 
     state.tasks = tempTasks
 });
+
+export const unViewTask = action((state, taskId) => {
+    const tempTasks = [...state.tasks];
+
+    const taskIndex = tempTasks.findIndex(task => task.id === taskId);
+    tempTasks[taskIndex].view();
+
+    state.tasks = tempTasks
+});

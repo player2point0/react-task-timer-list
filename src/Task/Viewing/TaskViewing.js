@@ -2,14 +2,16 @@ import React, {useState} from "react";
 import "./taskViewing.css";
 import {formatTime} from "../../Utility/Utility";
 import Objective from "../Objective/Objective";
+import {useStoreActions} from "easy-peasy";
 
 export default function TaskViewing({
                                         id, paused, remainingTime, started, objectives, completeObjective,
-                                        startTask, setReportFlow, finishTask, addTime, taskOnClick,
+                                        startTask, setReportFlow, finishTask, addTime,
                                         addObjective, name
                                     }) {
 
     const [newObjectiveName, setNewObjectiveName] = useState("");
+    const unViewTask = useStoreActions(actions => actions.tasks.unViewTask);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -90,7 +92,7 @@ export default function TaskViewing({
         <div
             className="taskVIewing"
             onClick={e => {
-                taskOnClick(id, e);
+                unViewTask(id);
             }}
         >
             <div className="taskObjectives">
