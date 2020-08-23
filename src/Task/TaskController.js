@@ -336,6 +336,7 @@ export function addTime(id) {
 }
 
 //save all tasks
+//todo move this to firebase controller
 export function saveAllTasks(tasks) {
 
     //grab the tasks that have changed
@@ -354,30 +355,4 @@ export function saveAllTasks(tasks) {
     }
 
     this.firebaseSaveDayStat();
-}
-
-export function completeObjective(taskId, objectiveId) {
-    const updatedTasks = this.state.tasks.slice();
-
-    this.updateTaskByIdFunc(updatedTasks, taskId, function (updatedTask) {
-        updatedTask.completeObjective(objectiveId);
-    });
-
-    this.setState({
-        tasks: updatedTasks,
-        setSaveAllTasks: true,
-    });
-}
-
-export function addObjective(taskId, objectiveName) {
-    const updatedTasks = this.state.tasks.slice();
-
-    this.updateTaskByIdFunc(updatedTasks, taskId, function (updatedTask) {
-        updatedTask.addObjective(objectiveName);
-    });
-
-    this.setState({
-        tasks: updatedTasks,
-        setSaveAllTasks: true,
-    });
 }

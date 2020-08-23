@@ -30,3 +30,25 @@ export const unViewTask = action((state, taskId) => {
 
     state.tasks = tempTasks
 });
+
+export const addObjective = action((state, {taskId, objectiveName}) => {
+    const tempTasks = [...state.tasks];
+
+    const taskIndex = tempTasks.findIndex(task => task.id === taskId);
+
+    console.log(taskId);
+    console.log(objectiveName);
+
+    tempTasks[taskIndex].addObjective(objectiveName);
+
+    state.tasks = tempTasks
+});
+
+export const completeObjective = action((state, {taskId, objectiveId}) => {
+    const tempTasks = [...state.tasks];
+
+    const taskIndex = tempTasks.findIndex(task => task.id === taskId);
+    tempTasks[taskIndex].completeObjective(objectiveId);
+
+    state.tasks = tempTasks
+});

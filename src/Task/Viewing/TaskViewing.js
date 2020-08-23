@@ -5,20 +5,24 @@ import Objective from "../Objective/Objective";
 import {useStoreActions} from "easy-peasy";
 
 export default function TaskViewing({
-                                        id, paused, remainingTime, started, objectives, completeObjective,
-                                        startTask, setReportFlow, finishTask, addTime,
-                                        addObjective, name
+                                        id, paused, remainingTime, started, objectives,
+                                        startTask, setReportFlow, finishTask, addTime, name
                                     }) {
 
     const [newObjectiveName, setNewObjectiveName] = useState("");
     const unViewTask = useStoreActions(actions => actions.tasks.unViewTask);
+    const addObjective = useStoreActions(actions => actions.tasks.addObjective);
+    const completeObjective = useStoreActions(actions => actions.tasks.completeObjective);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!newObjectiveName) return;
 
         //todo if there is a completed objective then swap the new and the old
-        addObjective(id, newObjectiveName);
+        addObjective({
+            taskId: id,
+            objectiveName: newObjectiveName
+        });
 
         setNewObjectiveName("");
     };
@@ -92,6 +96,7 @@ export default function TaskViewing({
         <div
             className="taskVIewing"
             onClick={e => {
+                //todo could check if the task is active and then pause and report flow
                 unViewTask(id);
             }}
         >
