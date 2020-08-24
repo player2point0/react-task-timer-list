@@ -1,6 +1,7 @@
 --refactor--
 -make recap part of day. daily recap of work and fill in the gaps
 -overview of flow
+-maybe reset tasks each day to remove stale tasks and keep focus clear and incentivise progress
 
 --group files--
 -regroup the logic, the current pattern of bind everything probably isn't needed if we change to redux

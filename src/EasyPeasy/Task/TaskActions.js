@@ -4,6 +4,8 @@ import {action} from "easy-peasy";
 USE IMMUTABLE OBJECTS DO THAT THE RERENDER WORKS
  */
 
+//todo refactor this
+
 export const addTask = action((state, newTask) => {
     state.tasks.push(newTask)
 });
