@@ -51,14 +51,14 @@ export default function TaskController() {
             clearInterval(saveInterval);
         };
 
-    },[scrollToForm, lastTickTime, tasks]);
+    }, [scrollToForm, lastTickTime, tasks]);
 
     const taskBeingViewed = tasks.some(task => task.isViewing);
 
-    for(let i = 0;i<tasks.length;i++){
+    for (let i = 0; i < tasks.length; i++) {
         const task = tasks[i];
 
-        if(task.reportFlowFlag && (task.paused || task.finished)){
+        if (task.reportFlowFlag && (task.paused || task.finished)) {
             return <Task
                 key={task.id}
                 id={task.id}
@@ -72,7 +72,7 @@ export default function TaskController() {
                 reportFlowFlag={task.reportFlowFlag}
                 objectives={task.objectives}
                 startTask={(id) => startTask(id, tasks, dayStat, updateTasks, updateDayStat)}
-             />
+            />
         }
     }
 
@@ -153,15 +153,6 @@ function tick(tasks, dayStat, deltaTime, updateTasks, updateDayStat) {
 
     updateTasks(tasks);
     updateDayStat(dayStat);
-}
-
-export function updateTaskByIdFunc(tasks, id, func) {
-    for (let i = 0; i < tasks.length; i++) {
-        if (tasks[i].id === id) {
-            func(tasks[i]);
-            break;
-        }
-    }
 }
 
 export function setReportFlow(id, val) {
@@ -255,20 +246,14 @@ export function removeTaskWithId(id) {
     });
 }
 
-export function addTime(id) {
-    const updatedTasks = this.state.tasks.slice();
+export function addTime(id, tasks) {
+    const updatedTask = tasks.find(task => task.id === id);
 
-    this.updateTaskByIdFunc(updatedTasks, id, function (updatedTask) {
-        updatedTask.addTime();
-    });
+    updatedTask.addTime();
 
-    this.setState({
-        tasks: updatedTasks,
-        setSaveAllTasks: true,
-    });
+    //updateTasks(updateTasks);
 }
 
-//save all tasks
 //todo move this to firebase controller
 export function saveAllTasks(tasks) {
 
@@ -295,19 +280,19 @@ function startTask(id, tasks, dayStat, updateTasks, updateDayStat) {
     let currentDate = (new Date()).toISOString();
 
     //todo check if the task is from a previous day stat and so doesn't exist in the tasks
-    const updatedTask = tasks.find(task => task.id === id);
+    const taskIndex = tasks.findIndex(task => task.id === id);
 
-    if (updatedTask.started) {
-        if (updatedTask.remainingTime >= 0) {
-            if (updatedTask.paused) {
-                updatedTask.unPause();
+    if (tasks[taskIndex].started) {
+        if (tasks[taskIndex].remainingTime >= 0) {
+            if (tasks[taskIndex].paused) {
+                tasks[taskIndex].unPause();
                 taskActive = true;
 
                 let taskInDayStat = false;
 
                 //update the dayStat start and stop values
                 for (let j = 0; j < dayStat.tasks.length; j++) {
-                    if (dayStat.tasks[j].id === updatedTask.id) {
+                    if (dayStat.tasks[j].id === tasks[taskIndex].id) {
                         dayStat.tasks[j].start.push(currentDate);
                         dayStat.tasks[j].stop.push(currentDate);
 
@@ -317,23 +302,23 @@ function startTask(id, tasks, dayStat, updateTasks, updateDayStat) {
 
                 if (!taskInDayStat) {
                     dayStat.tasks.push({
-                        id: updatedTask.id,
-                        name: updatedTask.name,
+                        id: tasks[taskIndex].id,
+                        name: tasks[taskIndex].name,
                         start: [currentDate],
                         stop: [currentDate],
                     });
                 }
 
             } else {
-                updatedTask.pause();
+                tasks[taskIndex].pause();
             }
         }
     } else {
-        updatedTask.start();
+        tasks[taskIndex].start();
         taskActive = true;
         dayStat.tasks.push({
-            id: updatedTask.id,
-            name: updatedTask.name,
+            id: tasks[taskIndex].id,
+            name: tasks[taskIndex].name,
             start: [currentDate],
             stop: [currentDate],
         });
@@ -349,6 +334,6 @@ function startTask(id, tasks, dayStat, updateTasks, updateDayStat) {
         }
     }
 
-    updateTasks(updateTasks);
-    updateDayStat(updateDayStat);
+    updateTasks(tasks);
+    updateDayStat(dayStat);
 }
