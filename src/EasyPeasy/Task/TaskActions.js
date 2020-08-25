@@ -54,3 +54,31 @@ export const completeObjective = action((state, {taskId, objectiveId}) => {
 
     state.tasks = tempTasks
 });
+
+export const addTime = action((state, taskId) => {
+    const tempTasks = [...state.tasks];
+
+    const taskIndex = tempTasks.findIndex(task => task.id === taskId);
+    tempTasks[taskIndex].addTime();
+
+    state.tasks = tempTasks
+});
+
+export const finishTask = action((state, taskId) => {
+    const tempTasks = [...state.tasks];
+
+    const taskIndex = tempTasks.findIndex(task => task.id === taskId);
+    tempTasks[taskIndex].finish();
+
+    state.tasks = tempTasks
+});
+
+
+export const setReportFlow = action((state, {taskId, val}) => {
+    const tempTasks = [...state.tasks];
+
+    const taskIndex = tempTasks.findIndex(task => task.id === taskId);
+    tempTasks[taskIndex].setReportFlow(val);
+
+    state.tasks = tempTasks
+});

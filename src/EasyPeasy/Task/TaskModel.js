@@ -1,4 +1,13 @@
-import {addTask, updateTasks, viewTask, unViewTask, addObjective, completeObjective} from "./TaskActions";
+import {
+    addTask,
+    updateTasks,
+    viewTask,
+    unViewTask,
+    addObjective,
+    completeObjective,
+    addTime,
+    finishTask, setReportFlow
+} from "./TaskActions";
 import TaskContainer from "../../Task/TaskContainer";
 
 export const taskModel = {
@@ -9,4 +18,7 @@ export const taskModel = {
     unViewTask: unViewTask,
     addObjective: addObjective,
     completeObjective: completeObjective,
+    addTime: addTime,
+    finishTask: finishTask,
+    setReportFlow: setReportFlow,
 };

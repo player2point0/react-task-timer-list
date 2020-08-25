@@ -5,15 +5,17 @@ import Objective from "../Objective/Objective";
 import {useStoreActions, useStoreState} from "easy-peasy";
 
 export default function TaskViewing({
-                                        id, paused, remainingTime, started, objectives,
-                                        setReportFlow, finishTask, addTime, name,
-                                        startTask
+                                        id, paused, remainingTime, started,
+                                        objectives, name, startTask
                                     }) {
 
     const [newObjectiveName, setNewObjectiveName] = useState("");
     const unViewTask = useStoreActions(actions => actions.tasks.unViewTask);
     const addObjective = useStoreActions(actions => actions.tasks.addObjective);
     const completeObjective = useStoreActions(actions => actions.tasks.completeObjective);
+    const finishTask = useStoreActions(actions => actions.tasks.finishTask);
+    const setReportFlow = useStoreActions(actions => actions.tasks.setReportFlow);
+    const addTime = useStoreActions(actions => actions.tasks.addTime);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -76,14 +78,20 @@ export default function TaskViewing({
                 buttonText={startButtonText}
                 onClickFunc={() => {
                     startTask(id);
-                    setReportFlow(id, true);
+                    setReportFlow({
+                        taskId: id,
+                        val: true
+                    });
                 }}
             />
             <TaskViewingButton
                 buttonText={"finish"}
                 onClickFunc={() => {
                     finishTask(id);
-                    setReportFlow(id, true);
+                    setReportFlow({
+                        taskId: id,
+                        val: true
+                    });
                 }}
             />
             <TaskViewingButton

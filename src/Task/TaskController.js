@@ -155,19 +155,6 @@ function tick(tasks, dayStat, deltaTime, updateTasks, updateDayStat) {
     updateDayStat(dayStat);
 }
 
-export function setReportFlow(id, val) {
-
-    const updatedTasks = this.state.tasks.slice();
-
-    this.updateTaskByIdFunc(updatedTasks, id, function (updatedTask) {
-        updatedTask.setReportFlow(val);
-    });
-
-    this.setState({
-        tasks: updatedTasks,
-    });
-}
-
 export function reportFlow(id, focus, productive) {
     const updatedDayStat = this.state.dayStat;
     const currentDayStatTask = updatedDayStat.tasks.find(task => task.id === id);
@@ -213,45 +200,6 @@ export function reportFlow(id, focus, productive) {
 
         this.setReportFlow(id, false);
     }, REPORT_DELAY);
-}
-
-export function finishTask(id,) {
-    const updatedTasks = this.state.tasks.slice();
-
-    this.updateTaskByIdFunc(updatedTasks, id, function (updatedTask) {
-        updatedTask.finish();
-    });
-
-    this.setState({
-        tasks: updatedTasks,
-        setSaveAllTasks: true,
-        //removeTaskId: id
-    });
-}
-
-export function removeTaskWithId(id) {
-    const updatedTasks = this.state.tasks.slice();
-
-    for (let i = updatedTasks.length - 1; i >= 0; i--) {
-        if (updatedTasks[i].id === id) {
-            updatedTasks.splice(i, 1);
-
-            break;
-        }
-    }
-
-    this.setState({
-        tasks: updatedTasks,
-        setSaveAllTasks: true,
-    });
-}
-
-export function addTime(id, tasks) {
-    const updatedTask = tasks.find(task => task.id === id);
-
-    updatedTask.addTime();
-
-    //updateTasks(updateTasks);
 }
 
 //todo move this to firebase controller
