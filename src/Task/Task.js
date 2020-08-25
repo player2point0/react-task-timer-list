@@ -16,6 +16,7 @@ export default function Task({isViewing, name, remainingTime, id,
     }
 
     if (reportFlowFlag) {
+        //todo check this
         if (finished) {
             return <FlowReport
                 onDone={reportFlow}

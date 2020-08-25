@@ -78,7 +78,19 @@ export const setReportFlow = action((state, {taskId, val}) => {
     const tempTasks = [...state.tasks];
 
     const taskIndex = tempTasks.findIndex(task => task.id === taskId);
+
+    console.log(taskId);
+
     tempTasks[taskIndex].setReportFlow(val);
+
+    state.tasks = tempTasks
+});
+
+export const removeTask = action((state, taskId) => {
+    const tempTasks = [...state.tasks];
+
+    const taskIndex = tempTasks.findIndex(task => task.id === taskId);
+    tempTasks.splice(taskIndex, 1);
 
     state.tasks = tempTasks
 });

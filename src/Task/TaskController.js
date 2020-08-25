@@ -17,6 +17,8 @@ export default function TaskController() {
 
     const updateTasks = useStoreActions(actions => actions.tasks.updateTasks);
     const updateDayStat = useStoreActions(actions => actions.dayStat.updateDayStat);
+    const setReportFlow = useStoreActions(actions => actions.tasks.setReportFlow);
+    const removeTask = useStoreActions(actions => actions.tasks.removeTask);
 
     const tasks = useStoreState(state => state.tasks.tasks);
     const dayStat = useStoreState(state => state.dayStat.dayStat);
@@ -34,7 +36,9 @@ export default function TaskController() {
 
             setScrollToForm(false);
         }
+    }, [scrollToForm]);
 
+    useEffect(() => {
         const tickInterval = setInterval(() => {
             const currentDate = new Date();
             const deltaTime = (currentDate - lastTickTime) / 1000.0;
@@ -51,13 +55,15 @@ export default function TaskController() {
             clearInterval(saveInterval);
         };
 
-    }, [scrollToForm, lastTickTime, tasks, dayStat]);
+    }, [lastTickTime, tasks, dayStat]);
+
 
     const taskBeingViewed = tasks.some(task => task.isViewing);
 
     for (let i = 0; i < tasks.length; i++) {
         const task = tasks[i];
 
+        //todo probably shouldn't use closure here to keep things updated
         if (task.reportFlowFlag && (task.paused || task.finished)) {
             return <Task
                 key={task.id}
@@ -72,7 +78,8 @@ export default function TaskController() {
                 reportFlowFlag={task.reportFlowFlag}
                 objectives={task.objectives}
                 startTask={(id) => startTask(id, tasks, dayStat, updateTasks, updateDayStat)}
-                reportFlow={reportFlow}
+                reportFlow={(id, focus, productive) => reportFlow(id, focus, productive, tasks,
+                    dayStat, removeTask, setReportFlow, updateDayStat)}
             />
         }
     }
@@ -97,7 +104,8 @@ export default function TaskController() {
                     reportFlowFlag={task.reportFlowFlag}
                     objectives={task.objectives}
                     startTask={(id) => startTask(id, tasks, dayStat, updateTasks, updateDayStat)}
-                    reportFlow={reportFlow}
+                    reportFlow={(id, focus, productive) => reportFlow(id, focus, productive, tasks,
+                        dayStat, removeTask, setReportFlow, updateDayStat)}
                 />
             ))}
             <div className="addTaskButton" onClick={toggleTaskForm}>
@@ -110,9 +118,9 @@ export default function TaskController() {
 }
 
 function tick(tasks, dayStat, deltaTime, updateTasks, updateDayStat) {
-    if(!dayStat) return;
+    if (!dayStat) return;
     const taskActive = tasks.some(task => task.started && !task.paused);
-    if(!taskActive) return;
+    if (!taskActive) return;
 
     const currentDate = new Date();
     const currentDateString = currentDate.toISOString();
@@ -137,7 +145,7 @@ function tick(tasks, dayStat, deltaTime, updateTasks, updateDayStat) {
 
             //if a task is active update the stop time
             for (let j = 0; j < dayStat.tasks.length; j++) {
-                if (dayStat.tasks[j].id === dayStat[i].id) {
+                if (dayStat.tasks[j].id === tasks[i].id) {
                     let length = dayStat.tasks[j].stop.length;
                     dayStat.tasks[j].stop[length - 1] = currentDateString;
 
@@ -160,50 +168,43 @@ function tick(tasks, dayStat, deltaTime, updateTasks, updateDayStat) {
     updateDayStat(dayStat);
 }
 
-export function reportFlow(id, focus, productive) {
-    const updatedDayStat = this.state.dayStat;
-    const currentDayStatTask = updatedDayStat.tasks.find(task => task.id === id);
-
-    //todo check this
-    const updatedTasks = this.state.tasks;
-    const currentTask = updatedTasks.find(task => task.id === id);
+//todo refactor this
+function reportFlow(id, focus, productive, tasks, dayStat, removeTask, setReportFlow, updateDayStat) {
+    const dayStatTaskIndex = dayStat.tasks.findIndex(task => task.id === id);
+    const currentTask = tasks.find(task => task.id === id);
 
     const REPORT_DELAY = 500;
 
     //task hasn't been started
-    if (!currentDayStatTask || !currentTask) {
-        this.setState({
-            setSaveAllTasks: true,
-            removeTaskId: id
-        });
+    if (!dayStat.tasks[dayStatTaskIndex] || !currentTask) {
+        //todo save tasks
+        removeTask(id);
 
         return;
     }
 
-    if (currentDayStatTask.hasOwnProperty("focus")) {
-        currentDayStatTask.focus.push(focus);
-    } else currentDayStatTask.focus = [focus];
+    if (dayStat.tasks[dayStatTaskIndex].hasOwnProperty("focus")) {
+        dayStat.tasks[dayStatTaskIndex].focus.push(focus);
+    } else dayStat.tasks[dayStatTaskIndex].focus = [focus];
 
-    if (currentDayStatTask.hasOwnProperty("productive")) {
-        currentDayStatTask.productive.push(productive);
-    } else currentDayStatTask.productive = [productive];
+    if (dayStat.tasks[dayStatTaskIndex].hasOwnProperty("productive")) {
+        dayStat.tasks[dayStatTaskIndex].productive.push(productive);
+    } else dayStat.tasks[dayStatTaskIndex].productive = [productive];
 
     //separate server and animation logic for speed
-    this.setState({
-        dayStat: updatedDayStat,
-        setSaveAllTasks: true,
+    //todo save
+    updateDayStat(dayStat);
+    setReportFlow({
+        taskId: id,
+        val: false
     });
 
     setTimeout(() => {
         if (currentTask.finished) {
-            this.setState({
-                dayStat: updatedDayStat,
-                setSaveAllTasks: true,
-                removeTaskId: id
-            });
+            //todo save
+            removeTask(id);
         }
 
-        this.setReportFlow(id, false);
     }, REPORT_DELAY);
 }
 
