@@ -5,7 +5,7 @@ import "./flowReport.css";
 const INPUT_SIDE_SCALE = 0.75;
 
 
-export default function FlowReport({onDone, id, setReportFlow}) {
+export default function FlowReport({onDone, id}) {
     //todo when open prevent scrolling to stop drifting placements
     //todo recalculate the values when the window is scaled
 

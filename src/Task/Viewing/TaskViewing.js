@@ -2,12 +2,10 @@ import React, {useState} from "react";
 import "./taskViewing.css";
 import {formatTime} from "../../Utility/Utility";
 import Objective from "../Objective/Objective";
-import {useStoreActions, useStoreState} from "easy-peasy";
+import {useStoreActions} from "easy-peasy";
 
-export default function TaskViewing({
-                                        id, paused, remainingTime, started,
-                                        objectives, name, startTask
-                                    }) {
+export default function TaskViewing({id, paused, remainingTime, started,
+                                        objectives, name, startTask}) {
 
     const [newObjectiveName, setNewObjectiveName] = useState("");
     const unViewTask = useStoreActions(actions => actions.tasks.unViewTask);

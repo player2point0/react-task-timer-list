@@ -51,7 +51,7 @@ export default function TaskController() {
             clearInterval(saveInterval);
         };
 
-    }, [scrollToForm, lastTickTime, tasks]);
+    }, [scrollToForm, lastTickTime, tasks, dayStat]);
 
     const taskBeingViewed = tasks.some(task => task.isViewing);
 
@@ -72,6 +72,7 @@ export default function TaskController() {
                 reportFlowFlag={task.reportFlowFlag}
                 objectives={task.objectives}
                 startTask={(id) => startTask(id, tasks, dayStat, updateTasks, updateDayStat)}
+                reportFlow={reportFlow}
             />
         }
     }
@@ -96,6 +97,7 @@ export default function TaskController() {
                     reportFlowFlag={task.reportFlowFlag}
                     objectives={task.objectives}
                     startTask={(id) => startTask(id, tasks, dayStat, updateTasks, updateDayStat)}
+                    reportFlow={reportFlow}
                 />
             ))}
             <div className="addTaskButton" onClick={toggleTaskForm}>
@@ -107,8 +109,11 @@ export default function TaskController() {
     );
 }
 
-//update all the tasks which are started
 function tick(tasks, dayStat, deltaTime, updateTasks, updateDayStat) {
+    if(!dayStat) return;
+    const taskActive = tasks.some(task => task.started && !task.paused);
+    if(!taskActive) return;
+
     const currentDate = new Date();
     const currentDateString = currentDate.toISOString();
 
@@ -124,7 +129,7 @@ function tick(tasks, dayStat, deltaTime, updateTasks, updateDayStat) {
                     tasks[i].timeUp = true;
                     sendNotification("Task time finished", tasks[i].name);
 
-                    this.setState({setSaveAllTasks: true});
+                    //todo save tasks
                 }
             }
 
