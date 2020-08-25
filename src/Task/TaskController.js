@@ -71,6 +71,7 @@ export default function TaskController() {
                 finished={task.finished}
                 reportFlowFlag={task.reportFlowFlag}
                 objectives={task.objectives}
+                startTask={(id) => startTask(id, tasks, dayStat, updateTasks, updateDayStat)}
              />
         }
     }
@@ -94,6 +95,7 @@ export default function TaskController() {
                     finished={task.finished}
                     reportFlowFlag={task.reportFlowFlag}
                     objectives={task.objectives}
+                    startTask={(id) => startTask(id, tasks, dayStat, updateTasks, updateDayStat)}
                 />
             ))}
             <div className="addTaskButton" onClick={toggleTaskForm}>
@@ -286,4 +288,67 @@ export function saveAllTasks(tasks) {
     }
 
     this.firebaseSaveDayStat();
+}
+
+function startTask(id, tasks, dayStat, updateTasks, updateDayStat) {
+    let taskActive = false;
+    let currentDate = (new Date()).toISOString();
+
+    //todo check if the task is from a previous day stat and so doesn't exist in the tasks
+    const updatedTask = tasks.find(task => task.id === id);
+
+    if (updatedTask.started) {
+        if (updatedTask.remainingTime >= 0) {
+            if (updatedTask.paused) {
+                updatedTask.unPause();
+                taskActive = true;
+
+                let taskInDayStat = false;
+
+                //update the dayStat start and stop values
+                for (let j = 0; j < dayStat.tasks.length; j++) {
+                    if (dayStat.tasks[j].id === updatedTask.id) {
+                        dayStat.tasks[j].start.push(currentDate);
+                        dayStat.tasks[j].stop.push(currentDate);
+
+                        taskInDayStat = true;
+                    }
+                }
+
+                if (!taskInDayStat) {
+                    dayStat.tasks.push({
+                        id: updatedTask.id,
+                        name: updatedTask.name,
+                        start: [currentDate],
+                        stop: [currentDate],
+                    });
+                }
+
+            } else {
+                updatedTask.pause();
+            }
+        }
+    } else {
+        updatedTask.start();
+        taskActive = true;
+        dayStat.tasks.push({
+            id: updatedTask.id,
+            name: updatedTask.name,
+            start: [currentDate],
+            stop: [currentDate],
+        });
+    }
+
+    //pause any other active tasks
+    if (taskActive) {
+        for (let i = 0; i < tasks.length; i++) {
+            if (tasks[i].id !== id && tasks[i].started && !tasks[i].paused) {
+                tasks[i].pause();
+                tasks[i].isViewing = false;
+            }
+        }
+    }
+
+    updateTasks(updateTasks);
+    updateDayStat(updateDayStat);
 }

@@ -4,7 +4,7 @@ import "./auth.css";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import TaskController from "../Task/TaskController";
 import DayRecap from "../DayRecap/DayRecap";
-import {useStoreState} from 'easy-peasy';
+import {useStoreActions, useStoreState} from 'easy-peasy';
 
 import {
     uiConfig, userAuthChanged, getAuth
@@ -16,57 +16,48 @@ export default function MainApp() {
 
     const showAuthHtml = useStoreState(state => state.showAuthHtml);
     const [showRecap, setShowRecap] = useState(false);
+    const dayStat = useStoreState(state => state.dayStat.dayStat);
+    const updateDayStat = useStoreActions(actions => actions.dayStat.updateDayStat);
 
     useEffect(() => {
         const unregisterAuthObserver = getAuth().onAuthStateChanged(userAuthChanged);
 
-
         //todo create a update dayStat function that checks for date changes
+        if (dayStat === null) {
+            createNewDayStat(updateDayStat);
+        }
         /*
-                if (this.state.dayStat === null) {
-                    this.createNewDayStat();
-                }
-
-                if (this.state.weekDayStats === null) {
-                    this.setState(state => ({
-                        weekDayStats: [state.dayStat]
-                    }))
-                }
-
-                //check if the day has changed
-                let currentDate = formatDayMonth(new Date());
-                if (this.state.dayStat !== null) {
-                    if (this.state.dayStat.date !== currentDate) {
-                        //update the week stats by one day
-                        let newWeekDayStats = this.state.weekDayStats.slice();
-                        //remove the oldest date from the end
-                        newWeekDayStats.pop();
-                        //add the latest day stat to the front
-                        newWeekDayStats.unshift(this.state.dayStat);
-
-                        this.setState({
-                            weekDayStats: newWeekDayStats,
-                        });
-
-                        this.createNewDayStat();
-                    }
-                }
+                        if (this.state.weekDayStats === null) {
+                            this.setState(state => ({
+                                weekDayStats: [state.dayStat]
+                            }))
+                        }
         */
+        //check if the day has changed
+        let currentDate = formatDayMonth(new Date());
+        if (dayStat !== null) {
+            if (dayStat.date !== currentDate) {
+                /*
+                                        //update the week stats by one day
+                                        let newWeekDayStats = this.state.weekDayStats.slice();
+                                        //remove the oldest date from the end
+                                        newWeekDayStats.pop();
+                                        //add the latest day stat to the front
+                                        newWeekDayStats.unshift(this.state.dayStat);
+
+                                        this.setState({
+                                            weekDayStats: newWeekDayStats,
+                                        });
+                */
+                createNewDayStat(updateDayStat);
+            }
+        }
+
 
         return () => {
             unregisterAuthObserver();
         };
     });
-
-    const createNewDayStat = () => {
-        return {
-            date: formatDayMonth(new Date()),
-            totalWorked: 0,
-            totalBreak: 0,
-            userId: null,
-            tasks: [],
-        };
-    };
 
     const toggleDayRecap = () => {
         setShowRecap(!showRecap);
@@ -93,4 +84,17 @@ export default function MainApp() {
             {!showRecap && <TaskController/>}
         </div>
     );
+}
+
+
+function createNewDayStat(updateDayStat) {
+    const newDayStat = {
+        date: formatDayMonth(new Date()),
+        totalWorked: 0,
+        totalBreak: 0,
+        userId: null,
+        tasks: [],
+    };
+
+    updateDayStat(newDayStat);
 }

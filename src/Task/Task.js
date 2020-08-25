@@ -6,7 +6,7 @@ import TaskViewing from "./Viewing/TaskViewing";
 //renders the task based on the passed properties
 export default function Task({isViewing, name, remainingTime, id,
                              reportFlowFlag, finished, reportFlow, paused,
-                             started, objectives}) {
+                             started, objectives, startTask}) {
     if (!isViewing) {
         return (<TaskNotViewing
             name={name}
@@ -38,5 +38,6 @@ export default function Task({isViewing, name, remainingTime, id,
         name={name}
         started={started}
         objectives={objectives}
+        startTask={startTask}
     />;
 }

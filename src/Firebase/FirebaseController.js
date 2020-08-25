@@ -96,13 +96,16 @@ export async function getWeekStats(weekDate){
 
 // login / signup / guest
 export function userAuthChanged(user) {
+    //todo this
+/*
     if (user) {
-        this.loadServerData();
+        loadServerData();
     } else {
         this.setState({
             showAuthHtml: true,
         });
     }
+ */
 }
 
 //todo optimise this to only change fields that have changed
