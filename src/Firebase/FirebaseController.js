@@ -96,7 +96,6 @@ export async function getWeekStats(weekDate){
 
 export function saveAllTasks(tasks){
     const saveTaskPromises = tasks
-        .filter(task => task.needsSaved)
         .map(task => firebaseSaveTask(task));
     Promise.all(saveTaskPromises)
         .then();

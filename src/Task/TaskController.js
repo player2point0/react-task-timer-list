@@ -208,27 +208,6 @@ function reportFlow(id, focus, productive, tasks, dayStat, removeTask, setReport
     }, REPORT_DELAY);
 }
 
-//todo move this to firebase controller
-export function saveAllTasks(tasks) {
-
-    //grab the tasks that have changed
-    let tasksToSave = [];
-
-    for (let i = 0; i < tasks.length; i++) {
-        if (tasks[i].needsSaved) {
-            tasksToSave.push(tasks[i]);
-            tasks[i].needsSaved = false;
-        }
-    }
-
-    //todo add an action to reset the save flag
-    for (let i = 0; i < tasksToSave.length; i++) {
-        this.firebaseSaveTask(tasksToSave[i]);
-    }
-
-    this.firebaseSaveDayStat();
-}
-
 function startTask(id, tasks, dayStat, updateTasks, updateDayStat) {
     let taskActive = false;
     let currentDate = (new Date()).toISOString();

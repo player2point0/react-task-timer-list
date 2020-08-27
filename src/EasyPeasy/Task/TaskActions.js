@@ -78,7 +78,6 @@ export const finishTask = action((state, taskId) => {
     state.tasks = tempTasks
 });
 
-
 export const setReportFlow = action((state, {taskId, val}) => {
     const tempTasks = [...state.tasks];
 
@@ -96,14 +95,6 @@ export const removeTask = action((state, taskId) => {
 
     const taskIndex = tempTasks.findIndex(task => task.id === taskId);
     tempTasks.splice(taskIndex, 1);
-
-    state.tasks = tempTasks
-});
-
-export const resetAllTasksNeedSaved = action(state => {
-    const tempTasks = [...state.tasks];
-
-    tempTasks.forEach(task => task.needsSaved = false);
 
     state.tasks = tempTasks
 });

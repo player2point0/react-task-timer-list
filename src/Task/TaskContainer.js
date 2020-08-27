@@ -21,8 +21,6 @@ export default class TaskContainer {
 			this.isViewing = false;//savedTask.isViewing;
 			this.stats = savedTask.stats;
 			this.objectives = savedTask.objectives;
-
-			this.needsSaved = false;
 		} else {
 			this.id = uid(32);
 			this.name = name;
@@ -45,8 +43,6 @@ export default class TaskContainer {
 				unpauseDates: [],
 			};
 			this.objectives = [];
-
-			this.needsSaved = true;
 		}
 	}
 
@@ -56,7 +52,6 @@ export default class TaskContainer {
 				this.objectives[i].finished = true;
 			}
 		}
-		this.needsSaved = true;
 	}
 
 	addObjective(name){
@@ -66,7 +61,6 @@ export default class TaskContainer {
 		newObjective.finished = false;
 
 		this.objectives.push(newObjective);
-		this.needsSaved = true;
 	}
 
 	addTime() {
@@ -76,36 +70,30 @@ export default class TaskContainer {
 		this.timeUp = false;
 
 		this.stats.timeAdded += extraTime;
-		this.needsSaved = true;
 	}
 
 	pause() {
 		this.paused = true;
 		this.stats.pauseDates.push(new Date());
-		this.needsSaved = true;
 	}
 
 	unPause() {
 		this.paused = false;
 		this.stats.unpauseDates.push(new Date());
-		this.needsSaved = true;
 	}
 
 	start() {
 		this.started = true;
 		this.stats.dateStarted = new Date();
-		this.needsSaved = true;
 	}
 
 	finish() {
 		this.stats.dateFinished = new Date();
 		this.finished = true;
-		this.needsSaved = true;
 	}
 
 	view(){
 		this.isViewing = !this.isViewing;
-		this.needsSaved = true;
 	}
 
 	//todo could probably change to a toggle
