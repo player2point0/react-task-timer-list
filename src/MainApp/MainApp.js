@@ -7,20 +7,34 @@ import DayRecap from "../DayRecap/DayRecap";
 import {useStoreActions, useStoreState} from 'easy-peasy';
 
 import {
-    uiConfig, userAuthChanged, getAuth
+    uiConfig, userAuthChanged, getAuth, firebaseGetAllTasks
 } from "../Firebase/FirebaseController";
 
 import {formatDayMonth} from "../Utility/Utility";
 
 export default function MainApp() {
 
-    const showAuthHtml = useStoreState(state => state.showAuthHtml);
+    const [showAuthHtml, setShowAuthHtml] = useState(true);
     const [showRecap, setShowRecap] = useState(false);
     const dayStat = useStoreState(state => state.dayStat.dayStat);
     const updateDayStat = useStoreActions(actions => actions.dayStat.updateDayStat);
+    const updateTasks = useStoreActions(actions => actions.tasks.updateTasks);
 
     useEffect(() => {
-        const unregisterAuthObserver = getAuth().onAuthStateChanged(userAuthChanged);
+        const unregisterAuthObserver = getAuth().onAuthStateChanged((user) => {
+            if(user){
+                //todo load server data
+                firebaseGetAllTasks()
+                    .then(tasks => {
+                        updateTasks(tasks);
+                    });
+
+                setShowAuthHtml(false);
+            }
+            else{
+                setShowAuthHtml(true)
+            }
+        });
 
         //todo create a update dayStat function that checks for date changes
         if (dayStat === null) {

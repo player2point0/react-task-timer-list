@@ -1,13 +1,15 @@
 import {action} from "easy-peasy";
+import {firebaseSaveTask} from "../../Firebase/FirebaseController";
 
 /*
-USE IMMUTABLE OBJECTS DO THAT THE RERENDER WORKS
+USE IMMUTABLE OBJECTS SO THAT THE RERENDER WORKS
  */
 
 //todo refactor this
 
 export const addTask = action((state, newTask) => {
     state.tasks.push(newTask)
+    firebaseSaveTask(newTask);
 });
 
 export const updateTasks = action((state, updatedTasks) => {
@@ -38,12 +40,11 @@ export const addObjective = action((state, {taskId, objectiveName}) => {
 
     const taskIndex = tempTasks.findIndex(task => task.id === taskId);
 
-    console.log(taskId);
-    console.log(objectiveName);
-
     tempTasks[taskIndex].addObjective(objectiveName);
 
-    state.tasks = tempTasks
+    state.tasks = tempTasks;
+
+    firebaseSaveTask(state.tasks[taskIndex]);
 });
 
 export const completeObjective = action((state, {taskId, objectiveId}) => {
@@ -52,7 +53,9 @@ export const completeObjective = action((state, {taskId, objectiveId}) => {
     const taskIndex = tempTasks.findIndex(task => task.id === taskId);
     tempTasks[taskIndex].completeObjective(objectiveId);
 
-    state.tasks = tempTasks
+    state.tasks = tempTasks;
+
+    firebaseSaveTask(state.tasks[taskIndex]);
 });
 
 export const addTime = action((state, taskId) => {
@@ -61,7 +64,9 @@ export const addTime = action((state, taskId) => {
     const taskIndex = tempTasks.findIndex(task => task.id === taskId);
     tempTasks[taskIndex].addTime();
 
-    state.tasks = tempTasks
+    state.tasks = tempTasks;
+
+    firebaseSaveTask(state.tasks[taskIndex]);
 });
 
 export const finishTask = action((state, taskId) => {
@@ -91,6 +96,14 @@ export const removeTask = action((state, taskId) => {
 
     const taskIndex = tempTasks.findIndex(task => task.id === taskId);
     tempTasks.splice(taskIndex, 1);
+
+    state.tasks = tempTasks
+});
+
+export const resetAllTasksNeedSaved = action(state => {
+    const tempTasks = [...state.tasks];
+
+    tempTasks.forEach(task => task.needsSaved = false);
 
     state.tasks = tempTasks
 });

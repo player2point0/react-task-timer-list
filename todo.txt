@@ -11,16 +11,12 @@
 -display components based on the redux state, build a state machine for this. or maybe use a router
 
 --firebase logic--
--update the current logic to work with easy peasy
+-update the auto save code
 -update app logic to call save function:
-    -add objective
-    -complete objective
-    -add task
     -start task
     -finish task
     -pause task
     -unpause task
-    -add time
     -report flow
 -update logic to call the save day stat function:
     -pause/finish task

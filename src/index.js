@@ -12,7 +12,6 @@ serviceWorker.register();
 const store = createStore({
     tasks: taskModel,
     dayStat: dayStatModel,
-    showAuthHtml: true,
     weekDayStats: null,
 });
 

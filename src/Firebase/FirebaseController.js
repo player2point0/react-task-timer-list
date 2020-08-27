@@ -47,7 +47,7 @@ export function getCurrentUser(){
 export function getAuth() {
     return firebase.auth();
 }
-
+/*
 export async function loadServerData() {
     let scope = this;
     const currentDate = new Date();
@@ -79,7 +79,7 @@ export async function loadServerData() {
         weekDayStats: weekDayStats,
     });
 }
-
+*/
 export async function getWeekStats(weekDate){
     let weekDayStatPromises = [];
 
@@ -94,18 +94,12 @@ export async function getWeekStats(weekDate){
     return await Promise.all(weekDayStatPromises);
 }
 
-// login / signup / guest
-export function userAuthChanged(user) {
-    //todo this
-/*
-    if (user) {
-        loadServerData();
-    } else {
-        this.setState({
-            showAuthHtml: true,
-        });
-    }
- */
+export function saveAllTasks(tasks){
+    const saveTaskPromises = tasks
+        .filter(task => task.needsSaved)
+        .map(task => firebaseSaveTask(task));
+    Promise.all(saveTaskPromises)
+        .then();
 }
 
 //todo optimise this to only change fields that have changed
@@ -141,7 +135,7 @@ export function firebaseSaveTask(task) {
             objectives: task.objectives,
             userId: currentUser.uid,
         })
-        .then(console.log("saved task successfully"))
+        .then(() => console.log("saved task successfully"))
         .catch(reason => console.error("error saving task" + reason));
 }
 
@@ -198,8 +192,7 @@ export function firebaseSaveFeedback(feedback) {
         .catch(reason => console.error("error saving feedback" + reason));
 }
 
-//todo change to use a promise
-export function firebaseGetAllTasks(callback) {
+export function firebaseGetAllTasks() {
     const currentUser = firebase.auth().currentUser;
 
     if (!currentUser) {
@@ -207,21 +200,19 @@ export function firebaseGetAllTasks(callback) {
         return;
     }
 
-    firebase.firestore().collection("tasks")
+    return firebase.firestore().collection("tasks")
         .where("userId", "==", currentUser.uid)
         .where("finished", "==", false)
         .get()
         .then(function (querySnapshot) {
             let savedTasks = [];
-            let tempTask;
 
             querySnapshot.forEach(function (doc) {
-                tempTask = doc.data();
-                tempTask.dateCreated = doc.data().dateCreated.toDate();
-                savedTasks.push(tempTask);
+                const parsedTask = new TaskContainer(null, null, null, doc.data());
+                savedTasks.push(parsedTask);
             });
 
-            callback(savedTasks);
+            return savedTasks;
         })
         .catch(function (error) {
             console.log("Error getting documents: ", error);
@@ -261,19 +252,4 @@ export async function firebaseGetDayStat(date) {
                 }
             );
     });
-}
-
-export function parseSavedTasks(savedTasks) {
-    let outputSavedTasks = [];
-    let newTask;
-
-    if (savedTasks == null) savedTasks = [];
-
-    for (let i = 0; i < savedTasks.length; i++) {
-        newTask = new TaskContainer(null, null, null, savedTasks[i]);
-
-        outputSavedTasks.push(newTask);
-    }
-
-    return outputSavedTasks;
 }

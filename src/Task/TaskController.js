@@ -220,8 +220,8 @@ export function saveAllTasks(tasks) {
             tasks[i].needsSaved = false;
         }
     }
-    //todo add an action to reset the save flag
 
+    //todo add an action to reset the save flag
     for (let i = 0; i < tasksToSave.length; i++) {
         this.firebaseSaveTask(tasksToSave[i]);
     }

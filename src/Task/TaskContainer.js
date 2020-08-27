@@ -7,7 +7,7 @@ export default class TaskContainer {
 		if (savedTask) {
 			this.id = savedTask.id;
 			this.name = savedTask.name;
-			this.dateCreated = savedTask.dateCreated;
+			this.dateCreated = savedTask.dateCreated.toDate();
 			//time in seconds
 			this.totalTime = savedTask.totalTime;
 			this.remainingTime = savedTask.remainingTime;
