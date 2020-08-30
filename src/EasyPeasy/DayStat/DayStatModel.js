@@ -1,6 +1,8 @@
-import {updateDayStat} from "./DayStatActions";
+import {saveDayStat, updateDayStat} from "./DayStatActions";
+import {createDayStat} from "../../MainApp/DayStat";
 
 export const dayStatModel = {
-    dayStat: null,
+    dayStat: createDayStat(),
     updateDayStat: updateDayStat,
+    saveDayStat: saveDayStat,
 };

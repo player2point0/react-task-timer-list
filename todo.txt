@@ -2,25 +2,19 @@
 -make recap part of day. daily recap of work and fill in the gaps
 -overview of flow
 -maybe reset tasks each day to remove stale tasks and keep focus clear and incentivise progress
+-make it more apparent when no task is active e.g. when you are working but forget to activate a task
 
 --group files--
 -regroup the logic, the current pattern of bind everything probably isn't needed if we change to redux
 
 --redux--
--change task to use redux
 -display components based on the redux state, build a state machine for this. or maybe use a router
 
 --firebase logic--
--update the auto save code
+-add logic for remove task
 -update app logic to call save function:
-    -start task
-    -finish task
-    -pause task
-    -unpause task
     -report flow
 -update logic to call the save day stat function:
-    -pause/finish task
-    -unpause/start task
     -report flow
 
 --unit tests-

@@ -5,7 +5,7 @@ import "../MainApp/addTaskForm.css";
 import {sendNotification} from "../Utility/Utility";
 import NewTaskForm from "./NewTaskForm";
 import {useStoreActions, useStoreState} from 'easy-peasy';
-import {getAuth, userAuthChanged} from "../Firebase/FirebaseController";
+import {firebaseSaveTask, getAuth, userAuthChanged} from "../Firebase/FirebaseController";
 
 const SAVE_INTERVAL = 5 * 60 * 1000; //in milli for set interval
 
@@ -19,6 +19,8 @@ export default function TaskController() {
     const updateDayStat = useStoreActions(actions => actions.dayStat.updateDayStat);
     const setReportFlow = useStoreActions(actions => actions.tasks.setReportFlow);
     const removeTask = useStoreActions(actions => actions.tasks.removeTask);
+    const saveTask = useStoreActions(actions => actions.tasks.saveTask);
+    const saveDayStat = useStoreActions(actions => actions.dayStat.saveDayStat);
 
     const tasks = useStoreState(state => state.tasks.tasks);
     const dayStat = useStoreState(state => state.dayStat.dayStat);
@@ -46,8 +48,11 @@ export default function TaskController() {
             tick(tasks, dayStat, deltaTime, updateTasks, updateDayStat);
         }, 1000);
         const saveInterval = setInterval(() => {
-            //todo call the firebase save
-            //this.setState({setSaveAllTasks: true})
+            const saveTaskPromises = tasks.map(task => {
+                return firebaseSaveTask(task)
+            });
+            Promise.all(saveTaskPromises)
+                .catch(err => console.error(err));
         }, SAVE_INTERVAL);
 
         return () => {
@@ -77,7 +82,7 @@ export default function TaskController() {
                 finished={task.finished}
                 reportFlowFlag={task.reportFlowFlag}
                 objectives={task.objectives}
-                startTask={(id) => startTask(id, tasks, dayStat, updateTasks, updateDayStat)}
+                startTask={(id) => startTask(id, tasks, dayStat, updateTasks, updateDayStat, saveTask, saveDayStat)}
                 reportFlow={(id, focus, productive) => reportFlow(id, focus, productive, tasks,
                     dayStat, removeTask, setReportFlow, updateDayStat)}
             />
@@ -103,7 +108,7 @@ export default function TaskController() {
                     finished={task.finished}
                     reportFlowFlag={task.reportFlowFlag}
                     objectives={task.objectives}
-                    startTask={(id) => startTask(id, tasks, dayStat, updateTasks, updateDayStat)}
+                    startTask={(id) => startTask(id, tasks, dayStat, updateTasks, updateDayStat, saveTask, saveDayStat)}
                     reportFlow={(id, focus, productive) => reportFlow(id, focus, productive, tasks,
                         dayStat, removeTask, setReportFlow, updateDayStat)}
                 />
@@ -208,7 +213,9 @@ function reportFlow(id, focus, productive, tasks, dayStat, removeTask, setReport
     }, REPORT_DELAY);
 }
 
-function startTask(id, tasks, dayStat, updateTasks, updateDayStat) {
+//todo refactor this
+//handle start, pause and unpause
+function startTask(id, tasks, dayStat, updateTasks, updateDayStat, saveTask, saveDayStat) {
     let taskActive = false;
     let currentDate = (new Date()).toISOString();
 
@@ -249,6 +256,7 @@ function startTask(id, tasks, dayStat, updateTasks, updateDayStat) {
     } else {
         tasks[taskIndex].start();
         taskActive = true;
+        console.log(dayStat);
         dayStat.tasks.push({
             id: tasks[taskIndex].id,
             name: tasks[taskIndex].name,
@@ -269,4 +277,6 @@ function startTask(id, tasks, dayStat, updateTasks, updateDayStat) {
 
     updateTasks(tasks);
     updateDayStat(dayStat);
+    saveTask(id);
+    saveDayStat();
 }

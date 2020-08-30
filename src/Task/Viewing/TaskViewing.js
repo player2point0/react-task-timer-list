@@ -3,6 +3,7 @@ import "./taskViewing.css";
 import {formatTime} from "../../Utility/Utility";
 import Objective from "../Objective/Objective";
 import {useStoreActions} from "easy-peasy";
+import {saveDayStat} from "../../EasyPeasy/DayStat/DayStatActions";
 
 export default function TaskViewing({id, paused, remainingTime, started,
                                         objectives, name, startTask}) {
@@ -14,6 +15,7 @@ export default function TaskViewing({id, paused, remainingTime, started,
     const finishTask = useStoreActions(actions => actions.tasks.finishTask);
     const setReportFlow = useStoreActions(actions => actions.tasks.setReportFlow);
     const addTime = useStoreActions(actions => actions.tasks.addTime);
+    const saveDayStat = useStoreActions(actions => actions.dayStat.saveDayStat);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -86,6 +88,7 @@ export default function TaskViewing({id, paused, remainingTime, started,
                 buttonText={"finish"}
                 onClickFunc={() => {
                     finishTask(id);
+                    saveDayStat();
                     setReportFlow({
                         taskId: id,
                         val: true

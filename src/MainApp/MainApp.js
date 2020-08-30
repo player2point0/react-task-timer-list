@@ -7,7 +7,7 @@ import DayRecap from "../DayRecap/DayRecap";
 import {useStoreActions, useStoreState} from 'easy-peasy';
 
 import {
-    uiConfig, userAuthChanged, getAuth, firebaseGetAllTasks
+    uiConfig, userAuthChanged, getAuth, firebaseGetAllTasks, firebaseGetDayStat
 } from "../Firebase/FirebaseController";
 
 import {formatDayMonth} from "../Utility/Utility";
@@ -16,58 +16,58 @@ export default function MainApp() {
 
     const [showAuthHtml, setShowAuthHtml] = useState(true);
     const [showRecap, setShowRecap] = useState(false);
-    const dayStat = useStoreState(state => state.dayStat.dayStat);
     const updateDayStat = useStoreActions(actions => actions.dayStat.updateDayStat);
     const updateTasks = useStoreActions(actions => actions.tasks.updateTasks);
 
     useEffect(() => {
+        //todo add logic to create a new dayStat when the day rolls over
+
         const unregisterAuthObserver = getAuth().onAuthStateChanged((user) => {
-            if(user){
-                //todo load server data
+            if (user) {
                 firebaseGetAllTasks()
                     .then(tasks => {
                         updateTasks(tasks);
                     });
 
+                firebaseGetDayStat(formatDayMonth(new Date()))
+                    .then(dayStat => {
+                        updateDayStat(dayStat);
+                    });
+
                 setShowAuthHtml(false);
-            }
-            else{
+            } else {
+                //todo probably need to reset the dayStats
                 setShowAuthHtml(true)
             }
         });
 
-        //todo create a update dayStat function that checks for date changes
-        if (dayStat === null) {
-            createNewDayStat(updateDayStat);
-        }
+        //todo add weekStats func
         /*
-                        if (this.state.weekDayStats === null) {
-                            this.setState(state => ({
-                                weekDayStats: [state.dayStat]
-                            }))
-                        }
+                                if (this.state.weekDayStats === null) {
+                                    this.setState(state => ({
+                                        weekDayStats: [state.dayStat]
+                                    }))
+                                }
+
+                let currentDate = formatDayMonth(new Date());
+                if (dayStat !== null) {
+                    if (dayStat.date !== currentDate) {
+
+                                                //update the week stats by one day
+                                                let newWeekDayStats = this.state.weekDayStats.slice();
+                                                //remove the oldest date from the end
+                                                newWeekDayStats.pop();
+                                                //add the latest day stat to the front
+                                                newWeekDayStats.unshift(this.state.dayStat);
+
+                                                this.setState({
+                                                    weekDayStats: newWeekDayStats,
+                                                });
+
+                        createNewDayStat(updateDayStat);
+                    }
+                }
         */
-        //check if the day has changed
-        let currentDate = formatDayMonth(new Date());
-        if (dayStat !== null) {
-            if (dayStat.date !== currentDate) {
-                /*
-                                        //update the week stats by one day
-                                        let newWeekDayStats = this.state.weekDayStats.slice();
-                                        //remove the oldest date from the end
-                                        newWeekDayStats.pop();
-                                        //add the latest day stat to the front
-                                        newWeekDayStats.unshift(this.state.dayStat);
-
-                                        this.setState({
-                                            weekDayStats: newWeekDayStats,
-                                        });
-                */
-                createNewDayStat(updateDayStat);
-            }
-        }
-
-
         return () => {
             unregisterAuthObserver();
         };
@@ -98,17 +98,4 @@ export default function MainApp() {
             {!showRecap && <TaskController/>}
         </div>
     );
-}
-
-
-function createNewDayStat(updateDayStat) {
-    const newDayStat = {
-        date: formatDayMonth(new Date()),
-        totalWorked: 0,
-        totalBreak: 0,
-        userId: null,
-        tasks: [],
-    };
-
-    updateDayStat(newDayStat);
 }
