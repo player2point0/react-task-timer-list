@@ -6,7 +6,7 @@ import {
     addObjective,
     completeObjective,
     addTime,
-    finishTask, setReportFlow, removeTask
+    finishTask, setReportFlow, removeTask, saveTask
 } from "./TaskActions";
 import TaskContainer from "../../Task/TaskContainer";
 
@@ -22,4 +22,5 @@ export const taskModel = {
     finishTask: finishTask,
     setReportFlow: setReportFlow,
     removeTask: removeTask,
+    saveTask: saveTask,
 };
