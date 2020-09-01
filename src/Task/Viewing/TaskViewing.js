@@ -2,22 +2,30 @@ import React, {useState} from "react";
 import "./taskViewing.css";
 import {formatTime} from "../../Utility/Utility";
 import Objective from "../Objective/Objective";
+import {useStoreActions} from "easy-peasy";
+import {saveDayStat} from "../../EasyPeasy/DayStat/DayStatActions";
 
-export default function TaskViewing({
-                                        id, paused, remainingTime, started, objectives, completeObjective,
-                                        startTask, setReportFlow, finishTask, addTime, taskOnClick,
-                                        addObjective
-                                    }) {
+export default function TaskViewing({id, paused, remainingTime, started,
+                                        objectives, name, startTask}) {
 
     const [newObjectiveName, setNewObjectiveName] = useState("");
-
+    const unViewTask = useStoreActions(actions => actions.tasks.unViewTask);
+    const addObjective = useStoreActions(actions => actions.tasks.addObjective);
+    const completeObjective = useStoreActions(actions => actions.tasks.completeObjective);
+    const finishTask = useStoreActions(actions => actions.tasks.finishTask);
+    const setReportFlow = useStoreActions(actions => actions.tasks.setReportFlow);
+    const addTime = useStoreActions(actions => actions.tasks.addTime);
+    const saveDayStat = useStoreActions(actions => actions.dayStat.saveDayStat);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!newObjectiveName) return;
 
         //todo if there is a completed objective then swap the new and the old
-        addObjective(id, newObjectiveName);
+        addObjective({
+            taskId: id,
+            objectiveName: newObjectiveName
+        });
 
         setNewObjectiveName("");
     };
@@ -70,14 +78,21 @@ export default function TaskViewing({
                 buttonText={startButtonText}
                 onClickFunc={() => {
                     startTask(id);
-                    setReportFlow(id, true);
+                    setReportFlow({
+                        taskId: id,
+                        val: true
+                    });
                 }}
             />
             <TaskViewingButton
                 buttonText={"finish"}
                 onClickFunc={() => {
                     finishTask(id);
-                    setReportFlow(id, true);
+                    saveDayStat();
+                    setReportFlow({
+                        taskId: id,
+                        val: true
+                    });
                 }}
             />
             <TaskViewingButton
@@ -91,14 +106,16 @@ export default function TaskViewing({
         <div
             className="taskVIewing"
             onClick={e => {
-                taskOnClick(id, e);
+                //todo could check if the task is active and then pause and report flow
+                unViewTask(id);
             }}
         >
             <div className="taskObjectives">
-                    {taskObjectives}
-                    {addTaskObjective}
+                {taskObjectives}
+                {addTaskObjective}
             </div>
             <div className={"taskControls"}>
+                <div className="taskName">{name}</div>
                 <div className="taskTime">{formatTime(remainingTime)}</div>
                 {taskViewingButtons}
             </div>

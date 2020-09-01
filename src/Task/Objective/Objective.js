@@ -6,7 +6,10 @@ export default function Objective({completeObjective, taskId, id, name, finished
     let completeButton = <button
         onClick={function (e) {
             e.stopPropagation();
-            completeObjective(taskId, id);
+            completeObjective({
+                taskId: taskId,
+                objectiveId: id
+            });
         }}
     >done</button>;
 

@@ -1,79 +1,102 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Task from "./Task";
 import HoursOverlay from "../HourCover/HoursOverlay";
 import "../MainApp/addTaskForm.css";
-import {requestNotifications, sendNotification} from "../Utility/Utility";
-import TaskContainer from "./TaskContainer";
+import {sendNotification} from "../Utility/Utility";
+import NewTaskForm from "./NewTaskForm";
+import {useStoreActions, useStoreState} from 'easy-peasy';
+import {firebaseSaveTask, getAuth, userAuthChanged} from "../Firebase/FirebaseController";
 
-export default class TaskController extends React.Component {
-    constructor(props) {
-        super(props);
-        //store the tasks
-        this.state = {
-            showTaskForm: false,
-            scrollToForm: false,
-        };
+const SAVE_INTERVAL = 5 * 60 * 1000; //in milli for set interval
 
-        this.toggleTaskForm = this.toggleTaskForm.bind(this);
-        this.handleNewTaskNameChange = this.handleNewTaskNameChange.bind(this);
-        this.handleNewTaskHoursChange = this.handleNewTaskHoursChange.bind(this);
-        this.handleNewTaskMinsChange = this.handleNewTaskMinsChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+export default function TaskController() {
+
+    const [showTaskForm, setShowTaskForm] = useState(false);
+    const [scrollToForm, setScrollToForm] = useState(false);
+    const [lastTickTime, setLastTickTime] = useState(new Date());
+
+    const updateTasks = useStoreActions(actions => actions.tasks.updateTasks);
+    const updateDayStat = useStoreActions(actions => actions.dayStat.updateDayStat);
+    const setReportFlow = useStoreActions(actions => actions.tasks.setReportFlow);
+    const removeTask = useStoreActions(actions => actions.tasks.removeTask);
+    const saveTask = useStoreActions(actions => actions.tasks.saveTask);
+    const saveDayStat = useStoreActions(actions => actions.dayStat.saveDayStat);
+
+    const tasks = useStoreState(state => state.tasks.tasks);
+    const dayStat = useStoreState(state => state.dayStat.dayStat);
 
     //display the add task inputs
-    toggleTaskForm() {
-        this.setState(state => ({
-            showTaskForm: !state.showTaskForm,
-            scrollToForm: true,
-        }));
-    }
+    const toggleTaskForm = () => {
+        setShowTaskForm(!showTaskForm);
+        setScrollToForm(true);
+    };
 
-    //methods for the new task input
-    handleNewTaskNameChange(e) {
-        this.setState({newTaskName: e.target.value.toLowerCase()});
-    }
-
-    handleNewTaskHoursChange(e) {
-        this.setState({newTaskHours: e.target.value});
-    }
-
-    handleNewTaskMinsChange(e) {
-        this.setState({newTaskMins: e.target.value});
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-        const currentState = this.state;
-        this.props.addTask(currentState);
-        this.setState({
-            newTaskName: "",
-            newTaskHours: "0",
-            newTaskMins: "0",
-        });
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.state.scrollToForm) {
+    useEffect(() => {
+        if (scrollToForm) {
             const addTaskFrom = document.getElementById("addTaskForm");
             if (addTaskFrom) addTaskFrom.scrollIntoView(false);
 
-            this.setState({
-                scrollToForm: false,
+            setScrollToForm(false);
+        }
+    }, [scrollToForm]);
+
+    useEffect(() => {
+        const tickInterval = setInterval(() => {
+            const currentDate = new Date();
+            const deltaTime = (currentDate - lastTickTime) / 1000.0;
+            setLastTickTime(currentDate);
+            tick(tasks, dayStat, deltaTime, updateTasks, updateDayStat);
+        }, 1000);
+        const saveInterval = setInterval(() => {
+            const saveTaskPromises = tasks.map(task => {
+                return firebaseSaveTask(task)
             });
+            Promise.all(saveTaskPromises)
+                .catch(err => console.error(err));
+        }, SAVE_INTERVAL);
+
+        return () => {
+            clearInterval(tickInterval);
+            clearInterval(saveInterval);
+        };
+
+    }, [lastTickTime, tasks, dayStat]);
+
+
+    const taskBeingViewed = tasks.some(task => task.isViewing);
+
+    for (let i = 0; i < tasks.length; i++) {
+        const task = tasks[i];
+
+        //todo probably shouldn't use closure here to keep things updated
+        if (task.reportFlowFlag && (task.paused || task.finished)) {
+            return <Task
+                key={task.id}
+                id={task.id}
+                name={task.name}
+                totalTime={task.totalTime}
+                remainingTime={task.remainingTime}
+                started={task.started}
+                paused={task.paused}
+                isViewing={task.isViewing}
+                finished={task.finished}
+                reportFlowFlag={task.reportFlowFlag}
+                objectives={task.objectives}
+                startTask={(id) => startTask(id, tasks, dayStat, updateTasks, updateDayStat, saveTask, saveDayStat)}
+                reportFlow={(id, focus, productive) => reportFlow(id, focus, productive, tasks,
+                    dayStat, removeTask, setReportFlow, updateDayStat)}
+            />
         }
     }
 
-    render() {
-        let addTaskHtml;
-        const taskViewing = this.props.tasks.some(task => task.isViewing);
-
-        //if reporting flow then display just the report flow to prevent scrolling bugs
-        for(let i = 0;i<this.props.tasks.length;i++){
-            const task = this.props.tasks[i];
-
-            if(task.reportFlowFlag && (task.paused || task.finished)){
-                return <Task
+    return (
+        <div>
+            {!taskBeingViewed && <HoursOverlay
+                startTime={new Date()}
+                numHours={12}
+            />}
+            {tasks.map(task => (
+                <Task
                     key={task.id}
                     id={task.id}
                     name={task.name}
@@ -84,140 +107,61 @@ export default class TaskController extends React.Component {
                     isViewing={task.isViewing}
                     finished={task.finished}
                     reportFlowFlag={task.reportFlowFlag}
-                    setReportFlow={this.props.setReportFlow}
-                    reportFlow={this.props.reportFlow}
-                    taskOnClick={this.props.taskOnClick}
-                    startTask={this.props.startTask}
-                    finishTask={this.props.finishTask}
-                    addTime={this.props.addTime}
                     objectives={task.objectives}
-                    completeObjective={this.props.completeObjective}
-                    addObjective={this.props.addObjective}
+                    startTask={(id) => startTask(id, tasks, dayStat, updateTasks, updateDayStat, saveTask, saveDayStat)}
+                    reportFlow={(id, focus, productive) => reportFlow(id, focus, productive, tasks,
+                        dayStat, removeTask, setReportFlow, updateDayStat)}
                 />
-            }
-        }
-
-        if (this.state.showTaskForm) {
-            //display the inputs
-            addTaskHtml = (
-                <form
-                    id="addTaskForm"
-                    className="addTaskForm"
-                    onSubmit={this.handleSubmit}
-                    autoComplete="off"
-                >
-                    <input
-                        id="task-name-input"
-                        type="text"
-                        autoFocus
-                        onChange={this.handleNewTaskNameChange}
-                        value={this.state.newTaskName}
-                        placeholder="name"
-                    />
-                    <input
-                        id="task-hours-input"
-                        type="number"
-                        min="0"
-                        max="99"
-                        onChange={this.handleNewTaskHoursChange}
-                        value={this.state.newTaskHours}
-                        placeholder="hours"
-                    />
-                    <input
-                        id="task-mins-input"
-                        type="number"
-                        min="0"
-                        max="60"
-                        step="1"
-                        onChange={this.handleNewTaskMinsChange}
-                        value={this.state.newTaskMins}
-                        placeholder="minutes"
-                    />
-                    <div className="taskInput">
-                        <button>add</button>
-                    </div>
-                </form>
-            );
-        }
-
-        return (
-            <div>
-                {!taskViewing?<HoursOverlay
-                    startTime={new Date()}
-                    numHours={12}
-                />:""}
-                {this.props.tasks.map(task => (
-                    <Task
-                        key={task.id}
-                        id={task.id}
-                        name={task.name}
-                        totalTime={task.totalTime}
-                        remainingTime={task.remainingTime}
-                        started={task.started}
-                        paused={task.paused}
-                        isViewing={task.isViewing}
-                        finished={task.finished}
-                        reportFlowFlag={task.reportFlowFlag}
-                        setReportFlow={this.props.setReportFlow}
-                        reportFlow={this.props.reportFlow}
-                        taskOnClick={this.props.taskOnClick}
-                        startTask={this.props.startTask}
-                        finishTask={this.props.finishTask}
-                        addTime={this.props.addTime}
-                        objectives={task.objectives}
-                        completeObjective={this.props.completeObjective}
-                        addObjective={this.props.addObjective}
-                    />
-                ))}
-                <div className="addTaskButton" onClick={this.toggleTaskForm}>
-                    <div>add task</div>
-                </div>
-                {addTaskHtml}
+            ))}
+            <div className="addTaskButton" onClick={toggleTaskForm}>
+                <div>add task</div>
             </div>
-        );
-    }
+            {showTaskForm &&
+            <NewTaskForm/>}
+        </div>
+    );
 }
 
-//update all the tasks which are started
-export function tick() {
-    const updatedTasks = this.state.tasks.slice();
-    const updatedDayStat = this.state.dayStat;
+function tick(tasks, dayStat, deltaTime, updateTasks, updateDayStat) {
+    if (!dayStat) return;
+    const taskActive = tasks.some(task => task.started && !task.paused);
+    if (!taskActive) return;
+
     const currentDate = new Date();
     const currentDateString = currentDate.toISOString();
-    const deltaTime = (currentDate - this.state.lastTickTime) / 1000.0;
 
-    for (let i = 0; i < updatedTasks.length; i++) {
-        if (updatedTasks[i].started && !updatedTasks[i].paused) {
-            updatedTasks[i].remainingTime -= deltaTime;
+    for (let i = 0; i < tasks.length; i++) {
+        if (tasks[i].started && !tasks[i].paused) {
+            tasks[i].remainingTime -= deltaTime;
 
-            if (updatedTasks[i].remainingTime <= 0) {
-                updatedTasks[i].remainingTime = 0;
+            if (tasks[i].remainingTime <= 0) {
+                tasks[i].remainingTime = 0;
 
-                if (!updatedTasks[i].timeUp) {
-                    updatedTasks[i].isViewing = true;
-                    updatedTasks[i].timeUp = true;
-                    sendNotification("Task time finished", updatedTasks[i].name);
+                if (!tasks[i].timeUp) {
+                    tasks[i].isViewing = true;
+                    tasks[i].timeUp = true;
+                    sendNotification("Task time finished", tasks[i].name);
 
-                    this.setState({setSaveAllTasks: true});
+                    //todo save tasks
                 }
             }
 
             let taskInDayStat = false;
 
             //if a task is active update the stop time
-            for (let j = 0; j < updatedDayStat.tasks.length; j++) {
-                if (updatedDayStat.tasks[j].id === updatedTasks[i].id) {
-                    let length = updatedDayStat.tasks[j].stop.length;
-                    updatedDayStat.tasks[j].stop[length - 1] = currentDateString;
+            for (let j = 0; j < dayStat.tasks.length; j++) {
+                if (dayStat.tasks[j].id === tasks[i].id) {
+                    let length = dayStat.tasks[j].stop.length;
+                    dayStat.tasks[j].stop[length - 1] = currentDateString;
 
                     taskInDayStat = true;
                 }
             }
 
             if (!taskInDayStat) {
-                updatedDayStat.tasks.push({
-                    id: updatedTasks[i].id,
-                    name: updatedTasks[i].name,
+                dayStat.tasks.push({
+                    id: tasks[i].id,
+                    name: tasks[i].name,
                     start: [currentDateString],
                     stop: [currentDateString],
                 });
@@ -225,281 +169,114 @@ export function tick() {
         }
     }
 
-    this.setState({
-        tasks: updatedTasks,
-        lastTickTime: currentDate,
-        dayStat: updatedDayStat
-    });
+    updateTasks(tasks);
+    updateDayStat(dayStat);
 }
 
-export function addTask(currentState) {
-    requestNotifications();
-
-    let name = currentState.newTaskName;
-    let hours = currentState.newTaskHours;
-    let mins = currentState.newTaskMins;
-
-    //need a name and at least one time value
-    if (!name || (!hours && !mins)) return;
-
-    //if we have one and not the other then assume zero
-    if (!hours) hours = 0;
-    if (!mins) mins = 0;
-
-    //needs to be above zero
-    if (hours < 0 || mins < 0 || Number(hours + mins) === 0) return;
-
-    let newTaskDuration = hours * 3600 + mins * 60;
-    let currentDate = new Date();
-
-    let newTask = new TaskContainer(
-        name,
-        newTaskDuration,
-        currentDate
-    );
-
-    this.setState(state => ({
-        tasks: state.tasks.concat(newTask),
-        setSaveAllTasks: true,
-    }));
-}
-
-export function updateTaskByIdFunc(tasks, id, func) {
-    for (let i = 0; i < tasks.length; i++) {
-        if (tasks[i].id === id) {
-            func(tasks[i]);
-            break;
-        }
-    }
-}
-
-//display the selected task
-export function taskOnClick(id) {
-    const updatedTasks = this.state.tasks.slice();
-
-    const selectedTask = updatedTasks.find(task => task.id === id);
-
-    selectedTask.view();
-
-    if (selectedTask.isViewing) {
-        updatedTasks.forEach(task => {
-            if (task.id !== id && task.isViewing) {
-                task.view();
-            }
-        });
-    }
-
-    this.setState({
-        tasks: updatedTasks,
-    });
-}
-
-export function startTask(id) {
-    const updatedTasks = this.state.tasks.slice();
-    let updatedDayStat = this.state.dayStat;
-    let taskActive = false;
-    let currentDate = (new Date()).toISOString();
-
-    //todo check if the task is from a previous day stat and so doesn't exist in the tasks
-
-    this.updateTaskByIdFunc(updatedTasks, id, function (updatedTask) {
-        if (updatedTask.started) {
-            if (updatedTask.remainingTime >= 0) {
-                if (updatedTask.paused) {
-                    updatedTask.unPause();
-                    taskActive = true;
-
-                    let taskInDayStat = false;
-
-                    //update the dayStat start and stop values
-                    for (let j = 0; j < updatedDayStat.tasks.length; j++) {
-                        if (updatedDayStat.tasks[j].id === updatedTask.id) {
-                            updatedDayStat.tasks[j].start.push(currentDate);
-                            updatedDayStat.tasks[j].stop.push(currentDate);
-
-                            taskInDayStat = true;
-                        }
-                    }
-
-                    if (!taskInDayStat) {
-                        updatedDayStat.tasks.push({
-                            id: updatedTask.id,
-                            name: updatedTask.name,
-                            start: [currentDate],
-                            stop: [currentDate],
-                        });
-                    }
-
-                } else {
-                    updatedTask.pause();
-                }
-            }
-        } else {
-            updatedTask.start();
-            taskActive = true;
-            updatedDayStat.tasks.push({
-                id: updatedTask.id,
-                name: updatedTask.name,
-                start: [currentDate],
-                stop: [currentDate],
-            });
-        }
-    });
-
-    //pause any other active tasks
-    if (taskActive) {
-        for (let i = 0; i < updatedTasks.length; i++) {
-            if (updatedTasks[i].id !== id && updatedTasks[i].started && !updatedTasks[i].paused) {
-                updatedTasks[i].pause();
-                updatedTasks[i].isViewing = false;
-            }
-        }
-    }
-
-    this.setState({
-        tasks: updatedTasks,
-        setSaveAllTasks: true,
-        dayStat: updatedDayStat,
-    });
-}
-
-export function setReportFlow(id, val){
-
-    const updatedTasks = this.state.tasks.slice();
-
-    this.updateTaskByIdFunc(updatedTasks, id, function (updatedTask) {
-        updatedTask.setReportFlow(val);
-    });
-
-    this.setState({
-        tasks: updatedTasks,
-    });
-}
-
-export function reportFlow(id, focus, productive) {
-    const updatedDayStat = this.state.dayStat;
-    const currentDayStatTask = updatedDayStat.tasks.find(task => task.id === id);
-
-    //todo check this
-    const updatedTasks = this.state.tasks;
-    const currentTask = updatedTasks.find(task => task.id === id);
+//todo refactor this
+function reportFlow(id, focus, productive, tasks, dayStat, removeTask, setReportFlow, updateDayStat) {
+    const dayStatTaskIndex = dayStat.tasks.findIndex(task => task.id === id);
+    const currentTask = tasks.find(task => task.id === id);
 
     const REPORT_DELAY = 500;
 
     //task hasn't been started
-    if (!currentDayStatTask || !currentTask) {
-        this.setState({
-            setSaveAllTasks: true,
-            removeTaskId: id
-        });
+    if (!dayStat.tasks[dayStatTaskIndex] || !currentTask) {
+        //todo save tasks
+        removeTask(id);
 
         return;
     }
 
-    if(currentDayStatTask.hasOwnProperty("focus")){
-        currentDayStatTask.focus.push(focus);
-    }
-    else currentDayStatTask.focus = [focus];
+    if (dayStat.tasks[dayStatTaskIndex].hasOwnProperty("focus")) {
+        dayStat.tasks[dayStatTaskIndex].focus.push(focus);
+    } else dayStat.tasks[dayStatTaskIndex].focus = [focus];
 
-    if(currentDayStatTask.hasOwnProperty("productive")){
-        currentDayStatTask.productive.push(productive);
-    }
-    else currentDayStatTask.productive = [productive];
+    if (dayStat.tasks[dayStatTaskIndex].hasOwnProperty("productive")) {
+        dayStat.tasks[dayStatTaskIndex].productive.push(productive);
+    } else dayStat.tasks[dayStatTaskIndex].productive = [productive];
 
     //separate server and animation logic for speed
-    this.setState({
-        dayStat: updatedDayStat,
-        setSaveAllTasks: true,
+    //todo save
+    updateDayStat(dayStat);
+    setReportFlow({
+        taskId: id,
+        val: false
     });
 
     setTimeout(() => {
-        if(currentTask.finished){
-            this.setState({
-                dayStat: updatedDayStat,
-                setSaveAllTasks: true,
-                removeTaskId: id
-            });
+        if (currentTask.finished) {
+            //todo save
+            removeTask(id);
         }
 
-        this.setReportFlow(id, false);
     }, REPORT_DELAY);
 }
 
-export function finishTask(id,) {
-    const updatedTasks = this.state.tasks.slice();
+//todo refactor this
+//handle start, pause and unpause
+function startTask(id, tasks, dayStat, updateTasks, updateDayStat, saveTask, saveDayStat) {
+    let taskActive = false;
+    let currentDate = (new Date()).toISOString();
 
-    this.updateTaskByIdFunc(updatedTasks, id, function (updatedTask) {
-        updatedTask.finish();
-    });
+    //todo check if the task is from a previous day stat and so doesn't exist in the tasks
+    const taskIndex = tasks.findIndex(task => task.id === id);
 
-    this.setState({
-        tasks: updatedTasks,
-        setSaveAllTasks: true,
-        //removeTaskId: id
-    });
-}
+    if (tasks[taskIndex].started) {
+        if (tasks[taskIndex].remainingTime >= 0) {
+            if (tasks[taskIndex].paused) {
+                tasks[taskIndex].unPause();
+                taskActive = true;
 
-export function removeTaskWithId(id) {
-    const updatedTasks = this.state.tasks.slice();
+                let taskInDayStat = false;
 
-    for (let i = updatedTasks.length - 1; i >= 0; i--) {
-        if (updatedTasks[i].id === id) {
-            updatedTasks.splice(i, 1);
+                //update the dayStat start and stop values
+                for (let j = 0; j < dayStat.tasks.length; j++) {
+                    if (dayStat.tasks[j].id === tasks[taskIndex].id) {
+                        dayStat.tasks[j].start.push(currentDate);
+                        dayStat.tasks[j].stop.push(currentDate);
 
-            break;
+                        taskInDayStat = true;
+                    }
+                }
+
+                if (!taskInDayStat) {
+                    dayStat.tasks.push({
+                        id: tasks[taskIndex].id,
+                        name: tasks[taskIndex].name,
+                        start: [currentDate],
+                        stop: [currentDate],
+                    });
+                }
+
+            } else {
+                tasks[taskIndex].pause();
+            }
+        }
+    } else {
+        tasks[taskIndex].start();
+        taskActive = true;
+        console.log(dayStat);
+        dayStat.tasks.push({
+            id: tasks[taskIndex].id,
+            name: tasks[taskIndex].name,
+            start: [currentDate],
+            stop: [currentDate],
+        });
+    }
+
+    //pause any other active tasks
+    if (taskActive) {
+        for (let i = 0; i < tasks.length; i++) {
+            if (tasks[i].id !== id && tasks[i].started && !tasks[i].paused) {
+                tasks[i].pause();
+                tasks[i].isViewing = false;
+            }
         }
     }
 
-    this.setState({
-        tasks: updatedTasks,
-        setSaveAllTasks: true,
-    });
-}
-
-export function addTime(id) {
-    const updatedTasks = this.state.tasks.slice();
-
-    this.updateTaskByIdFunc(updatedTasks, id, function (updatedTask) {
-        updatedTask.addTime();
-    });
-
-    this.setState({
-        tasks: updatedTasks,
-        setSaveAllTasks: true,
-    });
-}
-
-//save all tasks
-export function saveAllTasks(tasksToSave) {
-    for (let i = 0; i < tasksToSave.length; i++) {
-        this.firebaseSaveTask(tasksToSave[i]);
-    }
-
-    this.firebaseSaveDayStat();
-}
-
-export function completeObjective(taskId, objectiveId) {
-    const updatedTasks = this.state.tasks.slice();
-
-    this.updateTaskByIdFunc(updatedTasks, taskId, function (updatedTask) {
-        updatedTask.completeObjective(objectiveId);
-    });
-
-    this.setState({
-        tasks: updatedTasks,
-        setSaveAllTasks: true,
-    });
-}
-
-export function addObjective(taskId, objectiveName) {
-    const updatedTasks = this.state.tasks.slice();
-
-    this.updateTaskByIdFunc(updatedTasks, taskId, function (updatedTask) {
-        updatedTask.addObjective(objectiveName);
-    });
-
-    this.setState({
-        tasks: updatedTasks,
-        setSaveAllTasks: true,
-    });
+    updateTasks(tasks);
+    updateDayStat(dayStat);
+    saveTask(id);
+    saveDayStat();
 }

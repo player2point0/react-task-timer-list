@@ -5,6 +5,7 @@ import "firebase/auth";
 import "firebase/firestore";
 import TaskContainer from "../Task/TaskContainer";
 import {formatDayMonth} from "../Utility/Utility";
+import {createDayStat} from "../MainApp/DayStat";
 
 //firebase
 export const firebaseConfig = {
@@ -38,9 +39,10 @@ export const uiConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+
 //firebase.analytics();
 
-export function getCurrentUser(){
+export function getCurrentUser() {
     return getAuth().currentUser;
 }
 
@@ -48,6 +50,7 @@ export function getAuth() {
     return firebase.auth();
 }
 
+/*
 export async function loadServerData() {
     let scope = this;
     const currentDate = new Date();
@@ -79,30 +82,26 @@ export async function loadServerData() {
         weekDayStats: weekDayStats,
     });
 }
-
-export async function getWeekStats(weekDate){
+*/
+export async function getWeekStats(weekDate) {
     let weekDayStatPromises = [];
 
-    for(let i = 0;i<7;i++){
+    for (let i = 0; i < 7; i++) {
         weekDayStatPromises.push(
-            this.firebaseGetDayStat(weekDate)
+            firebaseGetDayStat(weekDate)
         );
 
-        weekDate.setDate(weekDate.getDate()-1);
+        weekDate.setDate(weekDate.getDate() - 1);
     }
 
     return await Promise.all(weekDayStatPromises);
 }
 
-// login / signup / guest
-export function userAuthChanged(user) {
-    if (user) {
-        this.loadServerData();
-    } else {
-        this.setState({
-            showAuthHtml: true,
-        });
-    }
+export function saveAllTasks(tasks) {
+    const saveTaskPromises = tasks
+        .map(task => firebaseSaveTask(task));
+    Promise.all(saveTaskPromises)
+        .then();
 }
 
 //todo optimise this to only change fields that have changed
@@ -138,51 +137,32 @@ export function firebaseSaveTask(task) {
             objectives: task.objectives,
             userId: currentUser.uid,
         })
-        .then(console.log("saved task successfully"))
+        .then(() => console.log("saved task successfully"))
         .catch(reason => console.error("error saving task" + reason));
 }
 
-export function firebaseSaveDayStat() {
+export function firebaseSaveDayStat(currentDayStat) {
     const currentUser = firebase.auth().currentUser;
-    let currentDayStat = this.state.dayStat;
-    let scope = this;
 
     if (!currentUser) {
         console.error("not logged in");
         return;
     }
 
-    if (!this.state.dayStat.id) {
-        currentDayStat.userId = currentUser.uid;
+    currentDayStat.userId = currentUser.uid;
 
-        firebase.firestore().collection("dayStats")
-            .add(this.state.dayStat)
-            .then(function (val) {
-                //add the id from firebase to the local dayStat
-                let updatedDayStat = scope.state.dayStat;
-                updatedDayStat.id = val.id;
-
-                scope.setState({
-                    dayStat: updatedDayStat,
-                });
-
-                console.log("saved day stats successfully");
-            })
-            .catch(reason => console.error("error saving day stats" + reason));
-    } else {
-        firebase.firestore().collection("dayStats")
-            .doc(this.state.dayStat.id)
-            .set(this.state.dayStat)
-            .then(console.log("saved day stats successfully"))
-            .catch(reason => console.error("error saving day stats" + reason));
-    }
+    firebase.firestore().collection("dayStats")
+        .doc(currentDayStat.id)
+        .set(currentDayStat)
+        .then(() => console.log("saved day stats successfully"))
+        .catch(reason => console.error("error saving day stats" + reason));
 }
 
 export function firebaseSaveFeedback(feedback) {
     const currentUser = firebase.auth().currentUser;
     let userId = "null";
 
-    if(currentUser){
+    if (currentUser) {
         userId = currentUser.uid;
     }
 
@@ -195,8 +175,7 @@ export function firebaseSaveFeedback(feedback) {
         .catch(reason => console.error("error saving feedback" + reason));
 }
 
-//todo change to use a promise
-export function firebaseGetAllTasks(callback) {
+export function firebaseGetAllTasks() {
     const currentUser = firebase.auth().currentUser;
 
     if (!currentUser) {
@@ -204,30 +183,27 @@ export function firebaseGetAllTasks(callback) {
         return;
     }
 
-    firebase.firestore().collection("tasks")
+    return firebase.firestore().collection("tasks")
         .where("userId", "==", currentUser.uid)
         .where("finished", "==", false)
         .get()
         .then(function (querySnapshot) {
             let savedTasks = [];
-            let tempTask;
 
             querySnapshot.forEach(function (doc) {
-                tempTask = doc.data();
-                tempTask.dateCreated = doc.data().dateCreated.toDate();
-                savedTasks.push(tempTask);
+                const parsedTask = new TaskContainer(null, null, null, doc.data());
+                savedTasks.push(parsedTask);
             });
 
-            callback(savedTasks);
+            return savedTasks;
         })
         .catch(function (error) {
             console.log("Error getting documents: ", error);
         });
 }
 
-export async function firebaseGetDayStat(date) {
+export async function firebaseGetDayStat(currentDate) {
     const currentUser = firebase.auth().currentUser;
-    const currentDate = formatDayMonth(date);
 
     if (!currentUser) {
         console.error("not logged in");
@@ -235,42 +211,19 @@ export async function firebaseGetDayStat(date) {
         return;
     }
 
-    return new Promise(async function(resolve){
-        await firebase.firestore().collection("dayStats")
-            .where("userId", "==", currentUser.uid)
-            .where("date", "==", currentDate)
-            .limit(1)
-            .get()
-            .then(function (querySnapshot) {
-                if(querySnapshot.empty){
-                    resolve({date: currentDate});
-                }
-                //returns a single dayStat object
-                querySnapshot.forEach(function (doc) {
-                    let dayStat = doc.data();
-                    dayStat.id = doc.id;
-
-                    resolve(dayStat);
-                });
-            })
-            .catch(function (error) {
-                    console.log("Error getting documents: ", error);
-                }
-            );
-    });
-}
-
-export function parseSavedTasks(savedTasks) {
-    let outputSavedTasks = [];
-    let newTask;
-
-    if (savedTasks == null) savedTasks = [];
-
-    for (let i = 0; i < savedTasks.length; i++) {
-        newTask = new TaskContainer(null, null, null, savedTasks[i]);
-
-        outputSavedTasks.push(newTask);
-    }
-
-    return outputSavedTasks;
+    return firebase.firestore().collection("dayStats")
+        .where("userId", "==", currentUser.uid)
+        .where("date", "==", currentDate)
+        .limit(1)
+        .get()
+        .then(function (querySnapshot) {
+            if (querySnapshot.empty) {
+                return createDayStat();
+            }
+            return querySnapshot.docs.pop().data();
+        })
+        .catch(function (error) {
+                console.log("Error getting documents: ", error);
+            }
+        );
 }

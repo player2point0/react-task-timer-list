@@ -2,12 +2,12 @@ import uid from "uid";
 
 const TEN_MINS = 10*60;
 
-class TaskContainer {
+export default class TaskContainer {
 	constructor(name, duration, date, savedTask) {
 		if (savedTask) {
 			this.id = savedTask.id;
 			this.name = savedTask.name;
-			this.dateCreated = savedTask.dateCreated;
+			this.dateCreated = savedTask.dateCreated.toDate();
 			//time in seconds
 			this.totalTime = savedTask.totalTime;
 			this.remainingTime = savedTask.remainingTime;
@@ -21,8 +21,6 @@ class TaskContainer {
 			this.isViewing = false;//savedTask.isViewing;
 			this.stats = savedTask.stats;
 			this.objectives = savedTask.objectives;
-
-			this.needsSaved = false;
 		} else {
 			this.id = uid(32);
 			this.name = name;
@@ -45,8 +43,6 @@ class TaskContainer {
 				unpauseDates: [],
 			};
 			this.objectives = [];
-
-			this.needsSaved = true;
 		}
 	}
 
@@ -56,7 +52,6 @@ class TaskContainer {
 				this.objectives[i].finished = true;
 			}
 		}
-		this.needsSaved = true;
 	}
 
 	addObjective(name){
@@ -66,7 +61,6 @@ class TaskContainer {
 		newObjective.finished = false;
 
 		this.objectives.push(newObjective);
-		this.needsSaved = true;
 	}
 
 	addTime() {
@@ -76,36 +70,30 @@ class TaskContainer {
 		this.timeUp = false;
 
 		this.stats.timeAdded += extraTime;
-		this.needsSaved = true;
 	}
 
 	pause() {
 		this.paused = true;
 		this.stats.pauseDates.push(new Date());
-		this.needsSaved = true;
 	}
 
 	unPause() {
 		this.paused = false;
 		this.stats.unpauseDates.push(new Date());
-		this.needsSaved = true;
 	}
 
 	start() {
 		this.started = true;
 		this.stats.dateStarted = new Date();
-		this.needsSaved = true;
 	}
 
 	finish() {
 		this.stats.dateFinished = new Date();
 		this.finished = true;
-		this.needsSaved = true;
 	}
 
 	view(){
 		this.isViewing = !this.isViewing;
-		this.needsSaved = true;
 	}
 
 	//todo could probably change to a toggle
@@ -113,5 +101,3 @@ class TaskContainer {
 		this.reportFlowFlag = val;
 	}
 }
-
-export default TaskContainer;

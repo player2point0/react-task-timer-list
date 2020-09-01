@@ -1,37 +1,50 @@
 --refactor--
--move time sizing constants to a separate class and maybe generate them on the fly
-
-
 -make recap part of day. daily recap of work and fill in the gaps
 -overview of flow
+-maybe reset tasks each day to remove stale tasks and keep focus clear and incentivise progress
+-make it more apparent when no task is active e.g. when you are working but forget to activate a task
 
 --group files--
 -regroup the logic, the current pattern of bind everything probably isn't needed if we change to redux
 
---hooks--
--refactor classes into react hooks
-
 --redux--
--implement https://easy-peasy.now.sh/
--display components based on the redux state, build a state machine for this
+-display components based on the redux state, build a state machine for this. or maybe use a router
+
+--firebase logic--
+-add logic for remove task
+-update app logic to call save function:
+    -report flow
+-update logic to call the save day stat function:
+    -report flow
 
 --unit tests-
--create for day recap
 -look into other classes
 
 --ab testing--
 -create an ab component, that takes two components and will record the flow for that component and user to the db
 
+--backend--
+-create firebase functions
+-create a function to return the tasks and order them by importance
+-create a rule based system to order tasks
+-create a weekly cron job to calculate optimal flow times
+
 --redesign--
+-move time sizing constants to a separate class and maybe generate them on the fly
 -reduce the sizing of tasks etc
 -maybe remove hour overlay and use the space on the left for time. Could have the hour every 3 hours
+-maybe change to a tag system and a description
 
 --day recap--
 -fix bug
 -add unit test
+-daystat progress can get overwritten, maybe sync every hour
 
 --flow reporting--
 -fix resizing of window
+-add a n/a option
+-add shadow dots of previous values for the day, from the dayStat
+-maybe also report flow after completing an objective
 
 --prelaunch--
 -check security (https://www.youtube.com/watch?v=PUBnlbjZFAI&t=142s)
