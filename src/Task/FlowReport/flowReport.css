@@ -64,3 +64,16 @@
     text-align: center;
     width: fit-content;
 }
+
+.flowNA{
+    position: fixed;
+    top: 0;
+    padding: 10px;
+    background-color: var(--button-color);
+    color: white;
+    font-size: var(--small-text-size);
+    z-index: 100;
+}
+.flowNA:hover{
+    color: var(--text-hover-color);
+}

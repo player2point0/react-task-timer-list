@@ -84,7 +84,7 @@ export default function TaskController() {
                 objectives={task.objectives}
                 startTask={(id) => startTask(id, tasks, dayStat, updateTasks, updateDayStat, saveTask, saveDayStat)}
                 reportFlow={(id, focus, productive) => reportFlow(id, focus, productive, tasks,
-                    dayStat, removeTask, setReportFlow, updateDayStat)}
+                    dayStat, removeTask, setReportFlow, updateDayStat, saveTask, saveDayStat)}
             />
         }
     }
@@ -110,7 +110,7 @@ export default function TaskController() {
                     objectives={task.objectives}
                     startTask={(id) => startTask(id, tasks, dayStat, updateTasks, updateDayStat, saveTask, saveDayStat)}
                     reportFlow={(id, focus, productive) => reportFlow(id, focus, productive, tasks,
-                        dayStat, removeTask, setReportFlow, updateDayStat)}
+                        dayStat, removeTask, setReportFlow, updateDayStat, saveTask, saveDayStat)}
                 />
             ))}
             <div className="addTaskButton" onClick={toggleTaskForm}>
@@ -174,11 +174,11 @@ function tick(tasks, dayStat, deltaTime, updateTasks, updateDayStat) {
 }
 
 //todo refactor this
-function reportFlow(id, focus, productive, tasks, dayStat, removeTask, setReportFlow, updateDayStat) {
+function reportFlow(id, focus, productive, tasks, dayStat, removeTask, setReportFlow, updateDayStat, saveTask, saveDayStat) {
     const dayStatTaskIndex = dayStat.tasks.findIndex(task => task.id === id);
     const currentTask = tasks.find(task => task.id === id);
 
-    const REPORT_DELAY = 500;
+    const REPORT_DELAY = 750;
 
     //task hasn't been started
     if (!dayStat.tasks[dayStatTaskIndex] || !currentTask) {
@@ -197,16 +197,16 @@ function reportFlow(id, focus, productive, tasks, dayStat, removeTask, setReport
     } else dayStat.tasks[dayStatTaskIndex].productive = [productive];
 
     //separate server and animation logic for speed
-    //todo save
     updateDayStat(dayStat);
-    setReportFlow({
-        taskId: id,
-        val: false
-    });
+    saveDayStat();
 
     setTimeout(() => {
+        setReportFlow({
+            taskId: id,
+            val: false
+        });
+
         if (currentTask.finished) {
-            //todo save
             removeTask(id);
         }
 

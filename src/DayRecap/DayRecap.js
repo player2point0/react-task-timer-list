@@ -115,7 +115,6 @@ function DayRecapTask({startTime, stopTime, name}) {
             height: taskHeight + "vh",
         };
 
-
     return (
         <div
             id={uid(16)}

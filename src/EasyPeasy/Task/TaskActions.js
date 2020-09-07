@@ -80,7 +80,6 @@ export const setReportFlow = action((state, {taskId, val}) => {
     tempTasks[taskIndex].setReportFlow(val);
 
     state.tasks = tempTasks;
-
 });
 
 export const removeTask = action((state, taskId) => {
@@ -89,7 +88,8 @@ export const removeTask = action((state, taskId) => {
     const taskIndex = tempTasks.findIndex(task => task.id === taskId);
     tempTasks.splice(taskIndex, 1);
 
-    state.tasks = tempTasks
+    state.tasks = tempTasks;
+    firebaseSaveTask(state.tasks[taskIndex]);
 });
 
 export const saveTask = action((state, taskId) => {

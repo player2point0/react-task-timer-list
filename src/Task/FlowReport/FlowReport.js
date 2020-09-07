@@ -70,6 +70,12 @@ export default function FlowReport({onDone, id}) {
     return (
         <div className={"flowBody"}>
             <div
+                className={"flowNA"}
+                onClick={() => onDone(id, "na", "na")}
+            >
+                n/a
+            </div>
+            <div
                 className={"flowInput"}
                 onClick={flowInputOnClick}
                 style={{

@@ -4,18 +4,8 @@
 -maybe reset tasks each day to remove stale tasks and keep focus clear and incentivise progress
 -make it more apparent when no task is active e.g. when you are working but forget to activate a task
 
---group files--
--regroup the logic, the current pattern of bind everything probably isn't needed if we change to redux
-
 --redux--
 -display components based on the redux state, build a state machine for this. or maybe use a router
-
---firebase logic--
--add logic for remove task
--update app logic to call save function:
-    -report flow
--update logic to call the save day stat function:
-    -report flow
 
 --unit tests-
 -look into other classes
@@ -34,11 +24,6 @@
 -reduce the sizing of tasks etc
 -maybe remove hour overlay and use the space on the left for time. Could have the hour every 3 hours
 -maybe change to a tag system and a description
-
---day recap--
--fix bug
--add unit test
--daystat progress can get overwritten, maybe sync every hour
 
 --flow reporting--
 -fix resizing of window
@@ -59,8 +44,8 @@
 -maybe refactor the scroll to view into displaying a separate popup element
 
 ----bugs----
--add unit tests (https://jestjs.io/docs/en/tutorial-react)
 -when changing daystats, it loads an outdated one and gets ride of the second most recent
+-daystat progress can get overwritten, maybe sync every hour
 
 ----non-essential----
 -add offline strategy
@@ -71,28 +56,11 @@
 -add an install prompt (for pwa) (https://web.dev/customize-install/)
 
 --personal flow coach--
--maybe add a report of the work completed in the last 25 minutes and a couple of metrics for flow,
- this makes you more aware of what you have done and allows for a day recap. also provides a journal element
--a way to report how you are feeling
-
--could use flow as a metric
 -increase the amount of flow
--find a way to formalise productivity (possibly length * difficulty)
--maybe how productive they reported times time. added to a metric at the end of each task to give a sense of progress
-
 -assigns and changes what task you are working on based on how you are feeling.
  e.g. if bored maybe change to other task
 -add ai to suggest the ordering of tasks - for optimal efficiency and to reduce burnout
 -suggest different break based on how you are feeling. e.g. meditation or walk if faitgued
-
--possibly have users report on the current tasks difficult and their current skill level,
- assuming their skill level changes throughout the day. Report this at a each break
- and use it to tailor the current task
-
--uses machine learning
--provides an overview of day
-
-(https://www.reddit.com/r/productivity/top/)
 
 --ai--
 -setup firebase ml using a tensorflow lite model
