@@ -1,7 +1,7 @@
 .taskObjective, .addObjectiveForm{
     height: fit-content;
     width: 100%;
-    border-bottom: 1px solid var(--task-border-color);
+    border-top: 1px solid var(--task-border-color);
     color: var(--text-color);
     display: inline-grid;
     grid-template-columns: 3fr 1fr;

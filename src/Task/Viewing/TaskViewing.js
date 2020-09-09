@@ -3,7 +3,6 @@ import "./taskViewing.css";
 import {formatTime} from "../../Utility/Utility";
 import Objective from "../Objective/Objective";
 import {useStoreActions} from "easy-peasy";
-import {saveDayStat} from "../../EasyPeasy/DayStat/DayStatActions";
 
 export default function TaskViewing({id, paused, remainingTime, started,
                                         objectives, name, startTask}) {
@@ -110,14 +109,15 @@ export default function TaskViewing({id, paused, remainingTime, started,
                 unViewTask(id);
             }}
         >
-            <div className="taskObjectives">
-                {taskObjectives}
-                {addTaskObjective}
-            </div>
+
             <div className={"taskControls"}>
                 <div className="taskName">{name}</div>
                 <div className="taskTime">{formatTime(remainingTime)}</div>
                 {taskViewingButtons}
+            </div>
+            <div className="taskObjectives">
+                {taskObjectives}
+                {addTaskObjective}
             </div>
         </div>
     );

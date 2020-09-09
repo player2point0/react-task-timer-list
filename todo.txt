@@ -3,12 +3,12 @@
 -overview of flow
 -maybe reset tasks each day to remove stale tasks and keep focus clear and incentivise progress
 -make it more apparent when no task is active e.g. when you are working but forget to activate a task
+--maybe change to a tag system and a description
 
---redux--
+--ui rework--
 -display components based on the redux state, build a state machine for this. or maybe use a router
-
---unit tests-
--look into other classes
+-move time sizing constants to a separate class and maybe generate them on the fly
+-maybe remove hour overlay and use the space on the left for time. Could have the hour every 3 hours
 
 --ab testing--
 -create an ab component, that takes two components and will record the flow for that component and user to the db
@@ -19,15 +19,8 @@
 -create a rule based system to order tasks
 -create a weekly cron job to calculate optimal flow times
 
---redesign--
--move time sizing constants to a separate class and maybe generate them on the fly
--reduce the sizing of tasks etc
--maybe remove hour overlay and use the space on the left for time. Could have the hour every 3 hours
--maybe change to a tag system and a description
-
 --flow reporting--
 -fix resizing of window
--add a n/a option
 -add shadow dots of previous values for the day, from the dayStat
 -maybe also report flow after completing an objective
 
