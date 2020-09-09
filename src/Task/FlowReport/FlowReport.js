@@ -91,28 +91,14 @@ export default function FlowReport({onDone, id}) {
                     className={"flowInputPin"}
                     draggable
                 />
-                <div className={"flowInputCorner"}>
-                    <div className={"flowInputLabelFocused flowInputLabel"}>
-                        distracted
-                    </div>
+                <div className={"flowInputLabelFlow flowInputLabel"}>
+                    flow
                 </div>
-                <div className={"flowInputCorner"}>
-                    <div className={"flowInputLabelProductive flowInputLabel"}>
-                        productive
-                    </div>
-                    <div className={"flowInputLabelFlow flowInputLabel"}>
-                        flow
-                    </div>
+                <div className={"flowInputLabelFocused flowInputLabel"}>
+                    focused
                 </div>
-                <div className={"flowInputCorner"}>
-                    <div className={"flowInputLabelNotProductive flowInputLabel"}>
-                        not productive
-                    </div>
-                </div>
-                <div className={"flowInputCorner"}>
-                    <div className={"flowInputLabelDistracted flowInputLabel"}>
-                        focused
-                    </div>
+                <div className={"flowInputLabelProductive flowInputLabel"}>
+                    p<br/>r<br/>o<br/>d<br/>u<br/>c<br/>t<br/>i<br/>v<br/>e
                 </div>
             </div>
         </div>

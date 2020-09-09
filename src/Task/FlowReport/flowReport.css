@@ -15,16 +15,8 @@
 
 .flowInput {
     margin: 50px;
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr 1fr;
     border: 1px solid black;
-}
-
-.flowInputCorner {
-    border: 1px solid black;
-    display: inline-block;
-    box-sizing: border-box;
+    position: relative;
 }
 
 .flowInputPin{
@@ -36,33 +28,31 @@
 }
 
 .flowInputLabel{
-    font-size: 10px;
+    font-size: var(--small-text-size);
     position: relative;
+    text-align: center;
+    width: fit-content;
+    height: fit-content;
+    padding: 2rem;
 }
 
 .flowInputLabelFocused {
-    top: 100%;
+    top: calc(100% - 6rem);
+    left: 2rem;
 }
 
 .flowInputLabelProductive {
-    text-align: center;
-    right: 50%;
-}
-
-.flowInputLabelDistracted {
-    text-align: right;
-}
-
-.flowInputLabelNotProductive {
-    text-align: center;
-    top: 100%;
-    left: 50%
+    top: 2rem;
+    right: 2rem;
+    width: 1em;
+    height: auto;
+    overflow-wrap: break-word;
 }
 
 .flowInputLabelFlow{
-    left: 80%;
-    text-align: center;
-    width: fit-content;
+    display: flex;
+    float: right;
+    background-color: red;
 }
 
 .flowNA{
