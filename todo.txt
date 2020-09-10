@@ -24,6 +24,12 @@
 -add shadow dots of previous values for the day, from the dayStat
 -maybe also report flow after completing an objective
 
+--ab weekly tasks--
+-select a daily task for two weeks e.g. drink macha each day
+-provides daily reminders for task
+-records levels of flow to db
+-at the end of the two weeks produce a report to show if flow has increase or decreased and if the task is good for flow
+
 --prelaunch--
 -check security (https://www.youtube.com/watch?v=PUBnlbjZFAI&t=142s)
 -test on different devices and web browsers

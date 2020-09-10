@@ -25,6 +25,7 @@
     position: absolute;
     background-color: #0FA3B1;
     border-radius: 100%;
+    z-index: 100;
 }
 
 .flowInputLabel{

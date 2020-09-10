@@ -23,35 +23,13 @@ export default function FlowReport({onDone, id}) {
     const inputPinDim = 50;
 
     const [inputPinCoords, setInputPinCoords] = useState({
-        x: screenWidth / 2 - inputPinDim / 2,
-        y: screenHeight / 2 - inputPinDim / 2
+        x: "calc(50% - "+(inputPinDim/2)+"px)",
+        y: "calc(50% - 25px)"
     });
 
-
-    React.useEffect(() => {
-        function handleResize() {
-            const inputWidth = screenWidth * INPUT_SIDE_SCALE;
-            const inputHeight = screenHeight * INPUT_SIDE_SCALE;
-            const inputSideLength = inputWidth < inputHeight ? inputWidth : inputHeight;
-
-            const inputPinDim = 50;
-
-            //todo maybe change to percentge to fix sizing
-            setInputPinCoords({
-                x: screenWidth / 2 - inputPinDim / 2,
-                y: screenHeight / 2 - inputPinDim / 2
-            });
-        }
-
-        window.addEventListener('onchange', handleResize);
-
-        return () => window.removeEventListener('resize', handleResize);
-    });
-
-    //todo add the option to leave this blank for tasks where this would not apply e.g. lunch
     const flowInputOnClick = (e) => {
         const distX = (screenWidth - inputSideLength) / 2;
-        const distY = (screenHeight - inputSideLength) / 2 - document.body.scrollHeight;
+        const distY = (screenHeight - inputSideLength) / 2;
 
         const focused = (e.clientX - distX) / inputSideLength;
         const productive = 1 - (e.clientY - distY) / inputSideLength;
@@ -59,9 +37,12 @@ export default function FlowReport({onDone, id}) {
         const focusedRounded = focused.toFixed(2);
         const productiveRounded = productive.toFixed(2);
 
+        const xPer = (focusedRounded * 100)+"%";
+        const yPer = ((1-productiveRounded) * 100)+"%";
+
         setInputPinCoords({
-            x: e.clientX - inputPinDim / 2,
-            y: e.clientY - inputPinDim / 2
+            x: "calc("+xPer+" - "+(inputPinDim/2)+"px)",
+            y: "calc("+yPer+" - "+(inputPinDim/2)+"px)"
         });
 
         onDone(id, focusedRounded, productiveRounded);
