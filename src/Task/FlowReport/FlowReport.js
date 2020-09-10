@@ -1,14 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import "./flowReport.css";
 
-
 const INPUT_SIDE_SCALE = 0.75;
 
-
 export default function FlowReport({onDone, id}) {
-    //todo when open prevent scrolling to stop drifting placements
-    //todo recalculate the values when the window is scaled
-
     const screenWidth = window.innerWidth
         || document.documentElement.clientWidth
         || document.body.clientWidth;

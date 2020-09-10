@@ -6,6 +6,7 @@ import {dateDiffInSeconds} from "../Utility/Utility";
 import HoursOverlay from "../HourCover/HoursOverlay";
 
 import {MIN_TASK_HEIGHT, MIN_HOUR_TIME, HOUR_HEIGHT, HOUR_IN_SECONDS} from '../Task/NotViewing/TaskNotViewing';
+import {useStoreState} from "easy-peasy";
 
 export function groupDayStatTasks(tasks){
     //go through each task
@@ -74,7 +75,9 @@ export function groupDayStatTasks(tasks){
     return recapTasksAndBreaks;
 }
 
-export default function DayRecap({dayStat}) {
+export default function DayRecap() {
+    const dayStat = useStoreState(state => state.dayStat.dayStat);
+
     if (!dayStat) return "no daystats loaded";
     if(dayStat.tasks.length === 0) return "no daystats loaded";
 
