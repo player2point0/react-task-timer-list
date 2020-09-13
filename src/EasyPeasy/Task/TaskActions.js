@@ -96,3 +96,7 @@ export const removeTask = action((state, taskId) => {
 export const saveTask = action((state, taskId) => {
     firebaseSaveTask(state.tasks.find(task => task.id === taskId));
 });
+
+export const resetTasks = action( (state) => {
+   state.tasks = [];
+});

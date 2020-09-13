@@ -18,6 +18,8 @@ export default function MainApp() {
     const [showRecap, setShowRecap] = useState(false);
     const updateDayStat = useStoreActions(actions => actions.dayStat.updateDayStat);
     const updateTasks = useStoreActions(actions => actions.tasks.updateTasks);
+    const resetTask = useStoreActions(actions => actions.tasks.resetTasks);
+    const resetDayStat = useStoreActions(actions => actions.dayStat.resetDayStat);
 
     useEffect(() => {
         //todo add logic to create a new dayStat when the day rolls over
@@ -36,8 +38,10 @@ export default function MainApp() {
 
                 setShowAuthHtml(false);
             } else {
-                //todo probably need to reset the dayStats
-                setShowAuthHtml(true)
+                setShowAuthHtml(true);
+                //reset the tasks and daystats in case the user signs out
+                resetTask();
+                resetDayStat();
             }
         });
 
