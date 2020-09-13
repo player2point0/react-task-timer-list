@@ -14,6 +14,10 @@
 --ab testing--
 -create an ab component, that takes two components and will record the flow for that component and user to the db
 
+--week stat recap--
+-add buttons to recap
+-add different days
+
 --backend--
 -create firebase functions
 -create a function to return the tasks and order them by importance

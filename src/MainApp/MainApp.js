@@ -4,13 +4,11 @@ import "./auth.css";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import TaskController from "../Task/TaskController";
 import DayRecap from "../DayRecap/DayRecap";
-import {useStoreActions, useStoreState} from 'easy-peasy';
+import {useStoreActions} from 'easy-peasy';
 
 import {
-    uiConfig, userAuthChanged, getAuth, firebaseGetAllTasks, firebaseGetDayStat
+    uiConfig, getAuth, firebaseGetAllTasks, firebaseGetDayStat, firebaseGetWeekStats
 } from "../Firebase/FirebaseController";
-
-import {formatDayMonth} from "../Utility/Utility";
 
 export default function MainApp() {
 
@@ -22,18 +20,23 @@ export default function MainApp() {
     const resetDayStat = useStoreActions(actions => actions.dayStat.resetDayStat);
 
     useEffect(() => {
-        //todo add logic to create a new dayStat when the day rolls over
-
         const unregisterAuthObserver = getAuth().onAuthStateChanged((user) => {
             if (user) {
+                const currentDate = new Date();
+
                 firebaseGetAllTasks()
                     .then(tasks => {
                         updateTasks(tasks);
                     });
 
-                firebaseGetDayStat(formatDayMonth(new Date()))
+                firebaseGetDayStat(currentDate)
                     .then(dayStat => {
                         updateDayStat(dayStat);
+                    });
+
+                firebaseGetWeekStats(currentDate)
+                    .then(weekStats => {
+                        console.log(weekStats);
                     });
 
                 setShowAuthHtml(false);
@@ -45,14 +48,8 @@ export default function MainApp() {
             }
         });
 
-        //todo add weekStats func
+        //todo add logic to create a new dayStat when the day rolls over
         /*
-                                if (this.state.weekDayStats === null) {
-                                    this.setState(state => ({
-                                        weekDayStats: [state.dayStat]
-                                    }))
-                                }
-
                 let currentDate = formatDayMonth(new Date());
                 if (dayStat !== null) {
                     if (dayStat.date !== currentDate) {

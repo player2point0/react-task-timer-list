@@ -42,48 +42,11 @@ firebase.initializeApp(firebaseConfig);
 
 //firebase.analytics();
 
-export function getCurrentUser() {
-    return getAuth().currentUser;
-}
-
 export function getAuth() {
     return firebase.auth();
 }
 
-/*
-export async function loadServerData() {
-    let scope = this;
-    const currentDate = new Date();
-
-    //get saved tasks
-    this.firebaseGetAllTasks(function (savedTasks) {
-        scope.setState({
-            tasks: scope.parseSavedTasks(savedTasks),
-            showAuthHtml: false,
-        });
-    });
-
-    //get saved day stats
-    this.firebaseGetDayStat(currentDate)
-        .then(function (dayStat) {
-            if (dayStat.hasOwnProperty("id")) {
-                scope.setState({
-                    dayStat: dayStat,
-                });
-            } else {
-                scope.createNewDayStat();
-            }
-        });
-
-    //load a weeks worth of previous day stats
-    let weekDayStats = await this.getWeekStats(currentDate);
-
-    this.setState({
-        weekDayStats: weekDayStats,
-    });
-}
-*/
-export async function getWeekStats(weekDate) {
+export function firebaseGetWeekStats(weekDate) {
     let weekDayStatPromises = [];
 
     for (let i = 0; i < 7; i++) {
@@ -94,7 +57,7 @@ export async function getWeekStats(weekDate) {
         weekDate.setDate(weekDate.getDate() - 1);
     }
 
-    return await Promise.all(weekDayStatPromises);
+    return Promise.all(weekDayStatPromises);
 }
 
 export function saveAllTasks(tasks) {
@@ -213,7 +176,7 @@ export async function firebaseGetDayStat(currentDate) {
 
     return firebase.firestore().collection("dayStats")
         .where("userId", "==", currentUser.uid)
-        .where("date", "==", currentDate)
+        .where("date", "==", formatDayMonth(currentDate))
         .limit(1)
         .get()
         .then(function (querySnapshot) {
