@@ -4,6 +4,7 @@
 -maybe reset tasks each day to remove stale tasks and keep focus clear and incentivise progress
 -make it more apparent when no task is active e.g. when you are working but forget to activate a task
 --maybe change to a tag system and a description
+-complete todos
 
 --ui rework--
 -display components based on the redux state, build a state machine for this. or maybe use a router
@@ -46,6 +47,7 @@
 -when changing daystats, it loads an outdated one and gets ride of the second most recent
 -daystat progress can get overwritten, maybe sync every hour
 -short delay in timer when starting/unpausing task
+-when finishing a task with 0 time remaining
 
 ----non-essential----
 -add offline strategy

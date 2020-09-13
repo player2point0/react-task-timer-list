@@ -86,10 +86,11 @@ export const removeTask = action((state, taskId) => {
     const tempTasks = [...state.tasks];
 
     const taskIndex = tempTasks.findIndex(task => task.id === taskId);
+    const removedTask = tempTasks[taskIndex];
     tempTasks.splice(taskIndex, 1);
 
     state.tasks = tempTasks;
-    firebaseSaveTask(state.tasks[taskIndex]);
+    firebaseSaveTask(removedTask);
 });
 
 export const saveTask = action((state, taskId) => {
