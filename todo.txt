@@ -17,6 +17,7 @@
 --week stat recap--
 -add buttons to recap
 -add different days
+-group sequential short tasks into one large? solve drift due to min task length? shorter min length? no min?
 
 --backend--
 -create firebase functions
