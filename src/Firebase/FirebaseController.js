@@ -89,7 +89,6 @@ export function firebaseSaveTask(task) {
             started: task.started,
             finished: task.finished,
             paused: task.paused,
-            isViewing: task.isViewing,
             stats: {
                 timeAdded: task.stats.timeAdded,
                 dateStarted: task.stats.dateStarted,

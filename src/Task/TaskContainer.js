@@ -17,8 +17,8 @@ export default class TaskContainer {
 			this.finished = savedTask.finished;
 			this.reportFlowFlag = false;
 			//load tasks as paused to prevent daystat problems and for ux
+			//todo fix this
 			this.paused = savedTask.started;
-			this.isViewing = false;//savedTask.isViewing;
 			this.stats = savedTask.stats;
 			this.objectives = savedTask.objectives;
 		} else {
@@ -28,13 +28,12 @@ export default class TaskContainer {
 			//time in seconds
 			this.totalTime = duration;
 			this.remainingTime = duration;
-			this.addTimeAmt = TEN_MINS;//Number(duration / 2);
+			this.addTimeAmt = TEN_MINS;
 			this.timeUp = false;
 			this.started = false;
 			this.finished = false;
 			this.reportFlowFlag = false;
 			this.paused = false;
-			this.isViewing = false;
 			this.stats = {
 				timeAdded: 0,
 				dateStarted: "",
@@ -90,10 +89,6 @@ export default class TaskContainer {
 	finish() {
 		this.stats.dateFinished = new Date();
 		this.finished = true;
-	}
-
-	view(){
-		this.isViewing = !this.isViewing;
 	}
 
 	//todo could probably change to a toggle

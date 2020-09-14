@@ -62,8 +62,9 @@ export default function TaskController() {
 
     }, [lastTickTime, tasks, dayStat]);
 
-
-    const taskBeingViewed = tasks.some(task => task.isViewing);
+    const taskBeingViewed = tasks.some(task => {
+        return task.started && !task.paused;
+    });
 
     for (let i = 0; i < tasks.length; i++) {
         const task = tasks[i];
@@ -78,7 +79,6 @@ export default function TaskController() {
                 remainingTime={task.remainingTime}
                 started={task.started}
                 paused={task.paused}
-                isViewing={task.isViewing}
                 finished={task.finished}
                 reportFlowFlag={task.reportFlowFlag}
                 objectives={task.objectives}
@@ -104,7 +104,6 @@ export default function TaskController() {
                     remainingTime={task.remainingTime}
                     started={task.started}
                     paused={task.paused}
-                    isViewing={task.isViewing}
                     finished={task.finished}
                     reportFlowFlag={task.reportFlowFlag}
                     objectives={task.objectives}
@@ -256,7 +255,6 @@ function startTask(id, tasks, dayStat, updateTasks, updateDayStat, saveTask, sav
     } else {
         tasks[taskIndex].start();
         taskActive = true;
-        console.log(dayStat);
         dayStat.tasks.push({
             id: tasks[taskIndex].id,
             name: tasks[taskIndex].name,
@@ -270,7 +268,6 @@ function startTask(id, tasks, dayStat, updateTasks, updateDayStat, saveTask, sav
         for (let i = 0; i < tasks.length; i++) {
             if (tasks[i].id !== id && tasks[i].started && !tasks[i].paused) {
                 tasks[i].pause();
-                tasks[i].isViewing = false;
             }
         }
     }

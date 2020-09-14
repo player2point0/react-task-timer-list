@@ -4,32 +4,24 @@ import FlowReport from "./FlowReport/FlowReport";
 import TaskViewing from "./Viewing/TaskViewing";
 
 //renders the task based on the passed properties
-export default function Task({isViewing, name, remainingTime, id,
+export default function Task({name, remainingTime, id,
                              reportFlowFlag, finished, reportFlow, paused,
                              started, objectives, startTask}) {
-    if (!isViewing) {
+    if (started && paused || (!started && !paused)) {
         return (<TaskNotViewing
             name={name}
             remainingTime={remainingTime}
             id={id}
+            startTask={startTask}
         />);
     }
 
-    if (reportFlowFlag) {
+    if (reportFlowFlag && (finished || paused)) {
         //todo check this
-        if (finished) {
-            return <FlowReport
-                onDone={reportFlow}
-                id={id}
-            />;
-        }
-
-        if (paused) {
-            return <FlowReport
-                onDone={reportFlow}
-                id={id}
-            />;
-        }
+        return <FlowReport
+            onDone={reportFlow}
+            id={id}
+        />;
     }
 
     return <TaskViewing

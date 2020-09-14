@@ -14,25 +14,6 @@ export const updateTasks = action((state, updatedTasks) => {
     state.tasks = updatedTasks
 });
 
-export const viewTask = action((state, taskId) => {
-    const tempTasks = [...state.tasks];
-
-    tempTasks.forEach(task => task.isViewing = false);
-    const taskIndex = tempTasks.findIndex(task => task.id === taskId);
-    tempTasks[taskIndex].view();
-
-    state.tasks = tempTasks
-});
-
-export const unViewTask = action((state, taskId) => {
-    const tempTasks = [...state.tasks];
-
-    const taskIndex = tempTasks.findIndex(task => task.id === taskId);
-    tempTasks[taskIndex].view();
-
-    state.tasks = tempTasks
-});
-
 export const addObjective = action((state, {taskId, objectiveName}) => {
     const tempTasks = [...state.tasks];
 

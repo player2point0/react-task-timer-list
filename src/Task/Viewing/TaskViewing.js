@@ -8,7 +8,6 @@ export default function TaskViewing({id, paused, remainingTime, started,
                                         objectives, name, startTask}) {
 
     const [newObjectiveName, setNewObjectiveName] = useState("");
-    const unViewTask = useStoreActions(actions => actions.tasks.unViewTask);
     const addObjective = useStoreActions(actions => actions.tasks.addObjective);
     const completeObjective = useStoreActions(actions => actions.tasks.completeObjective);
     const finishTask = useStoreActions(actions => actions.tasks.finishTask);
@@ -32,9 +31,6 @@ export default function TaskViewing({id, paused, remainingTime, started,
     const TASK_ID = id;
 
     let taskObjectives;
-    let startButtonText = paused || remainingTime === 0
-        ? "un pause" : "pause";
-    if (!started) startButtonText = "start";
 
     if (objectives) {
         taskObjectives = objectives
@@ -74,16 +70,6 @@ export default function TaskViewing({id, paused, remainingTime, started,
     const taskViewingButtons = (
         <div className="taskViewingButtons">
             <TaskViewingButton
-                buttonText={startButtonText}
-                onClickFunc={() => {
-                    startTask(id);
-                    setReportFlow({
-                        taskId: id,
-                        val: true
-                    });
-                }}
-            />
-            <TaskViewingButton
                 buttonText={"finish"}
                 onClickFunc={() => {
                     finishTask(id);
@@ -106,7 +92,7 @@ export default function TaskViewing({id, paused, remainingTime, started,
             className="taskVIewing"
             onClick={e => {
                 //todo could check if the task is active and then pause and report flow
-                unViewTask(id);
+                startTask(id);
             }}
         >
 
