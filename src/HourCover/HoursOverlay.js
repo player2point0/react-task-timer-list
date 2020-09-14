@@ -25,6 +25,7 @@ export default function HoursOverlay({startTime, numHours}) {
     let hourBars = [];
     let currentTime = startTime;
     let currentHourFormatted = padNumWithZero(currentTime.getHours());
+    const timeSpacing = 2;
 
     //draw the first bar smaller based on the remaining time in the hour
     let mins = currentTime.getMinutes();
@@ -33,17 +34,17 @@ export default function HoursOverlay({startTime, numHours}) {
 
     hourBars.push(<HourBar
         key={uid(16)}
-        heightPer={heightPer}
+        heightPer={timeSpacing}
         hour={currentHourFormatted}
         mins={mins}
     />);
 
-    for (let i = 1; i < numHours; i++) {
-        currentTime.setHours(currentTime.getHours() + 1);
+    for (let i = 1; i < numHours; i+=timeSpacing) {
+        currentTime.setHours(currentTime.getHours() + timeSpacing);
         let hour = padNumWithZero(currentTime.getHours().toString());
         hourBars.push(<HourBar
             key={uid(16)}
-            heightPer={1}
+            heightPer={1*timeSpacing}
             hour={hour}
             mins={"00"}
         />);

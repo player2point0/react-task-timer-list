@@ -2,14 +2,12 @@
 -make recap part of day. daily recap of work and fill in the gaps
 -overview of flow
 -maybe reset tasks each day to remove stale tasks and keep focus clear and incentivise progress
--make it more apparent when no task is active e.g. when you are working but forget to activate a task
 --maybe change to a tag system and a description
 -complete todos
 
 --ui rework--
 -display components based on the redux state, build a state machine for this. or maybe use a router
 -move time sizing constants to a separate class and maybe generate them on the fly
--maybe remove hour overlay and use the space on the left for time. Could have the hour every 3 hours
 
 --ab testing--
 -create an ab component, that takes two components and will record the flow for that component and user to the db
@@ -52,6 +50,7 @@
 -when changing daystats, it loads an outdated one and gets ride of the second most recent
 -daystat progress can get overwritten, maybe sync every hour
 -short delay in timer when starting/unpausing task
+-clicking recap with an active task pauses it? due to no longer rendering? also seems to reset daystats
 
 ----non-essential----
 -add offline strategy
