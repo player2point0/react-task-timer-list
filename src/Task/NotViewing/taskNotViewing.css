@@ -23,6 +23,15 @@
     color: var(--text-hover-color);
 }
 
+.taskNotViewingTime{
+    text-align: center;
+    z-index: 10;
+    height: auto;
+    font-size: var(--medium-text-size);
+    color: var(--text-color);
+    padding-left: 10px;
+}
+
 @media only screen and (max-width: 600px) {
     .taskSelectButton{
         grid-template-columns: auto;
