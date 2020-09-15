@@ -5,10 +5,13 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import TaskController from "../Task/TaskController";
 import DayRecap from "../DayRecap/DayRecap";
 import {useStoreActions} from 'easy-peasy';
+import firebase from 'firebase';
 
 import {
     uiConfig, getAuth, firebaseGetAllTasks, firebaseGetDayStat, firebaseGetWeekStats
 } from "../Firebase/FirebaseController";
+
+require('firebase/auth');
 
 export default function MainApp() {
 
@@ -24,11 +27,15 @@ export default function MainApp() {
             if (user) {
                 const currentDate = new Date();
 
+                const loadTasks = firebase.functions().httpsCallable('loadTasks');
+                loadTasks().then((result) => {
+                    console.log(result);
+                });
+
                 firebaseGetAllTasks()
                     .then(tasks => {
                         updateTasks(tasks);
                     });
-
                 firebaseGetDayStat(currentDate)
                     .then(dayStat => {
                         updateDayStat(dayStat);

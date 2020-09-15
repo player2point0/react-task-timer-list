@@ -19,6 +19,7 @@
 
 --backend--
 -create firebase functions
+-setup push notifications
 -create a function to return the tasks and order them by importance
 -create a rule based system to order tasks
 -create a weekly cron job to calculate optimal flow times
@@ -74,6 +75,7 @@
 -create different user personality bots to train ai e.g. an organised bot, a procrastinator, a long distance, a sprinter
 -create a more data driven application for ai, e.g. allow the ai to change break times, notification durations etc
 -add tagging of tasks to enable fair comparison of metrics (e.g. you might compete a programming task quicker than a writing one), store tags on user
+- https://firebase.google.com/docs/reference/admin/node/admin.machineLearning?authuser=0
 
 Flow producing activity are:
 

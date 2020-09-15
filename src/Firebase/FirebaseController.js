@@ -14,7 +14,6 @@ export const firebaseConfig = {
     databaseURL: "https://react-task-app-d7d0a.firebaseio.com",
     projectId: "react-task-app-d7d0a",
     storageBucket: "react-task-app-d7d0a.appspot.com",
-    messagingSenderId: "552127368915",
     appId: "1:552127368915:web:e2566ec7eca32b03bd8e26",
     measurementId: "G-470KV7252P",
 };
