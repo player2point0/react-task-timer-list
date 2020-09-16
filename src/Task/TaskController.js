@@ -264,6 +264,9 @@ function startTask(id, tasks, dayStat, updateTasks, updateDayStat, saveTask, sav
     }
 
     //pause any other active tasks
+    //todo refactor
+    //todo add logic to report flow?
+    // add logic to save any tasks
     if (taskActive) {
         for (let i = 0; i < tasks.length; i++) {
             if (tasks[i].id !== id && tasks[i].started && !tasks[i].paused) {

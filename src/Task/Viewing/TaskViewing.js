@@ -93,6 +93,11 @@ export default function TaskViewing({id, paused, remainingTime, started,
             onClick={e => {
                 //todo could check if the task is active and then pause and report flow
                 startTask(id);
+                saveDayStat();
+                setReportFlow({
+                    taskId: id,
+                    val: true
+                });
             }}
         >
 

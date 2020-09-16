@@ -7,14 +7,6 @@ import TaskViewing from "./Viewing/TaskViewing";
 export default function Task({name, remainingTime, id,
                              reportFlowFlag, finished, reportFlow, paused,
                              started, objectives, startTask}) {
-    if (started && paused || (!started && !paused)) {
-        return (<TaskNotViewing
-            name={name}
-            remainingTime={remainingTime}
-            id={id}
-            startTask={startTask}
-        />);
-    }
 
     if (reportFlowFlag && (finished || paused)) {
         //todo check this
@@ -22,6 +14,15 @@ export default function Task({name, remainingTime, id,
             onDone={reportFlow}
             id={id}
         />;
+    }
+
+    if ((started && paused) || (!started && !paused)) {
+        return (<TaskNotViewing
+            name={name}
+            remainingTime={remainingTime}
+            id={id}
+            startTask={startTask}
+        />);
     }
 
     return <TaskViewing

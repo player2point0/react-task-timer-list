@@ -26,12 +26,12 @@ export default function MainApp() {
         const unregisterAuthObserver = getAuth().onAuthStateChanged((user) => {
             if (user) {
                 const currentDate = new Date();
-
-                const loadTasks = firebase.functions().httpsCallable('loadTasks');
-                loadTasks().then((result) => {
+/*
+                firebase.functions().httpsCallable('loadTasks')
+                    .then((result) => {
                     console.log(result);
                 });
-
+*/
                 firebaseGetAllTasks()
                     .then(tasks => {
                         updateTasks(tasks);
