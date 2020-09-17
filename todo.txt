@@ -19,7 +19,7 @@
 
 --backend--
 -create firebase functions
--setup push notifications
+-setup push notifications https://codelabs.developers.google.com/codelabs/firebase-cloud-functions/#9
 -create a function to return the tasks and order them by importance
 -create a rule based system to order tasks
 -create a weekly cron job to calculate optimal flow times

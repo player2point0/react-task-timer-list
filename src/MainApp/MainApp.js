@@ -10,6 +10,7 @@ import firebase from 'firebase';
 import {
     uiConfig, getAuth, firebaseGetAllTasks, firebaseGetDayStat, firebaseGetWeekStats
 } from "../Firebase/FirebaseController";
+import TaskContainer from "../Task/TaskContainer";
 
 require('firebase/auth');
 
@@ -26,11 +27,18 @@ export default function MainApp() {
         const unregisterAuthObserver = getAuth().onAuthStateChanged((user) => {
             if (user) {
                 const currentDate = new Date();
-/*
-                firebase.functions().httpsCallable('loadTasks')
+
+                const loadTasks = firebase.functions().httpsCallable('loadTasks');
+                /*
+                loadTasks()
                     .then((result) => {
-                    console.log(result);
-                });
+                        console.log(result);
+
+                        const parsedTasks = result.data.tasks
+                            .map(task =>  new TaskContainer(null, null, null, task));
+
+                        updateTasks(parsedTasks);
+                    });
 */
                 firebaseGetAllTasks()
                     .then(tasks => {
