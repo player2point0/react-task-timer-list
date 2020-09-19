@@ -29,21 +29,29 @@ export default function MainApp() {
                 const currentDate = new Date();
 
                 const loadTasks = firebase.functions().httpsCallable('loadTasks');
-                /*
+
+                const time = new Date();
+                console.log(time.toISOString() + " start");
+
                 loadTasks()
                     .then((result) => {
-                        console.log(result);
+                        const time = new Date();
+                        console.log(time.toISOString() + " server");
 
-                        const parsedTasks = result.data.tasks
-                            .map(task =>  new TaskContainer(null, null, null, task));
-
-                        updateTasks(parsedTasks);
+                        updateTasks(result.data.orderedTasks
+                            .map(task => new TaskContainer(null, null, null, task)));
                     });
-*/
+/*
                 firebaseGetAllTasks()
                     .then(tasks => {
-                        updateTasks(tasks);
+                        const time = new Date();
+                        console.log(time.toISOString() + " local");
+
+
+                        updateTasks(tasks.map(
+                            task => new TaskContainer(null, null, null, task)));
                     });
+ */
                 firebaseGetDayStat(currentDate)
                     .then(dayStat => {
                         updateDayStat(dayStat);
@@ -51,7 +59,7 @@ export default function MainApp() {
 
                 firebaseGetWeekStats(currentDate)
                     .then(weekStats => {
-                        console.log(weekStats);
+                        //console.log(weekStats);
                     });
 
                 setShowAuthHtml(false);

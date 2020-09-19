@@ -9,16 +9,35 @@ exports.loadTasks = functions.https.onCall(async (data, context) => {
         .limit(50)
         .get()
         .then(snapshot => {
-            let savedTasks = [];
-
-            snapshot.forEach(doc => {
-                const parsedTask = doc.data();//new TaskContainer(null, null, null, doc.data());
-                savedTasks.push(parsedTask);
-            });
-
-            return savedTasks;
+            return snapshot.docs.map(doc => doc.data());
         });
-    const orderedTasks = tasks;
+
+    /*
+    create a score for each task
+    -tasks that have been started and have high flow values,
+    would need to expand task to contain average flow and last active
+
+    could also change the task ordering based on time and periods of flow
+     */
+
+    const orderedTasks = tasks.sort((taskA, taskB) => {
+        const age = taskA.dateCreated < taskB.dateCreated? 1:0;
+        const timeRemaining = taskA.remainingTime < taskB.remainingTime? 0:1;
+
+        const started = taskA.started && !taskB.started? 1:0;
+
+        const mostRecent = 1;//todo compare dateStarted for most recent
+
+        console.log({
+            "taskA":taskA,
+            "taskB": taskB,
+            "age":age,
+            "timeRemaining":timeRemaining,
+            "started": started
+        });
+
+        return age + timeRemaining + started;
+    });
 
     return {
         tasks: tasks,

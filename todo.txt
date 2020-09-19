@@ -18,17 +18,16 @@
 -group sequential short tasks into one large? solve drift due to min task length? shorter min length? no min?
 
 --backend--
--create firebase functions
 -setup push notifications https://codelabs.developers.google.com/codelabs/firebase-cloud-functions/#9
--create a function to return the tasks and order them by importance
--create a rule based system to order tasks
+-add unit test to load tasks
 -create a weekly cron job to calculate optimal flow times
 
 --flow reporting--
+-change db model to store flow and timestamp as seperate.
+Create a flow table with that also stores the taskId. Flow can then be looked up from dayStat and when selecting tasks
 -fix resizing of window
 -add shadow dots of previous values for the day, from the dayStat
 -maybe also report flow after completing an objective
--display report flow when task viewing clicked/paused
 
 --ab weekly tasks--
 -select a daily task for two weeks e.g. drink macha each day
@@ -53,6 +52,7 @@
 -daystat progress can get overwritten, maybe sync every hour
 -short delay in timer when starting/unpausing task
 -clicking recap with an active task pauses it? due to no longer rendering? also seems to reset daystats
+-code in MainApp runs twice
 
 ----non-essential----
 -add offline strategy

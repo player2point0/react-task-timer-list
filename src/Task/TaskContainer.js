@@ -7,17 +7,23 @@ export default class TaskContainer {
 		if (savedTask) {
 			this.id = savedTask.id;
 			this.name = savedTask.name;
-			this.dateCreated = savedTask.dateCreated.toDate();
+			if(savedTask.dateCreated.hasOwnProperty("seconds")){
+				this.dateCreated = savedTask.dateCreated.toDate();
+			}
+			else{
+				//fix for when dateCreated returns a different object bug
+				this.dateCreated = new Date(savedTask.dateCreated._seconds*1000);
+			}
 			//time in seconds
 			this.totalTime = savedTask.totalTime;
 			this.remainingTime = savedTask.remainingTime;
+			//todo remove addTime from here and db and hardcode in addTime
 			this.addTimeAmt = savedTask.addTimeAmt;
 			this.timeUp = savedTask.timeUp;
 			this.started = savedTask.started;
 			this.finished = savedTask.finished;
 			this.reportFlowFlag = false;
 			//load tasks as paused to prevent daystat problems and for ux
-			//todo fix this
 			this.paused = savedTask.started;
 			this.stats = savedTask.stats;
 			this.objectives = savedTask.objectives;
@@ -34,6 +40,7 @@ export default class TaskContainer {
 			this.finished = false;
 			this.reportFlowFlag = false;
 			this.paused = false;
+			//todo check if this is used, don't think it is
 			this.stats = {
 				timeAdded: 0,
 				dateStarted: "",

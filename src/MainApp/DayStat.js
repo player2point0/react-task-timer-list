@@ -5,8 +5,6 @@ export function createDayStat() {
     return {
         id: uid(32),
         date: formatDayMonth(new Date()),
-        totalWorked: 0,
-        totalBreak: 0,
         userId: null,
         tasks: [],
     };

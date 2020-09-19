@@ -149,14 +149,7 @@ export function firebaseGetAllTasks() {
         .where("finished", "==", false)
         .get()
         .then(function (querySnapshot) {
-            let savedTasks = [];
-
-            querySnapshot.forEach(function (doc) {
-                const parsedTask = new TaskContainer(null, null, null, doc.data());
-                savedTasks.push(parsedTask);
-            });
-
-            return savedTasks;
+            return querySnapshot.docs.map(doc => doc.data());
         })
         .catch(function (error) {
             console.log("Error getting documents: ", error);
