@@ -67,6 +67,7 @@ export function saveAllTasks(tasks) {
 }
 
 //todo optimise this to only change fields that have changed
+//todo refactor
 export function firebaseSaveTask(task) {
     const currentUser = firebase.auth().currentUser;
 

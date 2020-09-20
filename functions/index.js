@@ -2,6 +2,8 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
+//todo optimise this, maybe return the promise instead of awaiting
+// alternatively couls add a user tabel that contains the tasks to load, could be updated hourly
 exports.loadTasks = functions.https.onCall(async (data, context) => {
     const tasks = await admin.firestore().collection('tasks')
         .where("userId", "==", context.auth.uid)

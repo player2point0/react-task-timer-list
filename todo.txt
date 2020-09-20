@@ -4,6 +4,7 @@
 -maybe reset tasks each day to remove stale tasks and keep focus clear and incentivise progress
 --maybe change to a tag system and a description
 -complete todos
+-create a production and dev environment https://medium.com/@devesu/how-to-secure-your-firebase-project-even-when-your-api-key-is-publicly-available-a462a2a58843
 
 --ui rework--
 -display components based on the redux state, build a state machine for this. or maybe use a router
@@ -36,16 +37,14 @@ Create a flow table with that also stores the taskId. Flow can then be looked up
 -at the end of the two weeks produce a report to show if flow has increase or decreased and if the task is good for flow
 
 --prelaunch--
+- https://firebase.google.com/support/guides/launch-checklist
 -check security (https://www.youtube.com/watch?v=PUBnlbjZFAI&t=142s)
 -test on different devices and web browsers
 -test timings
--setup billing
 -host it with a good domain name (https://domains.google.com/m/registrar/search/favorites?)
 -add start info for first time users
 -improve the notification ux
--redesign the dayStats and weekStats
--sort the tasks by length or num objectives or age?
--maybe refactor the scroll to view into displaying a separate popup element
+-secure db access rules and test
 
 ----bugs----
 -when changing daystats, it loads an outdated one and gets ride of the second most recent
