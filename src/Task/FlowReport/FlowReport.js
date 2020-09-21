@@ -47,7 +47,7 @@ export default function FlowReport({onDone, id}) {
         <div className={"flowBody"}>
             <div
                 className={"flowNA"}
-                onClick={() => onDone(id, "na", "na")}
+                onClick={() => onDone(id, "", "")}
             >
                 n/a
             </div>

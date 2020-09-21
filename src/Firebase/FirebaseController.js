@@ -67,7 +67,6 @@ export function saveAllTasks(tasks) {
 }
 
 //todo optimise this to only change fields that have changed
-//todo refactor
 export function firebaseSaveTask(task) {
     const currentUser = firebase.auth().currentUser;
 
@@ -76,29 +75,12 @@ export function firebaseSaveTask(task) {
         return;
     }
 
+    let taskObj = task.toObject();
+    taskObj.userId = currentUser.uid;
+
     firebase.firestore().collection("tasks")
         .doc(task.id)
-        .set({
-            id: task.id,
-            name: task.name,
-            dateCreated: task.dateCreated,
-            totalTime: task.totalTime,
-            remainingTime: task.remainingTime,
-            addTimeAmt: task.addTimeAmt,
-            timeUp: task.timeUp,
-            started: task.started,
-            finished: task.finished,
-            paused: task.paused,
-            stats: {
-                timeAdded: task.stats.timeAdded,
-                dateStarted: task.stats.dateStarted,
-                dateFinished: task.stats.dateFinished,
-                pauseDates: task.stats.pauseDates,
-                unpauseDates: task.stats.unpauseDates,
-            },
-            objectives: task.objectives,
-            userId: currentUser.uid,
-        })
+        .set(taskObj)
         .then(() => console.log("saved task successfully"))
         .catch(reason => console.error("error saving task" + reason));
 }

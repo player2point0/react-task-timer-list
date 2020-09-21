@@ -5,6 +5,7 @@
 --maybe change to a tag system and a description
 -complete todos
 -create a production and dev environment https://medium.com/@devesu/how-to-secure-your-firebase-project-even-when-your-api-key-is-publicly-available-a462a2a58843
+-standardise time and dates
 
 --ui rework--
 -display components based on the redux state, build a state machine for this. or maybe use a router

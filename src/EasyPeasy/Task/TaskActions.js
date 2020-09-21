@@ -78,6 +78,16 @@ export const saveTask = action((state, taskId) => {
     firebaseSaveTask(state.tasks.find(task => task.id === taskId));
 });
 
-export const resetTasks = action( (state) => {
-   state.tasks = [];
+export const resetTasks = action((state) => {
+    state.tasks = [];
+});
+
+export const addFlowStat = action((state, {taskId, flowObj}) => {
+    const tempTasks = [...state.tasks];
+    const taskIndex = tempTasks.findIndex(task => task.id === taskId);
+
+    tempTasks[taskIndex].stats.flow.push(flowObj);
+
+    state.tasks = tempTasks;
+    firebaseSaveTask(state.tasks[taskIndex]);
 });

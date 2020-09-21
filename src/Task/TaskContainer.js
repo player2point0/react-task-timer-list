@@ -1,105 +1,126 @@
 import uid from "uid";
 
-const TEN_MINS = 10*60;
+const TEN_MINS = 10 * 60;
 
 export default class TaskContainer {
-	constructor(name, duration, date, savedTask) {
-		if (savedTask) {
-			this.id = savedTask.id;
-			this.name = savedTask.name;
-			if(savedTask.dateCreated.hasOwnProperty("seconds")){
-				this.dateCreated = savedTask.dateCreated.toDate();
-			}
-			else{
-				//fix for when dateCreated returns a different object bug
-				this.dateCreated = new Date(savedTask.dateCreated._seconds*1000);
-			}
-			//time in seconds
-			this.totalTime = savedTask.totalTime;
-			this.remainingTime = savedTask.remainingTime;
-			//todo remove addTime from here and db and hardcode in addTime
-			this.addTimeAmt = savedTask.addTimeAmt;
-			this.timeUp = savedTask.timeUp;
-			this.started = savedTask.started;
-			this.finished = savedTask.finished;
-			this.reportFlowFlag = false;
-			//load tasks as paused to prevent daystat problems and for ux
-			this.paused = savedTask.started;
-			this.stats = savedTask.stats;
-			this.objectives = savedTask.objectives;
-		} else {
-			this.id = uid(32);
-			this.name = name;
-			this.dateCreated = date;
-			//time in seconds
-			this.totalTime = duration;
-			this.remainingTime = duration;
-			this.addTimeAmt = TEN_MINS;
-			this.timeUp = false;
-			this.started = false;
-			this.finished = false;
-			this.reportFlowFlag = false;
-			this.paused = false;
-			//todo check if this is used, don't think it is
-			this.stats = {
-				timeAdded: 0,
-				dateStarted: "",
-				dateFinished: "",
-				pauseDates: [],
-				unpauseDates: [],
-			};
-			this.objectives = [];
-		}
-	}
+    constructor(name, duration, date, savedTask) {
+        if (savedTask) {
+            this.id = savedTask.id;
+            this.name = savedTask.name;
+            if (savedTask.dateCreated.hasOwnProperty("seconds")) {
+                this.dateCreated = savedTask.dateCreated.toDate();
+            } else {
+                //fix for when dateCreated returns a different object bug
+                this.dateCreated = new Date(savedTask.dateCreated._seconds * 1000);
+            }
+            this.totalTime = savedTask.totalTime;
+            this.remainingTime = savedTask.remainingTime;
+            this.timeUp = savedTask.timeUp;
+            this.started = savedTask.started;
+            this.finished = savedTask.finished;
+            this.reportFlowFlag = false;
+            //load tasks as paused to prevent daystat problems and for ux
+            this.paused = savedTask.started;
+            this.stats = savedTask.stats;
+            if(!savedTask.stats.hasOwnProperty("flow")){
+                this.stats.flow = [];
+            }
+            this.objectives = savedTask.objectives;
+        } else {
+            this.id = uid(32);
+            this.name = name;
+            this.dateCreated = date;
+            //time in seconds
+            this.totalTime = duration;
+            this.remainingTime = duration;
+            this.timeUp = false;
+            this.started = false;
+            this.finished = false;
+            this.reportFlowFlag = false;
+            this.paused = false;
+            this.stats = {
+                timeAdded: 0,
+                dateStarted: "",
+                dateFinished: "",
+                pauseDates: [],
+                unpauseDates: [],
+                flow: [],
+            };
+            this.objectives = [];
+        }
+    }
 
-	completeObjective(objectiveId){
-		for(let i = 0;i<this.objectives.length;i++){
-			if(this.objectives[i].id === objectiveId){
-				this.objectives[i].finished = true;
-			}
-		}
-	}
+    completeObjective(objectiveId) {
+        for (let i = 0; i < this.objectives.length; i++) {
+            if (this.objectives[i].id === objectiveId) {
+                this.objectives[i].finished = true;
+            }
+        }
+    }
 
-	addObjective(name){
-		let newObjective = {};
-		newObjective.name = name;
-		newObjective.id = uid(32);
-		newObjective.finished = false;
+    addObjective(name) {
+        let newObjective = {};
+        newObjective.name = name;
+        newObjective.id = uid(32);
+        newObjective.finished = false;
 
-		this.objectives.push(newObjective);
-	}
+        this.objectives.push(newObjective);
+    }
 
-	addTime() {
-		let extraTime = Number(this.remainingTime) + this.addTimeAmt;
-		this.totalTime += extraTime;
-		this.remainingTime = extraTime;
-		this.timeUp = false;
+    addTime() {
+        let extraTime = Number(this.remainingTime) + TEN_MINS;
+        this.totalTime += extraTime;
+        this.remainingTime = extraTime;
+        this.timeUp = false;
 
-		this.stats.timeAdded += extraTime;
-	}
+        this.stats.timeAdded += extraTime;
+    }
 
-	pause() {
-		this.paused = true;
-		this.stats.pauseDates.push(new Date());
-	}
+    pause() {
+        this.paused = true;
+        this.stats.pauseDates.push(new Date());
+    }
 
-	unPause() {
-		this.paused = false;
-		this.stats.unpauseDates.push(new Date());
-	}
+    unPause() {
+        this.paused = false;
+        this.stats.unpauseDates.push(new Date());
+    }
 
-	start() {
-		this.started = true;
-		this.stats.dateStarted = new Date();
-	}
+    start() {
+        this.started = true;
+        this.stats.dateStarted = new Date();
+    }
 
-	finish() {
-		this.stats.dateFinished = new Date();
-		this.finished = true;
-	}
+    finish() {
+        this.stats.dateFinished = new Date();
+        this.finished = true;
+    }
 
-	//todo could probably change to a toggle
-	setReportFlow(val){
-		this.reportFlowFlag = val;
-	}
+    //todo could probably change to a toggle
+    setReportFlow(val) {
+        this.reportFlowFlag = val;
+    }
+
+    toObject() {
+        return {
+            id: this.id,
+            name: this.name,
+            dateCreated: this.dateCreated,
+            totalTime: this.totalTime,
+            remainingTime: this.remainingTime,
+            timeUp: this.timeUp,
+            started: this.started,
+            finished: this.finished,
+            paused: this.paused,
+            stats: {
+                timeAdded: this.stats.timeAdded,
+                dateStarted: this.stats.dateStarted,
+                dateFinished: this.stats.dateFinished,
+                pauseDates: this.stats.pauseDates,
+                unpauseDates: this.stats.unpauseDates,
+                flow: this.stats.flow,
+            },
+            objectives: this.objectives,
+        }
+    }
 }

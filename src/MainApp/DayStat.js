@@ -7,5 +7,6 @@ export function createDayStat() {
         date: formatDayMonth(new Date()),
         userId: null,
         tasks: [],
+        flow: [],
     };
 }

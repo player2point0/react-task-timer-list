@@ -4,7 +4,7 @@ import {
     addObjective,
     completeObjective,
     addTime,
-    finishTask, setReportFlow, removeTask, saveTask, resetTasks
+    finishTask, setReportFlow, removeTask, saveTask, resetTasks, addFlowStat
 } from "./TaskActions";
 
 export const taskModel = {
@@ -19,4 +19,5 @@ export const taskModel = {
     removeTask: removeTask,
     saveTask: saveTask,
     resetTasks: resetTasks,
+    addFlowStat: addFlowStat,
 };

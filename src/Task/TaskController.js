@@ -21,6 +21,7 @@ export default function TaskController() {
     const removeTask = useStoreActions(actions => actions.tasks.removeTask);
     const saveTask = useStoreActions(actions => actions.tasks.saveTask);
     const saveDayStat = useStoreActions(actions => actions.dayStat.saveDayStat);
+    const addFlowStat = useStoreActions(actions => actions.tasks.addFlowStat);
 
     const tasks = useStoreState(state => state.tasks.tasks);
     const dayStat = useStoreState(state => state.dayStat.dayStat);
@@ -84,7 +85,7 @@ export default function TaskController() {
                 objectives={task.objectives}
                 startTask={(id) => startTask(id, tasks, dayStat, updateTasks, updateDayStat, saveTask, saveDayStat)}
                 reportFlow={(id, focus, productive) => reportFlow(id, focus, productive, tasks,
-                    dayStat, removeTask, setReportFlow, updateDayStat, saveTask, saveDayStat)}
+                    dayStat, removeTask, setReportFlow, updateDayStat, saveTask, saveDayStat, addFlowStat)}
             />
         }
     }
@@ -109,7 +110,7 @@ export default function TaskController() {
                     objectives={task.objectives}
                     startTask={(id) => startTask(id, tasks, dayStat, updateTasks, updateDayStat, saveTask, saveDayStat)}
                     reportFlow={(id, focus, productive) => reportFlow(id, focus, productive, tasks,
-                        dayStat, removeTask, setReportFlow, updateDayStat, saveTask, saveDayStat)}
+                        dayStat, removeTask, setReportFlow, updateDayStat, saveTask, saveDayStat, addFlowStat)}
                 />
             ))}
             <div className="addTaskButton" onClick={toggleTaskForm}>
@@ -173,7 +174,7 @@ function tick(tasks, dayStat, deltaTime, updateTasks, updateDayStat) {
 }
 
 //todo refactor this
-function reportFlow(id, focus, productive, tasks, dayStat, removeTask, setReportFlow, updateDayStat, saveTask, saveDayStat) {
+function reportFlow(id, focus, productive, tasks, dayStat, removeTask, setReportFlow, updateDayStat, saveTask, saveDayStat, addFlowStat) {
     const dayStatTaskIndex = dayStat.tasks.findIndex(task => task.id === id);
     const currentTask = tasks.find(task => task.id === id);
 
@@ -187,13 +188,19 @@ function reportFlow(id, focus, productive, tasks, dayStat, removeTask, setReport
         return;
     }
 
-    if (dayStat.tasks[dayStatTaskIndex].hasOwnProperty("focus")) {
-        dayStat.tasks[dayStatTaskIndex].focus.push(focus);
-    } else dayStat.tasks[dayStatTaskIndex].focus = [focus];
+    if(focus && productive){
+        const flowObj = {
+            focus: focus,
+            productive: productive,
+            time: new Date(),
+        };
 
-    if (dayStat.tasks[dayStatTaskIndex].hasOwnProperty("productive")) {
-        dayStat.tasks[dayStatTaskIndex].productive.push(productive);
-    } else dayStat.tasks[dayStatTaskIndex].productive = [productive];
+        dayStat.flow.push(flowObj);
+        addFlowStat({
+            taskId: id,
+            flowObj: flowObj,
+        });
+    }
 
     //separate server and animation logic for speed
     updateDayStat(dayStat);
