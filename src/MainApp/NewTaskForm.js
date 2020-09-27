@@ -1,11 +1,12 @@
 import React, {useState} from "react";
 import {requestNotifications} from "../Utility/Utility";
-import TaskContainer from "./TaskContainer";
+import TaskContainer from "../Task/TaskContainer";
 import {useStoreActions} from "easy-peasy";
 
 export default function NewTaskForm() {
 
     const [newTaskName, setNewTaskName] = useState("");
+    const [taskNameInputRef, setTaskNameInputRef] = useState(null);
     const [newTaskHours, setNewTaskHours] = useState("0");
     const [newTaskMins, setNewTaskMins] = useState("0");
     const addTaskAction = useStoreActions(actions => actions.tasks.addTask);
@@ -29,6 +30,8 @@ export default function NewTaskForm() {
         setNewTaskName("");
         setNewTaskHours("0");
         setNewTaskMins("0");
+
+        taskNameInputRef.focus();
     };
 
     return <form
@@ -40,6 +43,7 @@ export default function NewTaskForm() {
         <input
             id="task-name-input"
             type="text"
+            ref={(input) => { setTaskNameInputRef(input); }}
             autoFocus
             onChange={handleNewTaskNameChange}
             value={newTaskName}
