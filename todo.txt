@@ -2,10 +2,11 @@
 -make recap part of day. daily recap of work and fill in the gaps
 -overview of flow
 -maybe reset tasks each day to remove stale tasks and keep focus clear and incentivise progress
---maybe change to a tag system and a description
+-maybe change to a tag system and a description
 -complete todos
 -create a production and dev environment https://medium.com/@devesu/how-to-secure-your-firebase-project-even-when-your-api-key-is-publicly-available-a462a2a58843
 -standardise time and dates
+-maybe refactor redux to use a custom middleware to save stuff to firebase etc? https://redux.js.org/understanding/thinking-in-redux/glossary#middleware
 
 --ui rework--
 -display components based on the redux state, build a state machine for this. or maybe use a router
@@ -21,15 +22,14 @@
 
 --backend--
 -setup push notifications https://codelabs.developers.google.com/codelabs/firebase-cloud-functions/#9
--add unit test to load tasks
+-add unit test to load tasks https://firebase.google.com/docs/functions/unit-testing
 -create a weekly cron job to calculate optimal flow times
 
 --flow reporting--
--change db model to store flow and timestamp as seperate.
-Create a flow table with that also stores the taskId. Flow can then be looked up from dayStat and when selecting tasks
 -fix resizing of window
 -add shadow dots of previous values for the day, from the dayStat
 -maybe also report flow after completing an objective
+-maybe change back to seperate sliders to prevent only using the diagonal
 
 --ab weekly tasks--
 -select a daily task for two weeks e.g. drink macha each day
@@ -48,11 +48,7 @@ Create a flow table with that also stores the taskId. Flow can then be looked up
 -secure db access rules and test
 
 ----bugs----
--when changing daystats, it loads an outdated one and gets ride of the second most recent
--daystat progress can get overwritten, maybe sync every hour
--short delay in timer when starting/unpausing task
--clicking recap with an active task pauses it? due to no longer rendering? also seems to reset daystats
--code in MainApp runs twice
+-daystat progress can get overwritten, maybe sync every hour. May be due to sign out logic?
 
 ----non-essential----
 -add offline strategy
@@ -68,6 +64,8 @@ Create a flow table with that also stores the taskId. Flow can then be looked up
  e.g. if bored maybe change to other task
 -add ai to suggest the ordering of tasks - for optimal efficiency and to reduce burnout
 -suggest different break based on how you are feeling. e.g. meditation or walk if faitgued
+-plans day based on tasks and adds in non-tasks e.g. lunch a walk etc based on previous data and
+ how it thinks it will affect flow
 
 --ai--
 -setup firebase ml using a tensorflow lite model

@@ -41,17 +41,7 @@ export default function MainApp() {
                         updateTasks(result.data.orderedTasks
                             .map(task => new TaskContainer(null, null, null, task)));
                     });
-/*
-                firebaseGetAllTasks()
-                    .then(tasks => {
-                        const time = new Date();
-                        console.log(time.toISOString() + " local");
 
-
-                        updateTasks(tasks.map(
-                            task => new TaskContainer(null, null, null, task)));
-                    });
- */
                 firebaseGetDayStat(currentDate)
                     .then(dayStat => {
                         updateDayStat(dayStat);
@@ -67,31 +57,11 @@ export default function MainApp() {
                 setShowAuthHtml(true);
                 //reset the tasks and daystats in case the user signs out
                 resetTask();
+                alert("reset day stats");
                 resetDayStat();
             }
         });
 
-        //todo add logic to create a new dayStat when the day rolls over
-        /*
-                let currentDate = formatDayMonth(new Date());
-                if (dayStat !== null) {
-                    if (dayStat.date !== currentDate) {
-
-                                                //update the week stats by one day
-                                                let newWeekDayStats = this.state.weekDayStats.slice();
-                                                //remove the oldest date from the end
-                                                newWeekDayStats.pop();
-                                                //add the latest day stat to the front
-                                                newWeekDayStats.unshift(this.state.dayStat);
-
-                                                this.setState({
-                                                    weekDayStats: newWeekDayStats,
-                                                });
-
-                        createNewDayStat(updateDayStat);
-                    }
-                }
-        */
         return () => {
             unregisterAuthObserver();
         };
