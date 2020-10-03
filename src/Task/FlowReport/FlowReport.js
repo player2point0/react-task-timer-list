@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import "./flowReport.css";
+import {useStoreState} from "easy-peasy";
 
 const INPUT_SIDE_SCALE = 0.75;
 
@@ -17,9 +18,14 @@ export default function FlowReport({onDone, id}) {
 
     const inputPinDim = 50;
 
+    const dayStat = useStoreState(state => state.dayStat.dayStat);
+    const flowLen =  dayStat.flow.length;
+    const previousFocus = flowLen > 0? dayStat.flow[flowLen-1].focus:0.5;
+    const previousProductive = flowLen > 0? dayStat.flow[flowLen-1].productive:0.5;
+
     const [inputPinCoords, setInputPinCoords] = useState({
-        x: "calc(50% - "+(inputPinDim/2)+"px)",
-        y: "calc(50% - 25px)"
+        x: "calc("+previousFocus*100+"% - "+(inputPinDim/2)+"px)",
+        y: "calc("+(1-previousProductive)*100+"% - 25px)"
     });
 
     const flowInputOnClick = (e) => {
