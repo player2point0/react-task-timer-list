@@ -40,14 +40,22 @@ export default function FlowReport({onDone, id}) {
             y: "calc("+yPer+" - "+(inputPinDim/2)+"px)"
         });
 
-        onDone(id, focusedRounded, productiveRounded);
+        onDone({
+            id: id,
+            productive: productiveRounded,
+            focus: focusedRounded,
+        });
     };
 
     return (
         <div className={"flowBody"}>
             <div
                 className={"flowNA"}
-                onClick={() => onDone(id, "", "")}
+                onClick={() => onDone({
+                    id: id,
+                    productive: "",
+                    focus: "",
+                })}
             >
                 n/a
             </div>

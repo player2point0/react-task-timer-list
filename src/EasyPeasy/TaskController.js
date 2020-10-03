@@ -1,131 +1,127 @@
-import {action, useStoreActions} from "easy-peasy";
-import {sendNotification} from "../Utility/Utility";
+import {action, thunk} from "easy-peasy";
+import {formatDayMonth, sendNotification} from "../Utility/Utility";
 
 import { debug } from 'easy-peasy';
+import {createDayStat} from "../MainApp/DayStat";
+import {firebaseSaveDayStat, firebaseSaveTask} from "../Firebase/FirebaseController";
+import {decrementTime, removeTask} from "./Task/TaskActions";
+import {addDayStatTask} from "./DayStat/DayStatActions";
 
-//todo check if the dayStat has changed
-//todo add saving
 
-//todo look into importing methods from dayStat and task actions
+//todo add tests with mocked data and maybe mocked saving
+
+const checkIfNewDayStat = (state) => {
+    if(state.dayStat.dayStat.date !== formatDayMonth(new Date())){
+        state.dayStat.dayStat = createDayStat();
+    }
+};
+
 export const tick = action((state, deltaTime) => {
     if (!state.dayStat.dayStat || !state.tasks.tasks) return;
     if(state.tasks.tasks.length === 0) return;
 
     const currentDateString = (new Date()).toISOString();
 
+    checkIfNewDayStat(state);
+
     state.tasks.tasks.forEach(task => {
         if (task.started && !task.paused) {
-            task.remainingTime -= deltaTime;
+            decrementTime(state.tasks, task.id, deltaTime);
 
-            if (task.remainingTime <= 0) {
-                task.remainingTime = 0;
-
-                if (!task.timeUp) {
-                    task.isViewing = true;
-                    task.timeUp = true;
-                    sendNotification("Task time finished", task.name);
-                    //todo save tasks
-                }
+            if (task.remainingTime === 0 && !task.timeUp) {
+                task.isViewing = true;
+                task.timeUp = true;
+                sendNotification("Task time finished", task.name);
+                firebaseSaveTask(task);
             }
 
-            let taskInDayStat = state.dayStat.dayStat.tasks.some(dayStatTask => {
+            const dayStatTask = state.dayStat.dayStat.tasks.find(dayStatTask => {
                 return dayStatTask.id === task.id;
             });
 
-            if(taskInDayStat){
+            if(dayStatTask){
                 //if a task is active update the stop time
-                let length =  state.dayStat.dayStat.tasks.stop.length;
-                state.dayStat.dayStat.tasks.stop[length - 1] = currentDateString;
+                let length = dayStatTask.stop.length;
+                dayStatTask.stop[length - 1] = currentDateString;
             }
             else{
-                state.dayStat.dayStat.tasks.push({
-                    id: task.id,
-                    name: task.name,
-                    start: [currentDateString],
-                    stop: [currentDateString],
-                });
+                addDayStatTask(state.dayStat, task, currentDateString);
             }
+
+            const seconds  = (new Date()).getSeconds();
+
+            //todo refactor interval saving, maybe some clever chaining or a cache in firebase controller
+            if(seconds % 30 === 0) firebaseSaveDayStat(state.dayStat.dayStat);
         }
     });
 });
 
 
-
 //handle start, pause and unpause
-export const startTask = action((state, payload) => {
+export const startTask = action((state, id) => {
     let taskActive = false;
     let currentDate = (new Date()).toISOString();
 
-    //todo check if the task is from a previous day stat and so doesn't exist in the tasks
-    const taskIndex = tasks.findIndex(task => task.id === id);
+    checkIfNewDayStat(state);
 
-    if (tasks[taskIndex].started) {
-        if (tasks[taskIndex].remainingTime >= 0) {
-            if (tasks[taskIndex].paused) {
-                tasks[taskIndex].unPause();
+    const task = state.tasks.tasks.find(task => task.id === id);
+
+    if (task.started) {
+        if (task.remainingTime >= 0) {
+            if (task.paused) {
+                task.unPause();
                 taskActive = true;
 
-                let taskInDayStat = false;
+                const dayStatTask = state.dayStat.dayStat.tasks.find(dayStatTask => {
+                    return dayStatTask.id === task.id;
+                });
 
-                //update the dayStat start and stop values
-                for (let j = 0; j < dayStat.tasks.length; j++) {
-                    if (dayStat.tasks[j].id === tasks[taskIndex].id) {
-                        dayStat.tasks[j].start.push(currentDate);
-                        dayStat.tasks[j].stop.push(currentDate);
-
-                        taskInDayStat = true;
-                    }
+                if(dayStatTask){
+                    //update times
+                    dayStatTask.start.push(currentDate);
+                    dayStatTask.stop.push(currentDate);
                 }
-
-                if (!taskInDayStat) {
-                    dayStat.tasks.push({
-                        id: tasks[taskIndex].id,
-                        name: tasks[taskIndex].name,
-                        start: [currentDate],
-                        stop: [currentDate],
-                    });
+                else{
+                    addDayStatTask(state.dayStat, task, currentDate);
                 }
-
             } else {
-                tasks[taskIndex].pause();
+                task.pause();
             }
         }
     } else {
-        tasks[taskIndex].start();
+        task.start();
         taskActive = true;
-        dayStat.tasks.push({
-            id: tasks[taskIndex].id,
-            name: tasks[taskIndex].name,
-            start: [currentDate],
-            stop: [currentDate],
-        });
+        addDayStatTask(state.dayStat, task, currentDate);
     }
 
+    firebaseSaveTask(task);
+    firebaseSaveDayStat(state.dayStat.dayStat);
+
     //pause any other active tasks
-    //todo refactor
     //todo add logic to report flow?
-    // add logic to save any tasks
     if (taskActive) {
-        for (let i = 0; i < tasks.length; i++) {
-            if (tasks[i].id !== id && tasks[i].started && !tasks[i].paused) {
-                tasks[i].pause();
+        state.tasks.tasks.forEach(task => {
+            if (task.id !== id && task.started && !task.paused) {
+                task.pause();
+                //todo set report flow
+                firebaseSaveTask(task);
             }
-        }
+        })
     }
 });
 
 
 //todo refactor
-export const reportFlow = action((state, payload) => {
-    const dayStatTaskIndex = dayStat.tasks.findIndex(task => task.id === id);
-    const currentTask = tasks.find(task => task.id === id);
+export const reportFlow = action((state, {id, productive, focus}) => {
+    const dayStatTask = state.dayStat.dayStat.tasks.find(task => task.id === id);
+    const task = state.tasks.tasks.find(task => task.id === id);
 
     const REPORT_DELAY = 750;
 
     //task hasn't been started
-    if (!dayStat.tasks[dayStatTaskIndex] || !currentTask) {
+    if (!dayStatTask || !task) {
         //todo save tasks
-        removeTask(id);
+        removeTask(state.tasks, id);
 
         return;
     }
@@ -137,7 +133,7 @@ export const reportFlow = action((state, payload) => {
             time: new Date(),
         };
 
-        dayStat.flow.push(flowObj);
+        state.dayStat.dayStat.flow.push(flowObj);
         addFlowStat({
             taskId: id,
             flowObj: flowObj,
@@ -145,8 +141,8 @@ export const reportFlow = action((state, payload) => {
     }
 
     //separate server and animation logic for speed
-    updateDayStat(dayStat);
-    saveDayStat();
+    //updateDayStat(dayStat);
+    //saveDayStat();
 
     setTimeout(() => {
         setReportFlow({
@@ -154,8 +150,8 @@ export const reportFlow = action((state, payload) => {
             val: false
         });
 
-        if (currentTask.finished) {
-            removeTask(id);
+        if (task.finished) {
+            removeTask(state.tasks, id);
         }
 
     }, REPORT_DELAY);

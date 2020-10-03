@@ -5,6 +5,8 @@ import {firebaseSaveTask} from "../../Firebase/FirebaseController";
 USE IMMUTABLE OBJECTS SO THAT THE RERENDER WORKS
  */
 
+//todo add saving middleware
+
 export const addTask = action((state, newTask) => {
     state.tasks.push(newTask);
     firebaseSaveTask(newTask);
@@ -63,7 +65,7 @@ export const setReportFlow = action((state, {taskId, val}) => {
     state.tasks = tempTasks;
 });
 
-export const removeTask = action((state, taskId) => {
+export const removeTask = (state, taskId) => {
     const tempTasks = [...state.tasks];
 
     const taskIndex = tempTasks.findIndex(task => task.id === taskId);
@@ -72,7 +74,7 @@ export const removeTask = action((state, taskId) => {
 
     state.tasks = tempTasks;
     firebaseSaveTask(removedTask);
-});
+};
 
 export const saveTask = action((state, taskId) => {
     firebaseSaveTask(state.tasks.find(task => task.id === taskId));
@@ -91,3 +93,16 @@ export const addFlowStat = action((state, {taskId, flowObj}) => {
     state.tasks = tempTasks;
     firebaseSaveTask(state.tasks[taskIndex]);
 });
+
+
+export const decrementTime = (state, id, deltaTime) => {
+    const tempTasks = [...state.tasks];
+    const taskIndex = tempTasks.findIndex(task => task.id === id);
+
+    const newTime = tempTasks[taskIndex].remainingTime - deltaTime;
+
+    if(newTime >= 0) tempTasks[taskIndex].remainingTime = newTime;
+    else tempTasks[taskIndex].remainingTime = 0;
+
+    state.tasks = tempTasks;
+};

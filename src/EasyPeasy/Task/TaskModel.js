@@ -6,6 +6,7 @@ import {
     addTime,
     finishTask, setReportFlow, removeTask, saveTask, resetTasks, addFlowStat
 } from "./TaskActions";
+import {action} from "easy-peasy";
 
 export const taskModel = {
     tasks: [],
@@ -16,7 +17,7 @@ export const taskModel = {
     addTime: addTime,
     finishTask: finishTask,
     setReportFlow: setReportFlow,
-    removeTask: removeTask,
+    removeTask: action((state, taskId) => removeTask(state, taskId)),
     saveTask: saveTask,
     resetTasks: resetTasks,
     addFlowStat: addFlowStat,

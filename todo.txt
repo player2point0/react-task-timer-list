@@ -49,6 +49,7 @@
 
 ----bugs----
 -daystat progress can get overwritten, maybe sync every hour. May be due to sign out logic?
+-as soon as the page loads clicking a task will sometimes unview it shortly after. could be due to loadTasks
 
 ----non-essential----
 -add offline strategy
