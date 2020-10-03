@@ -9,7 +9,6 @@ export default function Task({name, remainingTime, id,
                              started, objectives, startTask}) {
 
     if (reportFlowFlag && (finished || paused)) {
-        //todo check this
         return <FlowReport
             onDone={reportFlow}
             id={id}

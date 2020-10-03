@@ -22,7 +22,6 @@ export default function Objective({completeObjective, taskId, id, name, finished
         completeButton = "";
     }
 
-    //todo fix the height sizing of long objectives
     return (
         <div
             className="taskObjective"

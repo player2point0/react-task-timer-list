@@ -96,7 +96,6 @@ export default class TaskContainer {
         this.finished = true;
     }
 
-    //todo could probably change to a toggle
     setReportFlow(val) {
         this.reportFlowFlag = val;
     }

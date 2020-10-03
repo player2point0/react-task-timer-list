@@ -19,7 +19,6 @@ export default function TaskViewing({id, paused, remainingTime, started,
         e.preventDefault();
         if (!newObjectiveName) return;
 
-        //todo if there is a completed objective then swap the new and the old
         addObjective({
             taskId: id,
             objectiveName: newObjectiveName

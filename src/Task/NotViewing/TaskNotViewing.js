@@ -13,7 +13,6 @@ export default function TaskNotViewing({remainingTime, id, name, startTask}) {
     const taskHeight = (taskHeightPer * HOUR_HEIGHT) < MIN_TASK_HEIGHT
         ? MIN_TASK_HEIGHT : (taskHeightPer * HOUR_HEIGHT);
 
-    //todo maybe add back the time
     return (
         <div
             id={id}
