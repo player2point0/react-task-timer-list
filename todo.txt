@@ -27,7 +27,6 @@
 
 --flow reporting--
 -fix resizing of window
--add shadow dots of previous values for the day, from the dayStat
 -maybe also report flow after completing an objective
 -maybe change back to seperate sliders to prevent only using the diagonal
 
