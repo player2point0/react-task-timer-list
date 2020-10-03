@@ -4,7 +4,7 @@ import {formatDayMonth, sendNotification} from "../Utility/Utility";
 import { debug } from 'easy-peasy';
 import {createDayStat} from "../MainApp/DayStat";
 import {firebaseSaveDayStat, firebaseSaveTask} from "../Firebase/FirebaseController";
-import {decrementTime, removeTask} from "./Task/TaskActions";
+import {decrementTime, removeTask, setReportFlow, addFlowStat} from "./Task/TaskActions";
 import {addDayStatTask} from "./DayStat/DayStatActions";
 
 
@@ -110,18 +110,28 @@ export const startTask = action((state, id) => {
     }
 });
 
+export const reportFlow = thunk((actions, {id, productive, focus}) => {
+    const REPORT_DELAY = 750;
 
-//todo refactor
-export const reportFlow = action((state, {id, productive, focus}) => {
+    actions.updateFlow({
+        id: id,
+        productive: productive,
+        focus: focus
+    });
+
+    setTimeout(() => {
+        actions.hideReportFlow(id);
+    }, REPORT_DELAY);
+}) ;
+//todo could probably clean this up
+export const updateFlow = action((state, {id, productive, focus}) => {
     const dayStatTask = state.dayStat.dayStat.tasks.find(task => task.id === id);
     const task = state.tasks.tasks.find(task => task.id === id);
 
-    const REPORT_DELAY = 750;
-
     //task hasn't been started
     if (!dayStatTask || !task) {
-        //todo save tasks
         removeTask(state.tasks, id);
+        firebaseSaveTask(task);
 
         return;
     }
@@ -134,25 +144,19 @@ export const reportFlow = action((state, {id, productive, focus}) => {
         };
 
         state.dayStat.dayStat.flow.push(flowObj);
-        addFlowStat({
-            taskId: id,
-            flowObj: flowObj,
-        });
+        addFlowStat( state.tasks, id, flowObj);
+
+        firebaseSaveTask(task);
+        firebaseSaveDayStat(state.dayStat.dayStat);
     }
+});
 
-    //separate server and animation logic for speed
-    //updateDayStat(dayStat);
-    //saveDayStat();
+export const hideReportFlow = action((state, id) => {
+    const task = state.tasks.tasks.find(task => task.id === id);
 
-    setTimeout(() => {
-        setReportFlow({
-            taskId: id,
-            val: false
-        });
+    setReportFlow(state.tasks, id, false);
 
-        if (task.finished) {
-            removeTask(state.tasks, id);
-        }
-
-    }, REPORT_DELAY);
+    if (task.finished) {
+        removeTask(state.tasks, id);
+    }
 });

@@ -6,7 +6,8 @@ USE IMMUTABLE OBJECTS SO THAT THE RERENDER WORKS
  */
 
 //todo add saving middleware
-
+//todo refactor the rest to define the action in the store
+// also check if each one is needed
 export const addTask = action((state, newTask) => {
     state.tasks.push(newTask);
     firebaseSaveTask(newTask);
@@ -36,7 +37,7 @@ export const completeObjective = action((state, {taskId, objectiveId}) => {
     firebaseSaveTask(state.tasks[taskIndex]);
 });
 
-export const addTime = action((state, taskId) => {
+export const addTime = (state, taskId) =>  {
     const tempTasks = [...state.tasks];
 
     const taskIndex = tempTasks.findIndex(task => task.id === taskId);
@@ -44,7 +45,7 @@ export const addTime = action((state, taskId) => {
 
     state.tasks = tempTasks;
     firebaseSaveTask(state.tasks[taskIndex]);
-});
+};
 
 export const finishTask = action((state, taskId) => {
     const tempTasks = [...state.tasks];
@@ -56,14 +57,14 @@ export const finishTask = action((state, taskId) => {
     firebaseSaveTask(state.tasks[taskIndex]);
 });
 
-export const setReportFlow = action((state, {taskId, val}) => {
+export const setReportFlow =  (state, taskId, val)=> {
     const tempTasks = [...state.tasks];
 
     const taskIndex = tempTasks.findIndex(task => task.id === taskId);
     tempTasks[taskIndex].setReportFlow(val);
 
     state.tasks = tempTasks;
-});
+};
 
 export const removeTask = (state, taskId) => {
     const tempTasks = [...state.tasks];
@@ -84,7 +85,7 @@ export const resetTasks = action((state) => {
     state.tasks = [];
 });
 
-export const addFlowStat = action((state, {taskId, flowObj}) => {
+export const addFlowStat = (state, taskId, flowObj) => {
     const tempTasks = [...state.tasks];
     const taskIndex = tempTasks.findIndex(task => task.id === taskId);
 
@@ -92,8 +93,7 @@ export const addFlowStat = action((state, {taskId, flowObj}) => {
 
     state.tasks = tempTasks;
     firebaseSaveTask(state.tasks[taskIndex]);
-});
-
+};
 
 export const decrementTime = (state, id, deltaTime) => {
     const tempTasks = [...state.tasks];

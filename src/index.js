@@ -6,7 +6,7 @@ import * as serviceWorker from "./MainApp/serviceWorker";
 import {createStore, StoreProvider} from 'easy-peasy';
 import {taskModel} from "./EasyPeasy/Task/TaskModel";
 import {dayStatModel} from "./EasyPeasy/DayStat/DayStatModel";
-import {tick, startTask, reportFlow} from "./EasyPeasy/TaskController";
+import {tick, startTask, reportFlow, updateFlow, hideReportFlow} from "./EasyPeasy/TaskController";
 
 serviceWorker.register();
 
@@ -16,6 +16,8 @@ const store = createStore({
     weekDayStats: null,
     tick: tick,
     startTask: startTask,
+    updateFlow: updateFlow,
+    hideReportFlow: hideReportFlow,
     reportFlow: reportFlow,
 });
 
