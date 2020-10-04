@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import Task from "./Task";
-import HoursOverlay from "../HourCover/HoursOverlay";
 import "../MainApp/newTaskForm.css";
 import NewTaskForm from "../MainApp/NewTaskForm";
 import {useStoreActions, useStoreState} from 'easy-peasy';
@@ -21,7 +20,6 @@ export default function TaskController() {
     const tasks = useStoreState(state => state.tasks.tasks);
     const dayStat = useStoreState(state => state.dayStat.dayStat);
 
-    //display the add task inputs
     const toggleTaskForm = () => {
         setShowTaskForm(!showTaskForm);
         setScrollToForm(true);
@@ -58,10 +56,6 @@ export default function TaskController() {
 
     }, [lastTickTime, tasks, dayStat]);
 
-    const taskBeingViewed = tasks.some(task => {
-        return task.started && !task.paused;
-    });
-
     for (let i = 0; i < tasks.length; i++) {
         const task = tasks[i];
 
@@ -85,10 +79,6 @@ export default function TaskController() {
 
     return (
         <div>
-            {!taskBeingViewed && <HoursOverlay
-                startTime={new Date()}
-                numHours={12}
-            />}
             {tasks.map(task => (
                 <Task
                     key={task.id}

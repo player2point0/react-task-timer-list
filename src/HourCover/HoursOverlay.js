@@ -34,7 +34,7 @@ export default function HoursOverlay({startTime, numHours}) {
 
     hourBars.push(<HourBar
         key={uid(16)}
-        heightPer={timeSpacing}
+        heightPer={heightPer}
         hour={currentHourFormatted}
         mins={mins}
     />);
@@ -44,7 +44,7 @@ export default function HoursOverlay({startTime, numHours}) {
         let hour = padNumWithZero(currentTime.getHours().toString());
         hourBars.push(<HourBar
             key={uid(16)}
-            heightPer={1*timeSpacing}
+            heightPer={timeSpacing}
             hour={hour}
             mins={"00"}
         />);
