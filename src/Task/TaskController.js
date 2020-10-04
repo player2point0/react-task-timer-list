@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import Task from "./Task";
 import HoursOverlay from "../HourCover/HoursOverlay";
-import "../MainApp/addTaskForm.css";
+import "../MainApp/newTaskForm.css";
 import NewTaskForm from "../MainApp/NewTaskForm";
 import {useStoreActions, useStoreState} from 'easy-peasy';
 import {firebaseSaveTask} from "../Firebase/FirebaseController";

@@ -34,10 +34,19 @@ export default function NewTaskForm() {
         taskNameInputRef.focus();
     };
 
+    const validateInputs = () => {
+        if(!newTaskName) return  "name required";
+        if (newTaskHours < 0 || newTaskMins < 0) return "time must be positive";
+        if(Number(newTaskHours + newTaskMins) === 0) return "time required";
+
+        return "";
+    };
+
+    const taskValidationMessage = validateInputs();
+
     return <form
         id="addTaskForm"
         className="addTaskForm"
-        onSubmit={handleSubmit}
         autoComplete="off"
     >
         <input
@@ -68,15 +77,23 @@ export default function NewTaskForm() {
             value={newTaskMins}
             placeholder="minutes"
         />
-        <div className="taskInput">
-            <button>add</button>
-        </div>
+        {taskValidationMessage && <div
+            className="task-validation-message"
+        >
+            {taskValidationMessage}
+        </div>}
+        {!taskValidationMessage && <button
+            className={"addTask"}
+            onClick={handleSubmit}
+        >
+            add
+        </button>}
     </form>;
 };
 
 function addTask(name, hours, mins, addTaskAction) {
     requestNotifications();
-    //todo add feedback about wrong input
+    //todo refactor to only show add task button if input correct
     //need a name and at least one time value
     if (!name || (!hours && !mins)) return;
 
@@ -97,5 +114,4 @@ function addTask(name, hours, mins, addTaskAction) {
     );
 
     addTaskAction(newTask);
-    //todo call firebase save
 }

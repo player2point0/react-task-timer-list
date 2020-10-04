@@ -35,7 +35,7 @@
 }
 
 
-.taskInput button{
+.addTask{
     display:block;
     width: 25vw;
     height: 10vw;
@@ -48,8 +48,22 @@
     position: relative;
     z-index: 10;
 }
-.taskInput button:hover{
+.addTask:hover{
     color: var(--text-hover-color);
+}
+
+.task-validation-message{
+    display:block;
+    width: 50vw;
+    height: 5vw;
+    text-align:center;
+    margin: auto auto 1px;
+    font-size: var(--small-text-size);
+    border-radius: 2px;
+    position: relative;
+    z-index: 10;
+    background-color: white;
+    color: rgb(240, 84, 23);
 }
 
 

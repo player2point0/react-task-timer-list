@@ -13,6 +13,8 @@ export default function TaskNotViewing({remainingTime, id, name, startTask}) {
     const taskHeight = (taskHeightPer * HOUR_HEIGHT) < MIN_TASK_HEIGHT
         ? MIN_TASK_HEIGHT : (taskHeightPer * HOUR_HEIGHT);
 
+    const formattedTime = formatTime(remainingTime);
+
     return (
         <div
             id={id}
@@ -27,7 +29,7 @@ export default function TaskNotViewing({remainingTime, id, name, startTask}) {
             }}
         >
             <div className="taskNotViewingName">{name}</div>
-            <div className={"taskNotViewingTime"}>{formatTime(remainingTime)}</div>
+            <div className={"taskNotViewingTime"}>{formattedTime}</div>
         </div>
     );
 }
