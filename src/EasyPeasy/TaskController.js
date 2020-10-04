@@ -98,12 +98,10 @@ export const startTask = action((state, id) => {
     firebaseSaveDayStat(state.dayStat.dayStat);
 
     //pause any other active tasks
-    //todo add logic to report flow?
     if (taskActive) {
         state.tasks.tasks.forEach(task => {
             if (task.id !== id && task.started && !task.paused) {
                 task.pause();
-                //todo set report flow
                 firebaseSaveTask(task);
             }
         })
@@ -123,7 +121,7 @@ export const reportFlow = thunk((actions, {id, productive, focus}) => {
         actions.hideReportFlow(id);
     }, REPORT_DELAY);
 }) ;
-//todo could probably clean this up
+
 export const updateFlow = action((state, {id, productive, focus}) => {
     const dayStatTask = state.dayStat.dayStat.tasks.find(task => task.id === id);
     const task = state.tasks.tasks.find(task => task.id === id);
@@ -131,7 +129,6 @@ export const updateFlow = action((state, {id, productive, focus}) => {
     //task hasn't been started
     if (!dayStatTask || !task) {
         removeTask(state.tasks, id);
-        firebaseSaveTask(task);
 
         return;
     }

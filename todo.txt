@@ -18,10 +18,12 @@
 --ab testing--
 -create an ab component, that takes two components and will record the flow for that component and user to the db
 
---week stat recap--
+--day stat recap--
 -add buttons to recap
 -add different days
 -group sequential short tasks into one large? solve drift due to min task length? shorter min length? no min?
+-refactor into taskController, to prevent taskController from not being rendered? Maybe refactor with redux
+-refactor to make use of taskNotViewing
 
 --backend--
 -setup push notifications https://codelabs.developers.google.com/codelabs/firebase-cloud-functions/#9
