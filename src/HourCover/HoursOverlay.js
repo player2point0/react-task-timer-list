@@ -6,7 +6,6 @@ import uid from "uid";
 const HOUR_HEIGHT = 30;
 
 function HourBar(props) {
-	//todo change the line to a dashed one
 	return (
         <div
             className={"hourCoverHour"}
@@ -19,6 +18,7 @@ function HourBar(props) {
     );
 }
 
+//todo optimse this to not rerender every second
 //renders the hours overlay
 export default function HoursOverlay({startTime, numHours}) {
     //draw hour bars for the next 12 hours

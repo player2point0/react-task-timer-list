@@ -93,7 +93,6 @@ export default function NewTaskForm() {
 
 function addTask(name, hours, mins, addTaskAction) {
     requestNotifications();
-    //todo refactor to only show add task button if input correct
     //need a name and at least one time value
     if (!name || (!hours && !mins)) return;
 

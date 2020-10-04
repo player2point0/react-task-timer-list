@@ -3,7 +3,6 @@ import "../MainApp/auth.css";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import TaskContainer from "../Task/TaskContainer";
 import {formatDayMonth} from "../Utility/Utility";
 import {createDayStat} from "../MainApp/DayStat";
 
@@ -59,14 +58,6 @@ export function firebaseGetWeekStats(weekDate) {
     return Promise.all(weekDayStatPromises);
 }
 
-export function saveAllTasks(tasks) {
-    const saveTaskPromises = tasks
-        .map(task => firebaseSaveTask(task));
-    Promise.all(saveTaskPromises)
-        .then();
-}
-
-//todo optimise this to only change fields that have changed
 export function firebaseSaveTask(task) {
     const currentUser = firebase.auth().currentUser;
 
@@ -144,7 +135,6 @@ export async function firebaseGetDayStat(currentDate) {
 
     if (!currentUser) {
         console.error("not logged in");
-        //todo test and change this so it doesn't break the promises
         return;
     }
 

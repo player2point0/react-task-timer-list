@@ -75,6 +75,7 @@ export default function MainApp() {
     // one that could also be expanded to work with a a/b system
     // maybe using the state / redux state if it is added
 
+    //todo change dayRecap, maybe move to taskController. breaks in innconitto
     return (
         <div>
             <div

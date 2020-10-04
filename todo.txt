@@ -48,6 +48,7 @@
 -add start info for first time users
 -improve the notification ux
 -secure db access rules and test
+-check that saving tasks to firebase can't be optimsed by only sending the changed fields
 
 ----bugs----
 -daystat progress can get overwritten, maybe sync every hour. May be due to sign out logic?
