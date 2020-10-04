@@ -8,7 +8,7 @@ import {useStoreActions} from 'easy-peasy';
 import firebase from 'firebase';
 
 import {
-    uiConfig, getAuth, firebaseGetAllTasks, firebaseGetDayStat, firebaseGetWeekStats
+    uiConfig, getAuth, firebaseGetDayStat, firebaseGetWeekStats
 } from "../Firebase/FirebaseController";
 import TaskContainer from "../Task/TaskContainer";
 
@@ -65,7 +65,7 @@ export default function MainApp() {
         return () => {
             unregisterAuthObserver();
         };
-    });
+    }, []);
 
     const toggleDayRecap = () => {
         setShowRecap(!showRecap);
