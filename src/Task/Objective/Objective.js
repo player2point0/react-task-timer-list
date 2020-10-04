@@ -1,5 +1,6 @@
 import React from "react";
 import './objective.css';
+import Linkify from 'linkifyjs/react';
 
 export default function Objective({completeObjective, taskId, id, name, finished}) {
 
@@ -13,15 +14,6 @@ export default function Objective({completeObjective, taskId, id, name, finished
         }}
     >done</button>;
 
-    let objectiveName = <div
-        className={"taskObjectiveName"}
-    >{name}</div>;
-
-    if (finished) {
-        objectiveName = <del>{objectiveName}</del>;
-        completeButton = "";
-    }
-
     return (
         <div
             className="taskObjective"
@@ -29,7 +21,13 @@ export default function Objective({completeObjective, taskId, id, name, finished
                 e.stopPropagation();
             }}
         >
-            {objectiveName}
-            {completeButton}
+            <Linkify>
+                <div
+                    className={"taskObjectiveName"}
+                >
+                    {finished?<del>{name}</del> : name}
+                </div>
+            </Linkify>
+            {!finished && completeButton}
         </div>);
 }

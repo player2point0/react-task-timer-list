@@ -9,7 +9,6 @@
 -refactor to use styled components https://styled-components.com/ or maybe just a style var
 -tidy the tasks component with compund components
 -add a loading indicator when loading tasks
--add objective support for urls
 
 --ui rework--
 -display components based on the redux state, build a state machine for this. or maybe use a router
