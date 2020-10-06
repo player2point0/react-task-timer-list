@@ -4,15 +4,14 @@ import {formatTime} from "../../Utility/Utility";
 import Objective from "../Objective/Objective";
 import {useStoreActions} from "easy-peasy";
 
-export default function TaskViewing({id, paused, remainingTime, started,
-                                        objectives, name, startTask}) {
+export default function TaskViewing({id, remainingTime, objectives,
+                                        name, startTask}) {
 
     const [newObjectiveName, setNewObjectiveName] = useState("");
     const addObjective = useStoreActions(actions => actions.tasks.addObjective);
     const completeObjective = useStoreActions(actions => actions.tasks.completeObjective);
     const finishTask = useStoreActions(actions => actions.tasks.finishTask);
     const setReportFlow = useStoreActions(actions => actions.tasks.setReportFlow);
-    const addTime = useStoreActions(actions => actions.tasks.addTime);
     const saveDayStat = useStoreActions(actions => actions.dayStat.saveDayStat);
 
     const handleSubmit = (e) => {
@@ -78,10 +77,6 @@ export default function TaskViewing({id, paused, remainingTime, started,
                         val: true
                     });
                 }}
-            />
-            <TaskViewingButton
-                buttonText={"+10 mins"}
-                onClickFunc={() => addTime(id)}
             />
         </div>
     );

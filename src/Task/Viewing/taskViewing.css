@@ -12,7 +12,7 @@
 .taskViewingButtons{
     justify-content: space-evenly;
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto;
     align-content: center;
     height: 20vh;
 }

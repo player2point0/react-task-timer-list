@@ -26,10 +26,8 @@ export default function Task({name, remainingTime, id,
 
     return <TaskViewing
         id={id}
-        paused={paused}
         remainingTime={remainingTime}
         name={name}
-        started={started}
         objectives={objectives}
         startTask={startTask}
     />;

@@ -1,7 +1,5 @@
 import uid from "uid";
 
-const TEN_MINS = 10 * 60;
-
 export default class TaskContainer {
     constructor(name, duration, date, savedTask) {
         if (savedTask) {
@@ -65,15 +63,6 @@ export default class TaskContainer {
         newObjective.finished = false;
 
         this.objectives.push(newObjective);
-    }
-
-    addTime() {
-        let extraTime = Number(this.remainingTime) + TEN_MINS;
-        this.totalTime += extraTime;
-        this.remainingTime = extraTime;
-        this.timeUp = false;
-
-        this.stats.timeAdded += extraTime;
     }
 
     pause() {

@@ -37,16 +37,6 @@ export const completeObjective = action((state, {taskId, objectiveId}) => {
     firebaseSaveTask(state.tasks[taskIndex]);
 });
 
-export const addTime = (state, taskId) =>  {
-    const tempTasks = [...state.tasks];
-
-    const taskIndex = tempTasks.findIndex(task => task.id === taskId);
-    tempTasks[taskIndex].addTime();
-
-    state.tasks = tempTasks;
-    firebaseSaveTask(state.tasks[taskIndex]);
-};
-
 export const finishTask = action((state, taskId) => {
     const tempTasks = [...state.tasks];
 
