@@ -1,14 +1,19 @@
 --refactor--
 -make recap part of day. daily recap of work and fill in the gaps
 -overview of flow
--maybe reset tasks each day to remove stale tasks and keep focus clear and incentivise progress
--maybe change to a tag system and a description
 -create a production and dev environment https://medium.com/@devesu/how-to-secure-your-firebase-project-even-when-your-api-key-is-publicly-available-a462a2a58843
--standardise time and dates
 -maybe refactor redux to use a custom middleware to save stuff to firebase etc? https://redux.js.org/understanding/thinking-in-redux/glossary#middleware
 -refactor to use styled components https://styled-components.com/ or maybe just a style var
 -tidy the tasks component with compund components
 -add a loading indicator when loading tasks
+-tidy add task ui
+
+--updated db--
+-standardise time and dates
+-maybe change to a tag system and a description
+
+-export old data to csv
+-remove old data from firebase
 
 --ui rework--
 -display components based on the redux state, build a state machine for this. or maybe use a router
