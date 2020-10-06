@@ -54,16 +54,17 @@
 
 .task-validation-message{
     display:block;
-    width: 50vw;
-    height: 5vw;
+    width: fit-content;
+    height: auto;
     text-align:center;
-    margin: auto auto 1px;
+    margin: 2px auto;
+    padding: 5px;
     font-size: var(--small-text-size);
     border-radius: 2px;
     position: relative;
     z-index: 10;
     background-color: white;
-    color: rgb(240, 84, 23);
+    color: #f05417;
 }
 
 
