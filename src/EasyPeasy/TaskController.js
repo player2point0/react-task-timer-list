@@ -108,21 +108,7 @@ export const startTask = action((state, id) => {
     }
 });
 
-export const reportFlow = thunk((actions, {id, productive, focus}) => {
-    const REPORT_DELAY = 750;
-
-    actions.updateFlow({
-        id: id,
-        productive: productive,
-        focus: focus
-    });
-
-    setTimeout(() => {
-        actions.hideReportFlow(id);
-    }, REPORT_DELAY);
-}) ;
-
-export const updateFlow = action((state, {id, productive, focus}) => {
+export const reportFlow = action((state, {id, productive, focus}) => {
     const dayStatTask = state.dayStat.dayStat.tasks.find(task => task.id === id);
     const task = state.tasks.tasks.find(task => task.id === id);
 
@@ -146,10 +132,6 @@ export const updateFlow = action((state, {id, productive, focus}) => {
         firebaseSaveTask(task);
         firebaseSaveDayStat(state.dayStat.dayStat);
     }
-});
-
-export const hideReportFlow = action((state, id) => {
-    const task = state.tasks.tasks.find(task => task.id === id);
 
     setReportFlow(state.tasks, id, false);
 

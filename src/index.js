@@ -16,8 +16,6 @@ const store = createStore({
     weekDayStats: null,
     tick: tick,
     startTask: startTask,
-    updateFlow: updateFlow,
-    hideReportFlow: hideReportFlow,
     reportFlow: reportFlow,
 });
 

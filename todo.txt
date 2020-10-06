@@ -34,9 +34,6 @@
 -add unit test to load tasks https://firebase.google.com/docs/functions/unit-testing
 -create a weekly cron job to calculate optimal flow times
 
---flow reporting--
--maybe change back to seperate sliders to prevent only using the diagonal
-
 --ab weekly tasks--
 -select a daily task for two weeks e.g. drink macha each day
 -provides daily reminders for task
