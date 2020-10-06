@@ -18,14 +18,14 @@ function HourBar(props) {
     );
 }
 
-//todo optimse this to not rerender every second
+//todo test this
 //renders the hours overlay
 export default function HoursOverlay({startTime, numHours}) {
     //draw hour bars for the next 12 hours
     let hourBars = [];
     let currentTime = startTime;
     let currentHourFormatted = padNumWithZero(currentTime.getHours());
-    const timeSpacing = 2;
+    const timeSpacing = 1;
 
     //draw the first bar smaller based on the remaining time in the hour
     let mins = currentTime.getMinutes();
