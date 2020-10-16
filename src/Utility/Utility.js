@@ -20,7 +20,6 @@ export function sendNotification(title, text, onClickFunc) {
 }
 
 function closeNotification(notification, onClickFunc) {
-
     notification.removeEventListener("click", onClickFunc);
     notification.close.bind(notification);
 }
