@@ -23,6 +23,8 @@ export default function MainApp() {
     const resetTask = useStoreActions(actions => actions.tasks.resetTasks);
     const resetDayStat = useStoreActions(actions => actions.dayStat.resetDayStat);
 
+    const [loadingTasks, setLoadingTasks] = useState(false);
+
     useEffect(() => {
         const unregisterAuthObserver = getAuth().onAuthStateChanged((user) => {
             if (user) {
@@ -32,11 +34,13 @@ export default function MainApp() {
 
                 const time = new Date();
                 console.log(time.toISOString() + " start");
+                setLoadingTasks(true);
 
                 loadTasks()
                     .then((result) => {
                         const time = new Date();
                         console.log(time.toISOString() + " server");
+                        setLoadingTasks(false);
 
                         updateTasks(result.data.orderedTasks
                             .map(task => new TaskContainer(null, null, null, task)));
@@ -91,6 +95,7 @@ export default function MainApp() {
                 <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={getAuth()}/>
             </div>}
             {!showRecap && <TaskController/>}
+            {loadingTasks&& <div className={"loadingTasks"}>loading tasks</div>}
         </div>
     );
 }

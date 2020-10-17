@@ -2,23 +2,17 @@
 -make recap part of day. daily recap of work and fill in the gaps?
 -overview of flow
 -create a production and dev environment
-    https://medium.com/@devesu/how-to-secure-your-firebase-project-even-when-your-api-key-is-publicly-available-a462a2a58843
-    https://firebase.google.com/docs/projects/multiprojects
 -maybe refactor redux to use a custom middleware to save stuff to firebase etc? https://redux.js.org/understanding/thinking-in-redux/glossary#middleware
 -refactor to use styled components https://styled-components.com/ or maybe just a style var
 -tidy the tasks component with compund components
--add a loading indicator when loading tasks
--maybe change to a tag system and a description (more hassle for user adding tasks)
+-check out this for dates https://momentjs.com/
 
 --increased data usage--
 -due to cloud function docker images, each function has a cost
 - couple of pence a month
 
---updated db--
--remove old data from firebase
- make a python script to delete old data https://firebase.google.com/docs/firestore/manage-data/delete-data#python_2
-
 --ui rework--
+-redesign the current UI as it has change a lot recently
 -display components based on the redux state, build a state machine for this. or maybe use a router
 -move time sizing constants to a separate class and maybe generate them on the fly
 
@@ -32,10 +26,18 @@
 -refactor into taskController, to prevent taskController from not being rendered? Maybe refactor with redux
 -refactor to make use of taskNotViewing
 
+--tag system--
+-change to a tag system and a description (more hassle for user adding tasks)
+-in add task add a tag field
+-store the tags in the user table
+-use fuse js to search for tags when types
+-create an ai to suggest tags as the user types the task name
+
 --backend--
 -setup push notifications https://codelabs.developers.google.com/codelabs/firebase-cloud-functions/#9
 -add unit test to load tasks https://firebase.google.com/docs/functions/unit-testing
 -create a weekly cron job to calculate optimal flow times
+-create a new user table to contain flow times (2-3 high flow) and tags
 
 --ab weekly tasks--
 -select a daily task for two weeks e.g. drink macha each day
