@@ -6,9 +6,10 @@ import * as serviceWorker from "./MainApp/serviceWorker";
 import {createStore, StoreProvider} from 'easy-peasy';
 import {taskModel} from "./EasyPeasy/Task/TaskModel";
 import {dayStatModel} from "./EasyPeasy/DayStat/DayStatModel";
-import {tick, startTask, reportFlow, updateFlow, hideReportFlow} from "./EasyPeasy/TaskController";
+import {tick, startTask, reportFlow} from "./EasyPeasy/TaskController";
+import {firebaseConfig} from "./Firebase/FirebaseController";
 
-serviceWorker.register();
+serviceWorker.register(firebaseConfig);
 
 const store = createStore({
     tasks: taskModel,

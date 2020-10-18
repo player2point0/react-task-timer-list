@@ -1,4 +1,4 @@
-import {action, thunk} from "easy-peasy";
+import {action} from "easy-peasy";
 import {formatDayMonth, sendNotification} from "../Utility/Utility";
 
 import { debug } from 'easy-peasy';

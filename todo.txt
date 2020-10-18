@@ -1,10 +1,7 @@
 --refactor--
 -make recap part of day. daily recap of work and fill in the gaps?
 -overview of flow
--create a production and dev environment
 -maybe refactor redux to use a custom middleware to save stuff to firebase etc? https://redux.js.org/understanding/thinking-in-redux/glossary#middleware
--refactor to use styled components https://styled-components.com/ or maybe just a style var
--tidy the tasks component with compund components
 -check out this for dates https://momentjs.com/
 
 --increased data usage--
@@ -13,6 +10,8 @@
 
 --ui rework--
 -redesign the current UI as it has change a lot recently
+-refactor to use styled components https://styled-components.com/ or maybe just a style var
+-tidy the tasks component with compund components
 -display components based on the redux state, build a state machine for this. or maybe use a router
 -move time sizing constants to a separate class and maybe generate them on the fly
 

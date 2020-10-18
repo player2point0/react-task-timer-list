@@ -19,7 +19,8 @@
 		"test": "jest",
 		"eject": "react-scripts eject",
 		"predeploy": "npm run build",
-		"deploy": "firebase deploy"
+		"deploy-prod": "firebase deploy -P default",
+		"deploy-dev": "firebase deploy -P dev"
 	},
 	"eslintConfig": {
 		"extends": "react-app"

@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "react-task-app-d7d0a"
+    "default": "react-task-app-d7d0a",
+    "dev": "flocus-dev"
   }
 }

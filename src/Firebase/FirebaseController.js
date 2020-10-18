@@ -1,21 +1,38 @@
 import "../index.css";
 import "../MainApp/auth.css";
-import * as firebase from "firebase/app";
+import firebase from 'firebase/app';
 import "firebase/auth";
 import "firebase/firestore";
 import {formatDayMonth} from "../Utility/Utility";
 import {createDayStat} from "../MainApp/DayStat";
 
 //firebase
-export const firebaseConfig = {
-    apiKey: "AIzaSyAxGvolzw0mVmK5rjfLh9hT3OBgeihjv4o",
-    authDomain: "react-task-app-d7d0a.firebaseapp.com",
-    databaseURL: "https://react-task-app-d7d0a.firebaseio.com",
-    projectId: "react-task-app-d7d0a",
-    storageBucket: "react-task-app-d7d0a.appspot.com",
-    appId: "1:552127368915:web:e2566ec7eca32b03bd8e26",
-    measurementId: "G-470KV7252P",
-};
+const getFirebaseConfig = () => {
+    if (process.env.NODE_ENV === "production") {
+        return {
+            apiKey: "AIzaSyAxGvolzw0mVmK5rjfLh9hT3OBgeihjv4o",
+            authDomain: "react-task-app-d7d0a.firebaseapp.com",
+            databaseURL: "https://react-task-app-d7d0a.firebaseio.com",
+            projectId: "react-task-app-d7d0a",
+            storageBucket: "react-task-app-d7d0a.appspot.com",
+            appId: "1:552127368915:web:e2566ec7eca32b03bd8e26",
+            measurementId: "G-470KV7252P",
+        };
+    } else {
+        console.log("dev");
+
+        return {
+            apiKey: "AIzaSyCc_lxQuL-V8l1rAzlq59u_1rgKjev8mj8",
+            authDomain: "flocus-dev.firebaseapp.com",
+            databaseURL: "https://flocus-dev.firebaseio.com",
+            projectId: "flocus-dev",
+            storageBucket: "flocus-dev.appspot.com",
+            messagingSenderId: "821315418566",
+            appId: "1:821315418566:web:8133f46a27d71f29c11ac7"
+        };
+    }
+}
+export const firebaseConfig = getFirebaseConfig();
 
 // Configure FirebaseUI.
 export const uiConfig = {
