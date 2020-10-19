@@ -1,10 +1,12 @@
 import uid from "uid";
 
 export default class TaskContainer {
-    constructor(name, duration, date, savedTask) {
+    constructor(name, tag, duration, date, savedTask) {
         if (savedTask) {
             this.id = savedTask.id;
             this.name = savedTask.name;
+            //todo refactor with a get or else
+            this.tag = savedTask.hasOwnProperty("tag")? savedTask.tag:"";
             if (savedTask.dateCreated.hasOwnProperty("seconds")) {
                 this.dateCreated = savedTask.dateCreated.toDate();
             } else {
@@ -27,6 +29,7 @@ export default class TaskContainer {
         } else {
             this.id = uid(32);
             this.name = name;
+            this.tag = tag;
             this.dateCreated = date;
             //time in seconds
             this.totalTime = duration;
@@ -93,6 +96,7 @@ export default class TaskContainer {
         return {
             id: this.id,
             name: this.name,
+            tag: this.tag,
             dateCreated: this.dateCreated,
             totalTime: this.totalTime,
             remainingTime: this.remainingTime,

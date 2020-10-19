@@ -7,6 +7,7 @@ export default function NewTaskForm() {
 
     const [newTaskName, setNewTaskName] = useState("");
     const [taskNameInputRef, setTaskNameInputRef] = useState(null);
+    const [newTagName, setNewTagName] = useState("");
     const [newTaskHours, setNewTaskHours] = useState("0");
     const [newTaskMins, setNewTaskMins] = useState("0");
     const addTaskAction = useStoreActions(actions => actions.tasks.addTask);
@@ -14,6 +15,10 @@ export default function NewTaskForm() {
     //methods for the new task input
     const handleNewTaskNameChange = (e) => {
         setNewTaskName(e.target.value.toLowerCase());
+    };
+    const handleNewTagNameChange = (e) => {
+        //todo perform the fuse js logic here
+        setNewTagName(e.target.value.toLowerCase());
     };
     const handleNewTaskHoursChange = (e) => {
         setNewTaskHours(e.target.value);
@@ -25,8 +30,10 @@ export default function NewTaskForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        addTask(newTaskName, newTaskHours, newTaskMins, addTaskAction);
+        //todo update this
+        addTask(newTaskName, newTagName, newTaskHours, newTaskMins, addTaskAction);
 
+        setNewTaskName("");
         setNewTaskName("");
         setNewTaskHours("0");
         setNewTaskMins("0");
@@ -36,6 +43,7 @@ export default function NewTaskForm() {
 
     const validateInputs = () => {
         if(!newTaskName) return  "name required";
+        if(!newTagName) return  "tag required";
         if (newTaskHours < 0 || newTaskMins < 0) return "time must be positive";
         if(Number(newTaskHours + newTaskMins) === 0) return "time required";
 
@@ -45,12 +53,10 @@ export default function NewTaskForm() {
     const taskValidationMessage = validateInputs();
 
     return <form
-        id="addTaskForm"
         className="addTaskForm"
         autoComplete="off"
     >
         <input
-            id="task-name-input"
             type="text"
             ref={(input) => { setTaskNameInputRef(input); }}
             autoFocus
@@ -59,7 +65,12 @@ export default function NewTaskForm() {
             placeholder="name"
         />
         <input
-            id="task-hours-input"
+            type="text"
+            onChange={handleNewTagNameChange}
+            value={newTagName}
+            placeholder="tag"
+        />
+        <input
             type="number"
             min="0"
             max="99"
@@ -68,7 +79,6 @@ export default function NewTaskForm() {
             placeholder="hours"
         />
         <input
-            id="task-mins-input"
             type="number"
             min="0"
             max="60"
@@ -91,10 +101,10 @@ export default function NewTaskForm() {
     </form>;
 };
 
-function addTask(name, hours, mins, addTaskAction) {
+function addTask(name, tag, hours, mins, addTaskAction) {
     requestNotifications();
     //need a name and at least one time value
-    if (!name || (!hours && !mins)) return;
+    if (!name || !tag ||  (!hours && !mins)) return;
 
     //if we have one and not the other then assume zero
     if (!hours) hours = 0;
@@ -108,9 +118,11 @@ function addTask(name, hours, mins, addTaskAction) {
 
     let newTask = new TaskContainer(
         name,
+        tag,
         newTaskDuration,
         currentDate
     );
 
+    //todo add save tag to user table logic
     addTaskAction(newTask);
 }

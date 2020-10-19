@@ -43,7 +43,7 @@ export default function MainApp() {
                         setLoadingTasks(false);
 
                         updateTasks(result.data.orderedTasks
-                            .map(task => new TaskContainer(null, null, null, task)));
+                            .map(task => new TaskContainer(null, null,null, null, task)));
                     });
 
                 firebaseGetDayStat(currentDate)
@@ -55,6 +55,8 @@ export default function MainApp() {
                     .then(weekStats => {
                         //console.log(weekStats);
                     });
+
+                //todo load userData
 
                 setShowAuthHtml(false);
             } else {
