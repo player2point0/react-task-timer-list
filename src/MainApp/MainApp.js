@@ -11,6 +11,7 @@ import {
     uiConfig, getAuth, firebaseGetDayStat, firebaseGetWeekStats
 } from "../Firebase/FirebaseController";
 import TaskContainer from "../Task/TaskContainer";
+import {dateDiffInSeconds} from "../Utility/Utility";
 
 require('firebase/auth');
 
@@ -32,14 +33,12 @@ export default function MainApp() {
 
                 const loadTasks = firebase.functions().httpsCallable('loadTasks');
 
-                const time = new Date();
-                console.log(time.toISOString() + " start");
+                const startTime = new Date();
                 setLoadingTasks(true);
 
                 loadTasks()
                     .then((result) => {
-                        const time = new Date();
-                        console.log(time.toISOString() + " server");
+                        console.log(dateDiffInSeconds(startTime, new Date()) + " server");
                         setLoadingTasks(false);
 
                         updateTasks(result.data.orderedTasks

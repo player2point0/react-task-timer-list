@@ -11,6 +11,7 @@ export default function NewTaskForm() {
     const [newTaskHours, setNewTaskHours] = useState("0");
     const [newTaskMins, setNewTaskMins] = useState("0");
     const addTaskAction = useStoreActions(actions => actions.tasks.addTask);
+    const addTagAction = useStoreActions(actions => actions.userData.addTag);
 
     //methods for the new task input
     const handleNewTaskNameChange = (e) => {
@@ -30,11 +31,10 @@ export default function NewTaskForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        //todo update this
-        addTask(newTaskName, newTagName, newTaskHours, newTaskMins, addTaskAction);
+        addTask(newTaskName, newTagName, newTaskHours, newTaskMins, addTaskAction, addTagAction);
 
         setNewTaskName("");
-        setNewTaskName("");
+        setNewTagName("");
         setNewTaskHours("0");
         setNewTaskMins("0");
 
@@ -101,7 +101,7 @@ export default function NewTaskForm() {
     </form>;
 };
 
-function addTask(name, tag, hours, mins, addTaskAction) {
+function addTask(name, tag, hours, mins, addTaskAction, addTagAction) {
     requestNotifications();
     //need a name and at least one time value
     if (!name || !tag ||  (!hours && !mins)) return;
@@ -123,6 +123,6 @@ function addTask(name, tag, hours, mins, addTaskAction) {
         currentDate
     );
 
-    //todo add save tag to user table logic
+    addTagAction(tag);
     addTaskAction(newTask);
 }

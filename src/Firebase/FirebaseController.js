@@ -127,7 +127,7 @@ export function firebaseSaveFeedback(feedback) {
         .catch(reason => console.error("error saving feedback" + reason));
 }
 
-export function firebaseGetAllTasks() {
+export function firebaseSaveUserData(userData) {
     const currentUser = firebase.auth().currentUser;
 
     if (!currentUser) {
@@ -135,16 +135,11 @@ export function firebaseGetAllTasks() {
         return;
     }
 
-    return firebase.firestore().collection("tasks")
-        .where("userId", "==", currentUser.uid)
-        .where("finished", "==", false)
-        .get()
-        .then(function (querySnapshot) {
-            return querySnapshot.docs.map(doc => doc.data());
-        })
-        .catch(function (error) {
-            console.log("Error getting documents: ", error);
-        });
+    firebase.firestore().collection("userData")
+        .doc(currentUser.uid)
+        .set(userData)
+        .then(() => console.log("saved user data successfully"))
+        .catch(reason => console.error("error saving user data" + reason));
 }
 
 export async function firebaseGetDayStat(currentDate) {
