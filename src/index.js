@@ -8,12 +8,14 @@ import {taskModel} from "./EasyPeasy/Task/TaskModel";
 import {dayStatModel} from "./EasyPeasy/DayStat/DayStatModel";
 import {tick, startTask, reportFlow} from "./EasyPeasy/TaskController";
 import {firebaseConfig} from "./Firebase/FirebaseController";
+import {userDataModel} from "./EasyPeasy/UserData/UserDataModel";
 
 serviceWorker.register(firebaseConfig);
 
 const store = createStore({
     tasks: taskModel,
     dayStat: dayStatModel,
+    userData: userDataModel,
     weekDayStats: null,
     tick: tick,
     startTask: startTask,
