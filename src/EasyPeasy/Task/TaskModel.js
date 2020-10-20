@@ -1,6 +1,6 @@
 import {
     addTask,
-    updateTasks,
+    loadTasks,
     addObjective,
     completeObjective,
     finishTask, setReportFlow, removeTask, saveTask, resetTasks, addFlowStat
@@ -10,7 +10,7 @@ import {action} from "easy-peasy";
 export const taskModel = {
     tasks: [],
     addTask: addTask,
-    updateTasks: updateTasks,
+    loadTasks: loadTasks,
     addObjective: addObjective,
     completeObjective: completeObjective,
     finishTask: finishTask,

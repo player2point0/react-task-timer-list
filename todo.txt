@@ -30,6 +30,8 @@
 --tag system--
 -use fuse js to search for tags when types
 -create an ai to suggest tags as the user types the task name
+-update the db rules for prod and deploy changes
+-could also suggest time for tasks based on the average for that task. run weekly cron job for average
 
 --backend--
 -setup push notifications https://codelabs.developers.google.com/codelabs/firebase-cloud-functions/#9

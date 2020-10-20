@@ -5,8 +5,8 @@ import {createDayStat} from "../../MainApp/DayStat";
 //todo add saving middleware
 
 //todo kinda an anti pattern, probably should refactor
-export const updateDayStat = action((state, updatedDayStat) => {
-    state.dayStat = updatedDayStat
+export const loadDayStat = action((state, dayStat) => {
+    state.dayStat = dayStat
 });
 //
 export const saveDayStat = action((state) => {

@@ -13,8 +13,8 @@ export const addTask = action((state, newTask) => {
     firebaseSaveTask(newTask);
 });
 
-export const updateTasks = action((state, updatedTasks) => {
-    state.tasks = updatedTasks
+export const loadTasks = action((state, tasks) => {
+    state.tasks = tasks
 });
 
 export const addObjective = action((state, {taskId, objectiveName}) => {
