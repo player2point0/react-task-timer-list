@@ -142,6 +142,26 @@ export function firebaseSaveUserData(userData) {
         .catch(reason => console.error("error saving user data" + reason));
 }
 
+export async function firebaseGetUserData() {
+    const currentUser = firebase.auth().currentUser;
+
+    if (!currentUser) {
+        console.error("not logged in");
+        return;
+    }
+
+    return firebase.firestore().collection("userData")
+        .doc(currentUser.uid)
+        .get()
+        .then(function (doc) {
+            return doc.data();
+        })
+        .catch(function (error) {
+                console.log("Error getting user data: ", error);
+            }
+        );
+}
+
 export async function firebaseGetDayStat(currentDate) {
     const currentUser = firebase.auth().currentUser;
 

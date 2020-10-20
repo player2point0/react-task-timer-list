@@ -7,3 +7,7 @@ export const addTag = action((state, tag) => {
         firebaseSaveUserData(state);
     }
 });
+
+export const loadUserData = action((state, userData) => {
+    state.userData = userData;
+});

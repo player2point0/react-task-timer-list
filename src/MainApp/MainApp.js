@@ -8,7 +8,7 @@ import {useStoreActions} from 'easy-peasy';
 import firebase from 'firebase';
 
 import {
-    uiConfig, getAuth, firebaseGetDayStat, firebaseGetWeekStats
+    uiConfig, getAuth, firebaseGetDayStat, firebaseGetWeekStats, firebaseGetUserData
 } from "../Firebase/FirebaseController";
 import TaskContainer from "../Task/TaskContainer";
 import {dateDiffInSeconds} from "../Utility/Utility";
@@ -19,8 +19,9 @@ export default function MainApp() {
 
     const [showAuthHtml, setShowAuthHtml] = useState(true);
     const [showRecap, setShowRecap] = useState(false);
-    const updateDayStat = useStoreActions(actions => actions.dayStat.updateDayStat);
-    const updateTasks = useStoreActions(actions => actions.tasks.updateTasks);
+    const loadDayStat = useStoreActions(actions => actions.dayStat.loadDayStat);
+    const loadTasks = useStoreActions(actions => actions.tasks.loadTasks);
+    const loadUserData = useStoreActions(actions => actions.userData.loadUserData);
     const resetTask = useStoreActions(actions => actions.tasks.resetTasks);
     const resetDayStat = useStoreActions(actions => actions.dayStat.resetDayStat);
 
@@ -31,31 +32,35 @@ export default function MainApp() {
             if (user) {
                 const currentDate = new Date();
 
-                const loadTasks = firebase.functions().httpsCallable('loadTasks');
+                const loadServerTasks = firebase.functions().httpsCallable('loadTasks');
 
                 const startTime = new Date();
                 setLoadingTasks(true);
 
-                loadTasks()
+                loadServerTasks()
                     .then((result) => {
                         console.log(dateDiffInSeconds(startTime, new Date()) + " server");
                         setLoadingTasks(false);
 
-                        updateTasks(result.data.orderedTasks
+                        loadTasks(result.data.orderedTasks
                             .map(task => new TaskContainer(null, null,null, null, task)));
                     });
 
                 firebaseGetDayStat(currentDate)
                     .then(dayStat => {
-                        updateDayStat(dayStat);
+                        loadDayStat(dayStat);
                     });
 
+                //todo implement weekStat logic
                 firebaseGetWeekStats(currentDate)
                     .then(weekStats => {
                         //console.log(weekStats);
                     });
 
-                //todo load userData
+                firebaseGetUserData()
+                    .then(userData => {
+                        loadUserData(userData);
+                    });
 
                 setShowAuthHtml(false);
             } else {
