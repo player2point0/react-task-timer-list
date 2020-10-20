@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import {requestNotifications} from "../Utility/Utility";
 import TaskContainer from "../Task/TaskContainer";
-import {useStoreActions} from "easy-peasy";
+import {useStoreActions, useStoreState} from "easy-peasy";
+import Fuse from "fuse.js";
 
 export default function NewTaskForm() {
 
@@ -12,14 +13,21 @@ export default function NewTaskForm() {
     const [newTaskMins, setNewTaskMins] = useState("0");
     const addTaskAction = useStoreActions(actions => actions.tasks.addTask);
     const addTagAction = useStoreActions(actions => actions.userData.addTag);
+    const tags = useStoreState(state => state.userData.tags);
+    const fuse = new Fuse(tags, {});
 
     //methods for the new task input
     const handleNewTaskNameChange = (e) => {
         setNewTaskName(e.target.value.toLowerCase());
     };
     const handleNewTagNameChange = (e) => {
-        //todo perform the fuse js logic here
-        setNewTagName(e.target.value.toLowerCase());
+        const currentTagVal = e.target.value.toLowerCase();
+
+        const result = fuse.search(currentTagVal);
+
+        console.log(result);
+
+        setNewTagName(currentTagVal);
     };
     const handleNewTaskHoursChange = (e) => {
         setNewTaskHours(e.target.value);

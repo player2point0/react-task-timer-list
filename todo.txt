@@ -2,6 +2,7 @@
 -maybe refactor redux to use a custom middleware to save stuff to firebase etc? https://redux.js.org/understanding/thinking-in-redux/glossary#middleware
 -add a start now button to add task form
 -add a max time value, cuase that makes sense
+-maybe remove the report flow ghost dots
 
 --ui rework--
 -redesign the current UI as it has change a lot recently

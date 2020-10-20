@@ -9,5 +9,5 @@ export const addTag = action((state, tag) => {
 });
 
 export const loadUserData = action((state, userData) => {
-    state.userData = userData;
+    state.tags = userData.tags;
 });
