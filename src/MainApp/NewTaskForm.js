@@ -9,6 +9,7 @@ export default function NewTaskForm() {
     const [newTaskName, setNewTaskName] = useState("");
     const [taskNameInputRef, setTaskNameInputRef] = useState(null);
     const [newTagName, setNewTagName] = useState("");
+    const [tagSuggestion, setTagSuggestion] = useState("");
     const [newTaskHours, setNewTaskHours] = useState("0");
     const [newTaskMins, setNewTaskMins] = useState("0");
     const addTaskAction = useStoreActions(actions => actions.tasks.addTask);
@@ -24,9 +25,9 @@ export default function NewTaskForm() {
         const currentTagVal = e.target.value.toLowerCase();
 
         const result = fuse.search(currentTagVal);
+        const newTagSuggestion = result.length > 0? result[0]["item"] : "";
 
-        console.log(result);
-
+        setTagSuggestion(newTagSuggestion)
         setNewTagName(currentTagVal);
     };
     const handleNewTaskHoursChange = (e) => {
@@ -49,6 +50,11 @@ export default function NewTaskForm() {
         taskNameInputRef.focus();
     };
 
+    const selectTagSuggestion = () => {
+        setNewTagName(tagSuggestion);
+        setTagSuggestion("");
+    };
+
     const validateInputs = () => {
         if(!newTaskName) return  "name required";
         if(!newTagName) return  "tag required";
@@ -57,6 +63,9 @@ export default function NewTaskForm() {
 
         return "";
     };
+
+    //todo add time suggestion
+    //todo refactor this, cause it is starting to do a lot esp with a time suggestion
 
     const taskValidationMessage = validateInputs();
 
@@ -77,7 +86,18 @@ export default function NewTaskForm() {
             onChange={handleNewTagNameChange}
             value={newTagName}
             placeholder="tag"
+            onKeyDown={(e) => {
+                if(e.keyCode === 13 && tagSuggestion){
+                    selectTagSuggestion();
+                }
+            }}
         />
+        {tagSuggestion && <div
+            className="tag-suggestion-message"
+            onClick={selectTagSuggestion}
+        >
+            {tagSuggestion}
+        </div>}
         <input
             type="number"
             min="0"

@@ -66,6 +66,20 @@
     color: #f05417;
 }
 
+.tag-suggestion-message{
+    display:block;
+    width: fit-content;
+    height: auto;
+    text-align:center;
+    margin: 2px auto;
+    padding: 5px;
+    font-size: var(--small-text-size);
+    border-radius: 2px;
+    position: relative;
+    z-index: 10;
+    background-color: white;
+    color: grey;
+}
 
 @media only screen and (max-width: 600px) {
     .addTaskForm input{
