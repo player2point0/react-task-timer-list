@@ -22,9 +22,6 @@ export default function MainApp() {
     const loadDayStat = useStoreActions(actions => actions.dayStat.loadDayStat);
     const loadTasks = useStoreActions(actions => actions.tasks.loadTasks);
     const loadUserData = useStoreActions(actions => actions.userData.loadUserData);
-    const resetTask = useStoreActions(actions => actions.tasks.resetTasks);
-    const resetDayStat = useStoreActions(actions => actions.dayStat.resetDayStat);
-
     const [loadingTasks, setLoadingTasks] = useState(false);
 
     useEffect(() => {
@@ -65,10 +62,6 @@ export default function MainApp() {
                 setShowAuthHtml(false);
             } else {
                 setShowAuthHtml(true);
-                //reset the tasks and daystats in case the user signs out
-                resetTask();
-                alert("reset day stats");
-                resetDayStat();
             }
         });
 

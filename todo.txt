@@ -28,17 +28,12 @@
 -refactor into taskController, to prevent taskController from not being rendered? Maybe refactor with redux
 -refactor to make use of taskNotViewing
 
---tag system--
--use fuse js to search for tags when types
--create an ai to suggest tags as the user types the task name
--update the db rules for prod and deploy changes
--could also suggest time for tasks based on the average for that task. run weekly cron job for average
-
 --backend--
 -setup push notifications https://codelabs.developers.google.com/codelabs/firebase-cloud-functions/#9
 -add unit test to load tasks https://firebase.google.com/docs/functions/unit-testing
 -create a weekly cron job to calculate optimal flow times
 -create a new user table to contain flow times (e.g. 2pm-3pm high flow) and tags
+-could also suggest time for tasks based on the average for that task. run weekly cron job for average
 
 --ab weekly tasks--
 -select a daily task for two weeks e.g. drink macha each day
@@ -94,6 +89,7 @@
 -create a more data driven application for ai, e.g. allow the ai to change break times, notification durations etc
 -add tagging of tasks to enable fair comparison of metrics (e.g. you might compete a programming task quicker than a writing one), store tags on user
 - https://firebase.google.com/docs/reference/admin/node/admin.machineLearning?authuser=0
+-create an ai to suggest tags as the user types the task name
 
 Flow producing activity are:
 
