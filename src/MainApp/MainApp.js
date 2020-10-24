@@ -39,7 +39,7 @@ export default function MainApp() {
                         console.log(dateDiffInSeconds(startTime, new Date()) + " server");
                         setLoadingTasks(false);
 
-                        loadTasks(result.data.orderedTasks
+                        loadTasks(result.data
                             .map(task => new TaskContainer(null, null,null, null, task)));
                     });
 

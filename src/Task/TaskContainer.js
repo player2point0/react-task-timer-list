@@ -1,5 +1,6 @@
 import uid from "uid";
 
+//todo tempted to change this to a static class and change the data to just an object
 export default class TaskContainer {
     constructor(name, tag, duration, date, savedTask) {
         if (savedTask) {
