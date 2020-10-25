@@ -1,4 +1,19 @@
 import {groupDayStatTasks} from './DayRecap';
+/*
+
+"C:\Program Files\nodejs\node.exe" --require "C:\Program Files\JetBrains\WebStorm 2019.3.4\plugins\JavaScriptLanguage\helpers\jest-intellij\lib\jest-intellij-stdin-fix.js" C:\Users\User\Desktop\Apps\React\react-task-timer-list\node_modules\react-scripts\bin\react-scripts.js test
+
+
+"C:\Program Files\nodejs\node.exe"
+--require "C:\Program Files\JetBrains\WebStorm 2019.3.4\plugins\JavaScriptLanguage\helpers\jest-intellij\lib\jest-intellij-stdin-fix.js"
+C:\Users\User\Desktop\Apps\React\react-task-timer-list\node_modules\react-scripts\bin\react-scripts.js test
+
+
+"C:\Program Files\nodejs\node.exe"
+C:\Users\User\Desktop\Apps\React\react-task-timer-list\node_modules\react-scripts\bin\react-scripts.js test
+
+
+*/
 
 describe("group day stats into day recap task", () => {
 
