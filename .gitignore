@@ -27,4 +27,3 @@ yarn-error.log*
 
 /.firebase
 /scripts/flocus.json
-!/Frontend/build/
