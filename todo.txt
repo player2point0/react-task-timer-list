@@ -30,7 +30,6 @@
 
 --backend--
 -setup push notifications https://codelabs.developers.google.com/codelabs/firebase-cloud-functions/#9
--add unit test to load tasks https://firebase.google.com/docs/functions/unit-testing
 -create a weekly cron job to calculate optimal flow times
 -create a new user table to contain flow times (e.g. 2pm-3pm high flow) and tags
 -could also suggest time for tasks based on the average for that task. run weekly cron job for average
