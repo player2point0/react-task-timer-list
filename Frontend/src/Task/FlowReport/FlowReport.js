@@ -1,15 +1,10 @@
 import React, {useState,} from 'react';
 import "./flowReport.css";
-import {useStoreState} from "easy-peasy";
 
 export default function FlowReport({onDone, id}) {
 
-    const dayStat = useStoreState(state => state.dayStat.dayStat);
-    const flowLen = dayStat.flow.length;
-    const previousFocus = flowLen > 0 ? dayStat.flow[flowLen - 1].focus : 0.5;
-    const previousProductive = flowLen > 0 ? dayStat.flow[flowLen - 1].productive : 0.5;
-    const [focus, setFocus] = useState(previousFocus*100);
-    const [productive, setProductive] = useState(previousProductive*100);
+    const [focus, setFocus] = useState(50);
+    const [productive, setProductive] = useState(50);
 
     const focusStates = ["nah", "kinda", "yep"];
     const productiveStates = ["nah", "kinda", "yep"];

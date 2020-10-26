@@ -1,8 +1,9 @@
 --misc--
--maybe refactor redux to use a custom middleware to save stuff to firebase etc? https://redux.js.org/understanding/thinking-in-redux/glossary#middleware
+-refactor actions to use a hof/hoc to save changes to firebase https://reactjs.org/docs/higher-order-components.html
 -add a start now button to add task form
 -add a max time value, cuase that makes sense
--maybe remove the report flow ghost dots
+-refactor imports or maybe use babel etc
+-refactor to use typeScript
 
 --ui rework--
 -redesign the current UI as it has change a lot recently
@@ -46,6 +47,8 @@
 -optimise loadTasks firebase func
 -check if the firebase date is optimal, may be able to reduce to a string with less overhead
 -check out this for dates https://momentjs.com/
+-use react memo for componets that rerender a lot but don't change
+-remove child componets that rerender very little outside of the render method / return statement?
 
 --prelaunch--
 - https://firebase.google.com/support/guides/launch-checklist
