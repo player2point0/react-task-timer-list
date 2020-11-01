@@ -27,3 +27,4 @@ yarn-error.log*
 
 /.firebase
 /scripts/flocus.json
+Backend/functions/src/flocus-dev-admin-key.json

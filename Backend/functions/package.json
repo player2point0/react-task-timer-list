@@ -3,12 +3,15 @@
 	"scripts": {
 		"lint": "tslint --project tsconfig.json",
 		"build": "tsc",
-		"serve": "npm run build && firebase emulators:start --only functions",
-		"shell": "npm run build && firebase functions:shell",
+		"serve": "npm run build && firebase emulators:start --only functions -P dev",
+		"shell": "npm run build && firebase functions:shell -P dev",
 		"start": "npm run shell",
-		"deploy": "firebase deploy --only functions",
+		"deploy-prod": "firebase deploy -P default --only functions",
+		"deploy-dev": "firebase deploy -P dev --only functions",
 		"logs": "firebase functions:log",
-		"test": "jest"
+		"test:unit": "jest -c jest.unit.config.js",
+		"test:e2e": "jest -c jest.integration.config.js",
+		"test": "yarn test:unit && yarn test:e2e"
 	},
 	"engines": {
 		"node": "10"
