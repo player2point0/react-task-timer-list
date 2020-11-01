@@ -1,9 +1,16 @@
 --misc--
 -refactor actions to use a hof/hoc to save changes to firebase https://reactjs.org/docs/higher-order-components.html
 -add a start now button to add task form
--add a max time value, cuase that makes sense
--refactor imports or maybe use babel etc
--refactor to use typeScript
+-add a max time value, cause that makes sense
+-move data types to a separate node module that can be shared between frontend and backend,
+- also could refactor frontend to be more functional
+
+--backend--
+-setup push notifications https://codelabs.developers.google.com/codelabs/firebase-cloud-functions/#9
+-create a weekly cron job to calculate optimal flow times
+-create a new user table to contain flow times (e.g. 2pm-3pm high flow) and tags
+-could also suggest time for tasks based on the average for that task. run weekly cron job for average
+-
 
 --ui rework--
 -redesign the current UI as it has change a lot recently
@@ -11,7 +18,7 @@
 -make recap part of day. daily recap of work and fill in the gaps?
 -overview of flow
 -refactor to use styled components https://styled-components.com/ or maybe just a style var
--tidy the tasks component with compund components
+-tidy the tasks component with compound components
 -display components based on the redux state, build a state machine for this. or maybe use a router
 -move time sizing constants to a separate class and maybe generate them on the fly
 
@@ -29,12 +36,6 @@
 -refactor into taskController, to prevent taskController from not being rendered? Maybe refactor with redux
 -refactor to make use of taskNotViewing
 
---backend--
--setup push notifications https://codelabs.developers.google.com/codelabs/firebase-cloud-functions/#9
--create a weekly cron job to calculate optimal flow times
--create a new user table to contain flow times (e.g. 2pm-3pm high flow) and tags
--could also suggest time for tasks based on the average for that task. run weekly cron job for average
-
 --ab weekly tasks--
 -select a daily task for two weeks e.g. drink macha each day
 -provides daily reminders for task
@@ -47,8 +48,8 @@
 -optimise loadTasks firebase func
 -check if the firebase date is optimal, may be able to reduce to a string with less overhead
 -check out this for dates https://momentjs.com/
--use react memo for componets that rerender a lot but don't change
--remove child componets that rerender very little outside of the render method / return statement?
+-use react memo for components that re render a lot but don't change
+-remove child components that re render very little outside of the render method / return statement?
 
 --prelaunch--
 - https://firebase.google.com/support/guides/launch-checklist
@@ -59,16 +60,16 @@
 -add start info for first time users
 -improve the notification ux
 -secure db access rules and test
--check that saving tasks to firebase can't be optimsed by only sending the changed fields
+-check that saving tasks to firebase can't be optimized by only sending the changed fields
 -add backups
 
 ----bugs----
--daystat progress can get overwritten, maybe sync every hour. May be due to sign out logic?
--antipattern, selecting another task doesn't show flowreport and same with day recap
+-dayStat progress can get overwritten, maybe sync every hour. May be due to sign out logic?
+-anti pattern, selecting another task doesn't show flowReport and same with day recap
 
 ----non-essential----
 -add offline strategy
--test popout app
+-test pop out app
  (https://medium.com/javascript-in-plain-english/recreating-spotifys-floating-pop-ups-5dd3603aa7f9)
  (https://googlechrome.github.io/samples/picture-in-picture/)
  (https://w3c.github.io/picture-in-picture/#htmlvideoelement-extensions)
@@ -79,7 +80,7 @@
 -assigns and changes what task you are working on based on how you are feeling.
  e.g. if bored maybe change to other task
 -add ai to suggest the ordering of tasks - for optimal efficiency and to reduce burnout
--suggest different break based on how you are feeling. e.g. meditation or walk if faitgued
+-suggest different break based on how you are feeling. e.g. meditation or walk if fatigued
 -plans day based on tasks and adds in non-tasks e.g. lunch a walk etc based on previous data and
  how it thinks it will affect flow
 
@@ -87,7 +88,7 @@
 -setup firebase ml using a tensorflow lite model
 -experiment with using a monte carlo tree search to order the tasks
 -add ai autocomplete for task names and suggested duration
--create different user personality bots to train ai e.g. an organised bot, a procrastinator, a long distance, a sprinter
+-create different user personality bots to train ai e.g. an organized bot, a procrastinator, a long distance, a sprinter
 -create a more data driven application for ai, e.g. allow the ai to change break times, notification durations etc
 -add tagging of tasks to enable fair comparison of metrics (e.g. you might compete a programming task quicker than a writing one), store tags on user
 - https://firebase.google.com/docs/reference/admin/node/admin.machineLearning?authuser=0
