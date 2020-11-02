@@ -1,3 +1,5 @@
+import {Task, DayStat} from '../Types';
+
 const Admin = require('firebase-admin');
 
 const creds = Admin.credential.cert(
@@ -11,15 +13,6 @@ const adminApp = Admin.initializeApp(
 	},
 	'integrationTestsAdminApp'
 );
-
-// move this to a npm module
-interface Task {
-	id: string;
-}
-
-interface DayStat {
-	id: string;
-}
 
 exports.createDayStat = (dayStat: DayStat) => {
 	adminApp.firestore().collection('dayStats').doc(dayStat.id).set(dayStat);

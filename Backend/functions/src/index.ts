@@ -9,8 +9,6 @@ const Flow = require('./Flow/Flow');
 
 const CRON_EVERY_MON_AT_FIVE_AM = '0 5 * * 1';
 
-//todo fix the types
-
 //todo alternatively could add a user table that contains the tasks to load, could be updated hourly
 exports.loadTasks = functions.https.onCall(async (_data, context: CallableContext) => {
 	const userId = context.auth?.uid as String;
