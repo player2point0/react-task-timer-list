@@ -22,10 +22,12 @@ exports.loadTasks = functions.https.onCall(async (_data, context: CallableContex
 	return Tasks.getOrderedTasks(userId, adminApp);
 });
 
-// //runs every monday
+//runs every monday
 exports.calcFlowTimes = functions.pubsub
 	.schedule(CRON_EVERY_MON_AT_FIVE_AM)
 	.timeZone('Europe/Dublin')
-	.onRun(context => {
+	.onRun(() => {
 		Flow.calcFlowTimes();
 	});
+
+// todo create an hourly function to send notifications about high flow periods
