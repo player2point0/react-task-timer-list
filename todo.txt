@@ -3,7 +3,8 @@
 -add a start now button to add task form
 -add a max time value, cause that makes sense
 -move data types to a separate node module that can be shared between frontend and backend,
-- also could refactor frontend to be more functional
+ and move util functions
+ also could refactor frontend to be more functional
 
 --backend--
 -setup push notifications https://codelabs.developers.google.com/codelabs/firebase-cloud-functions/#9
@@ -21,6 +22,8 @@
 -tidy the tasks component with compound components
 -display components based on the redux state, build a state machine for this. or maybe use a router
 -move time sizing constants to a separate class and maybe generate them on the fly
+-maybe change dayRecap into a more timeline style, with a time and flow values and duration.
+ like taskA for 2hours then nothing for 1 hour. To take up less space and be more concise
 
 --legacy data--
 -extract and look at data
