@@ -3,7 +3,7 @@ import {DayStat} from '../Types';
 import Admin = require('firebase-admin');
 const moment = require('moment');
 
-const WEEK_AGO = moment().subtract(7, 'days');
+const WEEK_AGO = moment().subtract(7, 'days'); //is that literally all I use moment for
 // const MONDAY = 1;
 
 // todo add more types
@@ -35,6 +35,8 @@ exports.calcFlowTimes = (adminApp: Admin.app.App) => {
 		//update the userData table if a result is returned
 	});
 
+	return updateUserDataPromise;
+
 	// todo return or await at the end?
 };
 
@@ -50,7 +52,7 @@ const getDayStats = (adminApp: Admin.app.App): Promise<Array<DayStat>> => {
 		.then((snapshot: {docs: any[]}) => snapshot.docs.map(doc => doc.data()));
 };
 
-// todo test this
+// returns an object where the userId is the key
 const groupDayStats = (dayStats: Array<DayStat>): Array<DayStat> => {
 	return dayStats.reduce((r, a) => {
 		r[a.userId] = r[a.userId] || [];
@@ -80,3 +82,5 @@ const performCalcFlowTimes = (dayStats: Array<DayStat>, userData: any) => {
 		//return updated userData
 	});
 };
+
+exports.groupDayStats = groupDayStats;

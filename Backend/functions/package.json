@@ -11,7 +11,7 @@
 		"logs": "firebase functions:log",
 		"test:unit": "jest  --testPathPattern=\"unit.test.[jt]s\"",
 		"test:e2e": "jest --testPathPattern=\"integration.test.[jt]s\"",
-		"test": "yarn test:unit && yarn test:e2e"
+		"test": "npm test:unit && yarn test:e2e"
 	},
 	"engines": {
 		"node": "10"
