@@ -2,6 +2,7 @@ const testUserId = 'bi5D3kIatZgcddB17WyiRg54AFn2';
 exports.testUserId = testUserId;
 
 // todo download a real dayStat for this
+// todo download a userdata
 
 exports.testDayStat = {
 	id: '2o352thohs7wd2rz5ol4md3sszva0rz0',

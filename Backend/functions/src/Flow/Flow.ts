@@ -1,12 +1,13 @@
-import {DayStat} from '../Types';
+import {DayStat, UserData, FlowTime} from '../Types';
 
 import Admin = require('firebase-admin');
 const moment = require('moment');
 
-const WEEK_AGO = moment().subtract(7, 'days'); //is that literally all I use moment for
+const WEEK_AGO = moment().subtract(7, 'days');
 // const MONDAY = 1;
 
 // todo add more types
+// todo rename methods
 
 exports.calcFlowTimes = (adminApp: Admin.app.App) => {
 	//get all dayStats from the past week
@@ -17,19 +18,26 @@ exports.calcFlowTimes = (adminApp: Admin.app.App) => {
 	});
 	//get the userData for the dayStats
 	const userDataAndGroupedDayStatPromise = groupedDayStatsPromise.then(
-		(groupedDayStat: Array<DayStat>) => {
+		(groupedDayStats: Map<string, Array<DayStat>>) => {
 			//go through all the groups
 			//get the user data or null
-			const userId = groupedDayStat[0].userId;
-			//todo add default here i think
-			const userDataPromise = getUserData(userId, adminApp);
+			const performCalcPromises = [];
 
-			return userDataPromise.then(userData => {
-				return performCalcFlowTimes(groupedDayStat, userData);
-			});
+			for (let [userId, dayStats] of groupedDayStats) {
+				//todo add default here i think
+				const userDataPromise = getUserData(userId, adminApp);
+
+				const promise = userDataPromise.then(userData => {
+					return performCalcFlowTimes(dayStats, userData);
+				});
+
+				performCalcPromises.push(promise);
+			}
+
+			return performCalcPromises;
 		}
 	);
-	//call flow.calcFlowTimes
+
 	const updateUserDataPromise = userDataAndGroupedDayStatPromise.then(updatedUserData => {
 		// console.log(`Updating ${userData.userId} flow times`);
 		//update the userData table if a result is returned
@@ -39,8 +47,6 @@ exports.calcFlowTimes = (adminApp: Admin.app.App) => {
 
 	// todo return or await at the end?
 };
-
-// const getDayOfWeek = date => {};
 
 const getDayStats = (adminApp: Admin.app.App): Promise<Array<DayStat>> => {
 	return adminApp
@@ -52,13 +58,15 @@ const getDayStats = (adminApp: Admin.app.App): Promise<Array<DayStat>> => {
 		.then((snapshot: {docs: any[]}) => snapshot.docs.map(doc => doc.data()));
 };
 
-// returns an object where the userId is the key
-const groupDayStats = (dayStats: Array<DayStat>): Array<DayStat> => {
-	return dayStats.reduce((r, a) => {
-		r[a.userId] = r[a.userId] || [];
-		r[a.userId].push(a);
-		return r;
-	}, Object.create(null));
+const groupDayStats = (dayStats: Array<DayStat>): Map<string, Array<DayStat>> => {
+	const map: Map<string, Array<DayStat>> = new Map();
+
+	dayStats.forEach(dayStat => {
+		let arr: Array<DayStat> = map.get(dayStat.userId) || [];
+		map.set(dayStat.userId, [...arr, dayStat]);
+	});
+
+	return map;
 };
 
 const getUserData = (userId: string, adminApp: Admin.app.App) => {
@@ -70,17 +78,57 @@ const getUserData = (userId: string, adminApp: Admin.app.App) => {
 		.then((snapshot: {data: () => any}) => snapshot.data());
 };
 
-const performCalcFlowTimes = (dayStats: Array<DayStat>, userData: any) => {
+const performCalcFlowTimes = (dayStats: Array<DayStat>, userData: UserData) => {
+	const newUserData = {...userData};
+
 	dayStats.forEach(dayStat => {
-		//find out what day the current dayStat belongs to
-		// const dayOfWeek = dayStat.date;
-		//create the day if it doesn't exist
-		//go through each task in dayStat
-		//calculate for 3 hour periods
-		//Mon 9-12, 12-15, 15-18, 18-21, 21-24
-		//update average value
-		//return updated userData
+		const dayOfWeek = getDayOfWeek(dayStat.date);
+
+		if (!userData.flowTimes.has(dayOfWeek)) {
+			newUserData.flowTimes.set(dayOfWeek, new Map());
+		}
+
+		dayStat.flow.forEach(flow => {
+			const timePeriod = getTimePeriod(flow.time);
+			const newFlowTime: FlowTime =
+				userData.flowTimes.get(dayOfWeek)?.get(timePeriod) || ({} as FlowTime);
+
+			newFlowTime.totalAverage++;
+
+			newFlowTime.averageFocused = calcNewAvg(
+				newFlowTime.averageFocused,
+				flow.focused,
+				newFlowTime.totalAverage
+			);
+			newFlowTime.averageProductive = calcNewAvg(
+				newFlowTime.averageProductive,
+				flow.productive,
+				newFlowTime.totalAverage
+			);
+		});
 	});
+
+	return newUserData;
 };
 
-exports.groupDayStats = groupDayStats;
+const calcNewAvg = (oldAvg: number, newVal: number, newTotal: number) => {
+	const oldSum = oldAvg * (newTotal - 1);
+	const newSum = oldSum + newVal;
+	return newSum / newTotal;
+};
+
+const getTimePeriod = (date: any) => {
+	const hour = moment(date).hour();
+	const interval = 3;
+	const hourInterval = hour === 0 ? 0 : Math.floor(hour / interval);
+
+	return String(hourInterval * interval) + '-' + String((hourInterval + 1) * interval);
+};
+
+const getDayOfWeek = (date: string) => {
+	const dayIndex = moment(date, 'DD-MM-YYYY').day();
+	const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+	return weekDays[dayIndex];
+};
+
+export {getTimePeriod, groupDayStats, getDayOfWeek, calcNewAvg, performCalcFlowTimes};
