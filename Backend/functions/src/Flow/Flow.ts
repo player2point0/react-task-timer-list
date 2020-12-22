@@ -10,42 +10,34 @@ const WEEK_AGO = moment().subtract(7, 'days');
 // todo rename methods
 
 exports.calcFlowTimes = (adminApp: Admin.app.App) => {
-	//get all dayStats from the past week
 	const dayStatsPromise = getDayStats(adminApp);
-	//group by userId
 	const groupedDayStatsPromise = dayStatsPromise.then((dayStats: Array<DayStat>) => {
 		return groupDayStats(dayStats);
 	});
-	//get the userData for the dayStats
-	const userDataAndGroupedDayStatPromise = groupedDayStatsPromise.then(
-		(groupedDayStats: Map<string, Array<DayStat>>) => {
-			//go through all the groups
-			//get the user data or null
-			const performCalcPromises = [];
 
-			for (let [userId, dayStats] of groupedDayStats) {
-				//todo add default here i think
-				const userDataPromise = getUserData(userId, adminApp);
+	return groupedDayStatsPromise.then((groupedDayStats: Map<string, Array<DayStat>>) => {
+		const performCalcPromises = [];
 
-				const promise = userDataPromise.then(userData => {
-					return performCalcFlowTimes(dayStats, userData);
-				});
+		for (let [userId, dayStats] of groupedDayStats) {
+			const userDataPromise = getUserData(userId, adminApp);
 
-				performCalcPromises.push(promise);
-			}
+			const promise = userDataPromise.then((userData: UserData) => {
+				// const updatedUserData = performCalcFlowTimes(dayStats, userData || ({} as UserData));
+				// if (updatedUserData) {
+				// 	console.log(`Updating ${userId} flow times`);
+				// 	return updateUserData(adminApp, updatedUserData, userId);
+				// } else return Promise.resolve();
+			});
 
-			return performCalcPromises;
+			performCalcPromises.push(promise);
 		}
-	);
 
-	const updateUserDataPromise = userDataAndGroupedDayStatPromise.then(updatedUserData => {
-		// console.log(`Updating ${userData.userId} flow times`);
-		//update the userData table if a result is returned
+		return performCalcPromises;
 	});
+};
 
-	return updateUserDataPromise;
-
-	// todo return or await at the end?
+const updateUserData = (adminApp: Admin.app.App, userData: UserData, userId: string) => {
+	return adminApp.firestore().collection('userData').doc(userId).set(userData);
 };
 
 const getDayStats = (adminApp: Admin.app.App): Promise<Array<DayStat>> => {
@@ -69,13 +61,13 @@ const groupDayStats = (dayStats: Array<DayStat>): Map<string, Array<DayStat>> =>
 	return map;
 };
 
-const getUserData = (userId: string, adminApp: Admin.app.App) => {
+const getUserData = (userId: string, adminApp: Admin.app.App): Promise<UserData> => {
 	return adminApp
 		.firestore()
 		.collection('userData')
 		.doc(userId)
 		.get()
-		.then((snapshot: {data: () => any}) => snapshot.data());
+		.then((snapshot: {data: any}) => snapshot.data());
 };
 
 const performCalcFlowTimes = (dayStats: Array<DayStat>, userData: UserData) => {

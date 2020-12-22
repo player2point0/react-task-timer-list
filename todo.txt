@@ -24,6 +24,7 @@
 -move time sizing constants to a separate class and maybe generate them on the fly
 -maybe change dayRecap into a more timeline style, with a time and flow values and duration.
  like taskA for 2hours then nothing for 1 hour. To take up less space and be more concise
+-maybe limit to 3 tasks at a given time, 3 slots? to prevent old tasks 
 
 --legacy data--
 -extract and look at data
