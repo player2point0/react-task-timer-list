@@ -20,8 +20,8 @@
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"predeploy": "npm run build",
-		"deploy-prod": "firebase deploy -P default",
-		"deploy-dev": "firebase deploy -P dev"
+		"deploy-prod": "npm run predeploy && firebase deploy -P default --only hosting",
+		"deploy-dev": "npm run predeploy && firebase deploy -P dev --only hosting"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
